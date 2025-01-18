@@ -794,11 +794,11 @@
 			}
 			#Window_PFDMenu {
 				position: absolute; top: 0; right: 0;
-				width: 320px; height: 600px; max-height: calc(100vh - 90px);
+				width: 320px; height: 600px; max-height: calc(100dvh - 90px);
 				overflow: scroll;
 			}
 			#Html:has(#Topbar.Hidden) #Window_PFDMenu {
-				max-height: calc(100vh - 30px);
+				max-height: calc(100dvh - 30px);
 			}
 				/* Sections */
 				#CtrlGroup_PFDMenuCloseButton {
