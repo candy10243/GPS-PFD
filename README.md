@@ -64,7 +64,7 @@ Scan the QR code to use on mobile devices:
 
 # 教程 Tutorial
 
-[说明文档](/PROJECT/docs/GPS-PFD%20说明文档.pdf)
+[说明文档](/PROJECT/GPS-PFD/docs/GPS-PFD%20说明文档.pdf)
 
 # 版权说明 Copyright Info
 
