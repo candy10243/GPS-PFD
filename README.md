@@ -40,7 +40,7 @@ This application is for entertainment purposes only. The alert feature may give 
 This application is still in beta test. Known issues are as follows:
 
 - 加速计误差严重。系统已尽可能减小误差。<br>
-The accelerometer is serious inaccurate. The system does its best to reduce errors.
+The accelerometer is seriously inaccurate. The system does its best to reduce errors.
 - 在 [Firefox](https://zh.wikipedia.org/wiki/Firefox) for Android 上，「保持屏幕常亮」可能不起作用，且偶尔会出错。<br>
 On [Firefox](https://en.wikipedia.org/wiki/Firefox) for Android, the "keep screen on" feature may not work, and unexpected errors sometimes occur.
 - 在 [Brave](https://zh.wikipedia.org/wiki/Brave浏览器) for Android 上无法使用。<br>
