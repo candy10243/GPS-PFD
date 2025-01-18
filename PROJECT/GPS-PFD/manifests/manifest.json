@@ -1,0 +1,35 @@
+{
+	"lang": "zh-CN",
+	"name": "GPS-PFD",
+	"short_name": "GPS-PFD",
+	"icons": [
+		{
+			"src": "../images/Icon.png",
+			"type": "image/png",
+			"sizes": "192x192"
+		},
+		{
+			"src": "../images/Icon_Large.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		},
+		{
+			"src": "../images/Icon_Maskable.png",
+			"type": "image/png",
+			"sizes": "512x512",
+			"purpose": "maskable"
+		}
+	],
+
+	"description": "利用 GPS 与传感器，在移动设备上模拟飞机驾驶舱的 PFD。这是一个试验性项目。",
+	"screenshots": [
+		{
+			"src": "../images/Preview.jpg",
+			"type": "image/jpg",
+			"sizes": "1280x720"
+		}
+	],
+
+	"display": "standalone",
+	"background_color": "#A0E0FF"
+}

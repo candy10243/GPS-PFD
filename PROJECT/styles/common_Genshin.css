@@ -1,0 +1,286 @@
+/* For SamToki.github.io */
+/* Released under GNU GPL v3 open source license. */
+/* © 2023 SAM TOKI STUDIO */
+
+/* This is a theme variant, so only colors along with few things are configured. */
+
+/* General */
+	/* Basics */
+		/* Overall */
+		#Html {
+			color: #EEE4D9;
+		}
+
+		/* Group frameworks */
+		.Item {
+			background-color: #485267E0;
+		}
+
+		/* Texts */
+		a {
+			color: #DEB76C;
+		}
+
+		/* Shapes */
+		.Shape {
+			fill: #EEE4D9;
+			stroke: #EEE4D940;
+		}
+
+		/* Progress indicators */
+		.Progbar {
+			background-color: #EEE4D920;
+		}
+		.Progbar.Shaped .Shape {
+			fill: #EEE4D920;
+		}
+		.Progbar.Shaped .ProgbarText {
+			color: #FFFFFF;
+		}
+		.ProgbarFg {
+			background-color: #96D722;
+		}
+		.ProgbarFg.Shaped .Shape {
+			fill: #73A41A;
+		}
+		.ProgringBg {
+			stroke: #EEE4D920;
+		}
+		.ProgringFg {
+			stroke: #96D722;
+		}
+		.NeedleFg, .NeedleArrow {
+			background-color: #EEE4D9;
+		}
+
+		/* Indicator lights */
+		.IndicatorLight.Off {
+			background-color: #EEE4D940;
+		}
+		.IndicatorLight.Red {
+			background-color: #FF4040;
+		}
+		.IndicatorLight.Orange {
+			background-color: #FF8000;
+		}
+		.IndicatorLight.Green {
+			background-color: #00C000;
+		}
+		.IndicatorLight.Blue {
+			background-color: #00A0E0;
+		}
+
+		/* Interactive ctrls */
+		.Button, .Combobox {
+			border: 1px solid #EEE4D940; border-radius: 17.5px;
+			background-color: #EEE4D9;
+			color: #485267;
+		}
+		.Button.ShownAsLabel {
+			border-radius: 5px;
+			color: #EEE4D9;
+		}
+		.DropctrlGroup {
+			border: 1px solid #EEE4D940; border-radius: 17.5px;
+			background-color: #EEE4D9;
+		}
+		.Combobox {
+			padding: 5px 10px;
+		}
+		.Textbox {
+			border: 1px solid #F5F5F540; border-radius: 17.5px; padding: 5px 10px;
+			background-color: #F5F5F5;
+			color: #323232;
+		}
+		.Textbox.ShownAsLabel {
+			border-radius: 5px; padding: 5px;
+			color: #EEE4D9;
+		}
+
+		/* Floating ctrls */
+		.ScreenFilter {
+			background-color: #000000C0;
+		}
+		.ScreenFilter.AsWindow, .Window {
+			background-color: #485267E0;
+		}
+			/* Hotkey indicators */
+			.HotkeyIndicator {
+				background-color: #FFFFFF;
+				color: #323232;
+			}
+
+			/* Toast */
+			#Toast {
+				background-color: #FFFFCDE0;
+				color: #A17646;
+			}
+
+			/* Dialog */
+			#CtrlGroup_DialogPrompt .DialogIcon {
+				fill: #EEE4D9;
+			}
+
+			/* Watermarks */
+			.Watermark {
+				color: #EEE4D980; text-shadow: 0 0 5px #000000;
+			}
+
+	/* Variants */
+		/* Background */
+		.Box {
+			background-color: #485267E0;
+		}
+		.Active {
+			background-color: #C8EC86;
+			color: #485267;
+		}
+		.Button.Shaped.Active .Shape {
+			fill: #C8EC86;
+		}
+		.IAmHere {
+			background-color: #618A16;
+		}
+		.Glow {
+			box-shadow: unset; filter: drop-shadow(0 0 5px #DEB76C);
+		}
+			@keyframes Anim_Glow {
+				0%, 100% {
+					filter: none;
+				}
+				50% {
+					filter: drop-shadow(0 0 5px #DEB76C);
+				}
+			}
+
+		/* Foreground */
+		.RedText {
+			color: #FF7070;
+		}
+		.OrangeText {
+			color: #FFB000;
+		}
+		.GreenText {
+			color: #96D722;
+		}
+
+	/* Interactions */
+		/* Hover */
+		a:hover, label:not(:has(:disabled:not(option))):hover, .Button:enabled:hover /* .Combobox:enabled:hover, .Textbox:enabled:hover */ {
+			background-color: #EEE4D9; box-shadow: 0 0 0 3px #DEB76C;
+			color: #485267;
+		}
+		.Active:enabled:hover, .Active:not(:has(:disabled:not(option))):hover {
+			background-color: #C8EC86;
+		}
+		.Button.Shaped:enabled:hover {
+			box-shadow: none;
+		}
+		.Button.Shaped:enabled:hover .Shape {
+			fill: #EEE4D9;
+			stroke: #DEB76C; stroke-width: 3px;
+		}
+		.Button.Shaped.Active:enabled:hover .Shape {
+			fill: #C8EC86;
+		}
+		.Button.ShownAsLabel:enabled:hover {
+			box-shadow: none;
+			color: #DEB76C;
+		}
+		.Dropctrl a:hover, .Dropctrl .Button:enabled:hover, .ScrollableList label:not(:has(:disabled:not(option))):hover {
+			box-shadow: 0 0 0 3px inset #DEB76C;
+		}
+		.Textbox.ShownAsLabel:enabled:hover, .Textbox.ShownAsLabel:focus-visible {
+			background-color: #F5F5F5;
+			color: #323232;
+		}
+
+		/* Click */
+		a:active, label:not(:has(:disabled:not(option))):active, .Button:enabled:active,
+		.Combobox:enabled:active, .Textbox:enabled:active, .Textbox.ShownAsLabel:enabled:active,
+		.Active:enabled:active, .Active:not(:has(:disabled:not(option))):active {
+			background-color: #D0C6BD;
+			color: #EEE4D9;
+		}
+		.Button.Shaped:enabled:active .Shape, .Button.Shaped.Active:enabled:active .Shape {
+			fill: #D0C6BD;
+		}
+		.Button.ShownAsLabel:enabled:active {
+			color: #CC972E;
+		}
+
+		/* Focus */
+		*:focus-visible {
+			box-shadow: 0 0 0 3px #DEB76C !important;
+		}
+		.Button.Shaped:focus-visible .Shape {
+			stroke: #DEB76C !important;
+		}
+		.Dropctrl .Button:focus-visible {
+			box-shadow: 0 0 0 3px inset #DEB76C !important;
+		}
+
+		/* Text selection */
+		::selection {
+			background-color: #FDD662;
+			color: #323232;
+		}
+
+/* Area specific */
+	/* Header */
+	#Topbar {
+		background-color: #485267E0;
+	}
+	#Topbar .Button, #DropctrlGroup_Nav {
+		border-radius: 5px;
+	}
+	#Topbar .Button:not(:hover):not(:active) {
+		color: #EEE4D9;
+	}
+	#Ctrl_NavUnderline {
+		background-color: #EEE4D9;
+	}
+
+	/* Main */
+	#Main {
+		background-color: #282D38E0;
+	}
+
+	/* Footer */
+	footer {
+		background-color: #282D38E0;
+		color: #EEE4D980;
+	}
+
+/* Responsive web design */
+@media (max-width: 880px) {
+	/* Area specific */
+		/* Header */
+		#DropctrlGroup_Nav {
+			border: 1px solid #EEE4D940;
+			background-color: #EEE4D9;
+		}
+		#DropctrlGroup_Nav .Button:not(:hover):not(:active) {
+			color: #485267;
+		}
+}
+
+/* Dev */
+#Html.ShowDebugOutlines * {
+	outline: 1px solid #008000;
+}
+#Html.ShowDebugOutlines section {
+	outline: 3px dashed #FFFFFF;
+}
+#Html.ShowDebugOutlines .ItemGroup, #Html.ShowDebugOutlines .Viewport, #Html.ShowDebugOutlines .Window {
+	outline: 3px solid #C00000;
+}
+#Html.ShowDebugOutlines .Item, #Html.ShowDebugOutlines .Ctnr {
+	outline: 3px dashed #FF6060;
+}
+#Html.ShowDebugOutlines .CtrlGroup, #Html.ShowDebugOutlines .DropctrlGroup {
+	outline: 2px solid #0000C0;
+}
+#Html.ShowDebugOutlines .Ctrl, #Html.ShowDebugOutlines .Dropctrl {
+	outline: 2px dashed #6060FF;
+}

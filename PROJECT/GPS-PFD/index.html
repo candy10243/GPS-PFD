@@ -1,0 +1,2223 @@
+<!DOCTYPE html>
+
+<!-- For SamToki.github.io/GPS-PFD -->
+<!-- Released under GNU GPL v3 open source license. -->
+<!-- © 2025 SAM TOKI STUDIO -->
+
+<html id="Html" lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/png" href="images/Icon_Small.png" />
+		<title>GPS-PFD</title>
+		<meta name="author" content="SAM TOKI STUDIO" />
+		<meta name="version" content="v0.13 (2025/01/18) Beta Test. Since 2024/12/01." />
+		<meta name="description" content="利用 GPS 与加速计，在移动设备上模拟飞机驾驶舱的 PFD。" />
+		<meta name="copyright" content="© 2025 SAM TOKI STUDIO" />
+
+		<meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
+		<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#303030">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="../styles/common.css" />
+		<link id="ThemeVariant_Common" rel="stylesheet" href="../styles/common_Dark.css" media="(prefers-color-scheme: dark)" />
+		<link id="ThemeVariant_Common_HighContrast" rel="stylesheet" href="../styles/common_HighContrast.css" media="(prefers-contrast: more)" />
+		<link rel="stylesheet" href="styles/style.css" />
+		<link id="ThemeVariant_Style" rel="stylesheet" href="styles/style_Dark.css" media="(prefers-color-scheme: dark)" />
+		<link id="ThemeVariant_Style_HighContrast" rel="stylesheet" href="styles/style_HighContrast.css" media="(prefers-contrast: more)" />
+		<!-- <link rel="stylesheet" href="styles/style_PFD???.css" /> -->
+		<script defer src="../scripts/common.js"></script>
+		<script defer src="../scripts/common_UserDataRepairer.js"></script>
+		<script defer src="scripts/script.js"></script>
+
+		<link rel="manifest" href="manifests/manifest.json">
+	</head>
+
+	<body>
+		<div class="Blur" id="BgImage"></div>
+
+		<header id="Topbar">
+			<ul class="CtrlGroup">
+				<li class="Ctrl" id="Ctrl_Title">
+					<a class="Button" href="https://SamToki.github.io/GPS-PFD" title="GPS-PFD" aria-label="GPS-PFD">
+						<img src="images/Icon.png" alt="网页图标" />
+					</a>
+				</li>
+				<li class="Ctrl" id="Ctrl_Nav">
+					<button class="Button HiddenHorizontally" id="Button_Nav" inert="true" onclick="Show('DropctrlGroup_Nav')" title="导航菜单" aria-label="导航菜单">
+						<svg class="Icon Larger" viewBox="0 0 16 16" aria-hidden="true">
+							<path d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+						</svg>
+					</button>
+					<nav>
+						<ul class="DropctrlGroup HiddenInMobileLayout" id="DropctrlGroup_Nav">
+							<li class="Dropctrl Nav" id="Nav_PFD">
+								<a class="Button" href="#PFD">
+									<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+										<path d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4q0 1 .25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75Q6 13 6 12H2s-2 0-2-2zm1.398-.855a.76.76 0 0 0-.254.302A1.5 1.5 0 0 0 1 4.01V10c0 .325.078.502.145.602q.105.156.302.254a1.5 1.5 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.76.76 0 0 0 .254-.302 1.5 1.5 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.76.76 0 0 0-.302-.254A1.5 1.5 0 0 0 13.99 3H2c-.325 0-.502.078-.602.145"/>
+									</svg>
+									<span class="LabelAfterIcon">PFD</span>
+								</a>
+							</li>
+							<li class="Dropctrl Nav" id="Nav_Settings">
+								<a class="Button" href="#Settings">
+									<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+										<path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
+										<path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
+									</svg>
+									<span class="LabelAfterIcon">设定</span>
+								</a>
+							</li>
+							<li class="Dropctrl Nav" id="Nav_Help">
+								<a class="Button" href="#Help">
+									<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+										<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+										<path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
+									</svg>
+									<span class="LabelAfterIcon">帮助</span>
+								</a>
+							</li>
+							<li class="Ctrl" id="Ctrl_NavUnderline" inert="true"></li>
+						</ul>
+					</nav>
+				</li>
+				<li class="Ctrl" id="Ctrl_HomePage">
+					<a class="Button" href=".." title="主页" aria-label="主页">
+						<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+							<path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+						</svg>
+					</a>
+				</li>
+			</ul>
+		</header>
+
+		<main id="Main">
+			<section class="PFDStyleIsDefault" id="PFD">
+				<h1 class="SectionTitle Hidden" inert="true">PFD</h1>
+				<div class="Viewport" id="PFDViewport">
+					<div class="Ctnr PFDPanel" id="Ctnr_PFDDefaultPanel">
+						<div class="Ctnr" id="Ctnr_PFDDefaultPanelAttitude">
+							<ul class="CtrlGroup">
+								<li class="Ctrl Box StatusBox Faded" id="Ctrl_PFDDefaultPanelAttitudeStatus" inert="true">
+									<span id="Label_PFDDefaultPanelAttitudeStatus">姿态仪状态</span>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelAttitudeBg">
+									<div id="PFDDefaultPanelAttitudeSky"></div>
+									<div id="PFDDefaultPanelAttitudeTerrain"></div>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelAttitudePitch" title="姿态仪" aria-label="姿态仪">
+									<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelAttitudePitch">
+										<li class="Ctrl"><span class="LargerText">90</span><div class="AttitudeScale1"></div><span class="LargerText">90</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">80</span><div class="AttitudeScale1"></div><span class="LargerText">80</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">70</span><div class="AttitudeScale1"></div><span class="LargerText">70</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">60</span><div class="AttitudeScale1"></div><span class="LargerText">60</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">50</span><div class="AttitudeScale1"></div><span class="LargerText">50</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">40</span><div class="AttitudeScale1"></div><span class="LargerText">40</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">30</span><div class="AttitudeScale1"></div><span class="LargerText">30</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">20</span><div class="AttitudeScale1"></div><span class="LargerText">20</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">10</span><div class="AttitudeScale1"></div><span class="LargerText">10</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale0"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">10</span><div class="AttitudeScale1"></div><span class="LargerText">10</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">20</span><div class="AttitudeScale1"></div><span class="LargerText">20</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">30</span><div class="AttitudeScale1"></div><span class="LargerText">30</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">40</span><div class="AttitudeScale1"></div><span class="LargerText">40</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">50</span><div class="AttitudeScale1"></div><span class="LargerText">50</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">60</span><div class="AttitudeScale1"></div><span class="LargerText">60</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">70</span><div class="AttitudeScale1"></div><span class="LargerText">70</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">80</span><div class="AttitudeScale1"></div><span class="LargerText">80</span></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale4"></div></li>
+										<li class="Ctrl"><span class="LargerText">90</span><div class="AttitudeScale1"></div><span class="LargerText">90</span></li>
+									</ul>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelAttitudeRoll">
+									<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelAttitudeRollScale">
+										<li class="Ctrl" style="transform: rotate(-60deg);"><div class="AttitudeScale1"></div></li>
+										<li class="Ctrl" style="transform: rotate(-45deg);"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl" style="transform: rotate(-30deg);"><div class="AttitudeScale1"></div></li>
+										<li class="Ctrl" style="transform: rotate(-20deg);"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl" style="transform: rotate(-10deg);"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl"><div class="AttitudeScale0"></div></li>
+										<li class="Ctrl" style="transform: rotate(10deg);"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl" style="transform: rotate(20deg);"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl" style="transform: rotate(30deg);"><div class="AttitudeScale1"></div></li>
+										<li class="Ctrl" style="transform: rotate(45deg);"><div class="AttitudeScale2"></div></li>
+										<li class="Ctrl" style="transform: rotate(60deg);"><div class="AttitudeScale1"></div></li>
+									</ul>
+									<svg class="Progring" id="Progring_PFDDefaultPanelAttitudeRoll" viewBox="0 0 422 422" aria-hidden="true">
+										<circle class="ProgringFg" id="ProgringFg_PFDDefaultPanelAttitudeRoll" cx="211" cy="211" r="210" />
+									</svg>
+									<div id="PFDDefaultPanelAttitudeRollPointer" title="横滚指针" aria-label="横滚指针"></div>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelAttitudeAircraftSymbol" title="姿态仪" aria-label="姿态仪">
+									<ul class="CtrlGroup">
+										<li class="Ctrl" id="Ctrl_PFDDefaultPanelAttitudeAircraftSymbolLeft1"></li>
+										<li class="Ctrl" id="Ctrl_PFDDefaultPanelAttitudeAircraftSymbolLeft2"></li>
+										<li class="Ctrl" id="Ctrl_PFDDefaultPanelAttitudeAircraftSymbolCenter"></li>
+										<li class="Ctrl" id="Ctrl_PFDDefaultPanelAttitudeAircraftSymbolRight1"></li>
+										<li class="Ctrl" id="Ctrl_PFDDefaultPanelAttitudeAircraftSymbolRight2"></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDDefaultPanelInfoBar">
+							<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelStatus">
+								<li class="Ctrl">
+									<span class="InfoBarTitle" id="Label_PFDDefaultPanelGPSStatusTitle">GPS 状态</span>
+									<span class="InfoBarValue" id="Label_PFDDefaultPanelGPSStatusValue">未知</span>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelAccelStatus">
+									<span class="InfoBarTitle" id="Label_PFDDefaultPanelAccelStatusTitle">加速计状态</span>
+									<span class="InfoBarValue" id="Label_PFDDefaultPanelAccelStatusValue">未知</span>
+								</li>
+							</ul>
+							<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelAdditionalSpeeds">
+								<li class="Ctrl">
+									<span class="InfoBarTitle" id="Label_PFDDefaultPanelGSTitle">地速</span>
+									<span class="InfoBarValue" id="Label_PFDDefaultPanelGSValue">未知</span>
+								</li>
+								<li class="Ctrl">
+									<span class="InfoBarTitle" id="Label_PFDDefaultPanelTASTitle">真空速</span>
+									<span class="InfoBarValue" id="Label_PFDDefaultPanelTASValue">未知</span>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelWind">
+									<span class="InfoBarTitle" id="Label_PFDDefaultPanelWindTitle">风</span>
+									<span class="InfoBarValue" id="Label_PFDDefaultPanelWindValue">未知</span>
+									<div class="Faded" id="PFDDefaultPanelWindDirection" inert="true" title="风向 (相对于您的朝向)" aria-label="风向 (相对于您的朝向)">
+										<div class="Needle" id="Needle_PFDDefaultPanelWindDirection">
+											<div class="NeedleFg"></div>
+											<div class="NeedleArrow"></div>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelFlapStatus">
+								<li class="Ctrl">
+									<span class="InfoBarTitle" id="Label_PFDDefaultPanelFlapsTitle">襟翼</span>
+									<span class="InfoBarValue" id="Label_PFDDefaultPanelFlapsValue">未知</span>
+									<div class="Progbar" title="襟翼指示器" aria-label="襟翼指示器">
+										<div class="ProgbarFg Vertical" id="ProgbarFg_PFDDefaultPanelFlaps"></div>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDDefaultPanelFMA1">
+							<ul class="CtrlGroup">
+								<li class="Ctrl">
+									<span class="FMATitle" id="Label_PFDDefaultPanelSpeedModeTitle">速度模式</span>
+									<span class="FMAValue" id="Label_PFDDefaultPanelSpeedModeValue">未知</span>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelAttitudeMode">
+									<span class="FMATitle" id="Label_PFDDefaultPanelAttitudeModeTitle">姿态模式</span>
+									<span class="FMAValue" id="Label_PFDDefaultPanelAttitudeModeValue">未知</span>
+								</li>
+								<li class="Ctrl">
+									<span class="FMATitle" id="Label_PFDDefaultPanelAltitudeModeTitle">高度模式</span>
+									<span class="FMAValue" id="Label_PFDDefaultPanelAltitudeModeValue">未知</span>
+								</li>
+							</ul>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDDefaultPanelFMA2">
+							<span id="Label_PFDDefaultPanelFlightMode" title="飞航模式" aria-label="飞航模式">飞航模式</span>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDDefaultPanelSpeed">
+							<ul class="CtrlGroup">
+								<li class="Ctrl Box StatusBox Faded" id="Ctrl_PFDDefaultPanelSpeedStatus" inert="true">
+									<span id="Label_PFDDefaultPanelSpeedStatus">空速表状态</span>
+								</li>
+								<li class="Ctrl Tape" id="Ctrl_PFDDefaultPanelSpeedTape" title="空速表" aria-label="空速表">
+									<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelSpeedTape">
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">1000</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">980</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">960</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">940</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">920</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">900</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">880</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">860</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">840</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">820</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">800</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">780</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">760</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">740</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">720</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">700</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">680</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">660</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">640</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">620</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">600</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">580</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">560</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">540</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">520</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">500</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">480</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">460</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">440</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">420</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">400</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">380</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">360</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">340</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">320</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">300</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">280</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">260</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">240</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">220</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">200</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">180</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">160</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">140</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">120</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">100</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">80</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">60</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">40</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">20</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">0</span></li>
+									</ul>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelSpeedAdditionalIndicators">
+									<div class="Needle Faded" id="Needle_PFDDefaultPanelSpeedTrend" inert="true">
+										<div class="NeedleFg" title="速度趋势" aria-label="速度趋势"></div>
+										<div class="NeedleArrow" title="速度趋势" aria-label="速度趋势"></div>
+									</div>
+									<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelOtherSpeeds">
+										<li class="Ctrl" id="Ctrl_PFDDefaultPanelSpeedLimitMin" title="最低限速" aria-label="最低限速"></li>
+										<li class="Ctrl" id="Ctrl_PFDDefaultPanelSpeedLimitMax" title="最高限速" aria-label="最高限速"></li>
+									</ul>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelSpeedBalloon">
+									<ul class="CtrlGroup">
+										<li class="Ctrl Balloon" id="Ctrl_PFDDefaultPanelSpeedBalloonBalloon" title="当前表速" aria-label="当前表速">
+											<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelSpeedBalloon">
+												<li class="Ctrl Box">
+													<div class="RollingDigit" id="RollingDigit_PFDDefaultPanelSpeed1">
+														<span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span> </span>
+													</div>
+												</li>
+												<li class="Ctrl Box">
+													<div class="RollingDigit" id="RollingDigit_PFDDefaultPanelSpeed2">
+														<span>0</span><span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span>
+													</div>
+												</li>
+												<li class="Ctrl Box">
+													<div class="RollingDigit" id="RollingDigit_PFDDefaultPanelSpeed3">
+														<span>9</span><span>8</span><span>7</span>
+														<span>1</span><span>0</span><span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span><span>9</span>
+														<span>2</span><span>1</span><span>0</span>
+													</div>
+												</li>
+											</ul>
+										</li>
+										<li class="Ctrl BalloonTail" title="当前表速" aria-label="当前表速"></li>
+									</ul>
+								</li>
+								<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelSpeedMachNumber" inert="true">
+									<span id="Label_PFDDefaultPanelSpeedMachNumber" title="当前表速 (马赫)" aria-label="当前表速 (马赫)">马赫数</span>
+								</li>
+							</ul>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDDefaultPanelAltitude">
+							<ul class="CtrlGroup">
+								<li class="Ctrl Box StatusBox Faded" id="Ctrl_PFDDefaultPanelAltitudeStatus" inert="true">
+									<span id="Label_PFDDefaultPanelAltitudeStatus">高度表状态</span>
+								</li>
+								<li class="Ctrl Tape" id="Ctrl_PFDDefaultPanelAltitudeTape" title="高度表" aria-label="高度表">
+									<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelAltitudeTape">
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">500<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">498<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">496<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">494<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">492<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">490<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">488<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">486<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">484<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">482<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">480<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">478<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">476<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">474<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">472<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">470<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">468<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">466<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">464<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">462<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">460<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">458<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">456<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">454<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">452<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">450<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">448<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">446<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">444<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">442<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">440<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">438<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">436<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">434<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">432<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">430<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">428<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">426<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">424<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">422<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">420<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">418<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">416<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">414<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">412<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">410<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">408<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">406<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">404<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">402<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">400<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">398<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">396<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">394<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">392<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">390<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">388<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">386<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">384<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">382<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">380<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">378<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">376<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">374<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">372<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">370<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">368<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">366<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">364<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">362<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">360<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">358<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">356<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">354<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">352<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">350<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">348<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">346<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">344<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">342<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">340<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">338<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">336<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">334<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">332<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">330<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">328<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">326<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">324<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">322<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">320<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">318<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">316<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">314<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">312<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">310<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">308<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">306<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">304<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">302<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">300<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">298<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">296<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">294<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">292<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">290<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">288<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">286<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">284<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">282<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">280<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">278<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">276<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">274<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">272<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">270<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">268<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">266<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">264<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">262<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">260<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">258<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">256<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">254<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">252<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">250<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">248<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">246<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">244<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">242<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">240<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">238<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">236<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">234<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">232<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">230<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">228<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">226<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">224<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">222<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">220<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">218<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">216<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">214<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">212<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">210<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">208<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">206<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">204<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">202<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">200<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">198<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">196<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">194<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">192<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">190<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">188<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">186<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">184<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">182<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">180<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">178<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">176<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">174<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">172<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">170<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">168<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">166<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">164<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">162<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">160<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">158<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">156<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">154<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">152<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">150<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">148<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">146<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">144<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">142<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">140<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">138<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">136<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">134<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">132<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">130<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">128<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">126<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">124<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">122<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">120<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">118<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">116<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">114<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">112<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">110<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">108<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">106<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">104<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">102<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">100<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">98<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">96<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">94<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">92<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">90<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">88<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">86<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">84<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">82<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">80<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">78<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">76<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">74<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">72<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">70<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">68<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">66<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">64<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">62<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">60<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">58<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">56<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">54<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">52<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">50<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">48<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">46<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">44<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">42<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">40<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">38<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">36<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">34<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">32<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">30<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">28<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">26<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">24<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">22<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">20<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">18<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">16<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">14<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">12<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">10<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">8<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">6<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">4<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">2<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">0<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-2<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-4<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-6<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-8<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-10<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-12<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-14<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-16<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-18<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-20<span class="SmallerText">00</span></span></li>
+									</ul>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelAltitudeAdditionalIndicators">
+									<div class="Needle Faded" id="Needle_PFDDefaultPanelAltitudeTrend" inert="true">
+										<div class="NeedleFg" title="高度趋势" aria-label="高度趋势"></div>
+										<div class="NeedleArrow" title="高度趋势" aria-label="高度趋势"></div>
+									</div>
+									<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelOtherAltitudes">
+										<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelDecisionAltitude" title="决断高度" aria-label="决断高度"></li>
+										<li class="Ctrl" id="Ctrl_PFDDefaultPanelGroundAltitude" title="地面高度" aria-label="地面高度"></li>
+									</ul>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelAltitudeBalloon">
+									<ul class="CtrlGroup">
+										<li class="Ctrl Balloon" id="Ctrl_PFDDefaultPanelAltitudeBalloonBalloon" title="当前高度" aria-label="当前高度">
+											<ul class="CtrlGroup">
+												<li class="Ctrl Box">
+													<div class="RollingDigit" id="RollingDigit_PFDDefaultPanelAltitude1">
+														<span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span> </span><span>-</span>
+													</div>
+												</li>
+												<li class="Ctrl Box">
+													<div class="RollingDigit" id="RollingDigit_PFDDefaultPanelAltitude2">
+														<span>0</span><span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span>
+														<span>1</span><span>2</span>
+													</div>
+												</li>
+												<li class="Ctrl Box">
+													<div class="RollingDigit" id="RollingDigit_PFDDefaultPanelAltitude3">
+														<span>0</span><span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span>
+														<span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span>
+													</div>
+												</li>
+												<li class="Ctrl Box" id="Ctrl_PFDDefaultPanelAltitude4">
+													<div class="RollingDigit" id="RollingDigit_PFDDefaultPanelAltitude4">
+														<span>00</span><span>80</span><span>60</span>
+														<span>20</span><span>00</span><span>80</span><span>60</span><span>40</span><span>20</span><span>00</span><span>80</span>
+														<span>40</span><span>20</span><span>00</span><span>20</span><span>40</span>
+														<span>80</span><span>00</span><span>20</span><span>40</span><span>60</span><span>80</span><span>00</span><span>20</span>
+														<span>60</span><span>80</span><span>00</span>
+													</div>
+												</li>
+											</ul>
+										</li>
+										<li class="Ctrl BalloonTail" title="当前高度" aria-label="当前高度"></li>
+									</ul>
+								</li>
+								<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelAltitudeMetric" inert="true">
+									<span id="Label_PFDDefaultPanelAltitudeMetric" title="当前高度 (米)" aria-label="当前高度 (米)">米制高度</span>
+								</li>
+							</ul>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDDefaultPanelVerticalSpeed">
+							<ul class="CtrlGroup">
+								<li class="Ctrl Box StatusBox Faded" id="Ctrl_PFDDefaultPanelVerticalSpeedStatus" inert="true">
+									<span id="Label_PFDDefaultPanelVerticalSpeedStatus">垂直速度表状态</span>
+								</li>
+								<li class="Ctrl Tape" id="Ctrl_PFDDefaultPanelVerticalSpeedTape" title="垂直速度表" aria-label="垂直速度表">
+									<ul class="CtrlGroup">
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">6</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">2</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">1</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">1</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">2</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">6</span></li>
+									</ul>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelVerticalSpeedNeedle">
+									<div class="Needle" id="Needle_PFDDefaultPanelVerticalSpeed">
+										<div class="NeedleFg" title="垂直速度指针" aria-label="垂直速度指针"></div>
+									</div>
+								</li>
+								<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelVerticalSpeedBalloon" inert="true" title="当前垂直速度" aria-label="当前垂直速度">
+									<span id="Label_PFDDefaultPanelVerticalSpeedBalloon"><span class="SmallerText">垂直速度</span></span>
+								</li>
+							</ul>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDDefaultPanelHeading">
+							<ul class="CtrlGroup">
+								<li class="Ctrl Box StatusBox Faded" id="Ctrl_PFDDefaultPanelHeadingStatus" inert="true">
+									<span id="Label_PFDDefaultPanelHeadingStatus">朝向指示器状态</span>
+								</li>
+								<li class="Ctrl Tape" id="Ctrl_PFDDefaultPanelHeadingTape" title="朝向指示器 (指南针)" aria-label="朝向指示器 (指南针)">
+									<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelHeadingTape">
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">0</span></li>
+										<li class="Ctrl" style="transform: rotate(5deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(10deg);"><div class="TapeScale"></div><span class="TapeNumber">1</span></li>
+										<li class="Ctrl" style="transform: rotate(15deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(20deg);"><div class="TapeScale"></div><span class="TapeNumber">2</span></li>
+										<li class="Ctrl" style="transform: rotate(25deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(30deg);"><div class="TapeScale"></div><span class="TapeNumber">3</span></li>
+										<li class="Ctrl" style="transform: rotate(35deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(40deg);"><div class="TapeScale"></div><span class="TapeNumber">4</span></li>
+										<li class="Ctrl" style="transform: rotate(45deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(50deg);"><div class="TapeScale"></div><span class="TapeNumber">5</span></li>
+										<li class="Ctrl" style="transform: rotate(55deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(60deg);"><div class="TapeScale"></div><span class="TapeNumber">6</span></li>
+										<li class="Ctrl" style="transform: rotate(65deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(70deg);"><div class="TapeScale"></div><span class="TapeNumber">7</span></li>
+										<li class="Ctrl" style="transform: rotate(75deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(80deg);"><div class="TapeScale"></div><span class="TapeNumber">8</span></li>
+										<li class="Ctrl" style="transform: rotate(85deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(90deg);"><div class="TapeScale"></div><span class="TapeNumber">9</span></li>
+										<li class="Ctrl" style="transform: rotate(95deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(100deg);"><div class="TapeScale"></div><span class="TapeNumber">10</span></li>
+										<li class="Ctrl" style="transform: rotate(105deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(110deg);"><div class="TapeScale"></div><span class="TapeNumber">11</span></li>
+										<li class="Ctrl" style="transform: rotate(115deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(120deg);"><div class="TapeScale"></div><span class="TapeNumber">12</span></li>
+										<li class="Ctrl" style="transform: rotate(125deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(130deg);"><div class="TapeScale"></div><span class="TapeNumber">13</span></li>
+										<li class="Ctrl" style="transform: rotate(135deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(140deg);"><div class="TapeScale"></div><span class="TapeNumber">14</span></li>
+										<li class="Ctrl" style="transform: rotate(145deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(150deg);"><div class="TapeScale"></div><span class="TapeNumber">15</span></li>
+										<li class="Ctrl" style="transform: rotate(155deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(160deg);"><div class="TapeScale"></div><span class="TapeNumber">16</span></li>
+										<li class="Ctrl" style="transform: rotate(165deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(170deg);"><div class="TapeScale"></div><span class="TapeNumber">17</span></li>
+										<li class="Ctrl" style="transform: rotate(175deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(180deg);"><div class="TapeScale"></div><span class="TapeNumber">18</span></li>
+										<li class="Ctrl" style="transform: rotate(185deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(190deg);"><div class="TapeScale"></div><span class="TapeNumber">19</span></li>
+										<li class="Ctrl" style="transform: rotate(195deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(200deg);"><div class="TapeScale"></div><span class="TapeNumber">20</span></li>
+										<li class="Ctrl" style="transform: rotate(205deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(210deg);"><div class="TapeScale"></div><span class="TapeNumber">21</span></li>
+										<li class="Ctrl" style="transform: rotate(215deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(220deg);"><div class="TapeScale"></div><span class="TapeNumber">22</span></li>
+										<li class="Ctrl" style="transform: rotate(225deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(230deg);"><div class="TapeScale"></div><span class="TapeNumber">23</span></li>
+										<li class="Ctrl" style="transform: rotate(235deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(240deg);"><div class="TapeScale"></div><span class="TapeNumber">24</span></li>
+										<li class="Ctrl" style="transform: rotate(245deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(250deg);"><div class="TapeScale"></div><span class="TapeNumber">25</span></li>
+										<li class="Ctrl" style="transform: rotate(255deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(260deg);"><div class="TapeScale"></div><span class="TapeNumber">26</span></li>
+										<li class="Ctrl" style="transform: rotate(265deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(270deg);"><div class="TapeScale"></div><span class="TapeNumber">27</span></li>
+										<li class="Ctrl" style="transform: rotate(275deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(280deg);"><div class="TapeScale"></div><span class="TapeNumber">28</span></li>
+										<li class="Ctrl" style="transform: rotate(285deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(290deg);"><div class="TapeScale"></div><span class="TapeNumber">29</span></li>
+										<li class="Ctrl" style="transform: rotate(295deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(300deg);"><div class="TapeScale"></div><span class="TapeNumber">30</span></li>
+										<li class="Ctrl" style="transform: rotate(305deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(310deg);"><div class="TapeScale"></div><span class="TapeNumber">31</span></li>
+										<li class="Ctrl" style="transform: rotate(315deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(320deg);"><div class="TapeScale"></div><span class="TapeNumber">32</span></li>
+										<li class="Ctrl" style="transform: rotate(325deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(330deg);"><div class="TapeScale"></div><span class="TapeNumber">33</span></li>
+										<li class="Ctrl" style="transform: rotate(335deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(340deg);"><div class="TapeScale"></div><span class="TapeNumber">34</span></li>
+										<li class="Ctrl" style="transform: rotate(345deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(350deg);"><div class="TapeScale"></div><span class="TapeNumber">35</span></li>
+										<li class="Ctrl" style="transform: rotate(355deg);"><div class="TapeScale"></div></li>
+									</ul>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelHeadingBalloon">
+									<ul class="CtrlGroup">
+										<li class="Ctrl Balloon" title="当前朝向" aria-label="当前朝向">
+											<span id="Label_PFDDefaultPanelHeadingBalloon">朝向</span>
+										</li>
+										<li class="Ctrl BalloonTail" title="当前朝向" aria-label="当前朝向"></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="Ctnr Faded" id="Ctnr_PFDDefaultPanelDME" inert="true">
+							<span id="Label_PFDDefaultPanelDMETitle">测距仪</span>
+							<span id="Label_PFDDefaultPanelDMEDistance">距离</span>
+							<span id="Label_PFDDefaultPanelDMEETA">剩余时间</span>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDDefaultPanelRadioAltitude">
+							<ul class="CtrlGroup">
+								<li class="Ctrl" title="无线电高度表" aria-label="无线电高度表">
+									<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelRadioAltitudeDialScale">
+										<li class="Ctrl"><div class="DialScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(36deg);"><div class="DialScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(72deg);"><div class="DialScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(108deg);"><div class="DialScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(144deg);"><div class="DialScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(180deg);"><div class="DialScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(216deg);"><div class="DialScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(252deg);"><div class="DialScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(288deg);"><div class="DialScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(324deg);"><div class="DialScale"></div></li>
+									</ul>
+									<svg class="Progring" id="Progring_PFDDefaultPanelRadioAltitude" viewBox="0 0 85 85" aria-hidden="true">
+										<circle class="ProgringFg" id="ProgringFg_PFDDefaultPanelRadioAltitude" cx="42.5" cy="42.5" r="41" />
+									</svg>
+									<span class="ProgringText" id="ProgringText_PFDDefaultPanelRadioAltitude">
+										<span class="SmallerText">无线电<br />
+											高度</span>
+									</span>
+								</li>
+							</ul>
+						</div>
+						<div class="Ctnr Faded" id="Ctnr_PFDDefaultPanelDecisionAltitude">
+							<span id="Label_PFDDefaultPanelDecisionAltitudeTitle">决断高度</span>
+							<span id="Label_PFDDefaultPanelDecisionAltitudeValue">未知</span>
+						</div>
+						<div class="Ctnr Faded" id="Ctnr_PFDDefaultPanelWarning" inert="true">
+							<span class="RedText" id="Label_PFDDefaultPanelWarning">警告信息</span>
+						</div>
+					</div>
+					<div class="Ctnr PFDPanel HiddenHorizontally" id="Ctnr_PFDBoeingPanel">
+						???
+					</div>
+					<div class="Ctnr PFDPanel HiddenHorizontally" id="Ctnr_PFDAirbusPanel">
+						???
+					</div>
+					<div class="Ctnr PFDPanel HiddenHorizontally" id="Ctnr_PFDHUDPanel">
+						???
+					</div>
+					<div class="Ctnr PFDPanel HiddenHorizontally" id="Ctnr_PFDBocchi737Panel">
+						???
+					</div>
+					<div class="Ctnr PFDPanel HiddenHorizontally" id="Ctnr_PFDAnalogGaugesPanel">
+						???
+					</div>
+					<div class="Ctnr PFDPanel HiddenHorizontally" id="Ctnr_PFDAutomobileSpeedometerPanel">
+						???
+					</div>
+					<div class="Ctnr" id="Ctnr_PFDMenu">
+						<ul class="CtrlGroup">
+							<li class="Ctrl">
+								<button class="Button" id="Button_PFDMenu" onclick="Show('Window_PFDMenu')" title="PFD 菜单" aria-label="PFD 菜单">
+									<svg class="Icon Larger" viewBox="0 0 16 16" aria-hidden="true">
+										<path d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+									</svg>
+								</button>
+								<span class="HotkeyIndicator Faded" inert="true">M</span>
+								<div class="Window HiddenToCorner" id="Window_PFDMenu" inert="true" tabindex="-1" onclick="Show('Window_PFDMenu')">
+									<ul class="CtrlGroup" id="CtrlGroup_PFDMenuCloseButton">
+										<li class="Ctrl">
+											<button class="Button Shadow" onclick="ForceHidePFDMenu()" title="关闭" aria-label="关闭">
+												<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+													<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+												</svg>
+											</button>
+										</li>
+									</ul>
+									<ul class="CtrlGroup" id="CtrlGroup_PFDMenuContents">
+										<li class="Ctrl PFDMenuSection">
+											<ul class="CtrlGroup PFDMenuTitle">
+												<li class="Ctrl">
+													<button class="Button ShownAsLabel" onclick="TogglePFDMenuCollapse('Ctrl')">
+														<h3>控制</h3>
+														<svg class="Icon Smaller CollapseCaret" viewBox="0 0 16 16" aria-hidden="true">
+															<path d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+														</svg>
+													</button>
+												</li>
+											</ul>
+											<ul class="CtrlGroup PFDMenuContent" id="CtrlGroup_PFDCtrl">
+												<li class="Ctrl" id="Ctrl_PFDToggleFullscreen">
+													<button class="Button" id="Button_PFDToggleFullscreen" onclick="ToggleFullscreen()">全屏</button>
+												</li>
+												<li class="Ctrl Hidden" id="Ctrl_PFDManualManeuver" inert="true">
+													<h4>手动操作</h4>
+													<ul class="CtrlGroup BelowParagraph">
+														<li class="Ctrl" id="Ctrl_PFDAttitudeManeuver">
+															<span>姿态</span>
+															<ul class="CtrlGroup" id="CtrlGroup_PFDAttitudeManeuver">
+																<li class="Ctrl" id="Ctrl_PFDPitchDown">
+																	<button class="Button" id="Button_PFDPitchDown" disabled="true" onclick="PitchDown()">推</button>
+																	<span class="HotkeyIndicator Faded" inert="true">W</span>
+																</li>
+																<li class="Ctrl" id="Ctrl_PFDPitchUp">
+																	<button class="Button" id="Button_PFDPitchUp" disabled="true" onclick="PitchUp()">拉</button>
+																	<span class="HotkeyIndicator Faded" inert="true">S</span>
+																</li>
+																<li class="Ctrl" id="Ctrl_PFDRollLeft">
+																	<button class="Button" id="Button_PFDRollLeft" disabled="true" onclick="RollLeft()">←</button>
+																	<span class="HotkeyIndicator Faded" inert="true">A</span>
+																</li>
+																<li class="Ctrl" id="Ctrl_PFDRollRight">
+																	<button class="Button" id="Button_PFDRollRight" disabled="true" onclick="RollRight()">→</button>
+																	<span class="HotkeyIndicator Faded" inert="true">D</span>
+																</li>
+															</ul>
+														</li>
+														<li class="Ctrl" id="Ctrl_PFDSpeedManeuver">
+															<span>速度</span>
+															<ul class="CtrlGroup" id="CtrlGroup_PFDSpeedManeuver">
+																<li class="Ctrl">
+																	<button class="Button" id="Button_PFDSpeedUp" disabled="true" onclick="SpeedUp()">↑</button>
+																	<span class="HotkeyIndicator Faded" inert="true">U</span>
+																</li>
+																<li class="Ctrl">
+																	<button class="Button" id="Button_PFDSpeedDown" disabled="true" onclick="SpeedDown()">↓</button>
+																	<span class="HotkeyIndicator Faded" inert="true">J</span>
+																</li>
+															</ul>
+														</li>
+														<li class="Ctrl" id="Ctrl_PFDAltitudeManeuver">
+															<span>高度</span>
+															<ul class="CtrlGroup" id="CtrlGroup_PFDAltitudeManeuver">
+																<li class="Ctrl">
+																	<button class="Button" id="Button_PFDAltitudeUp" disabled="true" onclick="AltitudeUp()">↑</button>
+																	<span class="HotkeyIndicator Faded" inert="true">O</span>
+																</li>
+																<li class="Ctrl">
+																	<button class="Button" id="Button_PFDAltitudeDown" disabled="true" onclick="AltitudeDown()">↓</button>
+																	<span class="HotkeyIndicator Faded" inert="true">L</span>
+																</li>
+															</ul>
+														</li>
+													</ul>
+												</li>
+												<li class="Ctrl" id="Ctrl_PFDFlaps">
+													<h4>襟翼</h4>
+													<ul class="CtrlGroup BelowParagraph">
+														<li class="Ctrl" id="Ctrl_PFDFlapsSlider">
+															<label for="Slider_PFDFlaps">
+																<span id="Label_PFDFlaps">未知</span>
+																<input class="Slider" id="Slider_PFDFlaps" type="range" min="0" max="100" step="1" value="0" oninput="SetFlaps()" />
+															</label>
+															<span class="HotkeyIndicator RightAligned Faded" inert="true">R<br />
+																↕<br />
+																F</span>
+														</li>
+														<li class="Ctrl" id="Ctrl_PFDFlapsReference" title="襟翼参考标尺" aria-label="襟翼参考标尺">
+															<span>B738</span><span>A320</span>
+															<ul class="CtrlGroup">
+																<li class="Ctrl" id="Ctrl_PFDFlapsReferenceB738Scale0"><div class="FlapsScale"></div><span class="FlapsLabel">0</span></li>
+																<li class="Ctrl" id="Ctrl_PFDFlapsReferenceB738Scale1To5"><div class="FlapsScale"></div><span class="FlapsLabel">1~5</span></li>
+																<li class="Ctrl" id="Ctrl_PFDFlapsReferenceB738Scale10"><div class="FlapsScale"></div><span class="FlapsLabel">10</span></li>
+																<li class="Ctrl" id="Ctrl_PFDFlapsReferenceB738Scale15"><div class="FlapsScale"></div><span class="FlapsLabel">15</span></li>
+																<li class="Ctrl" id="Ctrl_PFDFlapsReferenceB738Scale25"><div class="FlapsScale"></div><span class="FlapsLabel">25</span></li>
+																<li class="Ctrl" id="Ctrl_PFDFlapsReferenceB738Scale30"><div class="FlapsScale"></div><span class="FlapsLabel">30</span></li>
+																<li class="Ctrl" id="Ctrl_PFDFlapsReferenceB738Scale40"><div class="FlapsScale"></div><span class="FlapsLabel">40</span></li>
+															</ul>
+															<ul class="CtrlGroup">
+																<li class="Ctrl" id="Ctrl_PFDFlapsReferenceA320Scale0"><div class="FlapsScale"></div><span class="FlapsLabel">0</span></li>
+																<li class="Ctrl" id="Ctrl_PFDFlapsReferenceA320Scale1"><div class="FlapsScale"></div><span class="FlapsLabel">1</span></li>
+																<li class="Ctrl" id="Ctrl_PFDFlapsReferenceA320Scale1PlusF"><div class="FlapsScale"></div><span class="FlapsLabel">1+F</span></li>
+																<li class="Ctrl" id="Ctrl_PFDFlapsReferenceA320Scale2"><div class="FlapsScale"></div><span class="FlapsLabel">2</span></li>
+																<li class="Ctrl" id="Ctrl_PFDFlapsReferenceA320Scale3"><div class="FlapsScale"></div><span class="FlapsLabel">3</span></li>
+																<li class="Ctrl" id="Ctrl_PFDFlapsReferenceA320ScaleFULL"><div class="FlapsScale"></div><span class="FlapsLabel">FULL</span></li>
+															</ul>
+														</li>
+													</ul>
+												</li>
+												<li class="Ctrl" id="Ctrl_PFDResetAccelSpeed">
+													<button class="Button" onclick="ResetAccelSpeed()">重置加速计速度</button>
+												</li>
+											</ul>
+										</li>
+										<li class="Ctrl PFDMenuSection">
+											<ul class="CtrlGroup PFDMenuTitle">
+												<li class="Ctrl">
+													<button class="Button ShownAsLabel" onclick="TogglePFDMenuCollapse('Options')">
+														<h3>选项</h3>
+														<svg class="Icon Smaller CollapseCaret" viewBox="0 0 16 16" aria-hidden="true">
+															<path d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+														</svg>
+													</button>
+												</li>
+											</ul>
+											<ul class="CtrlGroup PFDMenuContent" id="CtrlGroup_PFDOptions">
+												<li class="Ctrl">
+													<label for="Checkbox_PFDOptionsEnableAttitudeIndicator">
+														<input class="Checkbox" id="Checkbox_PFDOptionsEnableAttitudeIndicator" type="checkbox" checked="true" onchange="SetEnableAttitudeIndicatorAtPFDOptions()" />
+														<span>启用姿态仪</span>
+													</label>
+												</li>
+												<li class="Ctrl" id="Ctrl_PFDOptionsAttitudeMode">
+													<label for="Combobox_PFDOptionsAttitudeMode">
+														<span>姿态模式：</span>
+														<select class="Combobox" id="Combobox_PFDOptionsAttitudeMode" onchange="SetAttitudeModeAtPFDOptions()">
+															<option value="Accel" selected>加速计</option>
+															<option value="Manual">手动</option>
+														</select>
+													</label>
+												</li>
+												<li class="Ctrl">
+													<label for="Combobox_PFDOptionsSpeedMode">
+														<span>速度模式：</span>
+														<select class="Combobox" id="Combobox_PFDOptionsSpeedMode" onchange="SetSpeedModeAtPFDOptions()">
+															<option value="GPS" selected>GPS</option>
+															<option value="Accel">加速计 (不推荐)</option>
+															<option value="DualChannel">双通道 (GPS 与加速计)</option>
+															<option value="Manual">手动</option>
+														</select>
+													</label>
+												</li>
+												<li class="Ctrl">
+													<label for="Combobox_PFDOptionsAltitudeMode">
+														<span>高度模式：</span>
+														<select class="Combobox" id="Combobox_PFDOptionsAltitudeMode" onchange="SetAltitudeModeAtPFDOptions()">
+															<option value="GPS" selected>GPS</option>
+															<option value="Accel">加速计 (不推荐)</option>
+															<option value="DualChannel">双通道 (GPS 与加速计)</option>
+															<option value="Manual">手动</option>
+														</select>
+													</label>
+												</li>
+												<li class="Ctrl">
+													<label for="Checkbox_PFDOptionsEnableDME">
+														<input class="Checkbox" id="Checkbox_PFDOptionsEnableDME" type="checkbox" checked="false" onchange="SetEnableDMEAtPFDOptions()" />
+														<span>启用测距仪</span>
+													</label>
+												</li>
+												<li class="Ctrl">
+													<label for="Combobox_PFDOptionsFlightMode">
+														<span>飞航模式：</span>
+														<select class="Combobox" id="Combobox_PFDOptionsFlightMode" onchange="SetFlightModeAtPFDOptions()">
+															<option value="DepartureGround" selected>出发地面</option>
+															<option value="TakeOff">起飞</option>
+															<option value="Cruise">巡航</option>
+															<option value="Land">降落</option>
+															<option value="ArrivalGround">到达地面</option>
+															<option value="EmergencyReturn">紧急返航</option>
+														</select>
+													</label>
+												</li>
+												<li class="Ctrl">
+													<label for="Checkbox_PFDOptionsFlipPFDVertically">
+														<input class="Checkbox" id="Checkbox_PFDOptionsFlipPFDVertically" type="checkbox" checked="false" onchange="SetFlipPFDVerticallyAtPFDOptions()" />
+														<span>垂直翻转 PFD</span>
+													</label>
+												</li>
+												<li class="Ctrl">
+													<label for="Checkbox_PFDOptionsKeepScreenOn">
+														<input class="Checkbox" id="Checkbox_PFDOptionsKeepScreenOn" type="checkbox" checked="false" onchange="SetKeepScreenOnAtPFDOptions()" />
+														<span>保持屏幕常亮</span>
+													</label>
+												</li>
+											</ul>
+										</li>
+										<li class="Ctrl PFDMenuSection">
+											<ul class="CtrlGroup PFDMenuTitle">
+												<li class="Ctrl">
+													<button class="Button ShownAsLabel" onclick="TogglePFDMenuCollapse('TechInfo')">
+														<h3>技术信息 (原始数据)</h3>
+														<svg class="Icon Smaller CollapseCaret" viewBox="0 0 16 16" aria-hidden="true">
+															<path d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+														</svg>
+													</button>
+												</li>
+											</ul>
+											<ul class="CtrlGroup PFDMenuContent Hidden" id="CtrlGroup_PFDTechInfo" inert="true">
+												<li class="Ctrl">
+													<h4>GPS</h4>
+													<p>纬度：<span id="Label_PFDTechInfoLat">未知</span><br />
+														经度：<span id="Label_PFDTechInfoLon">未知</span><br />
+														位置精度：<span id="Label_PFDTechInfoPositionAccuracy">未知</span></p>
+													<p>速度：<span id="Label_PFDTechInfoGPSSpeed">未知</span><br />
+														高度：<span id="Label_PFDTechInfoGPSAltitude">未知</span><br />
+														高度精度：<span id="Label_PFDTechInfoAltitudeAccuracy">未知</span><br />
+														朝向：<span id="Label_PFDTechInfoHeading">未知</span></p>
+													<p>时间戳：<span id="Label_PFDTechInfoGPSTimestamp">未知</span></p>
+													<h4>加速计</h4>
+													<p>将手机抬起并逆时针旋转90度。X轴向下是正值，向上是负值。Y轴向右是正值，向左是负值。Z轴向前是正值，向后是负值。</p>
+													<p>绝对X轴 (排除重力)：<span id="Label_PFDTechInfoAbsoluteXAxis">未知</span><br />
+														绝对Y轴 (排除重力)：<span id="Label_PFDTechInfoAbsoluteYAxis">未知</span><br />
+														绝对Z轴 (排除重力)：<span id="Label_PFDTechInfoAbsoluteZAxis">未知</span><br />
+														绝对X轴 (包括重力)：<span id="Label_PFDTechInfoAbsoluteXAxisWithGravity">未知</span><br />
+														绝对Y轴 (包括重力)：<span id="Label_PFDTechInfoAbsoluteYAxisWithGravity">未知</span><br />
+														绝对Z轴 (包括重力)：<span id="Label_PFDTechInfoAbsoluteZAxisWithGravity">未知</span></p>
+													<p>屏幕方向：<span id="Label_PFDTechInfoScreenOrientation">未知</span></p>
+													<p>相对向前 (排除重力)：<span id="Label_PFDTechInfoRelativeForward">未知</span><br />
+														相对向右 (排除重力)：<span id="Label_PFDTechInfoRelativeRight">未知</span><br />
+														相对向上 (排除重力)：<span id="Label_PFDTechInfoRelativeUpward">未知</span><br />
+														相对向前 (包括重力)：<span id="Label_PFDTechInfoRelativeForwardWithGravity">未知</span><br />
+														相对向右 (包括重力)：<span id="Label_PFDTechInfoRelativeRightWithGravity">未知</span><br />
+														相对向上 (包括重力)：<span id="Label_PFDTechInfoRelativeUpwardWithGravity">未知</span></p>
+													<p>对齐后加速度用于计算速度。若绝对值小于1则会被直接归零，以防止误差导致速度膨胀。</p>
+													<p>对齐后向前：<span id="Label_PFDTechInfoAlignedForward">未知</span><br />
+														对齐后向右：<span id="Label_PFDTechInfoAlignedRight">未知</span><br />
+														对齐后向上：<span id="Label_PFDTechInfoAlignedUpward">未知</span></p>
+													<p>俯仰：<span id="Label_PFDTechInfoAccelPitch">未知</span><br />
+														横滚：<span id="Label_PFDTechInfoAccelRoll">未知</span><br />
+														对齐后俯仰：<span id="Label_PFDTechInfoAlignedPitch">未知</span><br />
+														对齐后横滚：<span id="Label_PFDTechInfoAlignedRoll">未知</span></p>
+													<p>速度矢量向前：<span id="Label_PFDTechInfoSpeedVectorForward">未知</span><br />
+														速度矢量向右：<span id="Label_PFDTechInfoSpeedVectorRight">未知</span><br />
+														速度矢量向上：<span id="Label_PFDTechInfoSpeedVectorUpward">未知</span><br />
+														下方示意图中，横轴为向右速度，纵轴为向前速度。</p>
+													<div id="PFDTechInfoSpeedVectorGraph" title="速度矢量示意图" aria-label="速度矢量示意图">
+														<div class="Needle" id="Needle_PFDTechInfoSpeedVectorGraph">
+															<div class="NeedleFg"></div>
+															<div class="NeedleArrow"></div>
+														</div>
+													</div>
+													<p>速度：<span id="Label_PFDTechInfoAccelSpeed">未知</span><br />
+														高度：<span id="Label_PFDTechInfoAccelAltitude">未知</span><br />
+														若速度/高度模式为「双通道」，则每次 GPS 速度/高度更新时，加速计速度/高度会与 GPS 速度/高度对齐。</p>
+													<p>间隔：<span id="Label_PFDTechInfoAccelInterval">未知</span><br />
+														时间戳：<span id="Label_PFDTechInfoAccelTimestamp">未知</span></p>
+													<h4>手动</h4>
+													<p>俯仰：<span id="Label_PFDTechInfoManualPitch">未知</span><br />
+														横滚：<span id="Label_PFDTechInfoManualRoll">未知</span><br />
+														速度：<span id="Label_PFDTechInfoManualSpeed">未知</span><br />
+														高度：<span id="Label_PFDTechInfoManualAltitude">未知</span></p>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+
+			<section id="Settings">
+				<h1 class="SectionTitle">设定</h1>
+				<ul class="ItemGroup">
+					<li class="Item">
+						<fieldset>
+							<legend>姿态仪</legend>
+							<p>若启用<a href="https://zh.wikipedia.org/wiki/姿态指引仪">姿态仪</a>，<a href="https://zh.wikipedia.org/wiki/空速#指示空速">表速 (IAS) </a>的计算会将<a href="https://zh.wikipedia.org/wiki/航空器三主轴">俯仰 (pitch) 姿态</a>考虑在内。</p>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl">
+									<label for="Checkbox_SettingsEnableAttitudeIndicator">
+										<input class="Checkbox" id="Checkbox_SettingsEnableAttitudeIndicator" type="checkbox" checked="true" onchange="SetEnableAttitudeIndicator()" />
+										<span>启用姿态仪</span>
+									</label>
+								</li>
+								<li class="Ctrl" id="Ctrl_SettingsAttitudeMode">
+									<label for="Combobox_SettingsAttitudeMode">
+										<span>模式：</span>
+										<select class="Combobox" id="Combobox_SettingsAttitudeMode" onchange="SetAttitudeMode()">
+											<option value="Accel" selected>加速计</option>
+											<option value="Manual">手动</option>
+										</select>
+									</label>
+								</li>
+							</ul>
+							<h4 id="Label_SettingsAttitudeOffset">姿态偏移</h4>
+							<p id="Label_SettingsAttitudeOffsetInfo">姿态偏移适用于无法自由摆放设备的情况。俯仰抬头是正值，低头是负值。横滚 (roll) 右倾是正值，左倾是负值。姿态模式为「手动」时此设定无效。</p>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl" id="Ctrl_SettingsAttitudeOffsetPitch">
+									<label for="Textbox_SettingsAttitudeOffsetPitch">
+										<span>俯仰：</span>
+										<input class="Textbox Width120" id="Textbox_SettingsAttitudeOffsetPitch" type="number" min="-90" max="90" step="5" value="0" onclick="SelectText('Textbox_SettingsAttitudeOffsetPitch')" onchange="SetAttitudeOffsetPitch()" placeholder="-90~90" title="-90~90" />
+										<span>度</span>
+									</label>
+								</li>
+								<li class="Ctrl" id="Ctrl_SettingsAttitudeOffsetRoll">
+									<label for="Textbox_SettingsAttitudeOffsetRoll">
+										<span>横滚：</span>
+										<input class="Textbox Width120" id="Textbox_SettingsAttitudeOffsetRoll" type="number" min="-90" max="90" step="5" value="0" onclick="SelectText('Textbox_SettingsAttitudeOffsetRoll')" onchange="SetAttitudeOffsetRoll()" placeholder="-90~90" title="-90~90" />
+										<span>度</span>
+									</label>
+								</li>
+							</ul>
+						</fieldset>
+					</li>
+					<li class="Item" id="Item_SettingsSpeed">
+						<fieldset>
+							<legend>速度</legend>
+							<ul class="CtrlGroup">
+								<li class="Ctrl">
+									<label for="Combobox_SettingsSpeedMode">
+										<span>模式：</span>
+										<select class="Combobox" id="Combobox_SettingsSpeedMode" onchange="SetSpeedMode()">
+											<option value="GPS" selected>GPS</option>
+											<option value="Accel">加速计 (不推荐)</option>
+											<option value="DualChannel">双通道 (GPS 与加速计)</option>
+											<option value="Manual">手动</option>
+										</select>
+									</label>
+								</li>
+							</ul>
+							<h4>空速</h4>
+							<p>GPS 与加速计只能测量地速，因此空速需要通过算法从地速转换而来。具体算法详见<a href="docs/GPS-PFD%20说明文档.pdf">说明文档</a>。</p>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl">
+									<label for="Combobox_SettingsIASAlgorithm">
+										<span>表速算法：</span>
+										<select class="Combobox" id="Combobox_SettingsIASAlgorithm" onchange="SetIASAlgorithm()">
+											<option value="SimpleAlgorithm" selected>简单算法</option>
+											<option value="AdvancedAlgorithmA">高级算法A</option>
+											<option value="AdvancedAlgorithmB">高级算法B</option>
+										</select>
+									</label>
+								</li>
+								<li class="Ctrl BeforeSmallButtonCtrl" id="Ctrl_SettingsAirportTemperature">
+									<label for="Textbox_SettingsAirportTemperatureDeparture">
+										<span>机场气温：从</span>
+										<input class="Textbox Width80" id="Textbox_SettingsAirportTemperatureDeparture" type="number" min="-50" max="50" step="1" value="15" onclick="SelectText('Textbox_SettingsAirportTemperatureDeparture')" onchange="SetAirportTemperatureDeparture()" placeholder="-50~50" title="-50~50" />
+										<span>至</span>
+										<input class="Textbox Width80" id="Textbox_SettingsAirportTemperatureArrival" type="number" min="-50" max="50" step="1" value="15" onclick="SelectText('Textbox_SettingsAirportTemperatureArrival')" onchange="SetAirportTemperatureArrival()" placeholder="-50~50" title="-50~50" />
+										<span id="Label_SettingsAirportTemperatureUnit">℃</span>
+									</label>
+								</li>
+								<li class="Ctrl SmallButtonCtrl" id="Ctrl_SettingsAirportTemperatureSwap">
+									<button class="Button" id="Button_SettingsAirportTemperatureSwap" disabled="true" onclick="SwapAirportTemperatures()" title="对调" aria-label="对调">
+										<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+											<path d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5"/>
+										</svg>
+									</button>
+								</li>
+								<li class="Ctrl BeforeSmallButtonCtrl Hidden" id="Ctrl_SettingsRelativeHumidity" inert="true">
+									<label for="Textbox_SettingsRelativeHumidityDeparture">
+										<span>相对湿度：从</span>
+										<input class="Textbox Width80" id="Textbox_SettingsRelativeHumidityDeparture" type="number" min="0" max="100" step="1" value="50" onclick="SelectText('Textbox_SettingsRelativeHumidityDeparture')" onchange="SetRelativeHumidityDeparture()" placeholder="0~100" title="0~100" />
+										<span>至</span>
+										<input class="Textbox Width80" id="Textbox_SettingsRelativeHumidityArrival" type="number" min="0" max="100" step="1" value="50" onclick="SelectText('Textbox_SettingsRelativeHumidityArrival')" onchange="SetRelativeHumidityArrival()" placeholder="0~100" title="0~100" />
+										<span>%</span>
+									</label>
+								</li>
+								<li class="Ctrl SmallButtonCtrl Hidden" id="Ctrl_SettingsRelativeHumiditySwap" inert="true">
+									<button class="Button" id="Button_SettingsRelativeHumiditySwap" disabled="true" onclick="SwapRelativeHumiditys()" title="对调" aria-label="对调">
+										<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+											<path d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5"/>
+										</svg>
+									</button>
+								</li>
+								<li class="Ctrl BeforeSmallButtonCtrl Hidden" id="Ctrl_SettingsQNH" inert="true">
+									<label for="Textbox_SettingsQNHDeparture">
+										<span><a href="https://zh.wikipedia.org/wiki/QNH">QNH</a>：从</span>
+										<input class="Textbox Width80" id="Textbox_SettingsQNHDeparture" type="number" min="900" max="1100" step="1" value="1013.25" onclick="SelectText('Textbox_SettingsQNHDeparture')" onchange="SetQNHDeparture()" placeholder="900~1100" title="900~1100" />
+										<span>至</span>
+										<input class="Textbox Width80" id="Textbox_SettingsQNHArrival" type="number" min="900" max="1100" step="1" value="1013.25" onclick="SelectText('Textbox_SettingsQNHArrival')" onchange="SetQNHArrival()" placeholder="900~1100" title="900~1100" />
+										<span id="Label_SettingsQNHUnit">百帕</span>
+									</label>
+								</li>
+								<li class="Ctrl SmallButtonCtrl Hidden" id="Ctrl_SettingsQNHSwap" inert="true">
+									<button class="Button" id="Button_SettingsQNHSwap" disabled="true" onclick="SwapQNHs()" title="对调" aria-label="对调">
+										<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+											<path d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5"/>
+										</svg>
+									</button>
+								</li>
+								<li class="Ctrl BeforeSmallButtonCtrl">
+									<label for="Textbox_SettingsWindDirection">
+										<span>风：</span>
+										<input class="Textbox Width80" id="Textbox_SettingsWindDirection" type="number" min="0" max="359" step="5" value="0" onclick="SelectText('Textbox_SettingsWindDirection')" onchange="SetWindDirection()" placeholder="0~359" title="0~359" />
+										<span>度，</span>
+										<input class="Textbox Width80" id="Textbox_SettingsWindSpeed" type="number" min="0" max="539" step="5" value="0" onclick="SelectText('Textbox_SettingsWindSpeed')" onchange="SetWindSpeed()" placeholder="0~539" title="0~539" />
+										<span id="Label_SettingsWindSpeedUnit">节</span>
+									</label>
+								</li>
+								<li class="Ctrl SmallButtonCtrl">
+									<button class="Button" id="Button_SettingsWindReset" disabled="true" onclick="ResetWind()" title="重置" aria-label="重置">
+										<svg class="Icon Larger" viewBox="0 0 16 16" aria-hidden="true">
+											<path d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+											<path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+										</svg>
+									</button>
+								</li>
+								<li class="Ctrl Hidden"></li> <!-- Placeholder for the wider fieldset UI. -->
+							</ul>
+							<h4>限速</h4>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl">
+									<label for="Combobox_SettingsSpeedLimitPreset">
+										<span>预设：</span>
+										<select class="Combobox" id="Combobox_SettingsSpeedLimitPreset" onchange="SetSpeedLimitPreset()">
+											<option value="NoSpeedLimits" selected>不限速</option>
+											<option value="Boeing737-800">波音 737-800</option>
+											<option value="AirbusA320">空客 A320</option>
+											<option value="GroundVehicle">地面交通工具</option>
+										</select>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Textbox_SettingsSpeedLimitMin">
+										<span>最小表速：</span>
+										<input class="Textbox Width120" id="Textbox_SettingsSpeedLimitMin" type="number" min="0" max="530" step="5" value="0" onclick="SelectText('Textbox_SettingsSpeedLimitMin')" onchange="SetSpeedLimitMin()" placeholder="0~530" title="0~530" />
+										<span id="Label_SettingsSpeedLimitMinUnit">节</span>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Textbox_SettingsSpeedLimitMaxOnFlapsUp">
+										<span><a href="https://zh.wikipedia.org/wiki/襟翼">襟翼</a>收起时最大表速：</span>
+										<input class="Textbox Width120" id="Textbox_SettingsSpeedLimitMaxOnFlapsUp" type="number" min="10" max="539" step="5" value="539" onclick="SelectText('Textbox_SettingsSpeedLimitMaxOnFlapsUp')" onchange="SetSpeedLimitMaxOnFlapsUp()" placeholder="10~539" title="10~539" />
+										<span id="Label_SettingsSpeedLimitOnFlapsUpUnit">节</span>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Textbox_SettingsSpeedLimitMaxOnFlapsFull">
+										<span>襟翼全开时最大表速：</span>
+										<input class="Textbox Width120" id="Textbox_SettingsSpeedLimitMaxOnFlapsFull" type="number" min="10" max="539" step="5" value="539" onclick="SelectText('Textbox_SettingsSpeedLimitMaxOnFlapsFull')" onchange="SetSpeedLimitMaxOnFlapsFull()" placeholder="10~539" title="10~539" />
+										<span id="Label_SettingsSpeedLimitOnFlapsFullUnit">节</span>
+									</label>
+								</li>
+							</ul>
+						</fieldset>
+					</li>
+					<li class="Item">
+						<fieldset>
+							<legend>高度</legend>
+							<ul class="CtrlGroup">
+								<li class="Ctrl">
+									<label for="Combobox_SettingsAltitudeMode">
+										<span>模式：</span>
+										<select class="Combobox" id="Combobox_SettingsAltitudeMode" onchange="SetAltitudeMode()">
+											<option value="GPS" selected>GPS</option>
+											<option value="Accel">加速计 (不推荐)</option>
+											<option value="DualChannel">双通道 (GPS 与加速计)</option>
+											<option value="Manual">手动</option>
+										</select>
+									</label>
+								</li>
+								<li class="Ctrl BeforeSmallButtonCtrl">
+									<label for="Textbox_SettingsAirportElevationDeparture">
+										<span>机场高度：从</span>
+										<input class="Textbox Width80" id="Textbox_SettingsAirportElevationDeparture" type="number" min="-1640" max="16404" step="10" value="0" onclick="SelectText('Textbox_SettingsAirportElevationDeparture')" onchange="SetAirportElevationDeparture()" placeholder="-1640~16404" title="-1640~16404" />
+										<span>至</span>
+										<input class="Textbox Width80" id="Textbox_SettingsAirportElevationArrival" type="number" min="-1640" max="16404" step="10" value="0" onclick="SelectText('Textbox_SettingsAirportElevationArrival')" onchange="SetAirportElevationArrival()" placeholder="-1640~16404" title="-1640~16404" />
+										<span id="Label_SettingsAirportElevationUnit">英尺</span>
+									</label>
+								</li>
+								<li class="Ctrl SmallButtonCtrl">
+									<button class="Button" id="Button_SettingsAirportElevationSwap" disabled="true" onclick="SwapAirportElevations()" title="对调" aria-label="对调">
+										<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+											<path d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5"/>
+										</svg>
+									</button>
+								</li>
+							</ul>
+							<p><a href="https://en.wikipedia.org/wiki/Instrument_approach#Decision_height_or_altitude">决断高度 (decision altitude) </a>等于机场高度加上相对决断高度 (decision height)。</p>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl">
+									<label for="Textbox_SettingsDecisionHeight">
+										<span>相对决断高度：</span>
+										<input class="Textbox Width120" id="Textbox_SettingsDecisionHeight" type="number" min="40" max="2461" step="10" value="250" onclick="SelectText('Textbox_SettingsDecisionHeight')" onchange="SetDecisionHeight()" placeholder="49~2461" title="49~2461" />
+										<span id="Label_SettingsDecisionHeightUnit">英尺</span>
+									</label>
+								</li>
+							</ul>
+						</fieldset>
+					</li>
+					<li class="Item">
+						<fieldset>
+							<legend>测距仪</legend>
+							<p><a href="https://zh.wikipedia.org/wiki/测距仪">测距仪 (DME) </a>测量您与机场之间的水平距离，并加强<a href="https://zh.wikipedia.org/wiki/近地警告系统">近地警告系统 (GPWS) </a>的功能。</p>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl">
+									<label for="Checkbox_SettingsEnableDME">
+										<input class="Checkbox" id="Checkbox_SettingsEnableDME" type="checkbox" checked="false" onchange="SetEnableDME()" />
+										<span>启用测距仪</span>
+									</label>
+								</li>
+							</ul>
+							<h4 class="Hidden" id="Label_SettingsAirportCoordinates" inert="true">机场坐标</h4>
+							<p class="Hidden" id="Label_SettingsAirportCoordinatesInfo" inert="true">下面的设定中，前一个文本框是纬度，后一个文本框是经度。北纬、东经是正值，南纬、西经是负值。</p>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl Hidden" id="Ctrl_SettingsAirportCoordinatesDeparture" inert="true">
+									<label for="Textbox_SettingsAirportCoordinatesDepartureLat">
+										<span>出发机场：</span>
+										<input class="Textbox Width120" id="Textbox_SettingsAirportCoordinatesDepartureLat" type="number" min="-90" max="90" step="0.01" value="0.00000" onclick="SelectText('Textbox_SettingsAirportCoordinatesDepartureLat')" onchange="SetAirportCoordinatesDeparture()" placeholder="-90~90" title="-90~90" />
+										<input class="Textbox Width120" id="Textbox_SettingsAirportCoordinatesDepartureLon" type="number" min="-180" max="180" step="0.01" value="0.00000" onclick="SelectText('Textbox_SettingsAirportCoordinatesDepartureLon')" onchange="SetAirportCoordinatesDeparture()" placeholder="-180~180" title="-180~180" />
+									</label>
+								</li>
+								<li class="Ctrl Hidden" id="Ctrl_SettingsAirportCoordinatesArrival" inert="true">
+									<label for="Textbox_SettingsAirportCoordinatesArrivalLat">
+										<span>到达机场：</span>
+										<input class="Textbox Width120" id="Textbox_SettingsAirportCoordinatesArrivalLat" type="number" min="-90" max="90" step="0.01" value="0.00000" onclick="SelectText('Textbox_SettingsAirportCoordinatesArrivalLat')" onchange="SetAirportCoordinatesArrival()" placeholder="-90~90" title="-90~90" />
+										<input class="Textbox Width120" id="Textbox_SettingsAirportCoordinatesArrivalLon" type="number" min="-180" max="180" step="0.01" value="0.00000" onclick="SelectText('Textbox_SettingsAirportCoordinatesArrivalLon')" onchange="SetAirportCoordinatesArrival()" placeholder="-180~180" title="-180~180" />
+									</label>
+								</li>
+								<li class="Ctrl Hidden" id="Ctrl_SettingsAirportCoordinatesSwap" inert="true">
+									<button class="Button" id="Button_SettingsAirportCoordinatesSwap" disabled="true" onclick="SwapAirportCoordinates()">对调</button>
+								</li>
+							</ul>
+						</fieldset>
+					</li>
+					<li class="Item">
+						<fieldset>
+							<legend>飞航模式</legend>
+							<p>飞航模式用于决定参考出发机场还是到达机场的数据，以及切换近地警告系统的模式。飞航模式可在特定条件下自动切换。具体条件详见<a href="docs/GPS-PFD%20说明文档.pdf">说明文档</a>。</p>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl">
+									<label for="Combobox_SettingsFlightMode">
+										<span>飞航模式：</span>
+										<select class="Combobox" id="Combobox_SettingsFlightMode" onchange="SetFlightMode()">
+											<option value="DepartureGround" selected>出发地面</option>
+											<option value="TakeOff">起飞</option>
+											<option value="Cruise">巡航</option>
+											<option value="Land">降落</option>
+											<option value="ArrivalGround">到达地面</option>
+											<option value="EmergencyReturn">紧急返航</option>
+										</select>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Checkbox_SettingsAutoSwitchFlightModeAndSwapAirportData">
+										<input class="Checkbox" id="Checkbox_SettingsAutoSwitchFlightModeAndSwapAirportData" type="checkbox" checked="true" onchange="SetAutoSwitchFlightModeAndSwapAirportData()" />
+										<span>自动切换飞航模式与对调机场数据</span>
+									</label>
+								</li>
+							</ul>
+						</fieldset>
+					</li>
+					<li class="Item">
+						<fieldset>
+							<legend>显示</legend>
+							<ul class="CtrlGroup">
+								<li class="Ctrl">
+									<label for="Combobox_SettingsTheme">
+										<span>主题：</span>
+										<select class="Combobox" id="Combobox_SettingsTheme" onchange="SetTheme()">
+											<option value="Auto" selected>自动 (跟随系统)</option>
+											<option value="Light">浅色</option>
+											<option value="Dark">深色</option>
+											<option value="Genshin">原神</option>
+											<option value="HighContrast">高对比度 (无障碍)</option>
+										</select>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Combobox_SettingsCursor">
+										<span>鼠标指针：</span>
+										<select class="Combobox" id="Combobox_SettingsCursor" onchange="SetCursor()">
+											<option value="Default" selected>默认</option>
+											<option value="BTRAhoge">孤独摇滚！</option>
+											<option value="Genshin">原神</option>
+											<option value="GenshinFurina">原神-芙宁娜</option>
+											<option value="GenshinNahida">原神-纳西妲</option>
+										</select>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Checkbox_SettingsBlurBgImage">
+										<input class="Checkbox" id="Checkbox_SettingsBlurBgImage" type="checkbox" checked="true" onchange="SetBlurBgImage()" />
+										<span>模糊背景图像</span>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Combobox_SettingsHotkeyIndicators">
+										<span>快捷键提示：</span>
+										<select class="Combobox" id="Combobox_SettingsHotkeyIndicators" onchange="SetHotkeyIndicators()">
+											<option value="Disabled">禁用</option>
+											<option value="ShowOnWrongKeyPress">按下无关按键时显示</option>
+											<option value="ShowOnAnyKeyPress" selected>按下任意按键时显示</option>
+											<option value="AlwaysShow">始终显示</option>
+										</select>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Combobox_SettingsAnim">
+										<span>动画：</span>
+										<select class="Combobox" id="Combobox_SettingsAnim" onchange="SetAnim()">
+											<option value="0">禁用 (无障碍)</option>
+											<option value="100">快速 (100ms)</option>
+											<option value="250" selected>中速 (250ms)</option>
+											<option value="500">慢速 (500ms)</option>
+										</select>
+									</label>
+								</li>
+							</ul>
+							<p>「PFD 样式」中，除「默认」之外的样式均不受主题设定的影响，也就是只有一种视觉效果。在 OLED 屏幕上全屏使用 <a href="https://zh.wikipedia.org/wiki/HUD">HUD</a> 样式可以<a href="https://bejamas.io/blog/does-dark-mode-save-battery">省电</a>。</p>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl">
+									<label for="Combobox_SettingsPFDStyle">
+										<span>PFD 样式：</span>
+										<select class="Combobox" id="Combobox_SettingsPFDStyle" onchange="SetPFDStyle()">
+											<optgroup label="PFD">
+												<option value="Default" selected>默认</option>
+												<option value="Boeing" disabled="true">波音 (制作中)</option>
+												<option value="Airbus" disabled="true">空客 (制作中)</option>
+												<option value="HUD" disabled="true">HUD (制作中)</option>
+												<option value="Bocchi737" disabled="true">波奇737 (制作中)</option>
+											</optgroup>
+											<optgroup label="非 PFD">
+												<option value="AnalogGauges" disabled="true">传统仪表 (制作中)</option>
+												<option value="AutomobileSpeedometer" disabled="true">汽车速度表 (制作中)</option>
+											</optgroup>
+										</select>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Checkbox_SettingsFlipPFDVertically">
+										<input class="Checkbox" id="Checkbox_SettingsFlipPFDVertically" type="checkbox" checked="false" onchange="SetFlipPFDVertically()" />
+										<span>垂直翻转 PFD</span>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Checkbox_SettingsKeepScreenOn">
+										<input class="Checkbox" id="Checkbox_SettingsKeepScreenOn" type="checkbox" checked="false" onchange="SetKeepScreenOn()" />
+										<span>保持屏幕常亮</span>
+									</label>
+								</li>
+							</ul>
+						</fieldset>
+					</li>
+					<li class="Item">
+						<fieldset>
+							<legend>声音</legend>
+							<ul class="CtrlGroup">
+								<li class="Ctrl">
+									<label for="Checkbox_SettingsPlayAudio">
+										<input class="Checkbox" id="Checkbox_SettingsPlayAudio" type="checkbox" checked="true" onchange="SetPlayAudio()" />
+										<span>播放声音</span>
+									</label>
+								</li>
+								<li class="Ctrl" id="Ctrl_SettingsAudioScheme">
+									<label for="Combobox_SettingsAudioScheme">
+										<span>声音方案：</span>
+										<select class="Combobox" id="Combobox_SettingsAudioScheme" onchange="SetAudioScheme()">
+											<option value="Boeing" selected>波音</option>
+											<option value="Airbus" disabled="true">空客 (制作中)</option>
+											<option value="Bocchi737" disabled="true">波奇737 (日语) (制作中)</option>
+										</select>
+									</label>
+								</li>
+								<li class="Ctrl" id="Ctrl_SettingsAttitudeAlertVolume">
+									<label for="Slider_SettingsAttitudeAlertVolume">
+										<span>姿态警报：</span>
+										<input class="Slider Width200" id="Slider_SettingsAttitudeAlertVolume" type="range" min="0" max="100" step="1" value="0" onpointerup="PreviewAttitudeAlertVolume()" oninput="SetAttitudeAlertVolume()" />
+										<span id="Label_SettingsAttitudeAlertVolume">音量</span>
+									</label>
+								</li>
+								<li class="Ctrl" id="Ctrl_SettingsSpeedAlertVolume">
+									<label for="Slider_SettingsSpeedAlertVolume">
+										<span>速度警报：</span>
+										<input class="Slider Width200" id="Slider_SettingsSpeedAlertVolume" type="range" min="0" max="100" step="1" value="0" onpointerup="PreviewSpeedAlertVolume()" oninput="SetSpeedAlertVolume()" />
+										<span id="Label_SettingsSpeedAlertVolume">音量</span>
+									</label>
+								</li>
+								<li class="Ctrl" id="Ctrl_SettingsAltitudeAlertVolume">
+									<label for="Slider_SettingsAltitudeAlertVolume">
+										<span>高度警报：</span>
+										<input class="Slider Width200" id="Slider_SettingsAltitudeAlertVolume" type="range" min="0" max="100" step="1" value="0" onpointerup="PreviewAltitudeAlertVolume()" oninput="SetAltitudeAlertVolume()" />
+										<span id="Label_SettingsAltitudeAlertVolume">音量</span>
+									</label>
+								</li>
+							</ul>
+						</fieldset>
+					</li>
+					<li class="Item">
+						<fieldset>
+							<legend>国际化</legend>
+							<ul class="CtrlGroup">
+								<li class="Ctrl">
+									<label for="Checkbox_SettingsAlwaysUseEnglishTerminologyOnPFD">
+										<input class="Checkbox" id="Checkbox_SettingsAlwaysUseEnglishTerminologyOnPFD" type="checkbox" checked="false" onchange="SetAlwaysUseEnglishTerminologyOnPFD()" />
+										<span>在 PFD 上始终使用英文术语</span>
+									</label>
+								</li>
+							</ul>
+							<h4>计量单位</h4>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl">
+									<label for="Combobox_SettingsMeasurementUnitsPreset">
+										<span>预设：</span>
+										<select class="Combobox" id="Combobox_SettingsMeasurementUnitsPreset" onchange="SetMeasurementUnitsPreset()">
+											<option value="AllMetric">全部公制</option>
+											<option value="CivilAviation" selected>民航</option>
+										</select>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Combobox_SettingsSpeedUnit">
+										<span>速度单位：</span>
+										<select class="Combobox" id="Combobox_SettingsSpeedUnit" onchange="SetSpeedUnit()">
+											<option value="KilometerPerHour">公里/小时 (km/h)</option>
+											<option value="MilePerHour">英里/小时 (mph)</option>
+											<option value="Knot" selected>节，海里/小时 (kt)</option>
+										</select>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Combobox_SettingsDistanceUnit">
+										<span>距离单位：</span>
+										<select class="Combobox" id="Combobox_SettingsDistanceUnit" onchange="SetDistanceUnit()">
+											<option value="Kilometer">公里 (km)</option>
+											<option value="Mile">英里 (mi.)</option>
+											<option value="NauticalMile" selected>海里 (NM)</option>
+										</select>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Combobox_SettingsAltitudeUnit">
+										<span>高度单位：</span>
+										<select class="Combobox" id="Combobox_SettingsAltitudeUnit" onchange="SetAltitudeUnit()">
+											<option value="Meter">米 (m)</option>
+											<option value="Feet" selected>英尺 (ft)</option>
+											<option value="FeetButShowMeterBeside">英尺，在旁边显示米制</option>
+										</select>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Combobox_SettingsVerticalSpeedUnit">
+										<span>垂直速度单位：</span>
+										<select class="Combobox" id="Combobox_SettingsVerticalSpeedUnit" onchange="SetVerticalSpeedUnit()">
+											<option value="MeterPerSec">米/秒 (m/s)</option>
+											<option value="FeetPerMin" selected>英尺/分钟 (fpm)</option>
+										</select>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Combobox_SettingsTemperatureUnit">
+										<span>温度单位：</span>
+										<select class="Combobox" id="Combobox_SettingsTemperatureUnit" onchange="SetTemperatureUnit()">
+											<option value="Celsius" selected>摄氏度 (℃)</option>
+											<option value="Fahrenheit">华氏度 (℉)</option>
+										</select>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Combobox_SettingsPressureUnit">
+										<span>压力单位：</span>
+										<select class="Combobox" id="Combobox_SettingsPressureUnit" onchange="SetPressureUnit()">
+											<option value="Hectopascal" selected>百帕，毫巴 (hPa)</option>
+											<option value="InchOfMercury">英寸汞柱 (inHg)</option>
+										</select>
+									</label>
+								</li>
+							</ul>
+						</fieldset>
+					</li>
+					<li class="Item">
+						<fieldset>
+							<legend>PWA</legend>
+							<p>您可将本应用程序安装至桌面，以 <a href="https://zh.wikipedia.org/wiki/progressive_web_app">PWA</a> (俗称小程序) 的形式更方便地使用。若下面的按钮不可用，请尝试前往浏览器的菜单来安装。</p>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl">
+									<button class="Button" id="Button_SettingsInstallPWA" disabled="true" onclick="InstallPWA()">安装</button>
+								</li>
+							</ul>
+							<h4>状态</h4>
+							<p>PWA standalone display：<span id="Label_SettingsPWAStandaloneDisplay">未知</span><br />
+								PWA service worker registration：<span id="Label_SettingsPWAServiceWorkerRegistration">未知</span><br />
+								PWA service worker controller：<span id="Label_SettingsPWAServiceWorkerController">未知</span></p>
+						</fieldset>
+					</li>
+					<li class="Item">
+						<fieldset>
+							<legend>其他</legend>
+							<ul class="CtrlGroup">
+								<li class="Ctrl">
+									<button class="Button" onclick="ResetAllDontShowAgainDialogs()">重置所有「不再显示」的对话框</button>
+								</li>
+							</ul>
+						</fieldset>
+					</li>
+					<li class="Item">
+						<fieldset>
+							<legend>开发者选项</legend>
+							<ul class="CtrlGroup">
+								<li class="Ctrl">
+									<label for="Checkbox_SettingsTryToOptimizePerformance">
+										<input class="Checkbox" id="Checkbox_SettingsTryToOptimizePerformance" type="checkbox" checked="false" onchange="SetTryToOptimizePerformance()" />
+										<span>尝试优化性能 (禁用 backdrop 模糊)</span>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Checkbox_SettingsShowDebugOutlines">
+										<input class="Checkbox" id="Checkbox_SettingsShowDebugOutlines" type="checkbox" checked="false" onchange="SetShowDebugOutlines()" />
+										<span>显示调试用描边</span>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Checkbox_SettingsUseJapaneseGlyph">
+										<input class="Checkbox" id="Checkbox_SettingsUseJapaneseGlyph" type="checkbox" checked="false" onchange="SetUseJapaneseGlyph()" />
+										<span>使用日文字形</span>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Textbox_SettingsFont">
+										<span>字体：</span>
+										<input class="Textbox" id="Textbox_SettingsFont" type="text" onchange="SetFont()" />
+									</label>
+								</li>
+							</ul>
+						</fieldset>
+					</li>
+					<li class="Item" id="Item_SettingsUserData">
+						<fieldset>
+							<legend>用户数据</legend>
+							<p>本功能可快速更改整个网站的用户数据。若要分享导出的数据，请注意其中是否包含个人信息。若您遇到系统错误，可尝试清空用户数据。若错误仍会发生，请向我<a href="#Item_HelpGetInvolved" onclick="ShowIAmHere('Item_HelpGetInvolved')">提供反馈</a>。</p>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl">
+									<label for="Textbox_SettingsUserDataImport">
+										<span>导入：</span>
+										<input class="Textbox" id="Textbox_SettingsUserDataImport" type="text" onclick="SelectText('Textbox_SettingsUserDataImport')" onchange="ImportUserData()" placeholder="粘贴 JSON 字符串" title="粘贴 JSON 字符串" />
+									</label>
+								</li>
+								<li class="Ctrl WidthDividedBy2">
+									<button class="Button" onclick="ExportUserData()">导出</button>
+								</li>
+								<li class="Ctrl WidthDividedBy2">
+									<button class="Button" onclick="ConfirmClearUserData()">清空...</button>
+								</li>
+							</ul>
+						</fieldset>
+					</li>
+				</ul>
+			</section>
+
+			<section id="Help">
+				<h1 class="SectionTitle">帮助</h1>
+				<ul class="ItemGroup">
+					<li class="Item">
+						<fieldset>
+							<legend>简介</legend>
+							<p>GPS-PFD，利用 <a href="https://zh.wikipedia.org/wiki/GPS">GPS</a> 与<a href="https://zh.wikipedia.org/wiki/加速计">加速计</a>，在移动设备上模拟飞机驾驶舱的 <a href="https://zh.wikipedia.org/wiki/主飞行显示器">PFD</a>。</p>
+							<p>备注：这里的「GPS」指的是位置服务，其利用以 GPS 为代表的<a href="https://zh.wikipedia.org/wiki/卫星导航系统">卫星导航系统 (GNSS) </a>来精确定位。卫星导航系统包括美国 GPS、俄罗斯 <a href="https://zh.wikipedia.org/wiki/GLONASS">GLONASS</a>，以及中国<a href="https://zh.wikipedia.org/wiki/北斗卫星导航系统">北斗</a>等。加速计亦称加速度传感器、重力感应器，用于测量姿态、速度与高度。</p>
+						</fieldset>
+					</li>
+					<li class="Item" id="Item_HelpReadBeforeUse">
+						<fieldset>
+							<legend>使用前须知</legend>
+							<h4>使用环境</h4>
+							<p>建议在搭载了 GPS 芯片与加速计的移动设备 (智能手机或平板电脑) 上使用本应用程序。否则核心功能可能不可用。GPS 可能会非常耗电，因此建议使用时连接移动电源 (充电宝)。</p>
+							<h4>离线使用</h4>
+							<p>在没有网络连接的飞机上，您需要离线使用本应用程序。有两种方式来离线使用：①断网前先在线访问一次。②下载资源至本地，在本地运行网页。详见<a href="docs/GPS-PFD%20说明文档.pdf">说明文档</a>的第4章。</p>
+							<h4>安全与隐私</h4>
+							<p>本应用程序仅供娱乐用途。警报功能可能出现误报。使用时请注意安全。本应用程序可能使用位置服务。详见<a href="#Item_HelpDisclaimer" onclick="ShowIAmHere('Item_HelpDisclaimer')">免责声明</a>与<a href="#Item_HelpPrivacyStatement" onclick="ShowIAmHere('Item_HelpPrivacyStatement')">隐私权声明</a>。</p>
+							<h4>已知问题</h4>
+							<p>本应用程序仍处于测试阶段。已知问题有：①加速计误差严重。系统已尽可能减小误差。②在 <a href="https://zh.wikipedia.org/wiki/Chromium">Chromium</a> 内核的浏览器上可能无法显示朝向。③「保持屏幕常亮」可能不起作用。④在 <a href="https://zh.wikipedia.org/wiki/Firefox">Firefox</a> for Android 上偶尔会出错。⑤在 <a href="https://zh.wikipedia.org/wiki/Brave浏览器">Brave</a> for Android 上无法使用。若您有其他问题或建议，请向我<a href="#Item_HelpGetInvolved" onclick="ShowIAmHere('Item_HelpGetInvolved')">提供反馈</a>。</p>
+						</fieldset>
+					</li>
+					<li class="Item" id="Item_HelpTutorial">
+						<fieldset>
+							<legend>教程</legend>
+							<p>本应用程序的教程以 PDF 文档的形式提供。这方便您保存至本地，还可以打印出来备用。</p>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl">
+									<a class="Button" href="docs/GPS-PFD%20说明文档.pdf">说明文档</a>
+								</li>
+							</ul>
+						</fieldset>
+					</li>
+					<li class="Item" id="Item_HelpGetInvolved">
+						<fieldset>
+							<legend>参与进来</legend>
+							<h4>反馈</h4>
+							<p>您可通过以下渠道向我提供反馈：</p>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl">
+									<a class="Button" href="https://github.com/SamToki/Yamanobo-Ryou/issues">GitHub Issues</a>
+								</li>
+								<li class="Ctrl WidthDividedBy2">
+									<a class="Button" href="mailto:SamTokiFeedback@outlook.com">电子邮件</a>
+								</li>
+								<li class="Ctrl WidthDividedBy2">
+									<a class="Button" href="https://message.bilibili.com/#whisper/mid1557377413">哔哩哔哩 (B站) 私信</a>
+								</li>
+							</ul>
+							<h4>翻译</h4>
+							<p>Help me translate the webpage into your language! Please contact me if you are interested.</p>
+						</fieldset>
+					</li>
+					<li class="Item" id="Item_HelpDisclaimer">
+						<fieldset>
+							<legend>免责声明</legend>
+							<p>本应用程序仅供娱乐用途，不能替代飞机驾驶舱仪表。</p>
+							<p>首先，系统能够测量的数据有限。<a href="https://zh.wikipedia.org/wiki/空速">空速</a>、风、<a href="https://en.wikipedia.org/wiki/Radio_altimeter">无线电高度</a>、<a href="https://zh.wikipedia.org/wiki/航空器三主轴">偏航 (yaw) </a>等无法测量。因此这些数据或是依赖算法转换，或是依赖手动设定，抑或是直接被忽略。其次，数据不保证准确。GPS 与加速计只能测量地速，因此空速需要通过算法从地速转换而来。GPS 高度也不如<a href="https://zh.wikipedia.org/wiki/高度计#氣壓高度計">气压高度计</a>可靠。其三，数据更新可能有延迟。一方面系统为了显示流畅而设计了显示延迟，另一方面 GPS 信号也会有延迟。</p>
+							<p>鉴于上述原因，您尤其需要注意，警报功能可能出现误报。请勿在公共场合外放警报声音。</p>
+							<p>在交通工具上使用时，请固定好您的设备，且不要一边驾驶交通工具一边操作设备。</p>
+							<p>若您不当使用本应用程序造成损失，SAM TOKI STUDIO 恕不负责。</p>
+						</fieldset>
+					</li>
+					<li class="Item" id="Item_HelpPrivacyStatement">
+						<fieldset>
+							<legend>隐私权声明</legend>
+							<p>本站为 <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages">GitHub Pages</a> 静态网站，只使用浏览器的 local storage 功能在本地存储<a href="#Item_SettingsUserData" onclick="ShowIAmHere('Item_SettingsUserData')">用户数据</a>，您可随时手动删除。本站不使用 <a href="https://zh.wikipedia.org/wiki/Cookie">Cookies</a>，不收集任何个人信息。</p>
+							<p>出于安全考虑，<a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#data-collection">GitHub 的服务器可能会记录您的 IP 地址</a>，但我无法访问这些数据。</p>
+							<p>本应用程序可能使用位置服务。位置服务涉及敏感数据，系统不会 (且没有必要) 保存这些数据。关闭网页时这些数据立即丢失。</p>
+						</fieldset>
+					</li>
+					<li class="Item">
+						<fieldset>
+							<legend>版权说明</legend>
+							<p>本站的源代码遵循 <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU GPL v3 软件开源协议</a>。本站的部分内容为他人作品，版权为原作者所有，本站遵循 <a href="https://zh.wikipedia.org/wiki/fair_use">fair use</a> 原则使用并于 <a href="#Item_HelpCredits" onclick="ShowIAmHere('Item_HelpCredits')">Credits</a> 标注来源。</p>
+							<p>除上述内容之外，本站所有内容以及排版、美术设计均保留版权。</p>
+						</fieldset>
+					</li>
+					<li class="Item" id="Item_HelpCredits">
+						<fieldset>
+							<legend>Credits</legend>
+							<h4>图像</h4>
+							<p>背景图像：Pixiv ID <a href="https://pixiv.net/en/artworks/71631884">71631884</a> by <a href="https://pixiv.net/en/users/2642047">@Ashima</a><br />
+								背景图像会不定期更换。</p>
+							<h4>图标</h4>
+							<p>UI 图标：<a href="https://icons.getbootstrap.com">Bootstrap Icons</a></p>
+							<h4>音频</h4>
+							<p>警报声音：<a href="https://youtube.com/watch?v=H_EdufukKfU">YouTube 视频1</a>, <a href="https://youtube.com/watch?v=H2aidghuxzU">YouTube 视频2</a></p>
+						</fieldset>
+					</li>
+					<li class="Item">
+						<fieldset>
+							<legend>关于</legend>
+							<p>GPS-PFD</p>
+							<p>by SAM TOKI STUDIO</p>
+							<p>版本 v0.13 (<time datetime="2025-01-18" pubdate="pubdate">2025/01/18</time>) Beta Test<br />
+								始于 2024/12/01</p>
+							<p class="GreenText Hidden" id="Label_HelpPWANewVersionReady" inert="true">新版本已就绪，将在下次启动时生效。</p>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl">
+									<a class="Button" href="https://github.com/SamToki/GPS-PFD">查看 GitHub 项目</a>
+								</li>
+							</ul>
+						</fieldset>
+					</li>
+				</ul>
+			</section>
+		</main>
+
+		<footer>
+			<span>© 2025 SAM TOKI STUDIO</span>
+		</footer>
+
+		<div id="Toast">
+			<span id="Label_Toast">正在初始化...</span>
+		</div>
+
+		<div class="ScreenFilter Faded" id="ScreenFilter_Dialog" inert="true" onclick="AnswerDialog(3)"></div>
+		<div class="Window Hidden" id="Window_Dialog" inert="true">
+			<ul class="CtrlGroup" id="CtrlGroup_DialogPrompt">
+				<li class="Ctrl" id="Ctrl_DialogIconInfo">
+					<svg class="DialogIcon" id="DialogIcon_Info" viewBox="0 0 16 16" aria-hidden="true">
+						<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+						<path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+					</svg>
+				</li>
+				<li class="Ctrl HiddenHorizontally" id="Ctrl_DialogIconQuestion" inert="true">
+					<svg class="DialogIcon" id="DialogIcon_Question" viewBox="0 0 16 16" aria-hidden="true">
+						<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+						<path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+					</svg>
+				</li>
+				<li class="Ctrl HiddenHorizontally" id="Ctrl_DialogIconCaution" inert="true">
+					<svg class="DialogIcon" id="DialogIcon_Caution" viewBox="0 0 16 16" aria-hidden="true">
+						<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+						<path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+					</svg>
+				</li>
+				<li class="Ctrl HiddenHorizontally" id="Ctrl_DialogIconError" inert="true">
+					<svg class="DialogIcon" id="DialogIcon_Error" viewBox="0 0 16 16" aria-hidden="true">
+						<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+						<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+					</svg>
+				</li>
+				<li class="Ctrl" id="Ctrl_DialogText">
+					<span id="Label_DialogText">对话框文本</span>
+				</li>
+			</ul>
+			<ul class="CtrlGroup" id="CtrlGroup_DialogCheckboxOption">
+				<li class="Ctrl HiddenHorizontally" id="Ctrl_DialogCheckboxOption" inert="true">
+					<label for="Checkbox_DialogCheckboxOption">
+						<input class="Checkbox" id="Checkbox_DialogCheckboxOption" type="checkbox" checked="false" />
+						<span id="Label_DialogCheckboxOption">复选框选项</span>
+					</label>
+				</li>
+			</ul>
+			<ul class="CtrlGroup" id="CtrlGroup_DialogOptions">
+				<li class="Ctrl HiddenHorizontally" id="Ctrl_DialogOption1" inert="true">
+					<button class="Button" id="Button_DialogOption1" onclick="AnswerDialog(1)">选项</button>
+				</li>
+				<li class="Ctrl HiddenHorizontally" id="Ctrl_DialogOption2" inert="true">
+					<button class="Button" id="Button_DialogOption2" onclick="AnswerDialog(2)">选项</button>
+				</li>
+				<li class="Ctrl" id="Ctrl_DialogOption3">
+					<button class="Button" id="Button_DialogOption3" onclick="AnswerDialog(3)">选项</button>
+				</li>
+			</ul>
+		</div>
+
+		<div class="NonInteractiveCtnr">
+			<audio class="Audio" id="Audio_AttitudeAlert"><source src="../audio/Beep.mp3" /></audio>
+			<audio class="Audio" id="Audio_SpeedAlert"><source src="../audio/Beep.mp3" /></audio>
+			<audio class="Audio" id="Audio_AltitudeAlert"><source src="../audio/Beep.mp3" /></audio>
+		</div>
+	</body>
+</html>
