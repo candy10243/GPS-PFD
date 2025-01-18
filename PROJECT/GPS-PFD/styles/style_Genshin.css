@@ -1,0 +1,217 @@
+/* For SamToki.github.io/GPS-PFD */
+/* Released under GNU GPL v3 open source license. */
+/* © 2025 SAM TOKI STUDIO */
+
+/* This is a theme variant, so only colors along with few things are configured. */
+
+/* Area specific */
+	/* Main */
+		/* PFD */
+			/* Panels */
+				/* Default panel */
+					/* Attitude */
+						/* Status */
+						.StatusBox {
+							background-color: #48526780;
+						}
+
+						/* Bg (Artificial horizon) */
+						#PFDDefaultPanelAttitudeSky {
+							background-color: #0080C0C0;
+						}
+						#PFDDefaultPanelAttitudeTerrain {
+							background-color: #806000C0;
+						}
+
+						/* Pitch */
+						#CtrlGroup_PFDDefaultPanelAttitudePitch .AttitudeScale0,
+						#CtrlGroup_PFDDefaultPanelAttitudePitch .AttitudeScale1,
+						#CtrlGroup_PFDDefaultPanelAttitudePitch .AttitudeScale2,
+						#CtrlGroup_PFDDefaultPanelAttitudePitch .AttitudeScale4 {
+							background-color: #EEE4D9;
+						}
+
+						/* Roll */
+						#CtrlGroup_PFDDefaultPanelAttitudeRollScale .AttitudeScale0,
+						#CtrlGroup_PFDDefaultPanelAttitudeRollScale .AttitudeScale1,
+						#CtrlGroup_PFDDefaultPanelAttitudeRollScale .AttitudeScale2 {
+							background-color: #EEE4D9;
+						}
+						#ProgringFg_PFDDefaultPanelAttitudeRoll {
+							stroke: #EEE4D9;
+						}
+						#PFDDefaultPanelAttitudeRollPointer {
+							background-color: #EEE4D9;
+						}
+
+						/* Aircraft symbol */
+						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol .CtrlGroup {
+							filter: drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9);
+						}
+						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol .Ctrl {
+							background-color: #485267;
+						}
+
+					/* Info bar */
+					#CtrlGroup_PFDDefaultPanelFlapStatus .Progbar {
+						border: 1px solid #EEE4D9;
+					}
+					#ProgbarFg_PFDDefaultPanelFlaps {
+						background-color: #EEE4D9;
+					}
+
+					/* FMA 1 */
+					#Ctnr_PFDDefaultPanelFMA1 {
+						background-color: #48526780;
+					}
+
+					/* Speed */
+						/* Tape */
+						.Tape {
+							background-color: #48526780;
+						}
+						.TapeScale {
+							background-color: #EEE4D980;
+						}
+						.TapeNumber {
+							color: #EEE4D980;
+						}
+
+						/* Additional indicators */
+							/* Other speeds */
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds .Ctrl {
+								background-color: #FF4040;
+							}
+
+						/* Balloon */
+						#Ctrl_PFDDefaultPanelSpeedBalloon {
+							filter: drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9);
+						}
+						#Ctrl_PFDDefaultPanelSpeedBalloon > .CtrlGroup > .Ctrl {
+							background-color: #485267;
+						}
+
+					/* Altitude */
+						/* Additional indicators */
+							/* Other altitudes */
+							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude {
+								background-color: #00A0E0;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude.Active {
+								background-color: #FF8000;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelGroundAltitude {
+								border-top: 2px solid #EEE4D980;
+								background: repeating-linear-gradient(45deg, transparent, transparent 4px, #EEE4D980 5px, #EEE4D980 6px, transparent 7px);
+							}
+
+						/* Balloon */
+						#Ctrl_PFDDefaultPanelAltitudeBalloon {
+							filter: drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9);
+						}
+						#Ctrl_PFDDefaultPanelAltitudeBalloon > .CtrlGroup > .Ctrl {
+							background-color: #485267;
+						}
+
+					/* Vertical speed */
+						/* Balloon */
+						#Ctrl_PFDDefaultPanelVerticalSpeedBalloon {
+							background-color: #485267; filter: drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9);
+						}
+
+					/* Heading */
+						/* Balloon */
+						#Ctrl_PFDDefaultPanelHeadingBalloon {
+							filter: drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9);
+						}
+						#Ctrl_PFDDefaultPanelHeadingBalloon > .CtrlGroup > .Ctrl {
+							background-color: #485267;
+						}
+
+					/* Radio altitude */
+					#Ctnr_PFDDefaultPanelRadioAltitude .DialScale {
+						background-color: #EEE4D9;
+					}
+					#Ctnr_PFDDefaultPanelRadioAltitude .ProgringFg {
+						stroke: #EEE4D9;
+					}
+
+					/* Decision altitude */
+					#Ctnr_PFDDefaultPanelDecisionAltitude.Active {
+						background-color: #485267;
+						color: #FFB000;
+					}
+
+					/* Warning */
+					#Ctnr_PFDDefaultPanelWarning {
+						background-color: #485267;
+					}
+
+					/* Blink */
+					#Ctnr_PFDDefaultPanel .ModeChanged {
+						background-color: #485267; box-shadow: 0 0 0 3px #00C000;
+						color: #96D722;
+					}
+						@keyframes Anim_PFDDefaultPanelModeChanged {
+							0%, 75%, 100% {
+								box-shadow: none;
+							}
+							25%, 50% {
+								box-shadow: 0 0 0 3px #00C000;
+							}
+						}
+					#Ctnr_PFDDefaultPanel .Caution {
+						box-shadow: 0 0 0 3px #FF8000;
+					}
+						@keyframes Anim_PFDDefaultPanelCaution {
+							0%, 75%, 100% {
+								box-shadow: none;
+							}
+							25%, 50% {
+								box-shadow: 0 0 0 3px #FF8000;
+							}
+						}
+					#Ctnr_PFDDefaultPanel .Warning {
+						box-shadow: 0 0 0 3px #FF4040;
+						color: #FF7070;
+					}
+						@keyframes Anim_PFDDefaultPanelWarning {
+							0%, 75%, 100% {
+								box-shadow: none;
+							}
+							25%, 50% {
+								box-shadow: 0 0 0 3px #FF4040;
+							}
+						}
+					#Ctnr_PFDDefaultPanel .BankAngleWarning {
+						background-color: #FF4040;
+						stroke: #FF4040;
+					}
+						@keyframes Anim_PFDDefaultPanelBankAngleWarning {
+							0%, 75%, 100% {
+								background-color: #EEE4D9;
+								stroke: #EEE4D9;
+							}
+							25%, 50% {
+								background-color: #FF4040;
+								stroke: #FF4040;
+							}
+						}
+
+			/* Menu */
+				/* Sections */
+				.PFDMenuContent {
+					border-bottom: 1px solid #EEE4D940;
+				}
+
+				/* Area specific */
+					/* Ctrl */
+						/* Flaps */
+						.FlapsScale {
+							background-color: #EEE4D9;
+						}
+
+					/* Tech info */
+					#PFDTechInfoSpeedVectorGraph {
+						background-color: #EEE4D920;
+					}

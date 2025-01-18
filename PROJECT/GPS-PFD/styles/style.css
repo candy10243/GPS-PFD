@@ -1,0 +1,1036 @@
+/* For SamToki.github.io/GPS-PFD */
+/* Released under GNU GPL v3 open source license. */
+/* © 2025 SAM TOKI STUDIO */
+
+/* Area specific */
+	/* Header */
+	#Ctrl_Nav {
+		left: calc(50% - 180px);
+		width: 360px;
+	}
+
+	/* Main */
+		/* PFD */
+		#PFDViewport {
+			display: flex; justify-content: center; align-items: center;
+		}
+			/* Panels */
+			.PFDPanel {
+				position: relative;
+				flex-shrink: 0;
+			}
+				/* Default panel */
+				#Ctnr_PFDDefaultPanel {
+					width: 1000px; height: 800px;
+				}
+					/* Attitude */
+					#Ctnr_PFDDefaultPanelAttitude {
+						position: absolute; top: 175px; left: 275px;
+						width: 450px; height: 450px;
+					}
+					#Ctnr_PFDDefaultPanelAttitude > .CtrlGroup {
+						width: 100%; height: 100%;
+					}
+						/* Status */
+						.StatusBox {
+							background-color: #FFFFFF80;
+						}
+						#Ctrl_PFDDefaultPanelAttitudeStatus {
+							position: absolute; top: calc(50% - 40px); left: calc(50% - 100px);
+							width: 200px; height: 80px; padding: 5px;
+							text-align: center;
+							display: flex; justify-content: center; align-items: center;
+						}
+
+						/* Bg (Artificial horizon) */
+						#Ctrl_PFDDefaultPanelAttitudeBg {
+							position: absolute; top: calc(50% - 2000px); left: calc(50% - 2000px);
+							width: 4000px; height: 4000px;
+						}
+						#PFDDefaultPanelAttitudeSky {
+							width: 100%; height: 50%;
+							background-color: #A0E0FFC0;
+						}
+						#PFDDefaultPanelAttitudeTerrain {
+							width: 100%; height: 50%;
+							background-color: #FFE080C0;
+						}
+
+						/* Pitch */
+						#Ctrl_PFDDefaultPanelAttitudePitch {
+							position: absolute; top: 40px; left: 40px;
+							width: 370px; height: 370px; border-radius: 185px;
+							overflow: hidden;
+						}
+						#CtrlGroup_PFDDefaultPanelAttitudePitch {
+							position: absolute; top: calc(50% - 900px); left: 0;
+							width: 100%; height: 1800px;
+							flex-direction: column;
+						}
+						#CtrlGroup_PFDDefaultPanelAttitudePitch .Ctrl {
+							width: 100%; height: 0;
+							display: flex; justify-content: center; align-items: center;
+						}
+						#CtrlGroup_PFDDefaultPanelAttitudePitch .AttitudeScale0 {
+							width: 2000px; height: 2px; border-radius: 1px;
+							background-color: #000000;
+						}
+						#CtrlGroup_PFDDefaultPanelAttitudePitch .AttitudeScale1 {
+							width: 160px; height: 2px; border-radius: 1px; margin: 0 10px;
+							background-color: #000000;
+						}
+						#CtrlGroup_PFDDefaultPanelAttitudePitch .AttitudeScale2 {
+							width: 80px; height: 2px; border-radius: 1px;
+							background-color: #000000;
+						}
+						#CtrlGroup_PFDDefaultPanelAttitudePitch .AttitudeScale4 {
+							width: 40px; height: 2px; border-radius: 1px;
+							background-color: #000000;
+						}
+
+						/* Roll */
+						#Ctrl_PFDDefaultPanelAttitudeRoll {
+							position: absolute; top: 0; left: 0;
+							width: 100%; height: 100%;
+							overflow: hidden;
+							pointer-events: none;
+						}
+						#CtrlGroup_PFDDefaultPanelAttitudeRollScale {
+							position: absolute; top: -15px; left: -15px;
+							width: 480px; height: 480px; border-radius: 240px;
+						}
+						#CtrlGroup_PFDDefaultPanelAttitudeRollScale .Ctrl {
+							position: absolute; top: 0; left: 50%;
+							width: 0; height: 100%;
+							display: flex; flex-direction: column; align-items: center;
+						}
+						#CtrlGroup_PFDDefaultPanelAttitudeRollScale .AttitudeScale0 {
+							width: 15px; height: 15px; margin: 15px 0 0 0; clip-path: polygon(0 0, 100% 0, 50% 100%);
+							background-color: #000000;
+						}
+						#CtrlGroup_PFDDefaultPanelAttitudeRollScale .AttitudeScale1 {
+							width: 3px; height: 30px; border-radius: 1.5px;
+							background-color: #000000;
+						}
+						#CtrlGroup_PFDDefaultPanelAttitudeRollScale .AttitudeScale2 {
+							width: 2px; height: 15px; border-radius: 1px; margin: 15px 0 0 0;
+							background-color: #000000;
+						}
+						#Progring_PFDDefaultPanelAttitudeRoll {
+							position: absolute; top: 14px; left: 14px;
+							width: 422px; height: 422px;
+						}
+						#ProgringFg_PFDDefaultPanelAttitudeRoll {
+							stroke: #000000; stroke-width: 2; stroke-linecap: unset; stroke-dasharray: 0, calc((422px - 2px) * 3.1415926);
+						}
+						#PFDDefaultPanelAttitudeRollPointer {
+							position: absolute; top: 15px; left: calc(50% - 10px);
+							width: 20px; height: 20px; clip-path: polygon(50% 0, 100% 100%, 0 100%);
+							background-color: #000000;
+							pointer-events: auto;
+						}
+
+						/* Aircraft symbol */
+						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol {
+							position: absolute; top: calc(50% - 5px); left: 75px;
+							width: 300px; height: 22.5px;
+						}
+						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol .CtrlGroup {
+							width: 100%; height: 100%;
+							filter: drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000);
+						}
+						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol .Ctrl {
+							position: absolute; top: unset; left: unset;
+							background-color: #FFFFFF;
+						}
+						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol #Ctrl_PFDDefaultPanelAttitudeAircraftSymbolLeft1 {
+							top: 2.5px; left: 0;
+							width: 80px; height: 5px; border-radius: 2.5px;
+						}
+						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol #Ctrl_PFDDefaultPanelAttitudeAircraftSymbolLeft2 {
+							top: 2.5px; left: 75px;
+							width: 5px; height: 20px; border-radius: 2.5px;
+						}
+						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol #Ctrl_PFDDefaultPanelAttitudeAircraftSymbolCenter {
+							top: 0; left: calc(50% - 5px);
+							width: 10px; height: 10px; border-radius: 5px;
+						}
+						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol #Ctrl_PFDDefaultPanelAttitudeAircraftSymbolRight1 {
+							top: 2.5px; right: 0;
+							width: 80px; height: 5px; border-radius: 2.5px;
+						}
+						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol #Ctrl_PFDDefaultPanelAttitudeAircraftSymbolRight2 {
+							top: 2.5px; right: 75px;
+							width: 5px; height: 20px; border-radius: 2.5px;
+						}
+
+					/* Info bar */
+					#Ctnr_PFDDefaultPanelInfoBar {
+						position: absolute; top: 0; left: 0;
+						width: 125px; height: 800px;
+					}
+					#CtrlGroup_PFDDefaultPanelStatus {
+						position: absolute; top: 0; left: 0;
+						width: 100%; height: 140px;
+					}
+					#CtrlGroup_PFDDefaultPanelAdditionalSpeeds {
+						position: absolute; top: calc(50% - 110px); left: 0;
+						width: 100%; height: 220px;
+					}
+					#CtrlGroup_PFDDefaultPanelFlapStatus {
+						position: absolute; bottom: 0; left: 0;
+						width: 100%; height: 180px;
+					}
+					#Ctnr_PFDDefaultPanelInfoBar .Ctrl {
+						width: 100%; height: 60px; padding: 5px;
+						display: flex; flex-direction: column;
+					}
+					#Ctnr_PFDDefaultPanelInfoBar #Ctrl_PFDDefaultPanelAccelStatus {
+						height: 80px;
+					}
+					#Ctnr_PFDDefaultPanelInfoBar #Ctrl_PFDDefaultPanelWind {
+						height: 100px;
+					}
+					#CtrlGroup_PFDDefaultPanelFlapStatus .Ctrl {
+						height: 100%;
+					}
+					.InfoBarValue {
+						font-size: 1.50em;
+					}
+					#PFDDefaultPanelWindDirection {
+						width: 40px; height: 40px; margin: 5px 0 0 0;
+						display: flex; justify-content: center;
+					}
+					#Needle_PFDDefaultPanelWindDirection {
+						position: relative;
+						width: 10px; height: 100%;
+					}
+					#Needle_PFDDefaultPanelWindDirection .NeedleFg {
+						position: absolute; top: 5px; left: calc(50% - 1px);
+						width: 2px; height: calc(100% - 5px); border-radius: 1px;
+					}
+					#Needle_PFDDefaultPanelWindDirection .NeedleArrow {
+						height: 10px;
+					}
+					#CtrlGroup_PFDDefaultPanelFlapStatus .Ctrl {
+						justify-content: end;
+					}
+					#CtrlGroup_PFDDefaultPanelFlapStatus .Progbar {
+						width: 12px; height: 112px; border: 1px solid #000000; border-radius: 6px; margin: 5px 0 0 0; transform: scaleY(-1);
+						background-color: transparent;
+					}
+					#ProgbarFg_PFDDefaultPanelFlaps {
+						background-color: #000000;
+					}
+
+					/* FMA 1 */
+					#Ctnr_PFDDefaultPanelFMA1 {
+						position: absolute; top: 0; left: 275px;
+						width: 450px; height: 60px; border-radius: 5px;
+						background-color: #FFFFFF80;
+					}
+					#Ctnr_PFDDefaultPanelFMA1 .CtrlGroup {
+						width: 100%; height: 100%;
+					}
+					#Ctnr_PFDDefaultPanelFMA1 .Ctrl {
+						width: calc(100% / 3); height: 100%; padding: 5px;
+						text-align: center;
+						display: flex; flex-direction: column; justify-content: center; align-items: center;
+					}
+					.FMAValue {
+						font-size: 1.50em;
+					}
+
+					/* FMA 2 */
+					#Ctnr_PFDDefaultPanelFMA2 {
+						position: absolute; top: 120px; left: 425px;
+						width: 150px; height: 40px; border-radius: 5px; padding: 5px;
+						text-align: center;
+						display: flex; justify-content: center; align-items: center;
+					}
+					#Label_PFDDefaultPanelFlightMode {
+						font-size: 1.50em;
+					}
+
+					/* Speed */
+					#Ctnr_PFDDefaultPanelSpeed {
+						position: absolute; top: 100px; left: 140px;
+						width: 105px; height: 660px;
+					}
+					#Ctnr_PFDDefaultPanelSpeed > .CtrlGroup {
+						width: 100%; height: 100%;
+					}
+						/* Status */
+						#Ctrl_PFDDefaultPanelSpeedStatus {
+							position: absolute; top: calc((100% - 60px) / 2 - 40px); left: 0;
+							width: 100%; height: 80px; padding: 5px;
+							text-align: center;
+							display: flex; justify-content: center; align-items: center;
+						}
+
+						/* Tape */
+						.Tape {
+							position: absolute; top: 0; left: 0;
+							width: 100%; height: 100%; border-radius: 5px;
+							background-color: #FFFFFF80;
+							overflow: hidden;
+						}
+						#Ctrl_PFDDefaultPanelSpeedTape {
+							height: calc(100% - 60px);
+						}
+						.Tape .CtrlGroup {
+							position: absolute; top: unset; left: 0;
+							width: 100%;
+							flex-direction: column;
+						}
+						#CtrlGroup_PFDDefaultPanelSpeedTape {
+							top: calc(50% - 5000px);
+							height: 5000px;
+						}
+						.Tape .Ctrl {
+							width: 100%; height: 0;
+							display: flex; justify-content: space-between; align-items: center;
+						}
+						#CtrlGroup_PFDDefaultPanelSpeedTape .Ctrl {
+							flex-direction: row-reverse;
+						}
+						.TapeScale {
+							width: 20px; height: 2px; border-radius: 1px;
+							background-color: #00000080;
+						}
+						.TapeNumber {
+							width: calc(100% - 40px);
+							color: #00000080; font-size: 1.50em; text-align: end;
+						}
+
+						/* Additional indicators */
+						#Ctrl_PFDDefaultPanelSpeedAdditionalIndicators {
+							position: absolute; top: 0; left: 0;
+							width: calc(100% + 10px); height: calc(100% - 60px);
+							overflow: hidden;
+							pointer-events: none;
+						}
+							/* Speed trend */
+							#Needle_PFDDefaultPanelSpeedTrend {
+								position: absolute; top: unset; right: 20px;
+								width: 15px; height: 0;
+							}
+							#Needle_PFDDefaultPanelSpeedTrend.Decreasing {
+								transform: scaleY(-1);
+							}
+							#Needle_PFDDefaultPanelSpeedTrend .NeedleFg {
+								position: absolute; top: 5px; left: calc(50% - 1px);
+								width: 2px; height: calc(50% - 5px); border-radius: 1px;
+								pointer-events: auto;
+							}
+							#Needle_PFDDefaultPanelSpeedTrend .NeedleArrow {
+								height: 15px;
+								pointer-events: auto;
+							}
+
+							/* Other speeds */
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds {
+								position: absolute; top: calc(50% - 5000px); right: 0;
+								width: 10px; height: 5000px;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds .Ctrl {
+								position: absolute; top: unset; left: 0;
+								width: 10px; height: 0;
+								background-color: #FF0000;
+								pointer-events: auto;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelSpeedLimitMin {
+								bottom: 0;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelSpeedLimitMax {
+								top: 0;
+							}
+
+						/* Balloon */
+						#Ctrl_PFDDefaultPanelSpeedBalloon {
+							position: absolute; top: calc((100% - 60px) / 2 - 35px); left: 0;
+							width: 90px; height: 70px;
+							filter: drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000);
+						}
+						#Ctrl_PFDDefaultPanelSpeedBalloon > .CtrlGroup {
+							width: 100%; height: 100%;
+						}
+						#Ctrl_PFDDefaultPanelSpeedBalloon > .CtrlGroup > .Ctrl {
+							position: absolute; top: 0; left: unset;
+							height: 100%;
+							background-color: #FFFFFF;
+						}
+						#Ctrl_PFDDefaultPanelSpeedBalloon .CtrlGroup .Balloon {
+							left: 0;
+							width: 70px; border-radius: 5px;
+						}
+						#Ctrl_PFDDefaultPanelSpeedBalloon .CtrlGroup .BalloonTail {
+							right: 0;
+							width: 20px; clip-path: polygon(100% 50%, 0 70%, 0 30%);
+						}
+						#Ctrl_PFDDefaultPanelSpeedBalloon .CtrlGroup .Balloon .CtrlGroup {
+							width: 100%; height: 100%; padding: 5px;
+							justify-content: end;
+						}
+						#Ctrl_PFDDefaultPanelSpeedBalloon .CtrlGroup .Balloon .Ctrl {
+							width: 20px; height: 100%;
+						}
+						.Balloon .Box {
+							background-color: transparent;
+						}
+						#RollingDigit_PFDDefaultPanelSpeed1 {
+							top: calc(-45px * 9);
+						}
+						#RollingDigit_PFDDefaultPanelSpeed2 {
+							top: calc(-45px * 10);
+						}
+						#RollingDigit_PFDDefaultPanelSpeed3 {
+							top: calc(15px - 30px * 18);
+						}
+						.RollingDigit span {
+							height: 30px; margin: 15px 0;
+							font-size: 2.25em;
+						}
+						#RollingDigit_PFDDefaultPanelSpeed3 span {
+							margin: 0;
+						}
+
+						/* Mach number */
+						#Ctrl_PFDDefaultPanelSpeedMachNumber {
+							position: absolute; bottom: 0; left: 0;
+							width: 100%; height: 60px; padding: 5px;
+							display: flex; align-items: center;
+						}
+						#Label_PFDDefaultPanelSpeedMachNumber {
+							font-size: 2.00em;
+						}
+
+					/* Altitude */
+					#Ctnr_PFDDefaultPanelAltitude {
+						position: absolute; top: 100px; left: 755px;
+						width: 140px; height: 660px;
+					}
+					#Ctnr_PFDDefaultPanelAltitude > .CtrlGroup {
+						width: 100%; height: 100%;
+					}
+						/* Status */
+						#Ctrl_PFDDefaultPanelAltitudeStatus {
+							position: absolute; top: calc((100% - 60px) / 2 - 40px); left: 0;
+							width: 100%; height: 80px; padding: 5px;
+							text-align: center;
+							display: flex; justify-content: center; align-items: center;
+						}
+
+						/* Tape */
+						#Ctrl_PFDDefaultPanelAltitudeTape {
+							height: calc(100% - 60px);
+						}
+						#CtrlGroup_PFDDefaultPanelAltitudeTape {
+							top: calc(50% - 37500px); /* 300px for 400ft. */
+							width: calc(100% - 20px); height: 39000px;
+						}
+
+						/* Additional indicators */
+						#Ctrl_PFDDefaultPanelAltitudeAdditionalIndicators {
+							position: absolute; top: 0; right: 0;
+							width: calc(100% + 20px); height: calc(100% - 60px);
+							overflow: hidden;
+							pointer-events: none;
+						}
+							/* Altitude trend */
+							#Needle_PFDDefaultPanelAltitudeTrend {
+								position: absolute; top: unset; left: 30px;
+								width: 15px; height: 0;
+							}
+							#Needle_PFDDefaultPanelAltitudeTrend.Decreasing {
+								transform: scaleY(-1);
+							}
+							#Needle_PFDDefaultPanelAltitudeTrend .NeedleFg {
+								position: absolute; top: 5px; left: calc(50% - 1px);
+								width: 2px; height: calc(50% - 5px); border-radius: 1px;
+								pointer-events: auto;
+							}
+							#Needle_PFDDefaultPanelAltitudeTrend .NeedleArrow {
+								height: 15px;
+								pointer-events: auto;
+							}
+
+							/* Other altitudes */
+							#CtrlGroup_PFDDefaultPanelOtherAltitudes {
+								position: absolute; top: calc(50% - 37500px); left: 0;
+								width: 20px; height: 39000px;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherAltitudes .Ctrl {
+								position: absolute; top: unset; right: 0;
+								pointer-events: auto;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude {
+								bottom: 1652.5px; /* Default decision height is 250ft. */
+								width: 20px; height: 70px; clip-path: polygon(100% 50%, 0 70%, 0 30%);
+								background-color: #0090D0;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude.Active {
+								background-color: #E06000;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelGroundAltitude {
+								bottom: 1460px; left: 20px;
+								width: 140px; height: 40px; border-top: 2px solid #00000080;
+								background: repeating-linear-gradient(45deg, transparent, transparent 4px, #00000080 5px, #00000080 6px, transparent 7px);
+							}
+
+						/* Balloon */
+						#Ctrl_PFDDefaultPanelAltitudeBalloon {
+							position: absolute; top: calc((100% - 60px) / 2 - 35px); right: 0;
+							width: 125px; height: 70px;
+							filter: drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000);
+						}
+						#Ctrl_PFDDefaultPanelAltitudeBalloon > .CtrlGroup {
+							width: 100%; height: 100%;
+						}
+						#Ctrl_PFDDefaultPanelAltitudeBalloon > .CtrlGroup > .Ctrl {
+							position: absolute; top: 0; left: unset;
+							height: 100%;
+							background-color: #FFFFFF;
+						}
+						#Ctrl_PFDDefaultPanelAltitudeBalloon .CtrlGroup .Balloon {
+							right: 0;
+							width: 105px; border-radius: 5px;
+						}
+						#Ctrl_PFDDefaultPanelAltitudeBalloon .CtrlGroup .BalloonTail {
+							left: 0;
+							width: 20px; clip-path: polygon(100% 30%, 100% 70%, 0 50%);
+						}
+						#Ctrl_PFDDefaultPanelAltitudeBalloon .CtrlGroup .Balloon .CtrlGroup {
+							width: 100%; height: 100%; padding: 5px;
+							justify-content: start;
+						}
+						#Ctrl_PFDDefaultPanelAltitudeBalloon .CtrlGroup .Balloon .Ctrl {
+							width: 20px; height: 100%;
+						}
+						#Ctrl_PFDDefaultPanelAltitudeBalloon .CtrlGroup .Balloon #Ctrl_PFDDefaultPanelAltitude4 {
+							width: 35px;
+						}
+						#RollingDigit_PFDDefaultPanelAltitude1 {
+							top: calc(-45px * 5);
+						}
+						#RollingDigit_PFDDefaultPanelAltitude2 {
+							top: calc(-45px * 10);
+						}
+						#RollingDigit_PFDDefaultPanelAltitude3 {
+							top: calc(-45px * 10);
+						}
+						#RollingDigit_PFDDefaultPanelAltitude4 {
+							top: calc(17.5px - 25px * 13);
+						}
+						#RollingDigit_PFDDefaultPanelAltitude4 span {
+							height: 25px; margin: 0;
+							font-size: 1.75em;
+						}
+
+						/* Metric */
+						#Ctrl_PFDDefaultPanelAltitudeMetric {
+							position: absolute; bottom: 0; left: 0;
+							width: 100%; height: 60px; padding: 5px;
+							text-align: end;
+							display: flex; justify-content: end; align-items: center;
+						}
+						#Label_PFDDefaultPanelAltitudeMetric {
+							font-size: 2.00em;
+						}
+
+					/* Vertical speed */
+					#Ctnr_PFDDefaultPanelVerticalSpeed {
+						position: absolute; top: 200px; left: 910px;
+						width: 90px; height: 400px;
+					}
+					#Ctnr_PFDDefaultPanelVerticalSpeed > .CtrlGroup {
+						width: 100%; height: 100%;
+					}
+						/* Status */
+						#Ctrl_PFDDefaultPanelVerticalSpeedStatus {
+							position: absolute; top: calc(50% - 40px); left: 0;
+							width: 100%; height: 80px; padding: 5px;
+							text-align: center;
+							display: flex; justify-content: center; align-items: center;
+						}
+
+						/* Tape */
+						#Ctrl_PFDDefaultPanelVerticalSpeedTape {
+							height: 100%;
+						}
+						#Ctrl_PFDDefaultPanelVerticalSpeedTape .CtrlGroup {
+							top: 20px;
+							height: calc(100% - 40px);
+						}
+						#Ctrl_PFDDefaultPanelVerticalSpeedTape .TapeScale {
+							width: 15px;
+						}
+						#Ctrl_PFDDefaultPanelVerticalSpeedTape .TapeNumber {
+							width: calc(100% - 25px);
+							text-align: start;
+						}
+
+						/* Needle */
+						#Ctrl_PFDDefaultPanelVerticalSpeedNeedle {
+							width: 100%; height: 100%;
+							overflow: hidden;
+							pointer-events: none;
+						}
+						#Needle_PFDDefaultPanelVerticalSpeed {
+							position: absolute; top: calc(50% - 100px); left: 117.5px;
+							width: 5px; height: 200px; transform: rotate(-90deg);
+						}
+						#Needle_PFDDefaultPanelVerticalSpeed .NeedleFg {
+							border-radius: 2.5px;
+							pointer-events: auto;
+						}
+
+						/* Balloon */
+						#Ctrl_PFDDefaultPanelVerticalSpeedBalloon {
+							position: absolute; top: calc(50% - 20px); left: 0;
+							width: 100%; height: 40px; border-radius: 5px; padding: 5px;
+							background-color: #FFFFFF; filter: drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000);
+							display: flex; align-items: center;
+						}
+						#Label_PFDDefaultPanelVerticalSpeedBalloon {
+							font-size: 1.75em;
+						}
+
+					/* Heading */
+					#Ctnr_PFDDefaultPanelHeading {
+						position: absolute; top: 700px; left: 200px;
+						width: 600px; height: 100px;
+						overflow: hidden;
+					}
+					#Ctnr_PFDDefaultPanelHeading > .CtrlGroup {
+						width: 100%; height: 100%;
+					}
+						/* Status */
+						#Ctrl_PFDDefaultPanelHeadingStatus {
+							position: absolute; top: calc(50% - 40px); left: calc(50% - 100px);
+							width: 200px; height: 80px; padding: 5px;
+							text-align: center;
+							display: flex; justify-content: center; align-items: center;
+						}
+
+						/* Tape */
+						#Ctrl_PFDDefaultPanelHeadingTape {
+							top: 0; left: -100px;
+							width: 800px; height: 800px; border-radius: 400px;
+						}
+						#CtrlGroup_PFDDefaultPanelHeadingTape {
+							width: 100%; height: 100%;
+						}
+						#CtrlGroup_PFDDefaultPanelHeadingTape .Ctrl {
+							position: absolute; top: 0; left: 50%;
+							width: 0; height: 100%;
+							flex-direction: column; justify-content: start;
+						}
+						#CtrlGroup_PFDDefaultPanelHeadingTape .TapeScale {
+							width: 2px; height: 15px;
+						}
+						#CtrlGroup_PFDDefaultPanelHeadingTape .TapeNumber {
+							width: unset; margin: 9px 0 0 0;
+							text-align: center;
+						}
+
+						/* Balloon */
+						#Ctrl_PFDDefaultPanelHeadingBalloon {
+							position: absolute; top: 1px; left: calc(50% - 35px);
+							width: 70px; height: 60px;
+							filter: drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000);
+						}
+						#Ctrl_PFDDefaultPanelHeadingBalloon > .CtrlGroup {
+							width: 100%; height: 100%;
+						}
+						#Ctrl_PFDDefaultPanelHeadingBalloon > .CtrlGroup > .Ctrl {
+							position: absolute; top: unset; left: 0;
+							width: 100%;
+							background-color: #FFFFFF;
+						}
+						#Ctrl_PFDDefaultPanelHeadingBalloon .CtrlGroup .Balloon {
+							top: 20px;
+							height: 40px; border-radius: 5px;
+							text-align: center;
+							display: flex; justify-content: center; align-items: center;
+						}
+						#Ctrl_PFDDefaultPanelHeadingBalloon .CtrlGroup .BalloonTail {
+							top: 0;
+							height: 20px; clip-path: polygon(50% 0, 70% 100%, 30% 100%);
+						}
+						#Label_PFDDefaultPanelHeadingBalloon {
+							font-size: 2.25em;
+						}
+
+					/* DME */
+					#Ctnr_PFDDefaultPanelDME {
+						position: absolute; top: 75px; left: 275px;
+						width: 120px; height: 85px; padding: 5px;
+						display: flex; flex-direction: column; justify-content: end;
+					}
+					#Label_PFDDefaultPanelDMEDistance, #Label_PFDDefaultPanelDMEETA {
+						font-size: 1.50em;
+					}
+
+					/* Radio altitude */
+					#Ctnr_PFDDefaultPanelRadioAltitude {
+						position: absolute; top: 75px; left: 640px;
+						width: 85px; height: 85px;
+					}
+					#Ctnr_PFDDefaultPanelRadioAltitude > .CtrlGroup,
+					#Ctnr_PFDDefaultPanelRadioAltitude > .CtrlGroup > .Ctrl,
+					#Ctnr_PFDDefaultPanelRadioAltitude .Ctrl .CtrlGroup {
+						width: 100%; height: 100%;
+					}
+					#Ctnr_PFDDefaultPanelRadioAltitude .Ctrl .CtrlGroup .Ctrl {
+						position: absolute; top: 0; left: 50%;
+						width: 0; height: 100%;
+						display: flex; flex-direction: column; justify-content: start; align-items: center;
+					}
+					#Ctnr_PFDDefaultPanelRadioAltitude .DialScale {
+						width: 3px; height: 8px; border-radius: 1.5px;
+						background-color: #000000;
+					}
+					#Ctnr_PFDDefaultPanelRadioAltitude .Progring {
+						position: absolute; top: 0; left: 0;
+					}
+					#Ctnr_PFDDefaultPanelRadioAltitude .ProgringFg {
+						stroke: #000000; stroke-width: 3; stroke-dasharray: 0, calc((85px - 3px) * 3.1415926);
+					}
+					#ProgringText_PFDDefaultPanelRadioAltitude {
+						font-size: 2.00em;
+					}
+
+					/* Decision altitude */
+					#Ctnr_PFDDefaultPanelDecisionAltitude {
+						position: absolute; top: 640px; left: 640px;
+						width: 85px; height: 60px; border-radius: 5px; padding: 5px;
+						display: flex; flex-direction: column; align-items: end;
+					}
+					#Ctnr_PFDDefaultPanelDecisionAltitude.Active {
+						background-color: #FFFFFF;
+						color: #D05000;
+					}
+					#Label_PFDDefaultPanelDecisionAltitudeValue {
+						font-size: 1.50em;
+					}
+
+					/* Warning */
+					#Ctnr_PFDDefaultPanelWarning {
+						position: absolute; top: 275px; left: 380px;
+						width: 240px; height: 50px; border-radius: 5px;
+						background-color: #FFFFFF;
+						text-align: center;
+						display: flex; justify-content: center; align-items: center;
+					}
+					#Label_PFDDefaultPanelWarning {
+						font-size: 2.00em;
+					}
+
+					/* Blink */
+					#Ctnr_PFDDefaultPanel .ModeChanged {
+						background-color: #FFFFFF; box-shadow: 0 0 0 3px #00A000;
+						color: #008000;
+						animation: Anim_PFDDefaultPanelModeChanged 1000ms infinite ease-in-out;
+					}
+						@keyframes Anim_PFDDefaultPanelModeChanged {
+							0%, 75%, 100% {
+								box-shadow: none;
+							}
+							25%, 50% {
+								box-shadow: 0 0 0 3px #00A000;
+							}
+						}
+					#Ctnr_PFDDefaultPanel .Caution {
+						box-shadow: 0 0 0 3px #E06000;
+						animation: Anim_PFDDefaultPanelCaution 500ms infinite ease-in-out;
+					}
+						@keyframes Anim_PFDDefaultPanelCaution {
+							0%, 75%, 100% {
+								box-shadow: none;
+							}
+							25%, 50% {
+								box-shadow: 0 0 0 3px #E06000;
+							}
+						}
+					#Ctnr_PFDDefaultPanel .Warning {
+						box-shadow: 0 0 0 3px #FF0000;
+						color: #E00000;
+						animation: Anim_PFDDefaultPanelWarning 500ms infinite ease-in-out;
+					}
+						@keyframes Anim_PFDDefaultPanelWarning {
+							0%, 75%, 100% {
+								box-shadow: none;
+							}
+							25%, 50% {
+								box-shadow: 0 0 0 3px #FF0000;
+							}
+						}
+					#Ctnr_PFDDefaultPanel .BankAngleWarning {
+						background-color: #FF0000;
+						stroke: #FF0000;
+						animation: Anim_PFDDefaultPanelBankAngleWarning 500ms infinite ease-in-out;
+					}
+						@keyframes Anim_PFDDefaultPanelBankAngleWarning {
+							0%, 75%, 100% {
+								background-color: #000000;
+								stroke: #000000;
+							}
+							25%, 50% {
+								background-color: #FF0000;
+								stroke: #FF0000;
+							}
+						}
+
+			/* Menu */
+			#Ctnr_PFDMenu {
+				position: absolute; top: 0; right: 0;
+			}
+			#Ctnr_PFDMenu > .CtrlGroup {
+				width: 35px; height: 35px;
+			}
+			#Ctnr_PFDMenu > .CtrlGroup > .Ctrl {
+				width: 100%;
+			}
+			#Window_PFDMenu {
+				position: absolute; top: 0; right: 0;
+				width: 320px; height: 600px; max-height: calc(100vh - 90px);
+				overflow: scroll;
+			}
+			#Html:has(#Topbar.Hidden) #Window_PFDMenu {
+				max-height: calc(100vh - 30px);
+			}
+				/* Sections */
+				#CtrlGroup_PFDMenuCloseButton {
+					position: sticky; top: 0; left: 0; z-index: 1;
+					width: 320px;
+				}
+				#CtrlGroup_PFDMenuContents {
+					width: 320px; padding: 15px 0;
+				}
+				#CtrlGroup_PFDMenuCloseButton .Ctrl {
+					position: absolute; top: 15px; right: 15px;
+					width: 35px;
+				}
+				.PFDMenuSection {
+					width: 100%; height: unset; padding: 0 15px;
+				}
+				.PFDMenuSection.Hidden {
+					padding: 0 15px !important;
+				}
+				.PFDMenuTitle .Ctrl {
+					width: calc(100% - 50px); height: unset; min-height: 35px;
+				}
+				.PFDMenuTitle h3 {
+					padding: 0;
+					font-size: 1.25em;
+				}
+				.Icon.CollapseCaret {
+					margin: 0 0 0 5px;
+				}
+				.PFDMenuSection:has(.PFDMenuContent.Hidden) .Icon.CollapseCaret {
+					transform: rotate(-90deg);
+				}
+				.PFDMenuContent {
+					border-bottom: 1px solid #00000040; padding: 10px 0 15px 0; margin: 0 0 15px 0;
+				}
+				.PFDMenuContent > .Ctrl {
+					width: 100%; height: unset; margin: 0 0 10px 0;
+				}
+
+				/* Area specific */
+					/* Ctrl */
+						/* Fullscreen & Reset accel speed */
+						#Ctrl_PFDToggleFullscreen, #Ctrl_PFDResetAccelSpeed {
+							height: 35px;
+						}
+
+						/* Manual maneuver */
+						#Ctrl_PFDManualManeuver > .CtrlGroup {
+							width: 255px;
+						}
+						#Ctrl_PFDManualManeuver > .CtrlGroup > .Ctrl {
+							height: 110px; margin: 0 0 10px 0;
+						}
+						#Ctrl_PFDAttitudeManeuver {
+							width: 125px;
+						}
+						#Ctrl_PFDSpeedManeuver, #Ctrl_PFDAltitudeManeuver {
+							width: 35px;
+						}
+						#Ctrl_PFDManualManeuver > .CtrlGroup > .Ctrl > span {
+							width: 100%; height: 30px;
+							text-align: center;
+							display: flex; justify-content: center;
+						}
+						#Ctrl_PFDManualManeuver .Ctrl .CtrlGroup {
+							position: relative;
+							width: 100%; height: 80px;
+						}
+						#CtrlGroup_PFDAttitudeManeuver .Ctrl {
+							position: absolute; top: unset; left: unset;
+							width: 35px;
+						}
+						#Ctrl_PFDManualManeuver .Ctrl #Ctrl_PFDPitchDown {
+							top: 0; left: 45px;
+						}
+						#Ctrl_PFDManualManeuver .Ctrl #Ctrl_PFDPitchUp {
+							top: 45px; left: 45px;
+						}
+						#Ctrl_PFDManualManeuver .Ctrl #Ctrl_PFDRollLeft {
+							top: 22.5px; left: 0;
+						}
+						#Ctrl_PFDManualManeuver .Ctrl #Ctrl_PFDRollRight {
+							top: 22.5px; left: 90px;
+						}
+						#CtrlGroup_PFDSpeedManeuver, #CtrlGroup_PFDAltitudeManeuver {
+							flex-direction: column;
+						}
+						#CtrlGroup_PFDSpeedManeuver .Ctrl, #CtrlGroup_PFDAltitudeManeuver .Ctrl {
+							width: 35px;
+						}
+
+						/* Flaps */
+						#Ctrl_PFDFlaps > .CtrlGroup {
+							width: 190px;
+						}
+						#Ctrl_PFDFlapsSlider {
+							width: 50px; height: 280px;
+						}
+						#Ctrl_PFDFlapsSlider label {
+							flex-direction: column;
+						}
+						#Ctrl_PFDFlapsSlider label > * {
+							margin: 5px 0 0 0;
+						}
+						#Ctrl_PFDFlapsSlider .HotkeyIndicator {
+							top: calc(50% - 27.5px);
+							height: 55px;
+						}
+						#Label_PFDFlaps {
+							width: 100%; height: 20px;
+							text-align: center;
+							display: flex; justify-content: center; align-items: center;
+						}
+						#Slider_PFDFlaps {
+							width: 100%; height: 240px;
+							writing-mode: vertical-lr;
+						}
+						#Ctrl_PFDFlapsReference {
+							width: 120px; height: 270px;
+							display: flex; flex-wrap: wrap;
+						}
+						#Ctrl_PFDFlapsReference > span {
+							width: 50%; height: 20px; margin: 5px 0;
+							display: flex; align-items: center;
+						}
+						#Ctrl_PFDFlapsReference .CtrlGroup {
+							position: relative;
+							width: 50%; height: 220px; margin: 10px 0;
+						}
+						#Ctrl_PFDFlapsReference .Ctrl {
+							position: absolute; top: unset; left: 0;
+							width: 100%; height: 0;
+							display: flex; justify-content: space-between; align-items: center;
+						}
+						.FlapsScale {
+							width: 15px; height: 1px; border-radius: 0.5px;
+							background-color: #000000;
+						}
+						.FlapsLabel {
+							width: calc(100% - 20px);
+						}
+						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceB738Scale1To5 {
+							top: 50%;
+						}
+						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceB738Scale10 {
+							top: 73%;
+						}
+						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceB738Scale15 {
+							top: 78%;
+						}
+						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceB738Scale25 {
+							top: 84%;
+						}
+						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceB738Scale30 {
+							top: 92%;
+						}
+						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceB738Scale40 {
+							top: 100%;
+						}
+						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceA320Scale1 {
+							top: 69%;
+						}
+						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceA320Scale1PlusF {
+							top: 78%;
+						}
+						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceA320Scale2 {
+							top: 86%;
+						}
+						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceA320Scale3 {
+							top: 95%;
+						}
+						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceA320ScaleFULL {
+							top: 100%;
+						}
+
+					/* Options */
+					#CtrlGroup_PFDOptions .Ctrl {
+						height: 35px; margin: 0 0 10px 0;
+					}
+					#CtrlGroup_PFDOptions .Combobox {
+						width: 160px;
+					}
+
+					/* Tech info */
+					#PFDTechInfoSpeedVectorGraph {
+						position: relative;
+						width: 100px; height: 100px; border-radius: 5px;
+						background-color: #00000020;
+						overflow: hidden;
+					}
+					#Needle_PFDTechInfoSpeedVectorGraph {
+						position: absolute; top: unset; left: calc(50% - 2.5px);
+						width: 5px; height: 0;
+					}
+					#Needle_PFDTechInfoSpeedVectorGraph .NeedleFg {
+						position: absolute; top: 5px; left: calc(50% - 0.5px);
+						width: 1px; height: calc(50% - 5px); border-radius: 0.5px;
+					}
+					#Needle_PFDTechInfoSpeedVectorGraph .NeedleArrow {
+						height: 10px;
+					}
+
+		/* Settings */
+		#Settings .BeforeSmallButtonCtrl {
+			width: calc(100% - 45px);
+		}
+		#Settings .SmallButtonCtrl {
+			width: 35px;
+		}
+
+/* Responsive web design */
+@media (max-width: 880px) {
+	/* Area specific */
+		/* Header */
+		#DropctrlGroup_Nav {
+			height: 107px;
+		}
+}
+@media (min-width: 830px) { /* Optimization for long fieldsets exceeding 600px height. */
+	/* Area specific */
+		/* Main */
+			/* Settings */
+			#Item_SettingsSpeed {
+				width: 800px;
+			}
+			#Item_SettingsSpeed .Ctrl { /* .WidthDividedBy2 */
+				width: calc((100% - 10px) / 2);
+			}
+			#Item_SettingsSpeed .BeforeSmallButtonCtrl {
+				width: calc((100% - 10px) / 2 - 45px);
+			}
+			#Item_SettingsSpeed .SmallButtonCtrl {
+				width: 35px;
+			}
+}
