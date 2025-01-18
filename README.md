@@ -41,12 +41,8 @@ This application is still in beta test. Known issues are as follows:
 
 - 加速计误差严重。系统已尽可能减小误差。<br>
 The accelerometer is serious inaccurate. The system does its best to reduce errors.
-- 在 [Chromium](https://zh.wikipedia.org/wiki/Chromium) 内核的浏览器上可能无法显示朝向。<br>
-The heading may be unavailable on [Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)) browsers.
-- 「保持屏幕常亮」可能不起作用。<br>
-The "keep screen on" feature may not work.
-- 在 [Firefox](https://zh.wikipedia.org/wiki/Firefox) for Android 上偶尔会出错。<br>
-Rare errors occur on [Firefox](https://en.wikipedia.org/wiki/Firefox) for Android.
+- 在 [Firefox](https://zh.wikipedia.org/wiki/Firefox) for Android 上，「保持屏幕常亮」可能不起作用，且偶尔会出错。<br>
+On [Firefox](https://en.wikipedia.org/wiki/Firefox) for Android, the "keep screen on" feature may not work, and unexpected errors sometimes occur.
 - 在 [Brave](https://zh.wikipedia.org/wiki/Brave浏览器) for Android 上无法使用。<br>
 Completely unusable on [Brave](https://en.wikipedia.org/wiki/Brave_(web_browser)) for Android.
 
