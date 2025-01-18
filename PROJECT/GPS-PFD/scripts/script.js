@@ -6,7 +6,10 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.13;
+		const CurrentVersion = 0.14,
+		GeolocationAPIOptions = {
+			enableHighAccuracy: true
+		};
 		var PFD0 = {
 			RawData: {
 				GPS: {
@@ -3469,7 +3472,7 @@
 	window.addEventListener("resize", ClockPFD);
 
 	// Geolocation API
-	navigator.geolocation.watchPosition(RefreshGPSData);
+	navigator.geolocation.watchPosition(RefreshGPSData, null, GeolocationAPIOptions);
 
 	// Device motion API
 	window.addEventListener("devicemotion", RefreshAccelData);
