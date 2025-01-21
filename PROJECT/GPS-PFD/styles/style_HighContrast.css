@@ -104,11 +104,11 @@
 								background-color: #00FF00;
 							}
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude.Active {
-								background-color: #FFE000;
+								background-color: #FFC000;
 							}
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelGroundAltitude {
-								border-top: 2px solid #FFFFFF;
-								background: repeating-linear-gradient(45deg, transparent, transparent 4px, #FFFFFF 5px, #FFFFFF 6px, transparent 7px);
+								border-top: 2px solid #FFC000;
+								background: repeating-linear-gradient(45deg, transparent, transparent 4px, #FFC000 5px, #FFC000 6px, transparent 7px);
 							}
 
 						/* Balloon */
@@ -145,7 +145,7 @@
 					/* Decision altitude */
 					#Ctnr_PFDDefaultPanelDecisionAltitude.Active {
 						background-color: #000000;
-						color: #FFE000;
+						color: #FFC000;
 					}
 
 					/* Warning */
@@ -167,14 +167,14 @@
 							}
 						}
 					#Ctnr_PFDDefaultPanel .Caution {
-						box-shadow: 0 0 0 3px #FFE000;
+						box-shadow: 0 0 0 3px #FFC000;
 					}
 						@keyframes Anim_PFDDefaultPanelCaution {
 							0%, 75%, 100% {
 								box-shadow: none;
 							}
 							25%, 50% {
-								box-shadow: 0 0 0 3px #FFE000;
+								box-shadow: 0 0 0 3px #FFC000;
 							}
 						}
 					#Ctnr_PFDDefaultPanel .Warning {
