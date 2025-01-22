@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.14,
+		const CurrentVersion = 0.15,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -2689,8 +2689,8 @@
 				if(PFD0.RawData.Manual.Speed < 0) {
 					PFD0.RawData.Manual.Speed = 0;
 				}
-				if(PFD0.RawData.Manual.Speed > 277.5) {
-					PFD0.RawData.Manual.Speed = 277.5;
+				if(PFD0.RawData.Manual.Speed > 555.55556) {
+					PFD0.RawData.Manual.Speed = 555.55556;
 				}
 				RefreshPFD();
 			}
@@ -2699,8 +2699,8 @@
 				if(PFD0.RawData.Manual.Speed < 0) {
 					PFD0.RawData.Manual.Speed = 0;
 				}
-				if(PFD0.RawData.Manual.Speed > 277.5) {
-					PFD0.RawData.Manual.Speed = 277.5;
+				if(PFD0.RawData.Manual.Speed > 555.55556) {
+					PFD0.RawData.Manual.Speed = 555.55556;
 				}
 				RefreshPFD();
 			}
