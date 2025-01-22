@@ -940,6 +940,9 @@
 						.FlapsLabel {
 							width: calc(100% - 20px);
 						}
+						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceB738Scale0 {
+							top: 0;
+						}
 						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceB738Scale1To5 {
 							top: 50%;
 						}
@@ -957,6 +960,9 @@
 						}
 						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceB738Scale40 {
 							top: 100%;
+						}
+						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceA320Scale0 {
+							top: 0;
 						}
 						#Ctrl_PFDFlapsReference #Ctrl_PFDFlapsReferenceA320Scale1 {
 							top: 69%;
