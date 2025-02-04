@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.15,
+		const CurrentVersion = 0.16,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -239,6 +239,7 @@
 		}
 
 		// Refresh
+		HighlightActiveSectionInNav();
 		RefreshSystem();
 		RefreshSubsystem();
 		RefreshPFD();
@@ -798,6 +799,10 @@
 
 	// PFD
 	function ClockPFD() {
+		// Automation
+		clearTimeout(Automation.ClockPFD);
+		Automation.ClockPFD = setTimeout(ClockPFD, 20);
+
 		// Update essentials
 		PFD0.Stats.ClockTime = Date.now();
 
@@ -935,7 +940,7 @@
 			if(PFD0.Status.GPS.IsHeadingAvailable == true) {
 				PFD0.Stats.Heading.Heading = PFD0.RawData.GPS.Heading;
 			}
-			PFD0.Stats.Heading.Display += (PFD0.Stats.Heading.Heading - PFD0.Stats.Heading.Display) / 5;
+			PFD0.Stats.Heading.Display += (PFD0.Stats.Heading.Heading - PFD0.Stats.Heading.Display) / 50;
 
 			// Speed
 			switch(true) {
@@ -1598,7 +1603,7 @@
 								case "Land":
 								case "ArrivalGround":
 									Show("Ctrl_PFDDefaultPanelDecisionAltitude");
-									ChangeBottom("Ctrl_PFDDefaultPanelDecisionAltitude", 0.75 * (ConvertUnit(PFD.Altitude.AirportElevation.Arrival + PFD.Altitude.DecisionHeight, "Meter", Subsystem.I18n.AltitudeUnit) + 2000) - 35 + "px");
+									ChangeBottom("Ctrl_PFDDefaultPanelDecisionAltitude", 0.75 * (ConvertUnit(PFD.Altitude.AirportElevation.Arrival + PFD.Altitude.DecisionHeight, "Meter", Subsystem.I18n.AltitudeUnit) + 2000) - 10 + "px");
 									if(PFD0.Status.IsDecisionAltitudeActive == true) {
 										AddClass("Ctrl_PFDDefaultPanelDecisionAltitude", "Active");
 									} else {
@@ -1607,7 +1612,7 @@
 									break;
 								case "EmergencyReturn":
 									Show("Ctrl_PFDDefaultPanelDecisionAltitude");
-									ChangeBottom("Ctrl_PFDDefaultPanelDecisionAltitude", 0.75 * (ConvertUnit(PFD.Altitude.AirportElevation.Departure + PFD.Altitude.DecisionHeight, "Meter", Subsystem.I18n.AltitudeUnit) + 2000) - 35 + "px");
+									ChangeBottom("Ctrl_PFDDefaultPanelDecisionAltitude", 0.75 * (ConvertUnit(PFD.Altitude.AirportElevation.Departure + PFD.Altitude.DecisionHeight, "Meter", Subsystem.I18n.AltitudeUnit) + 2000) - 10 + "px");
 									if(PFD0.Status.IsDecisionAltitudeActive == true) {
 										AddClass("Ctrl_PFDDefaultPanelDecisionAltitude", "Active");
 									} else {
@@ -1829,7 +1834,7 @@
 						ChangeAnim("Ctrl_PFDDefaultPanelHeadingTape", "");
 					}
 					ChangeRotate("CtrlGroup_PFDDefaultPanelHeadingTape", -PFD0.Stats.Heading.Display);
-					ChangeText("Label_PFDDefaultPanelHeadingBalloon", PFD0.Stats.Heading.Display.toFixed(0).padStart(3, "0"));
+					ChangeText("Label_PFDDefaultPanelHeadingBalloon", Math.trunc(PFD0.Stats.Heading.Display).padStart(3, "0"));
 				} else {
 					Show("Ctrl_PFDDefaultPanelHeadingStatus");
 					ChangeText("Label_PFDDefaultPanelHeadingStatus", Translate("HeadingUnavailable"));
@@ -1957,6 +1962,7 @@
 								}
 							} else {
 								RemoveClass("Ctnr_PFDDefaultPanelDecisionAltitude", "Active");
+								RemoveClass("Ctnr_PFDDefaultPanelDecisionAltitude", "Caution");
 							}
 							break;
 						case "EmergencyReturn":
@@ -1971,6 +1977,7 @@
 								}
 							} else {
 								RemoveClass("Ctnr_PFDDefaultPanelDecisionAltitude", "Active");
+								RemoveClass("Ctnr_PFDDefaultPanelDecisionAltitude", "Caution");
 							}
 							break;
 						default:
@@ -3322,7 +3329,7 @@
 						break;
 					case 2:
 						Object.keys(Automation).forEach(function(AutomationName) {
-							clearInterval(Automation[AutomationName]);
+							clearTimeout(Automation[AutomationName]);
 						});
 						break;
 					case 3:
@@ -3476,9 +3483,6 @@
 
 	// Device motion API
 	window.addEventListener("devicemotion", RefreshAccelData);
-
-// Automations
-Automation.ClockPFD = setInterval(ClockPFD, 20);
 
 // Features
 	// Converters
