@@ -1834,7 +1834,7 @@
 						ChangeAnim("Ctrl_PFDDefaultPanelHeadingTape", "");
 					}
 					ChangeRotate("CtrlGroup_PFDDefaultPanelHeadingTape", -PFD0.Stats.Heading.Display);
-					ChangeText("Label_PFDDefaultPanelHeadingBalloon", Math.trunc(PFD0.Stats.Heading.Display).padStart(3, "0"));
+					ChangeText("Label_PFDDefaultPanelHeadingBalloon", Math.trunc(PFD0.Stats.Heading.Display).toString().padStart(3, "0"));
 				} else {
 					Show("Ctrl_PFDDefaultPanelHeadingStatus");
 					ChangeText("Label_PFDDefaultPanelHeadingStatus", Translate("HeadingUnavailable"));
