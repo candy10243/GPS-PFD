@@ -795,7 +795,7 @@
 			#Window_PFDMenu {
 				position: absolute; top: 0; right: 0;
 				width: 320px; height: 600px; max-height: calc(100dvh - 90px);
-				overflow: scroll;
+				overflow: auto;
 			}
 			#Html:has(#Topbar.Hidden) #Window_PFDMenu {
 				max-height: calc(100dvh - 30px);
