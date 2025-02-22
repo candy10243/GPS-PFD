@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.16,
+		const CurrentVersion = 0.17,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -81,7 +81,9 @@
 				},
 				Speed: {
 					Speed: 0, Vertical: 0, Pitch: 0,
-					GS: 0, GSDisplay: 0, TAS: 0, TASDisplay: 0,
+					GS: 0, GSDisplay: 0,
+					SampleCount: 0, AvgGS: 0, AvgGSDisplay: 0,
+					TAS: 0, TASDisplay: 0,
 					Wind: {
 						Heading: 0, RelativeHeading: 0 // Wind "heading" is the opposite of wind direction.
 					},
@@ -114,6 +116,7 @@
 			}
 		};
 		Automation.ClockPFD = null;
+		Automation.ClockAvgGS = null;
 
 		// Saved
 		var Subsystem = {
@@ -174,7 +177,8 @@
 					Arrival: {
 						Lat: 0, Lon: 0
 					}
-				}
+				},
+				ETACalcMethod: "UseAvgGS"
 			},
 			FlightMode: {
 				FlightMode: "DepartureGround",
@@ -243,6 +247,7 @@
 		RefreshSystem();
 		RefreshSubsystem();
 		RefreshPFD();
+		ClockAvgGS();
 
 		// PWA
 		navigator.serviceWorker.register("script_ServiceWorker.js").then(function(ServiceWorkerRegistration) {
@@ -567,6 +572,7 @@
 						ChangeText("Label_PFDDefaultPanelGPSStatusTitle", "GPS 状态");
 						ChangeText("Label_PFDDefaultPanelAccelStatusTitle", "加速计状态");
 						ChangeText("Label_PFDDefaultPanelGSTitle", "地速");
+						ChangeText("Label_PFDDefaultPanelAvgGSTitle", "平均地速");
 						ChangeText("Label_PFDDefaultPanelTASTitle", "真空速");
 						ChangeText("Label_PFDDefaultPanelWindTitle", "风");
 						ChangeText("Label_PFDDefaultPanelFlapsTitle", "襟翼");
@@ -594,6 +600,7 @@
 						ChangeText("Label_PFDDefaultPanelGPSStatusTitle", "GPS STS");
 						ChangeText("Label_PFDDefaultPanelAccelStatusTitle", "ACCEL STS");
 						ChangeText("Label_PFDDefaultPanelGSTitle", "GS");
+						ChangeText("Label_PFDDefaultPanelAvgGSTitle", "AVG GS");
 						ChangeText("Label_PFDDefaultPanelTASTitle", "TAS");
 						ChangeText("Label_PFDDefaultPanelWindTitle", "WIND");
 						ChangeText("Label_PFDDefaultPanelFlapsTitle", "FLAPS");
@@ -973,7 +980,10 @@
 
 				// GS
 				PFD0.Stats.Speed.GS = Math.sqrt(Math.max(Math.pow(PFD0.Stats.Speed.Speed, 2) - Math.pow(PFD0.Stats.Speed.Vertical, 2), 0));
-				PFD0.Stats.Speed.GSDisplay += (PFD0.Stats.Speed.GS - PFD0.Stats.Speed.GSDisplay) / 50;
+				PFD0.Stats.Speed.GSDisplay += (PFD0.Stats.Speed.GS - PFD0.Stats.Speed.GSDisplay) / 50 * ((PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime) / 30);
+
+				// Avg GS
+				PFD0.Stats.Speed.AvgGSDisplay += (PFD0.Stats.Speed.AvgGS - PFD0.Stats.Speed.AvgGSDisplay) / 50 * ((PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime) / 30);
 
 				// TAS
 				if(PFD0.Status.GPS.IsHeadingAvailable == true) {
@@ -986,7 +996,7 @@
 				} else {
 					PFD0.Stats.Speed.TAS = CalcTAS(PFD0.Stats.Speed.GS, null, null, PFD0.Stats.Speed.Vertical);
 				}
-				PFD0.Stats.Speed.TASDisplay += (PFD0.Stats.Speed.TAS - PFD0.Stats.Speed.TASDisplay) / 50;
+				PFD0.Stats.Speed.TASDisplay += (PFD0.Stats.Speed.TAS - PFD0.Stats.Speed.TASDisplay) / 50 * ((PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime) / 30);
 
 				// IAS
 				switch(PFD.FlightMode.FlightMode) {
@@ -1068,8 +1078,20 @@
 						AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshPFDData is invalid.");
 						break;
 				}
-				if(PFD0.Stats.Speed.GSDisplay > 0) {
-					PFD0.Stats.DME.ETA = PFD0.Stats.DME.Distance / PFD0.Stats.Speed.GSDisplay * 1000; // (Meter / meter per sec) = sec, sec * 1000 = millisec.
+				switch(PFD.DME.ETACalcMethod) {
+					case "UseRealTimeGS":
+						if(PFD0.Stats.Speed.GSDisplay > 0) {
+							PFD0.Stats.DME.ETA = PFD0.Stats.DME.Distance / PFD0.Stats.Speed.GSDisplay * 1000; // (Meter / meter per sec) = sec, sec * 1000 = millisec.
+						}
+						break;
+					case "UseAvgGS":
+						if(PFD0.Stats.Speed.AvgGSDisplay > 0) {
+							PFD0.Stats.DME.ETA = PFD0.Stats.DME.Distance / PFD0.Stats.Speed.AvgGSDisplay * 1000;
+						}
+						break;
+					default:
+						AlertSystemError("The value of PFD.DME.ETACalcMethod \"" + PFD.DME.ETACalcMethod + "\" in function RefreshPFDData is invalid.");
+						break;
 				}
 			}
 
@@ -1382,9 +1404,11 @@
 				(PFD.Speed.Mode == "DualChannel" && (PFD0.Status.GPS.IsSpeedAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
 				PFD.Speed.Mode == "Manual") {
 					ChangeText("Label_PFDDefaultPanelGSValue", ConvertUnit(PFD0.Stats.Speed.GSDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
+					ChangeText("Label_PFDDefaultPanelAvgGSValue", ConvertUnit(PFD0.Stats.Speed.AvgGSDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
 					ChangeText("Label_PFDDefaultPanelTASValue", ConvertUnit(PFD0.Stats.Speed.TASDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
 				} else {
 					ChangeText("Label_PFDDefaultPanelGSValue", "---");
+					ChangeText("Label_PFDDefaultPanelAvgGSValue", "---");
 					ChangeText("Label_PFDDefaultPanelTASValue", "---");
 				}
 				if(PFD.Speed.Wind.Speed > 0) {
@@ -2437,6 +2461,8 @@
 				Show("Ctrl_SettingsAirportCoordinatesDeparture");
 				Show("Ctrl_SettingsAirportCoordinatesArrival");
 				Show("Ctrl_SettingsAirportCoordinatesSwap");
+				Show("Label_SettingsETA");
+				Show("Ctrl_SettingsETACalcMethod");
 				ChangeValue("Textbox_SettingsAirportCoordinatesDepartureLat", PFD.DME.AirportCoordinates.Departure.Lat.toFixed(5));
 				ChangeValue("Textbox_SettingsAirportCoordinatesDepartureLon", PFD.DME.AirportCoordinates.Departure.Lon.toFixed(5));
 				ChangeValue("Textbox_SettingsAirportCoordinatesArrivalLat", PFD.DME.AirportCoordinates.Arrival.Lat.toFixed(5));
@@ -2446,12 +2472,15 @@
 				} else {
 					ChangeDisabled("Button_SettingsAirportCoordinatesSwap", true);
 				}
+				ChangeValue("Combobox_SettingsETACalcMethod", PFD.DME.ETACalcMethod);
 			} else {
 				Hide("Label_SettingsAirportCoordinates");
 				Hide("Label_SettingsAirportCoordinatesInfo");
 				Hide("Ctrl_SettingsAirportCoordinatesDeparture");
 				Hide("Ctrl_SettingsAirportCoordinatesArrival");
 				Hide("Ctrl_SettingsAirportCoordinatesSwap");
+				Hide("Label_SettingsETA");
+				Hide("Ctrl_SettingsETACalcMethod");
 			}
 
 			// Flight mode
@@ -2633,6 +2662,15 @@
 
 		// Timestamp
 		PFD0.RawData.Accel.Timestamp = Date.now();
+	}
+	function ClockAvgGS() {
+		// Automation
+		clearTimeout(Automation.ClockAvgGS);
+		Automation.ClockAvgGS = setTimeout(ClockAvgGS, 20);
+
+		// Main
+		PFD0.Stats.Speed.SampleCount++;
+		PFD0.Stats.Speed.AvgGS = (PFD0.Stats.Speed.AvgGS * (PFD0.Stats.Speed.SampleCount - 1) + PFD0.Stats.Speed.GS) / PFD0.Stats.Speed.SampleCount;
 	}
 
 // Cmds
@@ -3087,6 +3125,10 @@
 			let Swapper = structuredClone(PFD.DME.AirportCoordinates.Departure);
 			PFD.DME.AirportCoordinates.Departure = structuredClone(PFD.DME.AirportCoordinates.Arrival);
 			PFD.DME.AirportCoordinates.Arrival = structuredClone(Swapper);
+			RefreshPFD();
+		}
+		function SetETACalcMethod() {
+			PFD.DME.ETACalcMethod = ReadValue("Combobox_SettingsETACalcMethod");
 			RefreshPFD();
 		}
 
