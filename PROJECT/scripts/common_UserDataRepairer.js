@@ -127,4 +127,17 @@
 						"Repaired user data \"YamanoboRyou Game Stats Keystroke\".");
 				}
 			}
+
+		// GPS-PFD
+			// v0.17 (2025/02/22) Beta Test
+			// New feature (Avg GS)
+			if(localStorage.GPSPFD_PFD != undefined) {
+				let PFD = JSON.parse(localStorage.getItem("GPSPFD_PFD"));
+				if(PFD.DME.ETACalcMethod == undefined) {
+					PFD.DME.ETACalcMethod = "UseAvgGS";
+					localStorage.setItem("GPSPFD_PFD", JSON.stringify(PFD));
+					console.info("● User Data Repairer\n" +
+						"Repaired user data \"GPSPFD PFD DME ETACalcMethod\".");
+				}
+			}
 	}
