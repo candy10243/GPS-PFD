@@ -79,8 +79,14 @@
 
 						/* Additional indicators */
 							/* Other speeds */
-							#CtrlGroup_PFDDefaultPanelOtherSpeeds .Ctrl {
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelSpeedLimitMin {
 								background-color: #FF4040;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelSpeedLimitMax {
+								background-color: #FF4040;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelAvgIAS {
+								background-color: #00A0E0C0;
 							}
 
 						/* Balloon */
@@ -95,7 +101,7 @@
 						/* Additional indicators */
 							/* Other altitudes */
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude {
-								background-color: #00A0E0;
+								background-color: #00A0E0C0;
 							}
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude.Active {
 								background-color: #FF8000;
