@@ -306,13 +306,13 @@
 						/* Additional indicators */
 						#Ctrl_PFDDefaultPanelSpeedAdditionalIndicators {
 							position: absolute; top: 0; left: 0;
-							width: calc(100% + 10px); height: calc(100% - 60px);
+							width: calc(100% + 20px); height: calc(100% - 60px);
 							overflow: hidden;
 							pointer-events: none;
 						}
 							/* Speed trend */
 							#Needle_PFDDefaultPanelSpeedTrend {
-								position: absolute; top: unset; right: 20px;
+								position: absolute; top: unset; right: 30px;
 								width: 15px; height: 0;
 							}
 							#Needle_PFDDefaultPanelSpeedTrend.Decreasing {
@@ -331,19 +331,26 @@
 							/* Other speeds */
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds {
 								position: absolute; top: calc(50% - 5000px); right: 0;
-								width: 10px; height: 5000px;
+								width: 20px; height: 5000px;
 							}
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds .Ctrl {
 								position: absolute; top: unset; left: 0;
-								width: 10px; height: 0;
-								background-color: #FF0000;
 								pointer-events: auto;
 							}
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelSpeedLimitMin {
 								bottom: 0;
+								width: 10px; height: 0;
+								background-color: #FF0000;
 							}
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelSpeedLimitMax {
 								top: 0;
+								width: 10px; height: 0;
+								background-color: #FF0000;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelAvgIAS {
+								bottom: -10px;
+								width: 20px; height: 20px; clip-path: polygon(100% 0, 100% 100%, 0 50%);
+								background-color: #0090D0C0;
 							}
 
 						/* Balloon */
@@ -467,7 +474,7 @@
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude {
 								bottom: 1677.5px; /* Default decision height is 250ft. */
 								width: 20px; height: 20px; clip-path: polygon(100% 50%, 0 100%, 0 0);
-								background-color: #0090D0;
+								background-color: #0090D0C0;
 							}
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude.Active {
 								background-color: #E06000;
@@ -840,8 +847,8 @@
 
 				/* Area specific */
 					/* Ctrl */
-						/* Fullscreen & Reset accel speed */
-						#Ctrl_PFDToggleFullscreen, #Ctrl_PFDResetAccelSpeed {
+						/* Fullscreen & Reset speeds */
+						#Ctrl_PFDToggleFullscreen, #Ctrl_PFDResetAccelSpeed, #Ctrl_PFDResetAvgSpeeds {
 							height: 35px;
 						}
 

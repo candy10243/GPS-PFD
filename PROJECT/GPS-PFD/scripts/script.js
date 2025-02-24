@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.17,
+		const CurrentVersion = 0.18,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -80,15 +80,17 @@
 					Pitch: 0, Pitch2: 0, Roll: 0
 				},
 				Speed: {
+					SampleCount: 0,
 					Speed: 0, Vertical: 0, Pitch: 0,
 					GS: 0, GSDisplay: 0,
-					SampleCount: 0, AvgGS: 0, AvgGSDisplay: 0,
+					AvgGS: 0, AvgGSDisplay: 0,
 					TAS: 0, TASDisplay: 0,
 					Wind: {
 						Heading: 0, RelativeHeading: 0 // Wind "heading" is the opposite of wind direction.
 					},
 					IAS: 0, TapeDisplay: 0, PreviousTapeDisplay: 0, BalloonDisplay: [0, 0, 0, 0],
 					Trend: 0, TrendDisplay: 0,
+					AvgIAS: 0, AvgIASDisplay: 0,
 					MachNumber: 0
 				},
 				Altitude: {
@@ -116,7 +118,7 @@
 			}
 		};
 		Automation.ClockPFD = null;
-		Automation.ClockAvgGS = null;
+		Automation.ClockAvgSpeeds = null;
 
 		// Saved
 		var Subsystem = {
@@ -247,7 +249,7 @@
 		RefreshSystem();
 		RefreshSubsystem();
 		RefreshPFD();
-		ClockAvgGS();
+		ClockAvgSpeeds();
 
 		// PWA
 		navigator.serviceWorker.register("script_ServiceWorker.js").then(function(ServiceWorkerRegistration) {
@@ -498,15 +500,11 @@
 			// Display
 			ChangeValue("Combobox_SettingsPFDStyle", Subsystem.Display.PFDStyle);
 			HideHorizontally("Ctnr_PFDDefaultPanel");
-			HideHorizontally("Ctnr_PFDBoeingPanel");
-			HideHorizontally("Ctnr_PFDAirbusPanel");
 			HideHorizontally("Ctnr_PFDHUDPanel");
 			HideHorizontally("Ctnr_PFDBocchi737Panel");
 			HideHorizontally("Ctnr_PFDAnalogGaugesPanel");
 			HideHorizontally("Ctnr_PFDAutomobileSpeedometerPanel");
 			RemoveClass("PFD", "PFDStyleIsDefault");
-			RemoveClass("PFD", "PFDStyleIsBoeing");
-			RemoveClass("PFD", "PFDStyleIsAirbus");
 			RemoveClass("PFD", "PFDStyleIsHUD");
 			RemoveClass("PFD", "PFDStyleIsBocchi737");
 			RemoveClass("PFD", "PFDStyleIsAnalogGauges");
@@ -516,8 +514,6 @@
 					Show("Ctnr_PFDDefaultPanel");
 					AddClass("PFD", "PFDStyleIsDefault");
 					break;
-				case "Boeing":
-				case "Airbus":
 				case "HUD":
 				case "Bocchi737":
 				case "AnalogGauges":
@@ -582,8 +578,6 @@
 						ChangeText("Label_PFDDefaultPanelDMETitle", "测距仪");
 						ChangeText("Label_PFDDefaultPanelDecisionAltitudeTitle", "决断高度");
 						break;
-					case "Boeing":
-					case "Airbus":
 					case "HUD":
 					case "Bocchi737":
 					case "AnalogGauges":
@@ -610,8 +604,6 @@
 						ChangeText("Label_PFDDefaultPanelDMETitle", "DME");
 						ChangeText("Label_PFDDefaultPanelDecisionAltitudeTitle", "DA");
 						break;
-					case "Boeing":
-					case "Airbus":
 					case "HUD":
 					case "Bocchi737":
 					case "AnalogGauges":
@@ -922,10 +914,11 @@
 					PFD0.Stats.Altitude.TapeDisplay = 15239.9;
 				}
 
-				// Trend
-				PFD0.Stats.Altitude.Trend = (PFD0.Stats.Altitude.TapeDisplay - PFD0.Stats.Altitude.PreviousTapeDisplay) * (6000 / Math.max(PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime, 1)); // (1) Altitude trend shows target altitude in 6 sec. (2) If refreshed too frequently, the divisor may become zero. So "Math.max" is applied here.
-				PFD0.Stats.Altitude.TrendDisplay += (PFD0.Stats.Altitude.Trend - PFD0.Stats.Altitude.TrendDisplay) / 5;
-				PFD0.Stats.Speed.Vertical = PFD0.Stats.Altitude.TrendDisplay / 6;
+				// Additional indicators
+					// Altitude trend
+					PFD0.Stats.Altitude.Trend = (PFD0.Stats.Altitude.TapeDisplay - PFD0.Stats.Altitude.PreviousTapeDisplay) * (6000 / Math.max(PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime, 1)); // (1) Altitude trend shows target altitude in 6 sec. (2) If refreshed too frequently, the divisor may become zero. So "Math.max" is applied here.
+					PFD0.Stats.Altitude.TrendDisplay += (PFD0.Stats.Altitude.Trend - PFD0.Stats.Altitude.TrendDisplay) / 5;
+					PFD0.Stats.Speed.Vertical = PFD0.Stats.Altitude.TrendDisplay / 6;
 
 				// Balloon
 				PFD0.Stats.Altitude.BalloonDisplay[1] = Math.trunc(ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit) / 10000);
@@ -1027,9 +1020,13 @@
 						PFD0.Stats.Speed.TapeDisplay = 277.5;
 					}
 
-					// Trend
-					PFD0.Stats.Speed.Trend = (PFD0.Stats.Speed.TapeDisplay - PFD0.Stats.Speed.PreviousTapeDisplay) * (10000 / Math.max(PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime, 1)); // Speed trend shows target speed in 10 sec.
-					PFD0.Stats.Speed.TrendDisplay += (PFD0.Stats.Speed.Trend - PFD0.Stats.Speed.TrendDisplay) / 5;
+					// Additional indicators
+						// Speed trend
+						PFD0.Stats.Speed.Trend = (PFD0.Stats.Speed.TapeDisplay - PFD0.Stats.Speed.PreviousTapeDisplay) * (10000 / Math.max(PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime, 1)); // Speed trend shows target speed in 10 sec.
+						PFD0.Stats.Speed.TrendDisplay += (PFD0.Stats.Speed.Trend - PFD0.Stats.Speed.TrendDisplay) / 5;
+
+						// Avg IAS
+						PFD0.Stats.Speed.AvgIASDisplay += (PFD0.Stats.Speed.AvgIAS - PFD0.Stats.Speed.AvgIASDisplay) / 50 * ((PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime) / 30);
 
 					// Balloon
 					PFD0.Stats.Speed.BalloonDisplay[1] = Math.trunc(ConvertUnit(PFD0.Stats.Speed.TapeDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit) / 100);
@@ -1349,7 +1346,7 @@
 			if(ActivePFDPanelID == "Unknown") {
 				AlertSystemError("There is not an active PFD panel.");
 			}
-			let PFDScale = Math.min((ReadWidth("PFDViewport") + 30) / ReadWidth(ActivePFDPanelID), (ReadHeight("PFDViewport") + 30) / ReadHeight(ActivePFDPanelID), 1);
+			let PFDScale = Math.min((ReadWidth("PFDViewport") + 30) / ReadWidth(ActivePFDPanelID), (ReadHeight("PFDViewport") + 30) / ReadHeight(ActivePFDPanelID));
 			if(Subsystem.Display.FlipPFDVertically == false) {
 				ChangeScale(ActivePFDPanelID, PFDScale);
 			} else {
@@ -1361,8 +1358,6 @@
 				case "Default":
 					RefreshDefaultPanel();
 					break;
-				case "Boeing":
-				case "Airbus":
 				case "HUD":
 				case "Bocchi737":
 				case "AnalogGauges":
@@ -1543,6 +1538,9 @@
 									break;
 							}
 							ChangeHeight("Ctrl_PFDDefaultPanelSpeedLimitMax", 5 * (1000 - ConvertUnit(CalcMaxSpeedLimit(PFD.Speed.SpeedLimit.MaxOnFlapsUp, PFD.Speed.SpeedLimit.MaxOnFlapsFull, PFD.Flaps), "MeterPerSec", Subsystem.I18n.SpeedUnit)) + "px");
+
+							// Avg IAS
+							ChangeBottom("Ctrl_PFDDefaultPanelAvgIAS", 5 * ConvertUnit(PFD0.Stats.Speed.AvgIASDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit) - 10 + "px");
 
 					// Balloon
 					ChangeTop("RollingDigit_PFDDefaultPanelSpeed1", -45 * (9 - PFD0.Stats.Speed.BalloonDisplay[1]) + "px");
@@ -2027,12 +2025,6 @@
 					ChangeText("Label_PFDDefaultPanelWarning", Translate(PFD0.Alert.Active.AltitudeWarning));
 				}
 			}
-			function RefreshBoeingPanel() {
-				// ???
-			}
-			function RefreshAirbusPanel() {
-				// ???
-			}
 			function RefreshHUDPanel() {
 				// ???
 			}
@@ -2285,8 +2277,6 @@
 					ChangeText("Label_PFDDefaultPanelSpeedModeValue", Translate(PFD.Speed.Mode));
 					ChangeText("Label_PFDDefaultPanelAltitudeModeValue", Translate(PFD.Altitude.Mode));
 					break;
-				case "Boeing":
-				case "Airbus":
 				case "HUD":
 				case "Bocchi737":
 				case "AnalogGauges":
@@ -2384,6 +2374,7 @@
 			}
 			switch(PFD.Speed.IASAlgorithm) {
 				case "SimpleAlgorithm":
+				case "UseTASDirectly":
 					Hide("Ctrl_SettingsRelativeHumidity");
 					Hide("Ctrl_SettingsRelativeHumiditySwap");
 					Hide("Ctrl_SettingsQNH");
@@ -2663,14 +2654,20 @@
 		// Timestamp
 		PFD0.RawData.Accel.Timestamp = Date.now();
 	}
-	function ClockAvgGS() {
+	function ClockAvgSpeeds() {
 		// Automation
-		clearTimeout(Automation.ClockAvgGS);
-		Automation.ClockAvgGS = setTimeout(ClockAvgGS, 20);
+		clearTimeout(Automation.ClockAvgSpeeds);
+		Automation.ClockAvgSpeeds = setTimeout(ClockAvgSpeeds, 20);
 
 		// Main
-		PFD0.Stats.Speed.SampleCount++;
-		PFD0.Stats.Speed.AvgGS = (PFD0.Stats.Speed.AvgGS * (PFD0.Stats.Speed.SampleCount - 1) + PFD0.Stats.Speed.GS) / PFD0.Stats.Speed.SampleCount;
+		if((PFD.Speed.Mode == "GPS" && PFD0.Status.GPS.IsSpeedAvailable == true) ||
+		(PFD.Speed.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
+		(PFD.Speed.Mode == "DualChannel" && (PFD0.Status.GPS.IsSpeedAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
+		PFD.Speed.Mode == "Manual") {
+			PFD0.Stats.Speed.SampleCount++;
+			PFD0.Stats.Speed.AvgGS = (PFD0.Stats.Speed.AvgGS * (PFD0.Stats.Speed.SampleCount - 1) + PFD0.Stats.Speed.GS) / PFD0.Stats.Speed.SampleCount;
+			PFD0.Stats.Speed.AvgIAS = (PFD0.Stats.Speed.AvgIAS * (PFD0.Stats.Speed.SampleCount - 1) + PFD0.Stats.Speed.IAS) / PFD0.Stats.Speed.SampleCount;
+		}
 	}
 
 // Cmds
@@ -2777,6 +2774,12 @@
 				PFD0.RawData.Accel.Speed.Vector = {
 					Forward: 0, Right: 0, Upward: 0
 				};
+				RefreshPFD();
+			}
+			function ResetAvgSpeeds() {
+				PFD0.Stats.Speed.SampleCount = 0;
+				PFD0.Stats.Speed.AvgGS = 0;
+				PFD0.Stats.Speed.AvgIAS = 0;
 				RefreshPFD();
 			}
 
@@ -4076,6 +4079,9 @@
 				OutsideAirPressure = CalcOutsideAirPressure(Altitude, QNH, OutsideAirTemperature);
 				OutsideAirDensity = CalcOutsideAirDensity(OutsideAirTemperature, OutsideAirPressure, RelativeHumidity);
 				IAS = 340.3 * Math.sqrt(5 * (Math.pow(OutsideAirDensity / 2 * Math.pow(TAS, 2) / 101325 + 1, 2 / 7) - 1));
+				break;
+			case "UseTASDirectly":
+				IAS = TAS;
 				break;
 			default:
 				AlertSystemError("The value of Algorithm \"" + Algorithm + "\" in function CalcIAS is invalid.");
