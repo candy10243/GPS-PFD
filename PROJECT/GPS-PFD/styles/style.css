@@ -350,7 +350,7 @@
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelAvgIAS {
 								bottom: -10px;
 								width: 20px; height: 20px; clip-path: polygon(100% 0, 100% 100%, 0 50%);
-								background-color: #D050D0C0;
+								background-color: #C040C0C0;
 							}
 
 						/* Balloon */
