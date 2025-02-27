@@ -350,7 +350,7 @@
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelAvgIAS {
 								bottom: -10px;
 								width: 20px; height: 20px; clip-path: polygon(100% 0, 100% 100%, 0 50%);
-								background-color: #0090D0C0;
+								background-color: #D050D0C0;
 							}
 
 						/* Balloon */
@@ -474,7 +474,7 @@
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude {
 								bottom: 1677.5px; /* Default decision height is 250ft. */
 								width: 20px; height: 20px; clip-path: polygon(100% 50%, 0 100%, 0 0);
-								background-color: #0090D0C0;
+								background-color: #00A000C0;
 							}
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude.Active {
 								background-color: #E06000;

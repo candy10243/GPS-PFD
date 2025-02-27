@@ -86,7 +86,7 @@
 								background-color: #FF4040;
 							}
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelAvgIAS {
-								background-color: #00A0E0C0;
+								background-color: #E060E0C0;
 							}
 
 						/* Balloon */
@@ -101,7 +101,7 @@
 						/* Additional indicators */
 							/* Other altitudes */
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude {
-								background-color: #00A0E0C0;
+								background-color: #00C000C0;
 							}
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude.Active {
 								background-color: #FF8000;
