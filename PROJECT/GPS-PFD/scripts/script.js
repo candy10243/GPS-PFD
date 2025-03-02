@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.18,
+		const CurrentVersion = 0.19,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
