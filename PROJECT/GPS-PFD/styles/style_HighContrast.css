@@ -10,6 +10,9 @@
 			/* Panels */
 				/* Default panel */
 					/* Attitude */
+					#Ctnr_PFDDefaultPanelAttitude {
+						overflow: hidden;
+					}
 						/* Status */
 						.StatusBox {
 							background-color: #404040;
