@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.19,
+		const CurrentVersion = 0.20,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -892,7 +892,7 @@
 
 			// Altitude (Updated before speed because speed data relies on altitude variation)
 			switch(true) {
-				case PFD.Speed.Mode == "GPS" && PFD0.Status.GPS.IsAltitudeAvailable == true:
+				case PFD.Altitude.Mode == "GPS" && PFD0.Status.GPS.IsAltitudeAvailable == true:
 					PFD0.Stats.Altitude.Altitude = PFD0.RawData.GPS.Altitude.Altitude;
 					break;
 				case PFD.Altitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true:
@@ -2454,6 +2454,7 @@
 				Show("Ctrl_SettingsAirportCoordinatesSwap");
 				Show("Label_SettingsETA");
 				Show("Ctrl_SettingsETACalcMethod");
+				Show("Ctrl_SettingsSwitchDistanceUnit");
 				ChangeValue("Textbox_SettingsAirportCoordinatesDepartureLat", PFD.DME.AirportCoordinates.Departure.Lat.toFixed(5));
 				ChangeValue("Textbox_SettingsAirportCoordinatesDepartureLon", PFD.DME.AirportCoordinates.Departure.Lon.toFixed(5));
 				ChangeValue("Textbox_SettingsAirportCoordinatesArrivalLat", PFD.DME.AirportCoordinates.Arrival.Lat.toFixed(5));
@@ -2472,6 +2473,7 @@
 				Hide("Ctrl_SettingsAirportCoordinatesSwap");
 				Hide("Label_SettingsETA");
 				Hide("Ctrl_SettingsETACalcMethod");
+				Hide("Ctrl_SettingsSwitchDistanceUnit");
 			}
 
 			// Flight mode

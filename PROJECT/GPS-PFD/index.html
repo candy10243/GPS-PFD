@@ -10,7 +10,7 @@
 		<link rel="icon" type="image/png" href="images/Icon_Small.png" />
 		<title>GPS-PFD</title>
 		<meta name="author" content="SAM TOKI STUDIO" />
-		<meta name="version" content="v0.19 (2025/03/02) Beta Test. Since 2024/12/01." />
+		<meta name="version" content="v0.20 (2025/03/03) Beta Test. Since 2024/12/01." />
 		<meta name="description" content="利用 GPS 与加速计，在移动设备上模拟飞机驾驶舱的 PFD。" />
 		<meta name="copyright" content="© 2025 SAM TOKI STUDIO" />
 
@@ -1641,6 +1641,9 @@
 										<span id="Label_SettingsSpeedLimitOnFlapsFullUnit">节</span>
 									</label>
 								</li>
+								<li class="Ctrl">
+									<a class="Button" href="#Item_SettingsI18n" onclick="ShowIAmHere('Item_SettingsI18n')">切换速度单位...</a>
+								</li>
 							</ul>
 						</fieldset>
 					</li>
@@ -1684,6 +1687,9 @@
 										<input class="Textbox Width120" id="Textbox_SettingsDecisionHeight" type="number" min="40" max="2461" step="10" value="250" onclick="SelectText('Textbox_SettingsDecisionHeight')" onchange="SetDecisionHeight()" placeholder="49~2461" title="49~2461" />
 										<span id="Label_SettingsDecisionHeightUnit">英尺</span>
 									</label>
+								</li>
+								<li class="Ctrl">
+									<a class="Button" href="#Item_SettingsI18n" onclick="ShowIAmHere('Item_SettingsI18n')">切换高度单位...</a>
 								</li>
 							</ul>
 						</fieldset>
@@ -1731,6 +1737,9 @@
 											<option value="UseAvgGS" selected>使用平均地速</option>
 										</select>
 									</label>
+								</li>
+								<li class="Ctrl Hidden" id="Ctrl_SettingsSwitchDistanceUnit" inert="true">
+									<a class="Button" href="#Item_SettingsI18n" onclick="ShowIAmHere('Item_SettingsI18n')">切换距离单位...</a>
 								</li>
 							</ul>
 						</fieldset>
@@ -1896,7 +1905,7 @@
 							</ul>
 						</fieldset>
 					</li>
-					<li class="Item">
+					<li class="Item" id="Item_SettingsI18n">
 						<fieldset>
 							<legend>国际化</legend>
 							<ul class="CtrlGroup">
@@ -2153,7 +2162,7 @@
 							<legend>关于</legend>
 							<p>GPS-PFD</p>
 							<p>by SAM TOKI STUDIO</p>
-							<p>版本 v0.19 (<time datetime="2025-03-02" pubdate="pubdate">2025/03/02</time>) Beta Test<br />
+							<p>版本 v0.20 (<time datetime="2025-03-03" pubdate="pubdate">2025/03/03</time>) Beta Test<br />
 								始于 2024/12/01</p>
 							<p class="GreenText Hidden" id="Label_HelpPWANewVersionReady" inert="true">新版本已就绪，将在下次启动时生效。</p>
 							<ul class="CtrlGroup BelowParagraph">
