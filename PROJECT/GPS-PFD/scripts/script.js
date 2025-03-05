@@ -3058,7 +3058,7 @@
 		function SetAirportElevationDeparture() {
 			PFD.Altitude.AirportElevation.Departure = ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsAirportElevationDeparture")), Subsystem.I18n.AltitudeUnit, "Meter");
 			if(PFD.Altitude.AirportElevation.Departure < -500) {
-				PFD.Altitude.AirportElevation.Departure = 500;
+				PFD.Altitude.AirportElevation.Departure = -500;
 			}
 			if(PFD.Altitude.AirportElevation.Departure > 5000) {
 				PFD.Altitude.AirportElevation.Departure = 5000;
@@ -3068,7 +3068,7 @@
 		function SetAirportElevationArrival() {
 			PFD.Altitude.AirportElevation.Arrival = ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsAirportElevationArrival")), Subsystem.I18n.AltitudeUnit, "Meter");
 			if(PFD.Altitude.AirportElevation.Arrival < -500) {
-				PFD.Altitude.AirportElevation.Arrival = 500;
+				PFD.Altitude.AirportElevation.Arrival = -500;
 			}
 			if(PFD.Altitude.AirportElevation.Arrival > 5000) {
 				PFD.Altitude.AirportElevation.Arrival = 5000;
@@ -3083,10 +3083,22 @@
 		}
 		function ApplyCurrentAltitudeToDepartureAirport() {
 			PFD.Altitude.AirportElevation.Departure = PFD0.Stats.Altitude.TapeDisplay;
+			if(PFD.Altitude.AirportElevation.Departure < -500) {
+				PFD.Altitude.AirportElevation.Departure = -500;
+			}
+			if(PFD.Altitude.AirportElevation.Departure > 5000) {
+				PFD.Altitude.AirportElevation.Departure = 5000;
+			}
 			RefreshPFD();
 		}
 		function ApplyCurrentAltitudeToArrivalAirport() {
 			PFD.Altitude.AirportElevation.Arrival = PFD0.Stats.Altitude.TapeDisplay;
+			if(PFD.Altitude.AirportElevation.Arrival < -500) {
+				PFD.Altitude.AirportElevation.Arrival = -500;
+			}
+			if(PFD.Altitude.AirportElevation.Arrival > 5000) {
+				PFD.Altitude.AirportElevation.Arrival = 5000;
+			}
 			RefreshPFD();
 		}
 		function SetDecisionHeight() {
@@ -3150,13 +3162,41 @@
 			RefreshPFD();
 		}
 		function ApplyCurrentCoordinatesToDepartureAirport() {
-			PFD.DME.AirportCoordinates.Departure.Lat = PFD0.Stats.DME.Lat;
-			PFD.DME.AirportCoordinates.Departure.Lon = PFD0.Stats.DME.Lon;
+			PFD.DME.AirportCoordinates.Departure = {
+				Lat: PFD0.Stats.DME.Lat,
+				Lon: PFD0.Stats.DME.Lon
+			};
+			if(PFD.DME.AirportCoordinates.Departure.Lat < -90) {
+				PFD.DME.AirportCoordinates.Departure.Lat = -90;
+			}
+			if(PFD.DME.AirportCoordinates.Departure.Lat > 90) {
+				PFD.DME.AirportCoordinates.Departure.Lat = 90;
+			}
+			if(PFD.DME.AirportCoordinates.Departure.Lon < -180) {
+				PFD.DME.AirportCoordinates.Departure.Lon = -180;
+			}
+			if(PFD.DME.AirportCoordinates.Departure.Lon > 180) {
+				PFD.DME.AirportCoordinates.Departure.Lon = 180;
+			}
 			RefreshPFD();
 		}
 		function ApplyCurrentCoordinatesToArrivalAirport() {
-			PFD.DME.AirportCoordinates.Arrival.Lat = PFD0.Stats.DME.Lat;
-			PFD.DME.AirportCoordinates.Arrival.Lon = PFD0.Stats.DME.Lon;
+			PFD.DME.AirportCoordinates.Arrival = {
+				Lat: PFD0.Stats.DME.Lat,
+				Lon: PFD0.Stats.DME.Lon
+			};
+			if(PFD.DME.AirportCoordinates.Arrival.Lat < -90) {
+				PFD.DME.AirportCoordinates.Arrival.Lat = -90;
+			}
+			if(PFD.DME.AirportCoordinates.Arrival.Lat > 90) {
+				PFD.DME.AirportCoordinates.Arrival.Lat = 90;
+			}
+			if(PFD.DME.AirportCoordinates.Arrival.Lon < -180) {
+				PFD.DME.AirportCoordinates.Arrival.Lon = -180;
+			}
+			if(PFD.DME.AirportCoordinates.Arrival.Lon > 180) {
+				PFD.DME.AirportCoordinates.Arrival.Lon = 180;
+			}
 			RefreshPFD();
 		}
 		function SetETACalcMethod() {
