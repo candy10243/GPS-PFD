@@ -1034,10 +1034,10 @@
 	/* Area specific */
 		/* Main */
 			/* Settings */
-			#Item_SettingsSpeed {
+			#Item_SettingsSpeed, #Item_SettingsDME {
 				width: 800px;
 			}
-			#Item_SettingsSpeed .Ctrl { /* .WidthDividedBy2 */
+			#Item_SettingsSpeed .Ctrl, #Item_SettingsDME .Ctrl { /* .WidthDividedBy2 */
 				width: calc((100% - 10px) / 2);
 			}
 			#Item_SettingsSpeed .BeforeSmallButtonCtrl {
@@ -1045,5 +1045,10 @@
 			}
 			#Item_SettingsSpeed .SmallButtonCtrl {
 				width: 35px;
+			}
+			#Item_SettingsDME #Ctrl_SettingsAirportCoordinatesSwap,
+			#Item_SettingsDME #Ctrl_SettingsAirportCoordinatesApplyCurrentCoordinatesToDepartureAirport,
+			#Item_SettingsDME #Ctrl_SettingsAirportCoordinatesApplyCurrentCoordinatesToArrivalAirport { /* .WidthDividedBy3 */
+				width: calc((100% - 20px) / 3);
 			}
 }

@@ -10,7 +10,7 @@
 		<link rel="icon" type="image/png" href="images/Icon_Small.png" />
 		<title>GPS-PFD</title>
 		<meta name="author" content="SAM TOKI STUDIO" />
-		<meta name="version" content="v0.20 (2025/03/03) Beta Test. Since 2024/12/01." />
+		<meta name="version" content="v0.21 (2025/03/05) Beta Test. Since 2024/12/01." />
 		<meta name="description" content="利用 GPS 与加速计，在移动设备上模拟飞机驾驶舱的 PFD。" />
 		<meta name="copyright" content="© 2025 SAM TOKI STUDIO" />
 
@@ -1678,6 +1678,12 @@
 										</svg>
 									</button>
 								</li>
+								<li class="Ctrl">
+									<button class="Button" id="Button_SettingsAirportElevationApplyCurrentAltitudeToDepartureAirport" onclick="ApplyCurrentAltitudeToDepartureAirport()">将当前高度应用至出发机场</button>
+								</li>
+								<li class="Ctrl">
+									<button class="Button" id="Button_SettingsAirportElevationApplyCurrentAltitudeToArrivalAirport" onclick="ApplyCurrentAltitudeToArrivalAirport()">将当前高度应用至到达机场</button>
+								</li>
 							</ul>
 							<p><a href="https://en.wikipedia.org/wiki/Instrument_approach#Decision_height_or_altitude">决断高度 (decision altitude) </a>等于机场高度加上相对决断高度 (decision height)。</p>
 							<ul class="CtrlGroup BelowParagraph">
@@ -1694,7 +1700,7 @@
 							</ul>
 						</fieldset>
 					</li>
-					<li class="Item">
+					<li class="Item" id="Item_SettingsDME">
 						<fieldset>
 							<legend>测距仪</legend>
 							<p><a href="https://zh.wikipedia.org/wiki/测距仪">测距仪 (DME) </a>测量您与机场之间的水平距离，并加强<a href="https://zh.wikipedia.org/wiki/近地警告系统">近地警告系统 (GPWS) </a>的功能。</p>
@@ -1726,6 +1732,12 @@
 								<li class="Ctrl Hidden" id="Ctrl_SettingsAirportCoordinatesSwap" inert="true">
 									<button class="Button" id="Button_SettingsAirportCoordinatesSwap" disabled="true" onclick="SwapAirportCoordinates()">对调</button>
 								</li>
+								<li class="Ctrl Hidden" id="Ctrl_SettingsAirportCoordinatesApplyCurrentCoordinatesToDepartureAirport" inert="true">
+									<button class="Button" id="Button_SettingsAirportCoordinatesApplyCurrentCoordinatesToDepartureAirport" onclick="ApplyCurrentCoordinatesToDepartureAirport()">将当前坐标应用至出发机场</button>
+								</li>
+								<li class="Ctrl Hidden" id="Ctrl_SettingsAirportCoordinatesApplyCurrentCoordinatesToArrivalAirport" inert="true">
+									<button class="Button" id="Button_SettingsAirportCoordinatesApplyCurrentCoordinatesToArrivalAirport" onclick="ApplyCurrentCoordinatesToArrivalAirport()">将当前坐标应用至到达机场</button>
+								</li>
 							</ul>
 							<h4 class="Hidden" id="Label_SettingsETA" inert="true">预计剩余时间 (ETA)</h4>
 							<ul class="CtrlGroup BelowParagraph">
@@ -1738,6 +1750,7 @@
 										</select>
 									</label>
 								</li>
+								<li class="Ctrl Hidden"></li> <!-- Placeholder for the wider fieldset UI. -->
 								<li class="Ctrl Hidden" id="Ctrl_SettingsSwitchDistanceUnit" inert="true">
 									<a class="Button" href="#Item_SettingsI18n" onclick="ShowIAmHere('Item_SettingsI18n')">切换距离单位...</a>
 								</li>
@@ -2133,8 +2146,8 @@
 					<li class="Item" id="Item_HelpPrivacyStatement">
 						<fieldset>
 							<legend>隐私权声明</legend>
-							<p>本站为 <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages">GitHub Pages</a> 静态网站，只使用浏览器的 Local Storage 功能在本地存储<a href="#Item_SettingsUserData" onclick="ShowIAmHere('Item_SettingsUserData')">用户数据</a>，您可随时手动删除。本站不使用 <a href="https://zh.wikipedia.org/wiki/Cookie">Cookies</a>，不收集任何个人信息。</p>
-							<p>出于安全考虑，<a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#data-collection">GitHub 的服务器可能会记录您的 IP 地址</a>，但我无法访问这些数据。</p>
+							<p>本站为 <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages">GitHub Pages</a> 静态网站，只使用浏览器的 Local Storage 功能在本地存储<a href="#Item_SettingsUserData" onclick="ShowIAmHere('Item_SettingsUserData')">用户数据</a>。您可随时手动删除。本站不使用 <a href="https://zh.wikipedia.org/wiki/Cookie">Cookies</a>，不收集任何个人信息。</p>
+							<p>出于安全考虑，<a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#data-collection">GitHub 的服务器可能会记录您的 IP 地址</a>。SAM TOKI STUDIO 无法访问这些数据。</p>
 							<p>本应用程序可能使用位置服务。位置服务涉及敏感数据，系统不会 (且没有必要) 保存这些数据。关闭网页时这些数据立即丢失。</p>
 						</fieldset>
 					</li>
@@ -2162,7 +2175,7 @@
 							<legend>关于</legend>
 							<p>GPS-PFD</p>
 							<p>by SAM TOKI STUDIO</p>
-							<p>版本 v0.20 (<time datetime="2025-03-03" pubdate="pubdate">2025/03/03</time>) Beta Test<br />
+							<p>版本 v0.21 (<time datetime="2025-03-05" pubdate="pubdate">2025/03/05</time>) Beta Test<br />
 								始于 2024/12/01</p>
 							<p class="GreenText Hidden" id="Label_HelpPWANewVersionReady" inert="true">新版本已就绪，将在下次启动时生效。</p>
 							<ul class="CtrlGroup BelowParagraph">

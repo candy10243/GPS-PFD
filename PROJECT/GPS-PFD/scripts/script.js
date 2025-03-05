@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.20,
+		const CurrentVersion = 0.21,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -2457,6 +2457,8 @@
 				Show("Ctrl_SettingsAirportCoordinatesDeparture");
 				Show("Ctrl_SettingsAirportCoordinatesArrival");
 				Show("Ctrl_SettingsAirportCoordinatesSwap");
+				Show("Ctrl_SettingsAirportCoordinatesApplyCurrentCoordinatesToDepartureAirport");
+				Show("Ctrl_SettingsAirportCoordinatesApplyCurrentCoordinatesToArrivalAirport");
 				Show("Label_SettingsETA");
 				Show("Ctrl_SettingsETACalcMethod");
 				Show("Ctrl_SettingsSwitchDistanceUnit");
@@ -2476,6 +2478,8 @@
 				Hide("Ctrl_SettingsAirportCoordinatesDeparture");
 				Hide("Ctrl_SettingsAirportCoordinatesArrival");
 				Hide("Ctrl_SettingsAirportCoordinatesSwap");
+				Hide("Ctrl_SettingsAirportCoordinatesApplyCurrentCoordinatesToDepartureAirport");
+				Hide("Ctrl_SettingsAirportCoordinatesApplyCurrentCoordinatesToArrivalAirport");
 				Hide("Label_SettingsETA");
 				Hide("Ctrl_SettingsETACalcMethod");
 				Hide("Ctrl_SettingsSwitchDistanceUnit");
@@ -3077,6 +3081,14 @@
 			PFD.Altitude.AirportElevation.Arrival = Swapper;
 			RefreshPFD();
 		}
+		function ApplyCurrentAltitudeToDepartureAirport() {
+			PFD.Altitude.AirportElevation.Departure = PFD0.Stats.Altitude.TapeDisplay;
+			RefreshPFD();
+		}
+		function ApplyCurrentAltitudeToArrivalAirport() {
+			PFD.Altitude.AirportElevation.Arrival = PFD0.Stats.Altitude.TapeDisplay;
+			RefreshPFD();
+		}
 		function SetDecisionHeight() {
 			PFD.Altitude.DecisionHeight = ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsDecisionHeight")), Subsystem.I18n.AltitudeUnit, "Meter");
 			if(PFD.Altitude.DecisionHeight < 15) {
@@ -3135,6 +3147,16 @@
 			let Swapper = structuredClone(PFD.DME.AirportCoordinates.Departure);
 			PFD.DME.AirportCoordinates.Departure = structuredClone(PFD.DME.AirportCoordinates.Arrival);
 			PFD.DME.AirportCoordinates.Arrival = structuredClone(Swapper);
+			RefreshPFD();
+		}
+		function ApplyCurrentCoordinatesToDepartureAirport() {
+			PFD.DME.AirportCoordinates.Departure.Lat = PFD0.Stats.DME.Lat;
+			PFD.DME.AirportCoordinates.Departure.Lon = PFD0.Stats.DME.Lon;
+			RefreshPFD();
+		}
+		function ApplyCurrentCoordinatesToArrivalAirport() {
+			PFD.DME.AirportCoordinates.Arrival.Lat = PFD0.Stats.DME.Lat;
+			PFD.DME.AirportCoordinates.Arrival.Lon = PFD0.Stats.DME.Lon;
 			RefreshPFD();
 		}
 		function SetETACalcMethod() {
