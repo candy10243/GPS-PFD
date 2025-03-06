@@ -864,29 +864,17 @@
 			if(PFD.Attitude.IsEnabled == true) {
 				switch(true) {
 					case PFD.Attitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true:
-						PFD0.Stats.Attitude.Pitch = PFD0.RawData.Accel.Attitude.Aligned.Pitch;
+						PFD0.Stats.Attitude.Pitch = CheckRangeAndCorrect(PFD0.RawData.Accel.Attitude.Aligned.Pitch, -90, 90);
 						PFD0.Stats.Attitude.Roll = PFD0.RawData.Accel.Attitude.Aligned.Roll;
 						break;
 					case PFD.Attitude.Mode == "Manual":
-						PFD0.Stats.Attitude.Pitch = PFD0.RawData.Manual.Attitude.Pitch;
+						PFD0.Stats.Attitude.Pitch = CheckRangeAndCorrect(PFD0.RawData.Manual.Attitude.Pitch, -90, 90);
 						PFD0.Stats.Attitude.Roll = PFD0.RawData.Manual.Attitude.Roll;
 						break;
 					default:
 						break;
 				}
-				if(PFD0.Stats.Attitude.Pitch < -90) {
-					PFD0.Stats.Attitude.Pitch = -90;
-				}
-				if(PFD0.Stats.Attitude.Pitch > 90) {
-					PFD0.Stats.Attitude.Pitch = 90;
-				}
-				PFD0.Stats.Attitude.Pitch2 = PFD0.Stats.Attitude.Pitch;
-				if(PFD0.Stats.Attitude.Pitch2 < -20) {
-					PFD0.Stats.Attitude.Pitch2 = -20;
-				}
-				if(PFD0.Stats.Attitude.Pitch2 > 20) {
-					PFD0.Stats.Attitude.Pitch2 = 20;
-				}
+				PFD0.Stats.Attitude.Pitch2 = CheckRangeAndCorrect(PFD0.Stats.Attitude.Pitch, -20, 20);
 				if(PFD0.Stats.Attitude.Roll < -180) {
 					PFD0.Stats.Attitude.Roll += 360;
 				}
@@ -912,12 +900,7 @@
 			}
 				// Tape
 				PFD0.Stats.Altitude.TapeDisplay += (PFD0.Stats.Altitude.Altitude - PFD0.Stats.Altitude.TapeDisplay) / 50 * ((PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime) / 30); // Use "ClockTime" here for smoother trend displaying.
-				if(PFD0.Stats.Altitude.TapeDisplay < -609.5) { // It should have been -609.6 meters. But -609.59999 can be converted to -2000.00001 feet, resulting in a display error on the balloon.
-					PFD0.Stats.Altitude.TapeDisplay = -609.5;
-				}
-				if(PFD0.Stats.Altitude.TapeDisplay > 15239.9) { // It should have been 15240 meters. Reason same as above.
-					PFD0.Stats.Altitude.TapeDisplay = 15239.9;
-				}
+				PFD0.Stats.Altitude.TapeDisplay = CheckRangeAndCorrect(PFD0.Stats.Altitude.TapeDisplay, -609.5, 15239.9); // It should have been -609.6 and 15240 meters. But -609.59999 can be converted to -2000.00001 feet, resulting in a display error on the balloon.
 
 				// Additional indicators
 					// Altitude trend
@@ -964,14 +947,7 @@
 			}
 				// Pitch
 				if(PFD0.Stats.Speed.Speed > 0) {
-					let Calc = PFD0.Stats.Speed.Vertical / PFD0.Stats.Speed.Speed;
-					if(Calc < -1) {
-						Calc = -1;
-					}
-					if(Calc > 1) {
-						Calc = 1;
-					}
-					PFD0.Stats.Speed.Pitch = Math.asin(Calc) / (Math.PI / 180);
+					PFD0.Stats.Speed.Pitch = Math.asin(CheckRangeAndCorrect(PFD0.Stats.Speed.Vertical / PFD0.Stats.Speed.Speed, -1, 1)) / (Math.PI / 180);
 				} else {
 					PFD0.Stats.Speed.Pitch = 90;
 				}
@@ -1018,12 +994,7 @@
 				}
 					// Tape
 					PFD0.Stats.Speed.TapeDisplay += (PFD0.Stats.Speed.IAS - PFD0.Stats.Speed.TapeDisplay) / 50 * ((PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime) / 30);
-					if(PFD0.Stats.Speed.TapeDisplay < 0) {
-						PFD0.Stats.Speed.TapeDisplay = 0;
-					}
-					if(PFD0.Stats.Speed.TapeDisplay > 277.5) {
-						PFD0.Stats.Speed.TapeDisplay = 277.5;
-					}
+					PFD0.Stats.Speed.TapeDisplay = CheckRangeAndCorrect(PFD0.Stats.Speed.TapeDisplay, 0, 277.5);
 
 					// Additional indicators
 						// Speed trend
@@ -1031,7 +1002,7 @@
 						PFD0.Stats.Speed.TrendDisplay += (PFD0.Stats.Speed.Trend - PFD0.Stats.Speed.TrendDisplay) / 5;
 
 						// Avg IAS
-						PFD0.Stats.Speed.AvgIASDisplay += (PFD0.Stats.Speed.AvgIAS - PFD0.Stats.Speed.AvgIASDisplay) / 50 * ((PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime) / 30);
+						PFD0.Stats.Speed.AvgIASDisplay = CheckRangeAndCorrect(PFD0.Stats.Speed.AvgIASDisplay + (PFD0.Stats.Speed.AvgIAS - PFD0.Stats.Speed.AvgIASDisplay) / 5, 0, 277.5);
 
 					// Balloon
 					PFD0.Stats.Speed.BalloonDisplay[1] = Math.trunc(ConvertUnit(PFD0.Stats.Speed.TapeDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit) / 100);
@@ -1810,13 +1781,7 @@
 						let VerticalSpeedDisplay = 0;
 						switch(Subsystem.I18n.VerticalSpeedUnit) {
 							case "MeterPerSec":
-								VerticalSpeedDisplay = Math.trunc(ConvertedVerticalSpeed / 0.2) * 0.2;
-								if(VerticalSpeedDisplay < -50) {
-									VerticalSpeedDisplay = -50;
-								}
-								if(VerticalSpeedDisplay > 50) {
-									VerticalSpeedDisplay = 50;
-								}
+								VerticalSpeedDisplay = CheckRangeAndCorrect(Math.trunc(ConvertedVerticalSpeed / 0.2) * 0.2, -50, 50);
 								if(VerticalSpeedDisplay > 0) {
 									ChangeText("Label_PFDDefaultPanelVerticalSpeedBalloon", "+" + VerticalSpeedDisplay.toFixed(1));
 								} else {
@@ -1824,13 +1789,7 @@
 								}
 								break;
 							case "FeetPerMin":
-								VerticalSpeedDisplay = Math.trunc(ConvertedVerticalSpeed / 50) * 50;
-								if(VerticalSpeedDisplay < -9999) {
-									VerticalSpeedDisplay = -9999;
-								}
-								if(VerticalSpeedDisplay > 9999) {
-									VerticalSpeedDisplay = 9999;
-								}
+								VerticalSpeedDisplay = CheckRangeAndCorrect(Math.trunc(ConvertedVerticalSpeed / 50) * 50, -9999, 9999);
 								if(VerticalSpeedDisplay > 0) {
 									ChangeText("Label_PFDDefaultPanelVerticalSpeedBalloon", "+" + VerticalSpeedDisplay);
 								} else {
@@ -2698,23 +2657,11 @@
 		}
 			// Ctrl
 			function PitchDown() {
-				PFD0.RawData.Manual.Attitude.Pitch -= 0.5;
-				if(PFD0.RawData.Manual.Attitude.Pitch < -90) {
-					PFD0.RawData.Manual.Attitude.Pitch = -90;
-				}
-				if(PFD0.RawData.Manual.Attitude.Pitch > 90) {
-					PFD0.RawData.Manual.Attitude.Pitch = 90;
-				}
+				PFD0.RawData.Manual.Attitude.Pitch = CheckRangeAndCorrect(PFD0.RawData.Manual.Attitude.Pitch - 0.5, -90, 90);
 				RefreshPFD();
 			}
 			function PitchUp() {
-				PFD0.RawData.Manual.Attitude.Pitch += 0.5;
-				if(PFD0.RawData.Manual.Attitude.Pitch < -90) {
-					PFD0.RawData.Manual.Attitude.Pitch = -90;
-				}
-				if(PFD0.RawData.Manual.Attitude.Pitch > 90) {
-					PFD0.RawData.Manual.Attitude.Pitch = 90;
-				}
+				PFD0.RawData.Manual.Attitude.Pitch = CheckRangeAndCorrect(PFD0.RawData.Manual.Attitude.Pitch + 0.5, -90, 90);
 				RefreshPFD();
 			}
 			function RollLeft() {
@@ -2738,43 +2685,19 @@
 				RefreshPFD();
 			}
 			function SpeedUp() {
-				PFD0.RawData.Manual.Speed += 0.5;
-				if(PFD0.RawData.Manual.Speed < 0) {
-					PFD0.RawData.Manual.Speed = 0;
-				}
-				if(PFD0.RawData.Manual.Speed > 555.55556) {
-					PFD0.RawData.Manual.Speed = 555.55556;
-				}
+				PFD0.RawData.Manual.Speed = CheckRangeAndCorrect(PFD0.RawData.Manual.Speed + 0.5, 0, 555.55556);
 				RefreshPFD();
 			}
 			function SpeedDown() {
-				PFD0.RawData.Manual.Speed -= 0.5;
-				if(PFD0.RawData.Manual.Speed < 0) {
-					PFD0.RawData.Manual.Speed = 0;
-				}
-				if(PFD0.RawData.Manual.Speed > 555.55556) {
-					PFD0.RawData.Manual.Speed = 555.55556;
-				}
+				PFD0.RawData.Manual.Speed = CheckRangeAndCorrect(PFD0.RawData.Manual.Speed - 0.5, 0, 555.55556);
 				RefreshPFD();
 			}
 			function AltitudeUp() {
-				PFD0.RawData.Manual.Altitude += 2;
-				if(PFD0.RawData.Manual.Altitude < -609.6) {
-					PFD0.RawData.Manual.Altitude = -609.6;
-				}
-				if(PFD0.RawData.Manual.Altitude > 15240) {
-					PFD0.RawData.Manual.Altitude = 15240;
-				}
+				PFD0.RawData.Manual.Altitude = CheckRangeAndCorrect(PFD0.RawData.Manual.Altitude + 2, -609.6, 15240);
 				RefreshPFD();
 			}
 			function AltitudeDown() {
-				PFD0.RawData.Manual.Altitude -= 2;
-				if(PFD0.RawData.Manual.Altitude < -609.6) {
-					PFD0.RawData.Manual.Altitude = -609.6;
-				}
-				if(PFD0.RawData.Manual.Altitude > 15240) {
-					PFD0.RawData.Manual.Altitude = 15240;
-				}
+				PFD0.RawData.Manual.Altitude = CheckRangeAndCorrect(PFD0.RawData.Manual.Altitude - 2, -609.6, 15240);
 				RefreshPFD();
 			}
 			function SetFlaps() {
@@ -2840,23 +2763,11 @@
 			RefreshPFD();
 		}
 		function SetAttitudeOffsetPitch() {
-			PFD.Attitude.Offset.Pitch = Math.trunc(ReadValue("Textbox_SettingsAttitudeOffsetPitch"));
-			if(PFD.Attitude.Offset.Pitch < -90) {
-				PFD.Attitude.Offset.Pitch = -90;
-			}
-			if(PFD.Attitude.Offset.Pitch > 90) {
-				PFD.Attitude.Offset.Pitch = 90;
-			}
+			PFD.Attitude.Offset.Pitch = CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsAttitudeOffsetPitch")), -90, 90);
 			RefreshPFD();
 		}
 		function SetAttitudeOffsetRoll() {
-			PFD.Attitude.Offset.Roll = Math.trunc(ReadValue("Textbox_SettingsAttitudeOffsetRoll"));
-			if(PFD.Attitude.Offset.Roll < -90) {
-				PFD.Attitude.Offset.Roll = -90;
-			}
-			if(PFD.Attitude.Offset.Roll > 90) {
-				PFD.Attitude.Offset.Roll = 90;
-			}
+			PFD.Attitude.Offset.Roll = CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsAttitudeOffsetRoll")), -90, 90);
 			RefreshPFD();
 		}
 
@@ -2870,23 +2781,11 @@
 			RefreshPFD();
 		}
 		function SetAirportTemperatureDeparture() {
-			PFD.Speed.AirportTemperature.Departure = ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsAirportTemperatureDeparture")), Subsystem.I18n.TemperatureUnit, "Kelvin");
-			if(PFD.Speed.AirportTemperature.Departure < 223.15) {
-				PFD.Speed.AirportTemperature.Departure = 223.15;
-			}
-			if(PFD.Speed.AirportTemperature.Departure > 323.15) {
-				PFD.Speed.AirportTemperature.Departure = 323.15;
-			}
+			PFD.Speed.AirportTemperature.Departure = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsAirportTemperatureDeparture")), Subsystem.I18n.TemperatureUnit, "Kelvin"), 223.15, 323.15);
 			RefreshPFD();
 		}
 		function SetAirportTemperatureArrival() {
-			PFD.Speed.AirportTemperature.Arrival = ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsAirportTemperatureArrival")), Subsystem.I18n.TemperatureUnit, "Kelvin");
-			if(PFD.Speed.AirportTemperature.Arrival < 223.15) {
-				PFD.Speed.AirportTemperature.Arrival = 223.15;
-			}
-			if(PFD.Speed.AirportTemperature.Arrival > 323.15) {
-				PFD.Speed.AirportTemperature.Arrival = 323.15;
-			}
+			PFD.Speed.AirportTemperature.Arrival = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsAirportTemperatureArrival")), Subsystem.I18n.TemperatureUnit, "Kelvin"), 223.15, 323.15);
 			RefreshPFD();
 		}
 		function SwapAirportTemperatures() {
@@ -2896,23 +2795,11 @@
 			RefreshPFD();
 		}
 		function SetRelativeHumidityDeparture() {
-			PFD.Speed.RelativeHumidity.Departure = Math.trunc(ReadValue("Textbox_SettingsRelativeHumidityDeparture"));
-			if(PFD.Speed.RelativeHumidity.Departure < 0) {
-				PFD.Speed.RelativeHumidity.Departure = 0;
-			}
-			if(PFD.Speed.RelativeHumidity.Departure > 100) {
-				PFD.Speed.RelativeHumidity.Departure = 100;
-			}
+			PFD.Speed.RelativeHumidity.Departure = CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsRelativeHumidityDeparture")), 0, 100);
 			RefreshPFD();
 		}
 		function SetRelativeHumidityArrival() {
-			PFD.Speed.RelativeHumidity.Arrival = Math.trunc(ReadValue("Textbox_SettingsRelativeHumidityArrival"));
-			if(PFD.Speed.RelativeHumidity.Arrival < 0) {
-				PFD.Speed.RelativeHumidity.Arrival = 0;
-			}
-			if(PFD.Speed.RelativeHumidity.Arrival > 100) {
-				PFD.Speed.RelativeHumidity.Arrival = 100;
-			}
+			PFD.Speed.RelativeHumidity.Arrival = CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsRelativeHumidityArrival")), 0, 100);
 			RefreshPFD();
 		}
 		function SwapRelativeHumidity() {
@@ -2922,23 +2809,11 @@
 			RefreshPFD();
 		}
 		function SetQNHDeparture() {
-			PFD.Speed.QNH.Departure = ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsQNHDeparture") * 100) / 100, Subsystem.I18n.PressureUnit, "Hectopascal");
-			if(PFD.Speed.QNH.Departure < 900) {
-				PFD.Speed.QNH.Departure = 900;
-			}
-			if(PFD.Speed.QNH.Departure > 1100) {
-				PFD.Speed.QNH.Departure = 1100;
-			}
+			PFD.Speed.QNH.Departure = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsQNHDeparture") * 100) / 100, Subsystem.I18n.PressureUnit, "Hectopascal"), 900, 1100);
 			RefreshPFD();
 		}
 		function SetQNHArrival() {
-			PFD.Speed.QNH.Arrival = ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsQNHArrival") * 100) / 100, Subsystem.I18n.PressureUnit, "Hectopascal");
-			if(PFD.Speed.QNH.Arrival < 900) {
-				PFD.Speed.QNH.Arrival = 900;
-			}
-			if(PFD.Speed.QNH.Arrival > 1100) {
-				PFD.Speed.QNH.Arrival = 1100;
-			}
+			PFD.Speed.QNH.Arrival = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsQNHArrival") * 100) / 100, Subsystem.I18n.PressureUnit, "Hectopascal"), 900, 1100);
 			RefreshPFD();
 		}
 		function SwapQNHs() {
@@ -2948,23 +2823,11 @@
 			RefreshPFD();
 		}
 		function SetWindDirection() {
-			PFD.Speed.Wind.Direction = Math.trunc(ReadValue("Textbox_SettingsWindDirection"));
-			if(PFD.Speed.Wind.Direction < 0) {
-				PFD.Speed.Wind.Direction = 0;
-			}
-			if(PFD.Speed.Wind.Direction > 359) {
-				PFD.Speed.Wind.Direction = 359;
-			}
+			PFD.Speed.Wind.Direction = CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsWindDirection")), 0, 359);
 			RefreshPFD();
 		}
 		function SetWindSpeed() {
-			PFD.Speed.Wind.Speed = ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsWindSpeed")), Subsystem.I18n.SpeedUnit, "MeterPerSec");
-			if(PFD.Speed.Wind.Speed < 0) {
-				PFD.Speed.Wind.Speed = 0;
-			}
-			if(PFD.Speed.Wind.Speed > 277.5) {
-				PFD.Speed.Wind.Speed = 277.5;
-			}
+			PFD.Speed.Wind.Speed = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsWindSpeed")), Subsystem.I18n.SpeedUnit, "MeterPerSec"), 0, 277.5);
 			RefreshPFD();
 		}
 		function ResetWind() {
@@ -3002,13 +2865,7 @@
 			RefreshPFD();
 		}
 		function SetSpeedLimitMin() {
-			PFD.Speed.SpeedLimit.Min = ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsSpeedLimitMin")), Subsystem.I18n.SpeedUnit, "MeterPerSec");
-			if(PFD.Speed.SpeedLimit.Min < 0) {
-				PFD.Speed.SpeedLimit.Min = 0;
-			}
-			if(PFD.Speed.SpeedLimit.Min > 272.5) {
-				PFD.Speed.SpeedLimit.Min = 272.5;
-			}
+			PFD.Speed.SpeedLimit.Min = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsSpeedLimitMin")), Subsystem.I18n.SpeedUnit, "MeterPerSec"), 0, 272.5);
 			if(PFD.Speed.SpeedLimit.Min > PFD.Speed.SpeedLimit.MaxOnFlapsFull - 5) {
 				PFD.Speed.SpeedLimit.MaxOnFlapsFull = PFD.Speed.SpeedLimit.Min + 5;
 				if(PFD.Speed.SpeedLimit.MaxOnFlapsFull > PFD.Speed.SpeedLimit.MaxOnFlapsUp) {
@@ -3018,13 +2875,7 @@
 			RefreshPFD();
 		}
 		function SetSpeedLimitMaxOnFlapsUp() {
-			PFD.Speed.SpeedLimit.MaxOnFlapsUp = ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsSpeedLimitMaxOnFlapsUp")), Subsystem.I18n.SpeedUnit, "MeterPerSec");
-			if(PFD.Speed.SpeedLimit.MaxOnFlapsUp < 5) {
-				PFD.Speed.SpeedLimit.MaxOnFlapsUp = 5;
-			}
-			if(PFD.Speed.SpeedLimit.MaxOnFlapsUp > 277.5) {
-				PFD.Speed.SpeedLimit.MaxOnFlapsUp = 277.5;
-			}
+			PFD.Speed.SpeedLimit.MaxOnFlapsUp = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsSpeedLimitMaxOnFlapsUp")), Subsystem.I18n.SpeedUnit, "MeterPerSec"), 5, 277.5);
 			if(PFD.Speed.SpeedLimit.MaxOnFlapsUp < PFD.Speed.SpeedLimit.MaxOnFlapsFull) {
 				PFD.Speed.SpeedLimit.MaxOnFlapsFull = PFD.Speed.SpeedLimit.MaxOnFlapsUp;
 				if(PFD.Speed.SpeedLimit.MaxOnFlapsFull < PFD.Speed.SpeedLimit.Min + 5) {
@@ -3034,13 +2885,7 @@
 			RefreshPFD();
 		}
 		function SetSpeedLimitMaxOnFlapsFull() {
-			PFD.Speed.SpeedLimit.MaxOnFlapsFull = ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsSpeedLimitMaxOnFlapsFull")), Subsystem.I18n.SpeedUnit, "MeterPerSec");
-			if(PFD.Speed.SpeedLimit.MaxOnFlapsFull < 5) {
-				PFD.Speed.SpeedLimit.MaxOnFlapsFull = 5;
-			}
-			if(PFD.Speed.SpeedLimit.MaxOnFlapsFull > 277.5) {
-				PFD.Speed.SpeedLimit.MaxOnFlapsFull = 277.5;
-			}
+			PFD.Speed.SpeedLimit.MaxOnFlapsFull = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsSpeedLimitMaxOnFlapsFull")), Subsystem.I18n.SpeedUnit, "MeterPerSec"), 5, 277.5);
 			if(PFD.Speed.SpeedLimit.MaxOnFlapsFull < PFD.Speed.SpeedLimit.Min + 5) {
 				PFD.Speed.SpeedLimit.Min = PFD.Speed.SpeedLimit.MaxOnFlapsFull - 5;
 			}
@@ -3056,23 +2901,11 @@
 			RefreshPFD();
 		}
 		function SetAirportElevationDeparture() {
-			PFD.Altitude.AirportElevation.Departure = ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsAirportElevationDeparture")), Subsystem.I18n.AltitudeUnit, "Meter");
-			if(PFD.Altitude.AirportElevation.Departure < -500) {
-				PFD.Altitude.AirportElevation.Departure = -500;
-			}
-			if(PFD.Altitude.AirportElevation.Departure > 5000) {
-				PFD.Altitude.AirportElevation.Departure = 5000;
-			}
+			PFD.Altitude.AirportElevation.Departure = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsAirportElevationDeparture")), Subsystem.I18n.AltitudeUnit, "Meter"), -500, 5000);
 			RefreshPFD();
 		}
 		function SetAirportElevationArrival() {
-			PFD.Altitude.AirportElevation.Arrival = ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsAirportElevationArrival")), Subsystem.I18n.AltitudeUnit, "Meter");
-			if(PFD.Altitude.AirportElevation.Arrival < -500) {
-				PFD.Altitude.AirportElevation.Arrival = -500;
-			}
-			if(PFD.Altitude.AirportElevation.Arrival > 5000) {
-				PFD.Altitude.AirportElevation.Arrival = 5000;
-			}
+			PFD.Altitude.AirportElevation.Arrival = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsAirportElevationArrival")), Subsystem.I18n.AltitudeUnit, "Meter"), -500, 5000);
 			RefreshPFD();
 		}
 		function SwapAirportElevations() {
@@ -3082,33 +2915,15 @@
 			RefreshPFD();
 		}
 		function ApplyCurrentAltitudeToDepartureAirport() {
-			PFD.Altitude.AirportElevation.Departure = PFD0.Stats.Altitude.TapeDisplay;
-			if(PFD.Altitude.AirportElevation.Departure < -500) {
-				PFD.Altitude.AirportElevation.Departure = -500;
-			}
-			if(PFD.Altitude.AirportElevation.Departure > 5000) {
-				PFD.Altitude.AirportElevation.Departure = 5000;
-			}
+			PFD.Altitude.AirportElevation.Departure = CheckRangeAndCorrect(PFD0.Stats.Altitude.TapeDisplay, -500, 5000);
 			RefreshPFD();
 		}
 		function ApplyCurrentAltitudeToArrivalAirport() {
-			PFD.Altitude.AirportElevation.Arrival = PFD0.Stats.Altitude.TapeDisplay;
-			if(PFD.Altitude.AirportElevation.Arrival < -500) {
-				PFD.Altitude.AirportElevation.Arrival = -500;
-			}
-			if(PFD.Altitude.AirportElevation.Arrival > 5000) {
-				PFD.Altitude.AirportElevation.Arrival = 5000;
-			}
+			PFD.Altitude.AirportElevation.Arrival = CheckRangeAndCorrect(PFD0.Stats.Altitude.TapeDisplay, -500, 5000);
 			RefreshPFD();
 		}
 		function SetDecisionHeight() {
-			PFD.Altitude.DecisionHeight = ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsDecisionHeight")), Subsystem.I18n.AltitudeUnit, "Meter");
-			if(PFD.Altitude.DecisionHeight < 15) {
-				PFD.Altitude.DecisionHeight = 15;
-			}
-			if(PFD.Altitude.DecisionHeight > 750) {
-				PFD.Altitude.DecisionHeight = 750;
-			}
+			PFD.Altitude.DecisionHeight = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsDecisionHeight")), Subsystem.I18n.AltitudeUnit, "Meter"), 15, 750);
 			RefreshPFD();
 		}
 
@@ -3119,40 +2934,16 @@
 		}
 		function SetAirportCoordinatesDeparture() {
 			PFD.DME.AirportCoordinates.Departure = {
-				Lat: Math.trunc(ReadValue("Textbox_SettingsAirportCoordinatesDepartureLat") * 100000) / 100000,
-				Lon: Math.trunc(ReadValue("Textbox_SettingsAirportCoordinatesDepartureLon") * 100000) / 100000
+				Lat: CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsAirportCoordinatesDepartureLat") * 100000) / 100000, -90, 90),
+				Lon: CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsAirportCoordinatesDepartureLon") * 100000) / 100000, -180, 180)
 			};
-			if(PFD.DME.AirportCoordinates.Departure.Lat < -90) {
-				PFD.DME.AirportCoordinates.Departure.Lat = -90;
-			}
-			if(PFD.DME.AirportCoordinates.Departure.Lat > 90) {
-				PFD.DME.AirportCoordinates.Departure.Lat = 90;
-			}
-			if(PFD.DME.AirportCoordinates.Departure.Lon < -180) {
-				PFD.DME.AirportCoordinates.Departure.Lon = -180;
-			}
-			if(PFD.DME.AirportCoordinates.Departure.Lon > 180) {
-				PFD.DME.AirportCoordinates.Departure.Lon = 180;
-			}
 			RefreshPFD();
 		}
 		function SetAirportCoordinatesArrival() {
 			PFD.DME.AirportCoordinates.Arrival = {
-				Lat: Math.trunc(ReadValue("Textbox_SettingsAirportCoordinatesArrivalLat") * 100000) / 100000,
-				Lon: Math.trunc(ReadValue("Textbox_SettingsAirportCoordinatesArrivalLon") * 100000) / 100000
+				Lat: CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsAirportCoordinatesArrivalLat") * 100000) / 100000, -90, 90),
+				Lon: CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsAirportCoordinatesArrivalLon") * 100000) / 100000, -180, 180)
 			};
-			if(PFD.DME.AirportCoordinates.Arrival.Lat < -90) {
-				PFD.DME.AirportCoordinates.Arrival.Lat = -90;
-			}
-			if(PFD.DME.AirportCoordinates.Arrival.Lat > 90) {
-				PFD.DME.AirportCoordinates.Arrival.Lat = 90;
-			}
-			if(PFD.DME.AirportCoordinates.Arrival.Lon < -180) {
-				PFD.DME.AirportCoordinates.Arrival.Lon = -180;
-			}
-			if(PFD.DME.AirportCoordinates.Arrival.Lon > 180) {
-				PFD.DME.AirportCoordinates.Arrival.Lon = 180;
-			}
 			RefreshPFD();
 		}
 		function SwapAirportCoordinates() {
@@ -3163,40 +2954,16 @@
 		}
 		function ApplyCurrentCoordinatesToDepartureAirport() {
 			PFD.DME.AirportCoordinates.Departure = {
-				Lat: PFD0.Stats.DME.Lat,
-				Lon: PFD0.Stats.DME.Lon
+				Lat: CheckRangeAndCorrect(PFD0.Stats.DME.Lat, -90, 90),
+				Lon: CheckRangeAndCorrect(PFD0.Stats.DME.Lon, -180, 180)
 			};
-			if(PFD.DME.AirportCoordinates.Departure.Lat < -90) {
-				PFD.DME.AirportCoordinates.Departure.Lat = -90;
-			}
-			if(PFD.DME.AirportCoordinates.Departure.Lat > 90) {
-				PFD.DME.AirportCoordinates.Departure.Lat = 90;
-			}
-			if(PFD.DME.AirportCoordinates.Departure.Lon < -180) {
-				PFD.DME.AirportCoordinates.Departure.Lon = -180;
-			}
-			if(PFD.DME.AirportCoordinates.Departure.Lon > 180) {
-				PFD.DME.AirportCoordinates.Departure.Lon = 180;
-			}
 			RefreshPFD();
 		}
 		function ApplyCurrentCoordinatesToArrivalAirport() {
 			PFD.DME.AirportCoordinates.Arrival = {
-				Lat: PFD0.Stats.DME.Lat,
-				Lon: PFD0.Stats.DME.Lon
+				Lat: CheckRangeAndCorrect(PFD0.Stats.DME.Lat, -90, 90),
+				Lon: CheckRangeAndCorrect(PFD0.Stats.DME.Lon, -180, 180)
 			};
-			if(PFD.DME.AirportCoordinates.Arrival.Lat < -90) {
-				PFD.DME.AirportCoordinates.Arrival.Lat = -90;
-			}
-			if(PFD.DME.AirportCoordinates.Arrival.Lat > 90) {
-				PFD.DME.AirportCoordinates.Arrival.Lat = 90;
-			}
-			if(PFD.DME.AirportCoordinates.Arrival.Lon < -180) {
-				PFD.DME.AirportCoordinates.Arrival.Lon = -180;
-			}
-			if(PFD.DME.AirportCoordinates.Arrival.Lon > 180) {
-				PFD.DME.AirportCoordinates.Arrival.Lon = 180;
-			}
 			RefreshPFD();
 		}
 		function SetETACalcMethod() {
@@ -3490,26 +3257,14 @@
 					}
 					break;
 				case "R":
-					PFD.Flaps = PFD.Flaps - 5;
-					if(PFD.Flaps < 0) {
-						PFD.Flaps = 0;
-					}
-					if(PFD.Flaps > 100) {
-						PFD.Flaps = 100;
-					}
+					PFD.Flaps = CheckRangeAndCorrect(PFD.Flaps - 5, 0, 100);
 					RefreshPFD();
 					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
 						ShowHotkeyIndicators();
 					}
 					break;
 				case "F":
-					PFD.Flaps = PFD.Flaps + 5;
-					if(PFD.Flaps < 0) {
-						PFD.Flaps = 0;
-					}
-					if(PFD.Flaps > 100) {
-						PFD.Flaps = 100;
-					}
+					PFD.Flaps = CheckRangeAndCorrect(PFD.Flaps + 5, 0, 100);
 					RefreshPFD();
 					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
 						ShowHotkeyIndicators();
@@ -4093,16 +3848,8 @@
 
 	// Maths
 	function CalcAttitude(AccelVector, AccelVectorWithGravity) { // https://youtube.com/watch?v=p7tjtLkIlFo
-		let Gravity = 9.80665,
-		Calc = (AccelVectorWithGravity.Forward - AccelVector.Forward) / Gravity;
-		if(Calc < -1) {
-			Calc = -1;
-		}
-		if(Calc > 1) {
-			Calc = 1;
-		}
 		return {
-			Pitch: -Math.asin(Calc) / (Math.PI / 180),
+			Pitch: -Math.asin(CheckRangeAndCorrect((AccelVectorWithGravity.Forward - AccelVector.Forward) / 9.80665, -1, 1)) / (Math.PI / 180),
 			Roll: Math.atan2(AccelVectorWithGravity.Right - AccelVector.Right, AccelVector.Upward - AccelVectorWithGravity.Upward) / (Math.PI / 180)
 		};
 	}
