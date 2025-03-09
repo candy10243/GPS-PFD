@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.21,
+		const CurrentVersion = 0.22,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -2603,13 +2603,13 @@
 			};
 
 			// Reduce sensitivity to prevent incorrect speed inflation
-			if(Math.abs(PFD0.RawData.Accel.Accel.Aligned.Forward) < 1) {
+			if(Math.abs(PFD0.RawData.Accel.Accel.Aligned.Forward) < 0.3) {
 				PFD0.RawData.Accel.Accel.Aligned.Forward = 0;
 			}
-			if(Math.abs(PFD0.RawData.Accel.Accel.Aligned.Right) < 1) {
+			if(Math.abs(PFD0.RawData.Accel.Accel.Aligned.Right) < 0.3) {
 				PFD0.RawData.Accel.Accel.Aligned.Right = 0;
 			}
-			if(Math.abs(PFD0.RawData.Accel.Accel.Aligned.Upward) < 1) {
+			if(Math.abs(PFD0.RawData.Accel.Accel.Aligned.Upward) < 0.3) {
 				PFD0.RawData.Accel.Accel.Aligned.Upward = 0;
 			}
 
