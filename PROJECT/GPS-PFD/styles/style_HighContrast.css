@@ -135,6 +135,12 @@
 						}
 
 					/* Heading */
+						/* Additional indicators */
+							/* Other headings */
+							#Ctrl_PFDDefaultPanelBearing div {
+								background-color: #FF80FF;
+							}
+
 						/* Balloon */
 						#Ctrl_PFDDefaultPanelHeadingBalloon {
 							filter: drop-shadow(0 0 0.5px #FFFFFF) drop-shadow(0 0 0.5px #FFFFFF) drop-shadow(0 0 0.5px #FFFFFF) drop-shadow(0 0 0.5px #FFFFFF);
