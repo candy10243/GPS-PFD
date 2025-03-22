@@ -605,8 +605,8 @@
 
 					/* Heading */
 					#Ctnr_PFDDefaultPanelHeading {
-						position: absolute; top: 700px; left: 200px;
-						width: 600px; height: 100px;
+						position: absolute; top: 680px; left: 200px;
+						width: 600px; height: 120px;
 						overflow: hidden;
 					}
 					#Ctnr_PFDDefaultPanelHeading > .CtrlGroup {
@@ -622,7 +622,7 @@
 
 						/* Tape */
 						#Ctrl_PFDDefaultPanelHeadingTape {
-							top: 0; left: -100px;
+							top: 20px; left: -100px;
 							width: 800px; height: 800px; border-radius: 400px;
 						}
 						#CtrlGroup_PFDDefaultPanelHeadingTape {
@@ -641,9 +641,31 @@
 							text-align: center;
 						}
 
+						/* Additional indicators */
+						#Ctrl_PFDDefaultPanelHeadingAdditionalIndicators {
+							position: absolute; top: 0; left: -120px;
+							width: 840px; height: 840px;
+							overflow: hidden;
+							pointer-events: none;
+						}
+							/* Other headings */
+							#CtrlGroup_PFDDefaultPanelOtherHeadings {
+								width: 100%; height: 100%;
+							}
+							#Ctrl_PFDDefaultPanelBearing {
+								position: absolute; top: 0; left: calc(50% - 10px);
+								width: 20px; height: 100%;
+								display: flex; justify-content: center;
+							}
+							#Ctrl_PFDDefaultPanelBearing div {
+								width: 20px; height: 20px; clip-path: polygon(0 0, 100% 0, 50% 100%);
+								background-color: #C040C0C0;
+								pointer-events: auto;
+							}
+
 						/* Balloon */
 						#Ctrl_PFDDefaultPanelHeadingBalloon {
-							position: absolute; top: 1px; left: calc(50% - 35px);
+							position: absolute; top: 21px; left: calc(50% - 35px);
 							width: 70px; height: 60px;
 							filter: drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000);
 						}

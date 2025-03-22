@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.22,
+		const CurrentVersion = 0.23,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -104,7 +104,7 @@
 				},
 				DME: {
 					Lat: 0, Lon: 0,
-					Distance: 0, ETA: 0
+					Distance: 0, Bearing: 0, ETA: 0
 				},
 				FlightModeTimestamp: 0
 			},
@@ -1042,11 +1042,13 @@
 					case "TakeOff":
 					case "EmergencyReturn":
 						PFD0.Stats.DME.Distance = CalcDistance(PFD0.Stats.DME.Lat, PFD0.Stats.DME.Lon, PFD.DME.AirportCoordinates.Departure.Lat, PFD.DME.AirportCoordinates.Departure.Lon);
+						PFD0.Stats.DME.Bearing = CalcBearing(PFD0.Stats.DME.Lat, PFD0.Stats.DME.Lon, PFD.DME.AirportCoordinates.Departure.Lat, PFD.DME.AirportCoordinates.Departure.Lon);
 						break;
 					case "Cruise":
 					case "Land":
 					case "ArrivalGround":
 						PFD0.Stats.DME.Distance = CalcDistance(PFD0.Stats.DME.Lat, PFD0.Stats.DME.Lon, PFD.DME.AirportCoordinates.Arrival.Lat, PFD.DME.AirportCoordinates.Arrival.Lon);
+						PFD0.Stats.DME.Bearing = CalcBearing(PFD0.Stats.DME.Lat, PFD0.Stats.DME.Lon, PFD.DME.AirportCoordinates.Arrival.Lat, PFD.DME.AirportCoordinates.Arrival.Lon);
 						break;
 					default:
 						AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshPFDData is invalid.");
@@ -1811,9 +1813,11 @@
 				// Heading
 				Fade("Ctrl_PFDDefaultPanelHeadingStatus");
 				Fade("Ctrl_PFDDefaultPanelHeadingTape");
+				Fade("Ctrl_PFDDefaultPanelHeadingAdditionalIndicators");
 				Fade("Ctrl_PFDDefaultPanelHeadingBalloon");
 				if(PFD0.Status.GPS.IsHeadingAvailable == true) {
 					Show("Ctrl_PFDDefaultPanelHeadingTape");
+					Show("Ctrl_PFDDefaultPanelHeadingAdditionalIndicators");
 					Show("Ctrl_PFDDefaultPanelHeadingBalloon");
 					if(System.Display.Anim > 0) {
 						ChangeAnim("Ctrl_PFDDefaultPanelHeadingTape", "100ms");
@@ -1821,6 +1825,12 @@
 						ChangeAnim("Ctrl_PFDDefaultPanelHeadingTape", "");
 					}
 					ChangeRotate("CtrlGroup_PFDDefaultPanelHeadingTape", -PFD0.Stats.Heading.Display);
+					if(PFD.DME.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
+						Show("Ctrl_PFDDefaultPanelBearing");
+						ChangeRotate("Ctrl_PFDDefaultPanelBearing", PFD0.Stats.DME.Bearing - PFD0.Stats.Heading.Display);
+					} else {
+						Fade("Ctrl_PFDDefaultPanelBearing");
+					}
 					ChangeText("Label_PFDDefaultPanelHeadingBalloon", Math.trunc(PFD0.Stats.Heading.Display).toString().padStart(3, "0"));
 				} else {
 					Show("Ctrl_PFDDefaultPanelHeadingStatus");
@@ -3926,6 +3936,17 @@
 		Calc = Math.sin(LatDiffInRad / 2) * Math.sin(LatDiffInRad / 2) + Math.cos(Lat1 * (Math.PI / 180)) * Math.cos(Lat2 * (Math.PI / 180)) * Math.sin(LonDiffInRad / 2) * Math.sin(LonDiffInRad / 2);
 		Distance = 2 * EarthRadius * Math.atan2(Math.sqrt(Calc), Math.sqrt(1 - Calc));
 		return Distance;
+	}
+	function CalcBearing(Lat1, Lon1, Lat2, Lon2) { // https://www.igismap.com/formula-to-find-bearing-or-heading-angle-between-two-points-latitude-longitude/
+		let LonDiffInRad = 0, Calc1 = 0, Calc2 = 0, Bearing = 0;
+		LonDiffInRad = (Lon2 - Lon1) * (Math.PI / 180);
+		Calc1 = Math.cos(Lat2 * (Math.PI / 180)) * Math.sin(LonDiffInRad);
+		Calc2 = Math.cos(Lat1 * (Math.PI / 180)) * Math.sin(Lat2 * (Math.PI / 180)) - Math.sin(Lat1 * (Math.PI / 180)) * Math.cos(Lat2 * (Math.PI / 180)) * Math.cos(LonDiffInRad);
+		Bearing = Math.atan2(Calc1, Calc2) / (Math.PI / 180);
+		if(Bearing < 0) {
+			Bearing += 360;
+		}
+		return Bearing;
 	}
 
 	// Alerts

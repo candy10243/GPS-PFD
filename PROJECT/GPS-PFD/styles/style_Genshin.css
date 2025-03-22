@@ -126,6 +126,12 @@
 						}
 
 					/* Heading */
+						/* Additional indicators */
+							/* Other headings */
+							#Ctrl_PFDDefaultPanelBearing div {
+								background-color: #E060E0C0;
+							}
+
 						/* Balloon */
 						#Ctrl_PFDDefaultPanelHeadingBalloon {
 							filter: drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9) drop-shadow(0 0 0.5px #EEE4D9);
