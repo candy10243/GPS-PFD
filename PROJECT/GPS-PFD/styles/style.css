@@ -614,7 +614,7 @@
 					}
 						/* Status */
 						#Ctrl_PFDDefaultPanelHeadingStatus {
-							position: absolute; top: calc(50% - 40px); left: calc(50% - 100px);
+							position: absolute; top: calc(50% - 20px); left: calc(50% - 100px);
 							width: 200px; height: 80px; padding: 5px;
 							text-align: center;
 							display: flex; justify-content: center; align-items: center;
@@ -645,7 +645,6 @@
 						#Ctrl_PFDDefaultPanelHeadingAdditionalIndicators {
 							position: absolute; top: 0; left: -120px;
 							width: 840px; height: 840px;
-							overflow: hidden;
 							pointer-events: none;
 						}
 							/* Other headings */
