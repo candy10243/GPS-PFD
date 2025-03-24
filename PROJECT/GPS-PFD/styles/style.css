@@ -614,7 +614,7 @@
 					}
 						/* Status */
 						#Ctrl_PFDDefaultPanelHeadingStatus {
-							position: absolute; top: calc(50% - 20px); left: calc(50% - 100px);
+							position: absolute; top: calc(50% - 30px); left: calc(50% - 100px);
 							width: 200px; height: 80px; padding: 5px;
 							text-align: center;
 							display: flex; justify-content: center; align-items: center;
