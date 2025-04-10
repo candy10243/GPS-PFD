@@ -86,7 +86,7 @@
 								background-color: #FF4040;
 							}
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelAvgIAS {
-								background-color: #E060E0C0;
+								background-color: #E060E0;
 							}
 
 						/* Balloon */
@@ -101,7 +101,7 @@
 						/* Additional indicators */
 							/* Other altitudes */
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude {
-								background-color: #00C000C0;
+								background-color: #00C000;
 							}
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude.Active {
 								background-color: #FF8000;
@@ -129,7 +129,7 @@
 						/* Additional indicators */
 							/* Other headings */
 							#Ctrl_PFDDefaultPanelBearing div {
-								background-color: #E060E0C0;
+								background-color: #E060E0;
 							}
 
 						/* Balloon */
@@ -139,6 +139,39 @@
 						#Ctrl_PFDDefaultPanelHeadingBalloon > .CtrlGroup > .Ctrl {
 							background-color: #202020;
 						}
+
+					/* Localizer */
+					#PFDDefaultPanelLocalizerPointer {
+						background-color: #E060E0;
+					}
+					.ILSCircle {
+						border: 2px solid #FFFFFF;
+					}
+					#Ctnr_PFDDefaultPanelLocalizer .ILSLine div {
+						background-color: #FFFFFF;
+					}
+
+					/* Glide slope */
+					#PFDDefaultPanelGlideSlopePointer {
+						background-color: #E060E0;
+					}
+					#Ctnr_PFDDefaultPanelGlideSlope .ILSLine div {
+						background-color: #FFFFFF;
+					}
+
+					/* Marker beacons */
+					#Ctnr_PFDDefaultPanelMarkerBeacon.OuterMarker {
+						background-color: #00A0E0;
+						color: #000000;
+					}
+					#Ctnr_PFDDefaultPanelMarkerBeacon.MiddleMarker {
+						background-color: #FF8000;
+						color: #000000;
+					}
+					#Ctnr_PFDDefaultPanelMarkerBeacon.InnerMarker {
+						background-color: #FFFFFF;
+						color: #000000;
+					}
 
 					/* Radio altitude */
 					#Ctnr_PFDDefaultPanelRadioAltitude .DialScale {
