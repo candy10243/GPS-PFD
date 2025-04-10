@@ -10,7 +10,7 @@
 		<link rel="icon" type="image/png" href="images/Icon_Small.png" />
 		<title>GPS-PFD</title>
 		<meta name="author" content="SAM TOKI STUDIO" />
-		<meta name="version" content="v0.23 (2025/03/22) Beta Test. Since 2024/12/01." />
+		<meta name="version" content="v0.24 (2025/04/10) Beta Test. Since 2024/12/01." />
 		<meta name="description" content="利用 GPS 与加速计，在移动设备上模拟飞机驾驶舱的 PFD。" />
 		<meta name="copyright" content="© 2025 SAM TOKI STUDIO" />
 
@@ -1129,7 +1129,7 @@
 								<li class="Ctrl" id="Ctrl_PFDDefaultPanelHeadingBalloon">
 									<ul class="CtrlGroup">
 										<li class="Ctrl Balloon" title="当前朝向" aria-label="当前朝向">
-											<span id="Label_PFDDefaultPanelHeadingBalloon">朝向</span>
+											<span id="Label_PFDDefaultPanelHeadingBalloon"><span class="SmallerText">朝向</span></span>
 										</li>
 										<li class="Ctrl BalloonTail" title="当前朝向" aria-label="当前朝向"></li>
 									</ul>
@@ -1139,32 +1139,51 @@
 						<div class="Ctnr Faded" id="Ctnr_PFDDefaultPanelDME" inert="true">
 							<span id="Label_PFDDefaultPanelDMETitle">测距仪</span>
 							<span id="Label_PFDDefaultPanelDMEDistance">距离</span>
-							<span id="Label_PFDDefaultPanelDMEETA">预计剩余时间</span>
+							<span id="Label_PFDDefaultPanelDMEETA"><span class="SmallerText">预计剩余时间</span></span>
 						</div>
-						<div class="Ctnr" id="Ctnr_PFDDefaultPanelRadioAltitude">
+						<div class="Ctnr Faded" id="Ctnr_PFDDefaultPanelLocalizer" inert="true" title="航向台" aria-label="航向台">
+							<div id="PFDDefaultPanelLocalizerPointer" title="航向台指针" aria-label="航向台指针"></div>
 							<ul class="CtrlGroup">
-								<li class="Ctrl" title="无线电高度表" aria-label="无线电高度表">
-									<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelRadioAltitudeDialScale">
-										<li class="Ctrl"><div class="DialScale"></div></li>
-										<li class="Ctrl" style="transform: rotate(36deg);"><div class="DialScale"></div></li>
-										<li class="Ctrl" style="transform: rotate(72deg);"><div class="DialScale"></div></li>
-										<li class="Ctrl" style="transform: rotate(108deg);"><div class="DialScale"></div></li>
-										<li class="Ctrl" style="transform: rotate(144deg);"><div class="DialScale"></div></li>
-										<li class="Ctrl" style="transform: rotate(180deg);"><div class="DialScale"></div></li>
-										<li class="Ctrl" style="transform: rotate(216deg);"><div class="DialScale"></div></li>
-										<li class="Ctrl" style="transform: rotate(252deg);"><div class="DialScale"></div></li>
-										<li class="Ctrl" style="transform: rotate(288deg);"><div class="DialScale"></div></li>
-										<li class="Ctrl" style="transform: rotate(324deg);"><div class="DialScale"></div></li>
-									</ul>
-									<svg class="Progring" id="Progring_PFDDefaultPanelRadioAltitude" viewBox="0 0 85 85" aria-hidden="true">
-										<circle class="ProgringFg" id="ProgringFg_PFDDefaultPanelRadioAltitude" cx="42.5" cy="42.5" r="41" />
-									</svg>
-									<span class="ProgringText" id="ProgringText_PFDDefaultPanelRadioAltitude">
-										<span class="SmallerText">无线电<br />
-											高度</span>
-									</span>
-								</li>
+								<li class="Ctrl ILSCircle"></li>
+								<li class="Ctrl ILSCircle"></li>
+								<li class="Ctrl ILSLine"><div></div></li>
+								<li class="Ctrl ILSCircle"></li>
+								<li class="Ctrl ILSCircle"></li>
 							</ul>
+						</div>
+						<div class="Ctnr Faded" id="Ctnr_PFDDefaultPanelGlideSlope" inert="true" title="下滑道" aria-label="下滑道">
+							<div id="PFDDefaultPanelGlideSlopePointer" title="下滑道指针" aria-label="下滑道指针"></div>
+							<ul class="CtrlGroup">
+								<li class="Ctrl ILSCircle"></li>
+								<li class="Ctrl ILSCircle"></li>
+								<li class="Ctrl ILSLine"><div></div></li>
+								<li class="Ctrl ILSCircle"></li>
+								<li class="Ctrl ILSCircle"></li>
+							</ul>
+						</div>
+						<div class="Ctnr Faded" id="Ctnr_PFDDefaultPanelMarkerBeacon" inert="true" title="指点标" aria-label="指点标">
+							<span id="Label_PFDDefaultPanelMarkerBeacon">指</span>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDDefaultPanelRadioAltitude" title="无线电高度表" aria-label="无线电高度表">
+							<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelRadioAltitudeDialScale">
+								<li class="Ctrl"><div class="DialScale"></div></li>
+								<li class="Ctrl" style="transform: rotate(36deg);"><div class="DialScale"></div></li>
+								<li class="Ctrl" style="transform: rotate(72deg);"><div class="DialScale"></div></li>
+								<li class="Ctrl" style="transform: rotate(108deg);"><div class="DialScale"></div></li>
+								<li class="Ctrl" style="transform: rotate(144deg);"><div class="DialScale"></div></li>
+								<li class="Ctrl" style="transform: rotate(180deg);"><div class="DialScale"></div></li>
+								<li class="Ctrl" style="transform: rotate(216deg);"><div class="DialScale"></div></li>
+								<li class="Ctrl" style="transform: rotate(252deg);"><div class="DialScale"></div></li>
+								<li class="Ctrl" style="transform: rotate(288deg);"><div class="DialScale"></div></li>
+								<li class="Ctrl" style="transform: rotate(324deg);"><div class="DialScale"></div></li>
+							</ul>
+							<svg class="Progring" id="Progring_PFDDefaultPanelRadioAltitude" viewBox="0 0 85 85" aria-hidden="true">
+								<circle class="ProgringFg" id="ProgringFg_PFDDefaultPanelRadioAltitude" cx="42.5" cy="42.5" r="41" />
+							</svg>
+							<span class="ProgringText" id="ProgringText_PFDDefaultPanelRadioAltitude">
+								<span class="SmallerText">无线电<br />
+									高度</span>
+							</span>
 						</div>
 						<div class="Ctnr Faded" id="Ctnr_PFDDefaultPanelDecisionAltitude">
 							<span id="Label_PFDDefaultPanelDecisionAltitudeTitle">决断高度</span>
@@ -1365,9 +1384,9 @@
 													</label>
 												</li>
 												<li class="Ctrl">
-													<label for="Checkbox_PFDOptionsEnableDME">
-														<input class="Checkbox" id="Checkbox_PFDOptionsEnableDME" type="checkbox" checked="false" onchange="SetEnableDMEAtPFDOptions()" />
-														<span>启用测距仪</span>
+													<label for="Checkbox_PFDOptionsEnableNav">
+														<input class="Checkbox" id="Checkbox_PFDOptionsEnableNav" type="checkbox" checked="true" onchange="SetEnableNavAtPFDOptions()" />
+														<span>启用导航</span>
 													</label>
 												</li>
 												<li class="Ctrl">
@@ -1630,21 +1649,21 @@
 								<li class="Ctrl">
 									<label for="Textbox_SettingsSpeedLimitMin">
 										<span>最小表速：</span>
-										<input class="Textbox Width120" id="Textbox_SettingsSpeedLimitMin" type="number" min="0" max="530" step="5" value="0" onclick="SelectText('Textbox_SettingsSpeedLimitMin')" onchange="SetSpeedLimitMin()" placeholder="0~530" title="0~530" />
+										<input class="Textbox Width120" id="Textbox_SettingsSpeedLimitMin" type="number" min="0" max="529" step="5" value="0" onclick="SelectText('Textbox_SettingsSpeedLimitMin')" onchange="SetSpeedLimitMin()" placeholder="0~529" title="0~529" />
 										<span id="Label_SettingsSpeedLimitMinUnit">节</span>
 									</label>
 								</li>
 								<li class="Ctrl">
 									<label for="Textbox_SettingsSpeedLimitMaxOnFlapsUp">
 										<span><a href="https://zh.wikipedia.org/wiki/襟翼">襟翼</a>收起时最大表速：</span>
-										<input class="Textbox Width120" id="Textbox_SettingsSpeedLimitMaxOnFlapsUp" type="number" min="10" max="539" step="5" value="539" onclick="SelectText('Textbox_SettingsSpeedLimitMaxOnFlapsUp')" onchange="SetSpeedLimitMaxOnFlapsUp()" placeholder="10~539" title="10~539" />
+										<input class="Textbox Width120" id="Textbox_SettingsSpeedLimitMaxOnFlapsUp" type="number" min="10" max="539" step="5" value="539" onclick="SelectText('Textbox_SettingsSpeedLimitMaxOnFlapsUp')" onchange="SetSpeedLimitMaxOnFlapsUp()" placeholder="11~539" title="11~539" />
 										<span id="Label_SettingsSpeedLimitOnFlapsUpUnit">节</span>
 									</label>
 								</li>
 								<li class="Ctrl">
 									<label for="Textbox_SettingsSpeedLimitMaxOnFlapsFull">
 										<span>襟翼全开时最大表速：</span>
-										<input class="Textbox Width120" id="Textbox_SettingsSpeedLimitMaxOnFlapsFull" type="number" min="10" max="539" step="5" value="539" onclick="SelectText('Textbox_SettingsSpeedLimitMaxOnFlapsFull')" onchange="SetSpeedLimitMaxOnFlapsFull()" placeholder="10~539" title="10~539" />
+										<input class="Textbox Width120" id="Textbox_SettingsSpeedLimitMaxOnFlapsFull" type="number" min="10" max="539" step="5" value="539" onclick="SelectText('Textbox_SettingsSpeedLimitMaxOnFlapsFull')" onchange="SetSpeedLimitMaxOnFlapsFull()" placeholder="11~539" title="11~539" />
 										<span id="Label_SettingsSpeedLimitOnFlapsFullUnit">节</span>
 									</label>
 								</li>
@@ -1710,15 +1729,15 @@
 							</ul>
 						</fieldset>
 					</li>
-					<li class="Item" id="Item_SettingsDME">
+					<li class="Item" id="Item_SettingsNav">
 						<fieldset>
-							<legend>测距仪</legend>
-							<p><a href="https://zh.wikipedia.org/wiki/测距仪">测距仪 (DME) </a>测量您与机场之间的水平距离，在朝向指示器上提供导航朝向 (bearing)，并加强<a href="https://zh.wikipedia.org/wiki/近地警告系统">近地警告系统 (GPWS) </a>的功能。</p>
+							<legend>导航</legend>
+							<p>导航功能参考自<a href="https://zh.wikipedia.org/wiki/仪表着陆系统">仪表着陆系统 (ILS)</a>。包括<a href="https://zh.wikipedia.org/wiki/测距仪">测距仪 (DME) </a>、导航朝向 (bearing)、航向台 (localizer)、下滑道 (glide slope) 以及指点标 (marker beacons)。测距仪测量您与机场之间的水平距离，预测到达机场前的剩余时间。下滑道使<a href="https://zh.wikipedia.org/wiki/近地警告系统">近地警告系统 (GPWS) </a>的下滑道警告功能可用。航向台与下滑道仅在飞航模式为「降落」时显示。</p>
 							<ul class="CtrlGroup BelowParagraph">
 								<li class="Ctrl">
-									<label for="Checkbox_SettingsEnableDME">
-										<input class="Checkbox" id="Checkbox_SettingsEnableDME" type="checkbox" checked="false" onchange="SetEnableDME()" />
-										<span>启用测距仪</span>
+									<label for="Checkbox_SettingsEnableNav">
+										<input class="Checkbox" id="Checkbox_SettingsEnableNav" type="checkbox" checked="false" onchange="SetEnableNav()" />
+										<span>启用导航</span>
 									</label>
 								</li>
 							</ul>
@@ -1758,6 +1777,40 @@
 											<option value="UseRealTimeGS">使用实时地速</option>
 											<option value="UseAvgGS" selected>使用平均地速</option>
 										</select>
+									</label>
+								</li>
+							</ul>
+							<h4 class="Hidden" id="Label_SettingsGlideSlope" inert="true">下滑道</h4>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl Hidden" id="Ctrl_SettingsGlideSlopeAngle" inert="true">
+									<label for="Textbox_SettingsGlideSlopeAngle">
+										<span>下滑道角度：</span>
+										<input class="Textbox Width120" id="Textbox_SettingsGlideSlopeAngle" type="number" min="0" max="5" step="0.1" value="3.0" onclick="SelectText('Textbox_SettingsGlideSlopeAngle')" onchange="SetGlideSlopeAngle()" placeholder="0~5" title="0~5" />
+										<span>度</span>
+									</label>
+								</li>
+							</ul>
+							<h4 class="Hidden" id="Label_SettingsMarkerBeacons" inert="true">指点标</h4>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl Hidden" id="Ctrl_SettingsOuterMarkerDistance" inert="true">
+									<label for="Textbox_SettingsOuterMarkerDistance">
+										<span>外指点标距离：</span>
+										<input class="Textbox Width120" id="Textbox_SettingsOuterMarkerDistance" type="number" min="0" max="8.1" step="0.1" value="5.00" onclick="SelectText('Textbox_SettingsOuterMarkerDistance')" onchange="SetOuterMarkerDistance()" placeholder="0~8.1" title="0~8.1" />
+										<span id="Label_SettingsOuterMarkerDistanceUnit">海里</span>
+									</label>
+								</li>
+								<li class="Ctrl Hidden" id="Ctrl_SettingsMiddleMarkerDistance" inert="true">
+									<label for="Textbox_SettingsMiddleMarkerDistance">
+										<span>中指点标距离：</span>
+										<input class="Textbox Width120" id="Textbox_SettingsMiddleMarkerDistance" type="number" min="0" max="8.1" step="0.1" value="0.50" onclick="SelectText('Textbox_SettingsMiddleMarkerDistance')" onchange="SetMiddleMarkerDistance()" placeholder="0~8.1" title="0~8.1" />
+										<span id="Label_SettingsMiddleMarkerDistanceUnit">海里</span>
+									</label>
+								</li>
+								<li class="Ctrl Hidden" id="Ctrl_SettingsInnerMarkerDistance" inert="true">
+									<label for="Textbox_SettingsInnerMarkerDistance">
+										<span>内指点标距离：</span>
+										<input class="Textbox Width120" id="Textbox_SettingsInnerMarkerDistance" type="number" min="0" max="8.1" step="0.1" value="0.10" onclick="SelectText('Textbox_SettingsInnerMarkerDistance')" onchange="SetInnerMarkerDistance()" placeholder="0~8.1" title="0~8.1" />
+										<span id="Label_SettingsInnerMarkerDistanceUnit">海里</span>
 									</label>
 								</li>
 								<li class="Ctrl Hidden"></li> <!-- Placeholder for the wider fieldset UI. -->
@@ -2185,7 +2238,7 @@
 							<legend>关于</legend>
 							<p>GPS-PFD</p>
 							<p>by SAM TOKI STUDIO</p>
-							<p>版本 v0.23 (<time datetime="2025-03-22" pubdate="pubdate">2025/03/22</time>) Beta Test<br />
+							<p>版本 v0.24 (<time datetime="2025-04-10" pubdate="pubdate">2025/04/10</time>) Beta Test<br />
 								始于 2024/12/01</p>
 							<p class="GreenText Hidden" id="Label_HelpPWANewVersionReady" inert="true">新版本已就绪，将在下次启动时生效。</p>
 							<ul class="CtrlGroup BelowParagraph">

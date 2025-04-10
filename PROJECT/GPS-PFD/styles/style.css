@@ -21,12 +21,12 @@
 			}
 				/* Default panel */
 				#Ctnr_PFDDefaultPanel {
-					width: 1000px; height: 800px;
+					width: 1060px; height: 800px;
 				}
 					/* Attitude */
 					#Ctnr_PFDDefaultPanelAttitude {
-						position: absolute; top: 175px; left: 275px;
-						width: 450px; height: 450px; border-radius: 20px;
+						position: absolute; top: calc(50% - 225px); left: calc(50% - 225px);
+						width: 450px; height: 450px; border-radius: 25px;
 					}
 					#Ctnr_PFDDefaultPanelAttitude > .CtrlGroup {
 						width: 100%; height: 100%;
@@ -72,7 +72,7 @@
 							display: flex; justify-content: center; align-items: center;
 						}
 						#CtrlGroup_PFDDefaultPanelAttitudePitch .AttitudeScale0 {
-							width: 2000px; height: 2px; border-radius: 1px;
+							width: 100%; height: 2px; border-radius: 1px;
 							background-color: #000000;
 						}
 						#CtrlGroup_PFDDefaultPanelAttitudePitch .AttitudeScale1 {
@@ -132,8 +132,8 @@
 
 						/* Aircraft symbol */
 						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol {
-							position: absolute; top: calc(50% - 5px); left: 75px;
-							width: 300px; height: 22.5px;
+							position: absolute; top: calc(50% - 8px); left: 75px;
+							width: 300px; height: 28px;
 						}
 						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol .CtrlGroup {
 							width: 100%; height: 100%;
@@ -144,30 +144,30 @@
 							background-color: #FFFFFF;
 						}
 						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol #Ctrl_PFDDefaultPanelAttitudeAircraftSymbolLeft1 {
-							top: 2.5px; left: 0;
-							width: 80px; height: 5px; border-radius: 2.5px;
+							top: 4px; left: 0;
+							width: 80px; height: 8px; border-radius: 4px;
 						}
 						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol #Ctrl_PFDDefaultPanelAttitudeAircraftSymbolLeft2 {
-							top: 2.5px; left: 75px;
-							width: 5px; height: 20px; border-radius: 2.5px;
+							top: 4px; left: 72px;
+							width: 8px; height: 24px; border-radius: 4px;
 						}
 						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol #Ctrl_PFDDefaultPanelAttitudeAircraftSymbolCenter {
-							top: 0; left: calc(50% - 5px);
-							width: 10px; height: 10px; border-radius: 5px;
+							top: 0; left: calc(50% - 8px);
+							width: 16px; height: 16px; border-radius: 8px;
 						}
 						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol #Ctrl_PFDDefaultPanelAttitudeAircraftSymbolRight1 {
-							top: 2.5px; right: 0;
-							width: 80px; height: 5px; border-radius: 2.5px;
+							top: 4px; right: 0;
+							width: 80px; height: 8px; border-radius: 4px;
 						}
 						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol #Ctrl_PFDDefaultPanelAttitudeAircraftSymbolRight2 {
-							top: 2.5px; right: 75px;
-							width: 5px; height: 20px; border-radius: 2.5px;
+							top: 4px; right: 72px;
+							width: 8px; height: 24px; border-radius: 4px;
 						}
 
 					/* Info bar */
 					#Ctnr_PFDDefaultPanelInfoBar {
 						position: absolute; top: 0; left: 0;
-						width: 125px; height: 800px;
+						width: 125px; height: 100%;
 					}
 					#CtrlGroup_PFDDefaultPanelStatus {
 						position: absolute; top: 0; left: 0;
@@ -225,8 +225,8 @@
 
 					/* FMA 1 */
 					#Ctnr_PFDDefaultPanelFMA1 {
-						position: absolute; top: 0; left: 275px;
-						width: 450px; height: 60px; border-radius: 5px;
+						position: absolute; top: 0; left: calc(50% - 270px);
+						width: 540px; height: 60px; border-radius: 5px;
 						background-color: #FFFFFF80;
 					}
 					#Ctnr_PFDDefaultPanelFMA1 .CtrlGroup {
@@ -243,7 +243,7 @@
 
 					/* FMA 2 */
 					#Ctnr_PFDDefaultPanelFMA2 {
-						position: absolute; top: 120px; left: 425px;
+						position: absolute; top: calc(50% - 280px); left: calc(50% - 75px);
 						width: 150px; height: 40px; border-radius: 5px; padding: 5px;
 						text-align: center;
 						display: flex; justify-content: center; align-items: center;
@@ -254,7 +254,7 @@
 
 					/* Speed */
 					#Ctnr_PFDDefaultPanelSpeed {
-						position: absolute; top: 100px; left: 140px;
+						position: absolute; top: calc(50% - 300px); left: 140px;
 						width: 105px; height: 660px;
 					}
 					#Ctnr_PFDDefaultPanelSpeed > .CtrlGroup {
@@ -350,7 +350,7 @@
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelAvgIAS {
 								bottom: -10px;
 								width: 20px; height: 20px; clip-path: polygon(100% 0, 100% 100%, 0 50%);
-								background-color: #C040C0C0;
+								background-color: #C040C0;
 							}
 
 						/* Balloon */
@@ -414,7 +414,7 @@
 
 					/* Altitude */
 					#Ctnr_PFDDefaultPanelAltitude {
-						position: absolute; top: 100px; left: 755px;
+						position: absolute; top: calc(50% - 300px); right: 105px;
 						width: 140px; height: 660px;
 					}
 					#Ctnr_PFDDefaultPanelAltitude > .CtrlGroup {
@@ -474,7 +474,7 @@
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude {
 								bottom: 1677.5px; /* Default decision height is 250ft. */
 								width: 20px; height: 20px; clip-path: polygon(100% 50%, 0 100%, 0 0);
-								background-color: #00A000C0;
+								background-color: #00A000;
 							}
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude.Active {
 								background-color: #E06000;
@@ -547,7 +547,7 @@
 
 					/* Vertical speed */
 					#Ctnr_PFDDefaultPanelVerticalSpeed {
-						position: absolute; top: 200px; left: 910px;
+						position: absolute; top: calc(50% - 200px); right: 0;
 						width: 90px; height: 400px;
 					}
 					#Ctnr_PFDDefaultPanelVerticalSpeed > .CtrlGroup {
@@ -605,7 +605,7 @@
 
 					/* Heading */
 					#Ctnr_PFDDefaultPanelHeading {
-						position: absolute; top: 680px; left: 200px;
+						position: absolute; bottom: 0; left: calc(50% - 300px);
 						width: 600px; height: 120px;
 						overflow: hidden;
 					}
@@ -658,7 +658,7 @@
 							}
 							#Ctrl_PFDDefaultPanelBearing div {
 								width: 20px; height: 20px; clip-path: polygon(0 0, 100% 0, 50% 100%);
-								background-color: #C040C0C0;
+								background-color: #C040C0;
 								pointer-events: auto;
 							}
 
@@ -692,7 +692,7 @@
 
 					/* DME */
 					#Ctnr_PFDDefaultPanelDME {
-						position: absolute; top: 75px; left: 275px;
+						position: absolute; top: calc(50% - 325px); left: calc(50% - 225px);
 						width: 120px; height: 85px; padding: 5px;
 						display: flex; flex-direction: column; justify-content: end;
 					}
@@ -700,17 +700,110 @@
 						font-size: 1.50em;
 					}
 
-					/* Radio altitude */
-					#Ctnr_PFDDefaultPanelRadioAltitude {
-						position: absolute; top: 75px; left: 640px;
-						width: 85px; height: 85px;
+					/* Localizer */
+					#Ctnr_PFDDefaultPanelLocalizer {
+						position: absolute; top: calc(50% + 225px); left: calc(50% - 132.5px);
+						width: 265px; height: 25px;
 					}
-					#Ctnr_PFDDefaultPanelRadioAltitude > .CtrlGroup,
-					#Ctnr_PFDDefaultPanelRadioAltitude > .CtrlGroup > .Ctrl,
-					#Ctnr_PFDDefaultPanelRadioAltitude .Ctrl .CtrlGroup {
+					#PFDDefaultPanelLocalizerPointer {
+						position: absolute; top: 5px; left: calc(50% - 15px);
+						width: 30px; height: 15px; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+						background-color: #C040C0;
+					}
+					#Ctnr_PFDDefaultPanelLocalizer .CtrlGroup {
 						width: 100%; height: 100%;
 					}
-					#Ctnr_PFDDefaultPanelRadioAltitude .Ctrl .CtrlGroup .Ctrl {
+					.ILSCircle {
+						width: 12.5px; height: 12.5px; border: 2px solid #000000; border-radius: 10px; margin: 6.25px;
+					}
+					.ILSLine {
+						width: 25px; height: 25px;
+					}
+					#Ctnr_PFDDefaultPanelLocalizer .ILSLine div {
+						position: absolute; top: 0; left: calc(50% - 1px);
+						width: 2px; height: 100%; border-radius: 1px;
+						background-color: #000000;
+					}
+
+					/* Glide slope */
+					#Ctnr_PFDDefaultPanelGlideSlope {
+						position: absolute; top: calc(50% - 132.5px); left: calc(50% + 225px);
+						width: 25px; height: 265px;
+					}
+					#PFDDefaultPanelGlideSlopePointer {
+						position: absolute; top: calc(50% - 15px); left: 5px;
+						width: 15px; height: 30px; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+						background-color: #C040C0;
+					}
+					#Ctnr_PFDDefaultPanelGlideSlope .CtrlGroup {
+						width: 100%; height: 100%;
+						flex-direction: column;
+					}
+					#Ctnr_PFDDefaultPanelGlideSlope .ILSLine div {
+						position: absolute; top: calc(50% - 1px); left: 0;
+						width: 100%; height: 2px; border-radius: 1px;
+						background-color: #000000;
+					}
+
+					/* Marker beacons */
+					#Ctnr_PFDDefaultPanelMarkerBeacon {
+						position: absolute; top: calc(50% - 215px); right: calc(50% - 215px);
+						width: 50px; height: 50px; border-radius: 25px;
+						text-align: center;
+						display: flex; justify-content: center; align-items: center;
+					}
+					#Ctnr_PFDDefaultPanelMarkerBeacon.OuterMarker {
+						background-color: #0090D0;
+						color: #FFFFFF;
+						animation: Anim_PFDOuterMarker 500ms infinite step-end;
+					}
+						@keyframes Anim_PFDOuterMarker {
+							0% {
+								opacity: 1;
+							}
+							80% {
+								opacity: 0;
+							}
+						}
+					#Ctnr_PFDDefaultPanelMarkerBeacon.MiddleMarker {
+						background-color: #E06000;
+						color: #FFFFFF;
+						animation: Anim_PFDMiddleMarker 700ms infinite step-end;
+					}
+						@keyframes Anim_PFDMiddleMarker {
+							0%, 28.57143% {
+								opacity: 1;
+							}
+							14.28571%, 85.71429% {
+								opacity: 0;
+							}
+						}
+					#Ctnr_PFDDefaultPanelMarkerBeacon.InnerMarker {
+						background-color: #000000;
+						color: #FFFFFF;
+						animation: Anim_PFDInnerMarker 200ms infinite step-end;
+					}
+						@keyframes Anim_PFDInnerMarker {
+							0% {
+								opacity: 1;
+							}
+							50% {
+								opacity: 0;
+							}
+						}
+					#Label_PFDDefaultPanelMarkerBeacon {
+						font-size: 1.50em;
+					}
+
+					/* Radio altitude */
+					#Ctnr_PFDDefaultPanelRadioAltitude {
+						position: absolute; top: calc(50% - 325px); right: calc(50% - 225px);
+						width: 85px; height: 85px;
+					}
+					#Ctnr_PFDDefaultPanelRadioAltitude .CtrlGroup {
+						width: 100%; height: 100%;
+					}
+					#Ctnr_PFDDefaultPanelRadioAltitude .Ctrl {
 						position: absolute; top: 0; left: 50%;
 						width: 0; height: 100%;
 						display: flex; flex-direction: column; justify-content: start; align-items: center;
@@ -731,7 +824,7 @@
 
 					/* Decision altitude */
 					#Ctnr_PFDDefaultPanelDecisionAltitude {
-						position: absolute; top: 640px; left: 640px;
+						position: absolute; top: calc(50% + 240px); right: calc(50% - 225px);
 						width: 85px; height: 60px; border-radius: 5px; padding: 5px;
 						display: flex; flex-direction: column; align-items: end;
 					}
@@ -745,7 +838,7 @@
 
 					/* Warning */
 					#Ctnr_PFDDefaultPanelWarning {
-						position: absolute; top: 275px; left: 380px;
+						position: absolute; top: calc(50% - 125px); left: calc(50% - 120px);
 						width: 240px; height: 50px; border-radius: 5px;
 						background-color: #FFFFFF;
 						text-align: center;
@@ -1055,10 +1148,10 @@
 	/* Area specific */
 		/* Main */
 			/* Settings */
-			#Item_SettingsSpeed, #Item_SettingsDME {
+			#Item_SettingsSpeed, #Item_SettingsNav {
 				width: 800px;
 			}
-			#Item_SettingsSpeed .Ctrl, #Item_SettingsDME .Ctrl { /* .WidthDividedBy2 */
+			#Item_SettingsSpeed .Ctrl, #Item_SettingsNav .Ctrl { /* .WidthDividedBy2 */
 				width: calc((100% - 10px) / 2);
 			}
 			#Item_SettingsSpeed .BeforeSmallButtonCtrl {
@@ -1067,9 +1160,9 @@
 			#Item_SettingsSpeed .SmallButtonCtrl {
 				width: 35px;
 			}
-			#Item_SettingsDME #Ctrl_SettingsAirportCoordinatesSwap,
-			#Item_SettingsDME #Ctrl_SettingsAirportCoordinatesApplyCurrentCoordinatesToDepartureAirport,
-			#Item_SettingsDME #Ctrl_SettingsAirportCoordinatesApplyCurrentCoordinatesToArrivalAirport { /* .WidthDividedBy3 */
+			#Item_SettingsNav #Ctrl_SettingsAirportCoordinatesSwap,
+			#Item_SettingsNav #Ctrl_SettingsAirportCoordinatesApplyCurrentCoordinatesToDepartureAirport,
+			#Item_SettingsNav #Ctrl_SettingsAirportCoordinatesApplyCurrentCoordinatesToArrivalAirport { /* .WidthDividedBy3 */
 				width: calc((100% - 20px) / 3);
 			}
 }

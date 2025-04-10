@@ -149,6 +149,39 @@
 							background-color: #000000;
 						}
 
+					/* Localizer */
+					#PFDDefaultPanelLocalizerPointer {
+						background-color: #FF80FF;
+					}
+					.ILSCircle {
+						border: 2px solid #FFFFFF;
+					}
+					#Ctnr_PFDDefaultPanelLocalizer .ILSLine div {
+						background-color: #FFFFFF;
+					}
+
+					/* Glide slope */
+					#PFDDefaultPanelGlideSlopePointer {
+						background-color: #FF80FF;
+					}
+					#Ctnr_PFDDefaultPanelGlideSlope .ILSLine div {
+						background-color: #FFFFFF;
+					}
+
+					/* Marker beacons */
+					#Ctnr_PFDDefaultPanelMarkerBeacon.OuterMarker {
+						background-color: #00C0FF;
+						color: #000000;
+					}
+					#Ctnr_PFDDefaultPanelMarkerBeacon.MiddleMarker {
+						background-color: #FFC000;
+						color: #000000;
+					}
+					#Ctnr_PFDDefaultPanelMarkerBeacon.InnerMarker {
+						background-color: #FFFFFF;
+						color: #000000;
+					}
+
 					/* Radio altitude */
 					#Ctnr_PFDDefaultPanelRadioAltitude .DialScale {
 						background-color: #FFFFFF;

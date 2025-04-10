@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.23,
+		const CurrentVersion = 0.24,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -102,9 +102,10 @@
 				Heading: {
 					Heading: 0, Display: 0
 				},
-				DME: {
+				Nav: {
 					Lat: 0, Lon: 0,
-					Distance: 0, Bearing: 0, ETA: 0
+					Distance: 0, Bearing: 0,
+					ETA: 0, LocalizerDeviation: 0, GlideSlopeDeviation: 0, MarkerBeacon: ""
 				},
 				FlightModeTimestamp: 0
 			},
@@ -170,7 +171,7 @@
 				},
 				DecisionHeight: 76.2
 			},
-			DME: {
+			Nav: {
 				IsEnabled: false,
 				AirportCoordinates: {
 					Departure: {
@@ -180,7 +181,11 @@
 						Lat: 0, Lon: 0
 					}
 				},
-				ETACalcMethod: "UseAvgGS"
+				ETACalcMethod: "UseAvgGS",
+				GlideSlopeAngle: 3,
+				MarkerBeaconDistance: {
+					OuterMarker: 9260, MiddleMarker: 926, InnerMarker: 185.2
+				}
 			},
 			FlightMode: {
 				FlightMode: "DepartureGround",
@@ -307,6 +312,16 @@
 				"不再提示", "", "了解更多", "关闭");
 		}
 	}
+
+// Simplifications
+	// Write
+		// Class
+		function ChangeMarkerBeaconColor(Value) {
+			RemoveClass("Ctnr_PFDDefaultPanelMarkerBeacon", "OuterMarker");
+			RemoveClass("Ctnr_PFDDefaultPanelMarkerBeacon", "MiddleMarker");
+			RemoveClass("Ctnr_PFDDefaultPanelMarkerBeacon", "InnerMarker");
+			AddClass("Ctnr_PFDDefaultPanelMarkerBeacon", Value);
+		}
 
 // Refresh
 	// Webpage
@@ -641,49 +656,49 @@
 					ChangeMax("Textbox_SettingsWindSpeed", "999");
 					ChangePlaceholder("Textbox_SettingsWindSpeed", "0~999");
 					ChangeTooltip("Textbox_SettingsWindSpeed", "0~999");
-					ChangeMax("Textbox_SettingsSpeedLimitMin", "981");
-					ChangePlaceholder("Textbox_SettingsSpeedLimitMin", "0~981");
-					ChangeTooltip("Textbox_SettingsSpeedLimitMin", "0~981");
-					ChangeMin("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "15");
+					ChangeMax("Textbox_SettingsSpeedLimitMin", "980");
+					ChangePlaceholder("Textbox_SettingsSpeedLimitMin", "0~980");
+					ChangeTooltip("Textbox_SettingsSpeedLimitMin", "0~980");
+					ChangeMin("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "20");
 					ChangeMax("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "999");
-					ChangePlaceholder("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "18~999");
-					ChangeTooltip("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "18~999");
-					ChangeMin("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "15");
+					ChangePlaceholder("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "20~999");
+					ChangeTooltip("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "20~999");
+					ChangeMin("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "20");
 					ChangeMax("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "999");
-					ChangePlaceholder("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "18~999");
-					ChangeTooltip("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "18~999");
+					ChangePlaceholder("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "20~999");
+					ChangeTooltip("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "20~999");
 					break;
 				case "MilePerHour":
 					ChangeMax("Textbox_SettingsWindSpeed", "621");
 					ChangePlaceholder("Textbox_SettingsWindSpeed", "0~621");
 					ChangeTooltip("Textbox_SettingsWindSpeed", "0~621");
-					ChangeMax("Textbox_SettingsSpeedLimitMin", "610");
-					ChangePlaceholder("Textbox_SettingsSpeedLimitMin", "0~610");
-					ChangeTooltip("Textbox_SettingsSpeedLimitMin", "0~610");
+					ChangeMax("Textbox_SettingsSpeedLimitMin", "609");
+					ChangePlaceholder("Textbox_SettingsSpeedLimitMin", "0~609");
+					ChangeTooltip("Textbox_SettingsSpeedLimitMin", "0~609");
 					ChangeMin("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "10");
 					ChangeMax("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "621");
-					ChangePlaceholder("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "11~621");
-					ChangeTooltip("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "11~621");
+					ChangePlaceholder("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "12~621");
+					ChangeTooltip("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "12~621");
 					ChangeMin("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "10");
 					ChangeMax("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "621");
-					ChangePlaceholder("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "11~621");
-					ChangeTooltip("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "11~621");
+					ChangePlaceholder("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "12~621");
+					ChangeTooltip("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "12~621");
 					break;
 				case "Knot":
 					ChangeMax("Textbox_SettingsWindSpeed", "539");
 					ChangePlaceholder("Textbox_SettingsWindSpeed", "0~539");
 					ChangeTooltip("Textbox_SettingsWindSpeed", "0~539");
-					ChangeMax("Textbox_SettingsSpeedLimitMin", "530");
-					ChangePlaceholder("Textbox_SettingsSpeedLimitMin", "0~530");
-					ChangeTooltip("Textbox_SettingsSpeedLimitMin", "0~530");
+					ChangeMax("Textbox_SettingsSpeedLimitMin", "529");
+					ChangePlaceholder("Textbox_SettingsSpeedLimitMin", "0~529");
+					ChangeTooltip("Textbox_SettingsSpeedLimitMin", "0~529");
 					ChangeMin("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "10");
 					ChangeMax("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "539");
-					ChangePlaceholder("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "10~539");
-					ChangeTooltip("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "10~539");
+					ChangePlaceholder("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "11~539");
+					ChangeTooltip("Textbox_SettingsSpeedLimitMaxOnFlapsUp", "11~539");
 					ChangeMin("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "10");
 					ChangeMax("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "539");
-					ChangePlaceholder("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "10~539");
-					ChangeTooltip("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "10~539");
+					ChangePlaceholder("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "11~539");
+					ChangeTooltip("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "11~539");
 					break;
 				default:
 					AlertSystemError("The value of Subsystem.I18n.SpeedUnit \"" + Subsystem.I18n.SpeedUnit + "\" in function RefreshSubsystem is invalid.");
@@ -694,6 +709,47 @@
 			ChangeText("Label_SettingsSpeedLimitOnFlapsUpUnit", Translate(Subsystem.I18n.SpeedUnit));
 			ChangeText("Label_SettingsSpeedLimitOnFlapsFullUnit", Translate(Subsystem.I18n.SpeedUnit));
 			ChangeValue("Combobox_SettingsDistanceUnit", Subsystem.I18n.DistanceUnit);
+			switch(Subsystem.I18n.DistanceUnit) {
+				case "Kilometer":
+					ChangeMax("Textbox_SettingsOuterMarkerDistance", "15");
+					ChangePlaceholder("Textbox_SettingsOuterMarkerDistance", "0~15");
+					ChangeTooltip("Textbox_SettingsOuterMarkerDistance", "0~15");
+					ChangeMax("Textbox_SettingsMiddleMarkerDistance", "15");
+					ChangePlaceholder("Textbox_SettingsMiddleMarkerDistance", "0~15");
+					ChangeTooltip("Textbox_SettingsMiddleMarkerDistance", "0~15");
+					ChangeMax("Textbox_SettingsInnerMarkerDistance", "15");
+					ChangePlaceholder("Textbox_SettingsInnerMarkerDistance", "0~15");
+					ChangeTooltip("Textbox_SettingsInnerMarkerDistance", "0~15");
+					break;
+				case "Mile":
+					ChangeMax("Textbox_SettingsOuterMarkerDistance", "9.32");
+					ChangePlaceholder("Textbox_SettingsOuterMarkerDistance", "0~9.32");
+					ChangeTooltip("Textbox_SettingsOuterMarkerDistance", "0~9.32");
+					ChangeMax("Textbox_SettingsMiddleMarkerDistance", "9.32");
+					ChangePlaceholder("Textbox_SettingsMiddleMarkerDistance", "0~9.32");
+					ChangeTooltip("Textbox_SettingsMiddleMarkerDistance", "0~9.32");
+					ChangeMax("Textbox_SettingsInnerMarkerDistance", "9.32");
+					ChangePlaceholder("Textbox_SettingsInnerMarkerDistance", "0~9.32");
+					ChangeTooltip("Textbox_SettingsInnerMarkerDistance", "0~9.32");
+					break;
+				case "NauticalMile":
+					ChangeMax("Textbox_SettingsOuterMarkerDistance", "8.1");
+					ChangePlaceholder("Textbox_SettingsOuterMarkerDistance", "0~8.1");
+					ChangeTooltip("Textbox_SettingsOuterMarkerDistance", "0~8.1");
+					ChangeMax("Textbox_SettingsMiddleMarkerDistance", "8.1");
+					ChangePlaceholder("Textbox_SettingsMiddleMarkerDistance", "0~8.1");
+					ChangeTooltip("Textbox_SettingsMiddleMarkerDistance", "0~8.1");
+					ChangeMax("Textbox_SettingsInnerMarkerDistance", "8.1");
+					ChangePlaceholder("Textbox_SettingsInnerMarkerDistance", "0~8.1");
+					ChangeTooltip("Textbox_SettingsInnerMarkerDistance", "0~8.1");
+					break;
+				default:
+					AlertSystemError("The value of Subsystem.I18n.DistanceUnit \"" + Subsystem.I18n.DistanceUnit + "\" in function RefreshSubsystem is invalid.");
+					break;
+			}
+			ChangeText("Label_SettingsOuterMarkerDistanceUnit", Translate(Subsystem.I18n.DistanceUnit));
+			ChangeText("Label_SettingsMiddleMarkerDistanceUnit", Translate(Subsystem.I18n.DistanceUnit));
+			ChangeText("Label_SettingsInnerMarkerDistanceUnit", Translate(Subsystem.I18n.DistanceUnit));
 			ChangeValue("Combobox_SettingsAltitudeUnit", Subsystem.I18n.AltitudeUnit);
 			switch(Subsystem.I18n.AltitudeUnit) {
 				case "Meter":
@@ -1033,41 +1089,70 @@
 						break;
 				}
 
-			// DME
-			if(PFD.DME.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
-				PFD0.Stats.DME.Lat = PFD0.RawData.GPS.Position.Lat;
-				PFD0.Stats.DME.Lon = PFD0.RawData.GPS.Position.Lon;
+			// Nav
+			if(PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
+				// Position
+				PFD0.Stats.Nav.Lat = PFD0.RawData.GPS.Position.Lat;
+				PFD0.Stats.Nav.Lon = PFD0.RawData.GPS.Position.Lon;
+
+				// Distance and bearing
 				switch(PFD.FlightMode.FlightMode) {
 					case "DepartureGround":
 					case "TakeOff":
 					case "EmergencyReturn":
-						PFD0.Stats.DME.Distance = CalcDistance(PFD0.Stats.DME.Lat, PFD0.Stats.DME.Lon, PFD.DME.AirportCoordinates.Departure.Lat, PFD.DME.AirportCoordinates.Departure.Lon);
-						PFD0.Stats.DME.Bearing = CalcBearing(PFD0.Stats.DME.Lat, PFD0.Stats.DME.Lon, PFD.DME.AirportCoordinates.Departure.Lat, PFD.DME.AirportCoordinates.Departure.Lon);
+						PFD0.Stats.Nav.Distance = CalcDistance(PFD0.Stats.Nav.Lat, PFD0.Stats.Nav.Lon, PFD.Nav.AirportCoordinates.Departure.Lat, PFD.Nav.AirportCoordinates.Departure.Lon);
+						PFD0.Stats.Nav.Bearing = CalcBearing(PFD0.Stats.Nav.Lat, PFD0.Stats.Nav.Lon, PFD.Nav.AirportCoordinates.Departure.Lat, PFD.Nav.AirportCoordinates.Departure.Lon);
 						break;
 					case "Cruise":
 					case "Land":
 					case "ArrivalGround":
-						PFD0.Stats.DME.Distance = CalcDistance(PFD0.Stats.DME.Lat, PFD0.Stats.DME.Lon, PFD.DME.AirportCoordinates.Arrival.Lat, PFD.DME.AirportCoordinates.Arrival.Lon);
-						PFD0.Stats.DME.Bearing = CalcBearing(PFD0.Stats.DME.Lat, PFD0.Stats.DME.Lon, PFD.DME.AirportCoordinates.Arrival.Lat, PFD.DME.AirportCoordinates.Arrival.Lon);
+						PFD0.Stats.Nav.Distance = CalcDistance(PFD0.Stats.Nav.Lat, PFD0.Stats.Nav.Lon, PFD.Nav.AirportCoordinates.Arrival.Lat, PFD.Nav.AirportCoordinates.Arrival.Lon);
+						PFD0.Stats.Nav.Bearing = CalcBearing(PFD0.Stats.Nav.Lat, PFD0.Stats.Nav.Lon, PFD.Nav.AirportCoordinates.Arrival.Lat, PFD.Nav.AirportCoordinates.Arrival.Lon);
 						break;
 					default:
 						AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshPFDData is invalid.");
 						break;
 				}
-				switch(PFD.DME.ETACalcMethod) {
+
+				// DME
+				switch(PFD.Nav.ETACalcMethod) {
 					case "UseRealTimeGS":
 						if(PFD0.Stats.Speed.GSDisplay > 0) {
-							PFD0.Stats.DME.ETA = PFD0.Stats.DME.Distance / PFD0.Stats.Speed.GSDisplay * 1000; // (Meter / meter per sec) = sec, sec * 1000 = millisec.
+							PFD0.Stats.Nav.ETA = PFD0.Stats.Nav.Distance / PFD0.Stats.Speed.GSDisplay * 1000; // (Meter / meter per sec) = sec, sec * 1000 = millisec.
 						}
 						break;
 					case "UseAvgGS":
 						if(PFD0.Stats.Speed.AvgGSDisplay > 0) {
-							PFD0.Stats.DME.ETA = PFD0.Stats.DME.Distance / PFD0.Stats.Speed.AvgGSDisplay * 1000;
+							PFD0.Stats.Nav.ETA = PFD0.Stats.Nav.Distance / PFD0.Stats.Speed.AvgGSDisplay * 1000;
 						}
 						break;
 					default:
-						AlertSystemError("The value of PFD.DME.ETACalcMethod \"" + PFD.DME.ETACalcMethod + "\" in function RefreshPFDData is invalid.");
+						AlertSystemError("The value of PFD.Nav.ETACalcMethod \"" + PFD.Nav.ETACalcMethod + "\" in function RefreshPFDData is invalid.");
 						break;
+				}
+
+				// Localizer
+				PFD0.Stats.Nav.LocalizerDeviation = PFD0.Stats.Heading.Display - PFD0.Stats.Nav.Bearing;
+
+				// Glide slope
+				if(PFD0.Stats.Nav.Distance > 0) {
+					PFD0.Stats.Nav.GlideSlopeDeviation = Math.atan(PFD0.Stats.Altitude.RadioDisplay / PFD0.Stats.Nav.Distance) / (Math.PI / 180) - PFD.Nav.GlideSlopeAngle;
+				} else {
+					PFD0.Stats.Nav.GlideSlopeDeviation = -PFD.Nav.GlideSlopeAngle;
+				}
+
+				// Marker beacon
+				PFD0.Stats.Nav.MarkerBeacon = "";
+				if(Math.abs(PFD0.Stats.Nav.LocalizerDeviation) <= 2) {
+					if(Math.abs(PFD0.Stats.Nav.Distance - PFD.Nav.MarkerBeaconDistance.OuterMarker) < PFD0.Stats.Altitude.RadioDisplay / 3) {
+						PFD0.Stats.Nav.MarkerBeacon = "OuterMarker";
+					}
+					if(Math.abs(PFD0.Stats.Nav.Distance - PFD.Nav.MarkerBeaconDistance.MiddleMarker) < PFD0.Stats.Altitude.RadioDisplay / 3) {
+						PFD0.Stats.Nav.MarkerBeacon = "MiddleMarker";
+					}
+					if(Math.abs(PFD0.Stats.Nav.Distance - PFD.Nav.MarkerBeaconDistance.InnerMarker) < PFD0.Stats.Altitude.RadioDisplay / 3) {
+						PFD0.Stats.Nav.MarkerBeacon = "InnerMarker";
+					}
 				}
 			}
 
@@ -1301,7 +1386,7 @@
 					if(IsDontSink() == true) {
 						PFD0.Alert.Active.AltitudeWarning = "DontSink";
 					}
-					if(PFD.DME.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
+					if(PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
 						if(IsExcessivelyBelowGlideSlope() == true) {
 							PFD0.Alert.Active.AltitudeWarning = "GlideSlope";
 						}
@@ -1825,9 +1910,9 @@
 						ChangeAnim("Ctrl_PFDDefaultPanelHeadingTape", "");
 					}
 					ChangeRotate("CtrlGroup_PFDDefaultPanelHeadingTape", -PFD0.Stats.Heading.Display);
-					if(PFD.DME.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
+					if(PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
 						Show("Ctrl_PFDDefaultPanelBearing");
-						ChangeRotate("Ctrl_PFDDefaultPanelBearing", PFD0.Stats.DME.Bearing - PFD0.Stats.Heading.Display);
+						ChangeRotate("Ctrl_PFDDefaultPanelBearing", PFD0.Stats.Nav.Bearing - PFD0.Stats.Heading.Display);
 					} else {
 						Fade("Ctrl_PFDDefaultPanelBearing");
 					}
@@ -1839,14 +1924,14 @@
 				}
 
 				// DME
-				if(PFD.DME.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
+				if(PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
 					Show("Ctnr_PFDDefaultPanelDME");
-					if(PFD0.Stats.DME.Distance < 10000000) { // Max 10000 kilometers.
-						ChangeText("Label_PFDDefaultPanelDMEDistance", ConvertUnit(PFD0.Stats.DME.Distance, "Meter", Subsystem.I18n.DistanceUnit).toFixed(1));
-						if(PFD0.Stats.Speed.GSDisplay > 0 && PFD0.Stats.DME.ETA < 360000000) { // Max 100 hours.
+					if(PFD0.Stats.Nav.Distance < 10000000) { // Max 10000 kilometers.
+						ChangeText("Label_PFDDefaultPanelDMEDistance", ConvertUnit(PFD0.Stats.Nav.Distance, "Meter", Subsystem.I18n.DistanceUnit).toFixed(1));
+						if(PFD0.Stats.Speed.GSDisplay > 0 && PFD0.Stats.Nav.ETA < 360000000) { // Max 100 hours.
 							ChangeText("Label_PFDDefaultPanelDMEETA",
-								Math.trunc(PFD0.Stats.DME.ETA / 3600000) + "<span class=\"SmallerText\">" + Translate("Hour") + "</span>" +
-								Math.trunc(PFD0.Stats.DME.ETA % 3600000 / 60000).toString().padStart(2, "0") + "<span class=\"SmallerText\">" + Translate("Minute") + "</span>");
+								Math.trunc(PFD0.Stats.Nav.ETA / 3600000) + "<span class=\"SmallerText\">" + Translate("Hour") + "</span>" +
+								Math.trunc(PFD0.Stats.Nav.ETA % 3600000 / 60000).toString().padStart(2, "0") + "<span class=\"SmallerText\">" + Translate("Minute") + "</span>");
 						} else {
 							ChangeText("Label_PFDDefaultPanelDMEETA", "--<span class=\"SmallerText\">" + Translate("Hour") + "</span>--<span class=\"SmallerText\">" + Translate("Minute") + "</span>");
 						}
@@ -1858,6 +1943,121 @@
 					Fade("Ctnr_PFDDefaultPanelDME");
 				}
 
+				// Localizer
+				Fade("Ctnr_PFDDefaultPanelLocalizer");
+				if(PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true && PFD0.Status.GPS.IsHeadingAvailable == true) {
+					switch(PFD.FlightMode.FlightMode) {
+						case "DepartureGround":
+						case "TakeOff":
+						case "Cruise":
+						case "ArrivalGround":
+							break;
+						case "Land":
+						case "EmergencyReturn":
+							Show("Ctnr_PFDDefaultPanelLocalizer");
+							switch(true) {
+								case PFD0.Stats.Nav.LocalizerDeviation <= -2:
+									ChangeLeft("PFDDefaultPanelLocalizerPointer", 237.5 + "px");
+									break;
+								case PFD0.Stats.Nav.LocalizerDeviation > -2 && PFD0.Stats.Nav.LocalizerDeviation < 2:
+									ChangeLeft("PFDDefaultPanelLocalizerPointer", 117.5 - 120 * (PFD0.Stats.Nav.LocalizerDeviation / 2) + "px");
+									break;
+								case PFD0.Stats.Nav.LocalizerDeviation >= 2:
+									ChangeLeft("PFDDefaultPanelLocalizerPointer", -2.5 + "px");
+									break;
+								default:
+									AlertSystemError("The value of PFD0.Stats.Nav.LocalizerDeviation \"" + PFD0.Stats.Nav.LocalizerDeviation + "\" in function RefreshPFDPanel is invalid.");
+									break;
+							}
+							if(System.Display.Anim > 0) {
+								ChangeAnim("PFDDefaultPanelLocalizerPointer", "100ms");
+							} else {
+								ChangeAnim("PFDDefaultPanelLocalizerPointer", "");
+							}
+							break;
+						default:
+							AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshPFDPanel is invalid.");
+							break;
+					}
+				}
+
+				// Glide slope
+				Fade("Ctnr_PFDDefaultPanelGlideSlope");
+				if((
+					(PFD.Altitude.Mode == "GPS" && PFD0.Status.GPS.IsAltitudeAvailable == true) ||
+					(PFD.Altitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
+					(PFD.Altitude.Mode == "DualChannel" && (PFD0.Status.GPS.IsAltitudeAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
+					PFD.Altitude.Mode == "Manual"
+				) && (
+					PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true
+				)) {
+					switch(PFD.FlightMode.FlightMode) {
+						case "DepartureGround":
+						case "TakeOff":
+						case "Cruise":
+						case "ArrivalGround":
+							break;
+						case "Land":
+						case "EmergencyReturn":
+							Show("Ctnr_PFDDefaultPanelGlideSlope");
+							switch(true) {
+								case PFD0.Stats.Nav.GlideSlopeDeviation <= -0.7:
+									ChangeTop("PFDDefaultPanelGlideSlopePointer", -2.5 + "px");
+									break;
+								case PFD0.Stats.Nav.GlideSlopeDeviation > -0.7 && PFD0.Stats.Nav.GlideSlopeDeviation < 0.7:
+									ChangeTop("PFDDefaultPanelGlideSlopePointer", 117.5 + 120 * (PFD0.Stats.Nav.GlideSlopeDeviation / 0.7) + "px");
+									break;
+								case PFD0.Stats.Nav.GlideSlopeDeviation >= 0.7:
+									ChangeTop("PFDDefaultPanelGlideSlopePointer", 237.5 + "px");
+									break;
+								default:
+									AlertSystemError("The value of PFD0.Stats.Nav.GlideSlopeDeviation \"" + PFD0.Stats.Nav.GlideSlopeDeviation + "\" in function RefreshPFDPanel is invalid.");
+									break;
+							}
+							if(System.Display.Anim > 0) {
+								ChangeAnim("PFDDefaultPanelGlideSlopePointer", "100ms");
+							} else {
+								ChangeAnim("PFDDefaultPanelGlideSlopePointer", "");
+							}
+							break;
+						default:
+							AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshPFDPanel is invalid.");
+							break;
+					}
+				}
+
+				// Marker beacon
+				Fade("Ctnr_PFDDefaultPanelMarkerBeacon");
+				if(PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
+					switch(PFD.FlightMode.FlightMode) {
+						case "DepartureGround":
+						case "TakeOff":
+						case "Cruise":
+						case "ArrivalGround":
+							break;
+						case "Land":
+						case "EmergencyReturn":
+							switch(PFD0.Stats.Nav.MarkerBeacon) {
+								case "":
+									break;
+								case "OuterMarker":
+								case "MiddleMarker":
+								case "InnerMarker":
+									Show("Ctnr_PFDDefaultPanelMarkerBeacon");
+									ChangeMarkerBeaconColor("Ctnr_PFDDefaultPanelMarkerBeacon", PFD0.Stats.Nav.MarkerBeacon);
+									ChangeText("Label_PFDDefaultPanelMarkerBeacon", Translate(PFD0.Stats.Nav.MarkerBeacon));
+									break;
+								default:
+									AlertSystemError("The value of PFD0.Stats.Nav.MarkerBeacon \"" + PFD0.Stats.Nav.MarkerBeacon + "\" in function RefreshPFDPanel is invalid.");
+									break;
+							}
+							break;
+						default:
+							AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshPFDPanel is invalid.");
+							break;
+					}
+				}
+
 				// Radio altitude
 				if((
 					(PFD.Altitude.Mode == "GPS" && PFD0.Status.GPS.IsAltitudeAvailable == true) ||
@@ -1865,7 +2065,7 @@
 					(PFD.Altitude.Mode == "DualChannel" && (PFD0.Status.GPS.IsAltitudeAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
 					PFD.Altitude.Mode == "Manual"
 				) &&
-				PFD0.Stats.Altitude.RadioDisplay <= 762) {
+				Math.abs(PFD0.Stats.Altitude.RadioDisplay) <= 762) {
 					Show("Ctnr_PFDDefaultPanelRadioAltitude");
 					let ConvertedRadioAltitude = ConvertUnit(PFD0.Stats.Altitude.RadioDisplay, "Meter", Subsystem.I18n.AltitudeUnit),
 					ConvertedRadioAltitudeDisplay = 0;
@@ -1936,6 +2136,7 @@
 				}
 
 				// Decision altitude
+				Fade("Ctnr_PFDDefaultPanelDecisionAltitude");
 				if((PFD.Altitude.Mode == "GPS" && PFD0.Status.GPS.IsAltitudeAvailable == true) ||
 				(PFD.Altitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
 				(PFD.Altitude.Mode == "DualChannel" && (PFD0.Status.GPS.IsAltitudeAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
@@ -1944,7 +2145,6 @@
 						case "DepartureGround":
 						case "TakeOff":
 						case "Cruise":
-							Fade("Ctnr_PFDDefaultPanelDecisionAltitude");
 							break;
 						case "Land":
 						case "ArrivalGround":
@@ -1981,8 +2181,6 @@
 							AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshPFDPanel is invalid.");
 							break;
 					}
-				} else {
-					Fade("Ctnr_PFDDefaultPanelDecisionAltitude");
 				}
 
 				// Warning
@@ -2312,7 +2510,7 @@
 				ChangeValue("Combobox_PFDOptionsAttitudeMode", PFD.Attitude.Mode);
 				ChangeValue("Combobox_PFDOptionsSpeedMode", PFD.Speed.Mode);
 				ChangeValue("Combobox_PFDOptionsAltitudeMode", PFD.Altitude.Mode);
-				ChangeChecked("Checkbox_PFDOptionsEnableDME", PFD.DME.IsEnabled);
+				ChangeChecked("Checkbox_PFDOptionsEnableNav", PFD.Nav.IsEnabled);
 				ChangeValue("Combobox_PFDOptionsFlightMode", PFD.FlightMode.FlightMode);
 				ChangeChecked("Checkbox_PFDOptionsFlipPFDVertically", Subsystem.Display.FlipPFDVertically);
 				ChangeChecked("Checkbox_PFDOptionsKeepScreenOn", Subsystem.Display.KeepScreenOn);
@@ -2419,9 +2617,9 @@
 			}
 			ChangeValue("Textbox_SettingsDecisionHeight", ConvertUnit(PFD.Altitude.DecisionHeight, "Meter", Subsystem.I18n.AltitudeUnit).toFixed(0));
 
-			// DME
-			ChangeChecked("Checkbox_SettingsEnableDME", PFD.DME.IsEnabled);
-			if(PFD.DME.IsEnabled == true) {
+			// Nav
+			ChangeChecked("Checkbox_SettingsEnableNav", PFD.Nav.IsEnabled);
+			if(PFD.Nav.IsEnabled == true) {
 				Show("Label_SettingsAirportCoordinates");
 				Show("Label_SettingsAirportCoordinatesInfo");
 				Show("Ctrl_SettingsAirportCoordinatesDeparture");
@@ -2431,17 +2629,27 @@
 				Show("Ctrl_SettingsAirportCoordinatesApplyCurrentCoordinatesToArrivalAirport");
 				Show("Label_SettingsETA");
 				Show("Ctrl_SettingsETACalcMethod");
+				Show("Label_SettingsGlideSlope");
+				Show("Ctrl_SettingsGlideSlopeAngle");
+				Show("Label_SettingsMarkerBeacons");
+				Show("Ctrl_SettingsOuterMarkerDistance");
+				Show("Ctrl_SettingsMiddleMarkerDistance");
+				Show("Ctrl_SettingsInnerMarkerDistance");
 				Show("Ctrl_SettingsSwitchDistanceUnit");
-				ChangeValue("Textbox_SettingsAirportCoordinatesDepartureLat", PFD.DME.AirportCoordinates.Departure.Lat.toFixed(5));
-				ChangeValue("Textbox_SettingsAirportCoordinatesDepartureLon", PFD.DME.AirportCoordinates.Departure.Lon.toFixed(5));
-				ChangeValue("Textbox_SettingsAirportCoordinatesArrivalLat", PFD.DME.AirportCoordinates.Arrival.Lat.toFixed(5));
-				ChangeValue("Textbox_SettingsAirportCoordinatesArrivalLon", PFD.DME.AirportCoordinates.Arrival.Lon.toFixed(5));
-				if(PFD.DME.AirportCoordinates.Departure.Lat != PFD.DME.AirportCoordinates.Arrival.Lat || PFD.DME.AirportCoordinates.Departure.Lon != PFD.DME.AirportCoordinates.Arrival.Lon) {
+				ChangeValue("Textbox_SettingsAirportCoordinatesDepartureLat", PFD.Nav.AirportCoordinates.Departure.Lat.toFixed(5));
+				ChangeValue("Textbox_SettingsAirportCoordinatesDepartureLon", PFD.Nav.AirportCoordinates.Departure.Lon.toFixed(5));
+				ChangeValue("Textbox_SettingsAirportCoordinatesArrivalLat", PFD.Nav.AirportCoordinates.Arrival.Lat.toFixed(5));
+				ChangeValue("Textbox_SettingsAirportCoordinatesArrivalLon", PFD.Nav.AirportCoordinates.Arrival.Lon.toFixed(5));
+				if(PFD.Nav.AirportCoordinates.Departure.Lat != PFD.Nav.AirportCoordinates.Arrival.Lat || PFD.Nav.AirportCoordinates.Departure.Lon != PFD.Nav.AirportCoordinates.Arrival.Lon) {
 					ChangeDisabled("Button_SettingsAirportCoordinatesSwap", false);
 				} else {
 					ChangeDisabled("Button_SettingsAirportCoordinatesSwap", true);
 				}
-				ChangeValue("Combobox_SettingsETACalcMethod", PFD.DME.ETACalcMethod);
+				ChangeValue("Combobox_SettingsETACalcMethod", PFD.Nav.ETACalcMethod);
+				ChangeValue("Textbox_SettingsGlideSlopeAngle", PFD.Nav.GlideSlopeAngle.toFixed(1));
+				ChangeValue("Textbox_SettingsOuterMarkerDistance", ConvertUnit(PFD.Nav.MarkerBeaconDistance.OuterMarker, "Meter", Subsystem.I18n.DistanceUnit).toFixed(2));
+				ChangeValue("Textbox_SettingsMiddleMarkerDistance", ConvertUnit(PFD.Nav.MarkerBeaconDistance.MiddleMarker, "Meter", Subsystem.I18n.DistanceUnit).toFixed(2));
+				ChangeValue("Textbox_SettingsInnerMarkerDistance", ConvertUnit(PFD.Nav.MarkerBeaconDistance.InnerMarker, "Meter", Subsystem.I18n.DistanceUnit).toFixed(2));
 			} else {
 				Hide("Label_SettingsAirportCoordinates");
 				Hide("Label_SettingsAirportCoordinatesInfo");
@@ -2452,6 +2660,12 @@
 				Hide("Ctrl_SettingsAirportCoordinatesApplyCurrentCoordinatesToArrivalAirport");
 				Hide("Label_SettingsETA");
 				Hide("Ctrl_SettingsETACalcMethod");
+				Hide("Label_SettingsGlideSlope");
+				Hide("Ctrl_SettingsGlideSlopeAngle");
+				Hide("Label_SettingsMarkerBeacons");
+				Hide("Ctrl_SettingsOuterMarkerDistance");
+				Hide("Ctrl_SettingsMiddleMarkerDistance");
+				Hide("Ctrl_SettingsInnerMarkerDistance");
 				Hide("Ctrl_SettingsSwitchDistanceUnit");
 			}
 
@@ -2745,8 +2959,8 @@
 				PFD.Altitude.Mode = ReadValue("Combobox_PFDOptionsAltitudeMode");
 				RefreshPFD();
 			}
-			function SetEnableDMEAtPFDOptions() {
-				PFD.DME.IsEnabled = IsChecked("Checkbox_PFDOptionsEnableDME");
+			function SetEnableNavAtPFDOptions() {
+				PFD.Nav.IsEnabled = IsChecked("Checkbox_PFDOptionsEnableNav");
 				RefreshPFD();
 			}
 			function SetFlightModeAtPFDOptions() {
@@ -2876,7 +3090,7 @@
 			RefreshPFD();
 		}
 		function SetSpeedLimitMin() {
-			PFD.Speed.SpeedLimit.Min = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsSpeedLimitMin")), Subsystem.I18n.SpeedUnit, "MeterPerSec"), 0, 272.5);
+			PFD.Speed.SpeedLimit.Min = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsSpeedLimitMin")), Subsystem.I18n.SpeedUnit, "MeterPerSec"), 0, 272.22222);
 			if(PFD.Speed.SpeedLimit.Min > PFD.Speed.SpeedLimit.MaxOnFlapsFull - 5) {
 				PFD.Speed.SpeedLimit.MaxOnFlapsFull = PFD.Speed.SpeedLimit.Min + 5;
 				if(PFD.Speed.SpeedLimit.MaxOnFlapsFull > PFD.Speed.SpeedLimit.MaxOnFlapsUp) {
@@ -2886,7 +3100,7 @@
 			RefreshPFD();
 		}
 		function SetSpeedLimitMaxOnFlapsUp() {
-			PFD.Speed.SpeedLimit.MaxOnFlapsUp = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsSpeedLimitMaxOnFlapsUp")), Subsystem.I18n.SpeedUnit, "MeterPerSec"), 5, 277.5);
+			PFD.Speed.SpeedLimit.MaxOnFlapsUp = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsSpeedLimitMaxOnFlapsUp")), Subsystem.I18n.SpeedUnit, "MeterPerSec"), 5.55556, 277.5);
 			if(PFD.Speed.SpeedLimit.MaxOnFlapsUp < PFD.Speed.SpeedLimit.MaxOnFlapsFull) {
 				PFD.Speed.SpeedLimit.MaxOnFlapsFull = PFD.Speed.SpeedLimit.MaxOnFlapsUp;
 				if(PFD.Speed.SpeedLimit.MaxOnFlapsFull < PFD.Speed.SpeedLimit.Min + 5) {
@@ -2896,7 +3110,7 @@
 			RefreshPFD();
 		}
 		function SetSpeedLimitMaxOnFlapsFull() {
-			PFD.Speed.SpeedLimit.MaxOnFlapsFull = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsSpeedLimitMaxOnFlapsFull")), Subsystem.I18n.SpeedUnit, "MeterPerSec"), 5, 277.5);
+			PFD.Speed.SpeedLimit.MaxOnFlapsFull = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsSpeedLimitMaxOnFlapsFull")), Subsystem.I18n.SpeedUnit, "MeterPerSec"), 5.55556, 277.5);
 			if(PFD.Speed.SpeedLimit.MaxOnFlapsFull < PFD.Speed.SpeedLimit.Min + 5) {
 				PFD.Speed.SpeedLimit.Min = PFD.Speed.SpeedLimit.MaxOnFlapsFull - 5;
 			}
@@ -2938,47 +3152,63 @@
 			RefreshPFD();
 		}
 
-		// DME
-		function SetEnableDME() {
-			PFD.DME.IsEnabled = IsChecked("Checkbox_SettingsEnableDME");
+		// Nav
+		function SetEnableNav() {
+			PFD.Nav.IsEnabled = IsChecked("Checkbox_SettingsEnableNav");
 			RefreshPFD();
 		}
 		function SetAirportCoordinatesDeparture() {
-			PFD.DME.AirportCoordinates.Departure = {
+			PFD.Nav.AirportCoordinates.Departure = {
 				Lat: CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsAirportCoordinatesDepartureLat") * 100000) / 100000, -90, 90),
 				Lon: CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsAirportCoordinatesDepartureLon") * 100000) / 100000, -180, 180)
 			};
 			RefreshPFD();
 		}
 		function SetAirportCoordinatesArrival() {
-			PFD.DME.AirportCoordinates.Arrival = {
+			PFD.Nav.AirportCoordinates.Arrival = {
 				Lat: CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsAirportCoordinatesArrivalLat") * 100000) / 100000, -90, 90),
 				Lon: CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsAirportCoordinatesArrivalLon") * 100000) / 100000, -180, 180)
 			};
 			RefreshPFD();
 		}
 		function SwapAirportCoordinates() {
-			let Swapper = structuredClone(PFD.DME.AirportCoordinates.Departure);
-			PFD.DME.AirportCoordinates.Departure = structuredClone(PFD.DME.AirportCoordinates.Arrival);
-			PFD.DME.AirportCoordinates.Arrival = structuredClone(Swapper);
+			let Swapper = structuredClone(PFD.Nav.AirportCoordinates.Departure);
+			PFD.Nav.AirportCoordinates.Departure = structuredClone(PFD.Nav.AirportCoordinates.Arrival);
+			PFD.Nav.AirportCoordinates.Arrival = structuredClone(Swapper);
 			RefreshPFD();
 		}
 		function ApplyCurrentCoordinatesToDepartureAirport() {
-			PFD.DME.AirportCoordinates.Departure = {
-				Lat: CheckRangeAndCorrect(PFD0.Stats.DME.Lat, -90, 90),
-				Lon: CheckRangeAndCorrect(PFD0.Stats.DME.Lon, -180, 180)
+			PFD.Nav.AirportCoordinates.Departure = {
+				Lat: CheckRangeAndCorrect(PFD0.Stats.Nav.Lat, -90, 90),
+				Lon: CheckRangeAndCorrect(PFD0.Stats.Nav.Lon, -180, 180)
 			};
 			RefreshPFD();
 		}
 		function ApplyCurrentCoordinatesToArrivalAirport() {
-			PFD.DME.AirportCoordinates.Arrival = {
-				Lat: CheckRangeAndCorrect(PFD0.Stats.DME.Lat, -90, 90),
-				Lon: CheckRangeAndCorrect(PFD0.Stats.DME.Lon, -180, 180)
+			PFD.Nav.AirportCoordinates.Arrival = {
+				Lat: CheckRangeAndCorrect(PFD0.Stats.Nav.Lat, -90, 90),
+				Lon: CheckRangeAndCorrect(PFD0.Stats.Nav.Lon, -180, 180)
 			};
 			RefreshPFD();
 		}
 		function SetETACalcMethod() {
-			PFD.DME.ETACalcMethod = ReadValue("Combobox_SettingsETACalcMethod");
+			PFD.Nav.ETACalcMethod = ReadValue("Combobox_SettingsETACalcMethod");
+			RefreshPFD();
+		}
+		function SetGlideSlopeAngle() {
+			PFD.Nav.GlideSlopeAngle = CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsGlideSlopeAngle") * 10) / 10, 0, 5);
+			RefreshPFD();
+		}
+		function SetOuterMarkerDistance() {
+			PFD.Nav.MarkerBeaconDistance.OuterMarker = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsOuterMarkerDistance") * 100) / 100, Subsystem.I18n.DistanceUnit, "Meter"), 0, 15000);
+			RefreshPFD();
+		}
+		function SetMiddleMarkerDistance() {
+			PFD.Nav.MarkerBeaconDistance.MiddleMarker = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsMiddleMarkerDistance") * 100) / 100, Subsystem.I18n.DistanceUnit, "Meter"), 0, 15000);
+			RefreshPFD();
+		}
+		function SetInnerMarkerDistance() {
+			PFD.Nav.MarkerBeaconDistance.InnerMarker = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsInnerMarkerDistance") * 100) / 100, Subsystem.I18n.DistanceUnit, "Meter"), 0, 15000);
 			RefreshPFD();
 		}
 
@@ -3784,6 +4014,24 @@
 				} else {
 					return "M";
 				}
+			case "OuterMarker":
+				if(Subsystem.I18n.AlwaysUseEnglishTerminologyOnPFD == false) {
+					return "外";
+				} else {
+					return "OM";
+				}
+			case "MiddleMarker":
+				if(Subsystem.I18n.AlwaysUseEnglishTerminologyOnPFD == false) {
+					return "中";
+				} else {
+					return "MM";
+				}
+			case "InnerMarker":
+				if(Subsystem.I18n.AlwaysUseEnglishTerminologyOnPFD == false) {
+					return "内";
+				} else {
+					return "IM";
+				}
 			case "BankAngle":
 				if(Subsystem.I18n.AlwaysUseEnglishTerminologyOnPFD == false) {
 					return "倾角过大";
@@ -4003,7 +4251,11 @@
 				return false;
 			case "Land":
 			case "EmergencyReturn":
-				return PFD0.Stats.Altitude.RadioDisplay <= PFD0.Stats.DME.Distance * Math.tan(3 * (Math.PI / 180)) - 60.96;
+				if(PFD0.Stats.Altitude.RadioDisplay >= 60.96 && PFD0.Stats.Altitude.RadioDisplay <= 304.8) {
+					return PFD0.Stats.Nav.GlideSlopeDeviation < -0.7;
+				} else {
+					return false;
+				}
 			default:
 				AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function IsExcessivelyBelowGlideSlope is invalid.");
 				break;
