@@ -1732,7 +1732,7 @@
 					<li class="Item" id="Item_SettingsNav">
 						<fieldset>
 							<legend>导航</legend>
-							<p>导航功能参考自<a href="https://zh.wikipedia.org/wiki/仪表着陆系统">仪表着陆系统 (ILS)</a>。包括<a href="https://zh.wikipedia.org/wiki/测距仪">测距仪 (DME) </a>、导航朝向 (bearing)、航向台 (localizer)、下滑道 (glide slope) 以及指点标 (marker beacons)。测距仪测量您与机场之间的水平距离，预测到达机场前的剩余时间。下滑道使<a href="https://zh.wikipedia.org/wiki/近地警告系统">近地警告系统 (GPWS) </a>的下滑道警告功能可用。航向台与下滑道仅在飞航模式为「降落」时显示。</p>
+							<p>导航功能参考自<a href="https://zh.wikipedia.org/wiki/仪表着陆系统">仪表着陆系统 (ILS)</a>。包括<a href="https://zh.wikipedia.org/wiki/测距仪">测距仪 (DME) </a>、导航朝向 (bearing)、航向台 (localizer)、下滑道 (glide slope) 以及指点标 (marker beacons)。测距仪测量您与机场之间的水平距离，预测到达机场前的剩余时间。下滑道使<a href="https://zh.wikipedia.org/wiki/近地警告系统">近地警告系统 (GPWS) </a>的下滑道警告功能可用。航向台与下滑道仅在<a href="#Item_SettingsFlightMode" onclick="ShowIAmHere('Item_SettingsFlightMode')">飞航模式</a>为「降落」或「紧急返航」时显示。</p>
 							<ul class="CtrlGroup BelowParagraph">
 								<li class="Ctrl">
 									<label for="Checkbox_SettingsEnableNav">
@@ -1820,7 +1820,7 @@
 							</ul>
 						</fieldset>
 					</li>
-					<li class="Item">
+					<li class="Item" id="Item_SettingsFlightMode">
 						<fieldset>
 							<legend>飞航模式</legend>
 							<p>飞航模式用于决定参考出发机场还是到达机场的数据，以及切换近地警告系统的模式。飞航模式可在特定条件下自动切换。具体条件详见<a href="docs/GPS-PFD%20说明文档.pdf">说明文档</a>。</p>
