@@ -2044,7 +2044,7 @@
 								case "MiddleMarker":
 								case "InnerMarker":
 									Show("Ctnr_PFDDefaultPanelMarkerBeacon");
-									ChangeMarkerBeaconColor("Ctnr_PFDDefaultPanelMarkerBeacon", PFD0.Stats.Nav.MarkerBeacon);
+									ChangeMarkerBeaconColor(PFD0.Stats.Nav.MarkerBeacon);
 									ChangeText("Label_PFDDefaultPanelMarkerBeacon", Translate(PFD0.Stats.Nav.MarkerBeacon));
 									break;
 								default:
