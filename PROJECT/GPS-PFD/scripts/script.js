@@ -4281,8 +4281,9 @@
 				HeightRange.Max = 1000 + 500 * ((-PFD0.Stats.Speed.Vertical - 30) / 20);
 				return PFD0.Stats.Altitude.RadioDisplay >= HeightRange.Min && PFD0.Stats.Altitude.RadioDisplay <= HeightRange.Max;
 			case PFD0.Stats.Speed.Vertical <= -50:
+				HeightRange.Min = 0;
 				HeightRange.Max = 1500 + 500 * ((-PFD0.Stats.Speed.Vertical - 50) / 20);
-				return PFD0.Stats.Altitude.RadioDisplay <= HeightRange.Max;
+				return PFD0.Stats.Altitude.RadioDisplay >= HeightRange.Min && PFD0.Stats.Altitude.RadioDisplay <= HeightRange.Max;
 		}
 	}
 	function IsSinkRatePullUp() {
@@ -4301,8 +4302,9 @@
 				HeightRange.Max = 800 + 400 * ((-PFD0.Stats.Speed.Vertical - 30) / 20);
 				return PFD0.Stats.Altitude.RadioDisplay >= HeightRange.Min && PFD0.Stats.Altitude.RadioDisplay <= HeightRange.Max;
 			case PFD0.Stats.Speed.Vertical <= -50:
+				HeightRange.Min = 0;
 				HeightRange.Max = 1200 + 400 * ((-PFD0.Stats.Speed.Vertical - 50) / 20);
-				return PFD0.Stats.Altitude.RadioDisplay <= HeightRange.Max;
+				return PFD0.Stats.Altitude.RadioDisplay >= HeightRange.Min && PFD0.Stats.Altitude.RadioDisplay <= HeightRange.Max;
 		}
 	}
 
