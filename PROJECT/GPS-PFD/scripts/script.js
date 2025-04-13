@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.24,
+		const CurrentVersion = 0.25,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -1983,13 +1983,13 @@
 
 				// Glide slope
 				Fade("Ctnr_PFDDefaultPanelGlideSlope");
-				if((
+				if(PFD.Nav.IsEnabled == true &&
+				PFD0.Status.GPS.IsPositionAvailable == true &&
+				(
 					(PFD.Altitude.Mode == "GPS" && PFD0.Status.GPS.IsAltitudeAvailable == true) ||
 					(PFD.Altitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
 					(PFD.Altitude.Mode == "DualChannel" && (PFD0.Status.GPS.IsAltitudeAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
 					PFD.Altitude.Mode == "Manual"
-				) && (
-					PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true
 				)) {
 					switch(PFD.FlightMode.FlightMode) {
 						case "DepartureGround":
@@ -2028,7 +2028,15 @@
 
 				// Marker beacon
 				Fade("Ctnr_PFDDefaultPanelMarkerBeacon");
-				if(PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
+				if(PFD.Nav.IsEnabled == true &&
+				PFD0.Status.GPS.IsPositionAvailable == true &&
+				(
+					(PFD.Altitude.Mode == "GPS" && PFD0.Status.GPS.IsAltitudeAvailable == true) ||
+					(PFD.Altitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
+					(PFD.Altitude.Mode == "DualChannel" && (PFD0.Status.GPS.IsAltitudeAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
+					PFD.Altitude.Mode == "Manual"
+				) &&
+				PFD0.Status.GPS.IsHeadingAvailable == true) {
 					switch(PFD.FlightMode.FlightMode) {
 						case "DepartureGround":
 						case "TakeOff":
