@@ -146,10 +146,10 @@
 						}
 						#Needle_PFDAutomobileSpeedometerPanel {
 							transform: rotate(-120deg);
-							width: 4px;
+							width: 5px;
 						}
 						#Needle_PFDAutomobileSpeedometerPanel .NeedleFg {
-							border-radius: 2px;
+							border-radius: 2.5px;
 							background-color: #FF4040; box-shadow: 0 0 2px 1px #800000;
 							pointer-events: auto;
 						}
