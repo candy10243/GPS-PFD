@@ -23,20 +23,23 @@
 			/* Panels */
 				/* Automobile speedometer panel */
 				#Ctnr_PFDAutomobileSpeedometerPanel {
-					width: 450px; height: 450px;
+					width: 440px; height: 400px;
 					color: #FFFFFF;
+				}
+				#Ctnr_PFDAutomobileSpeedometerPanel .Icon {
+					width: 2.00em; height: 2.00em;
 				}
 					/* Status */
 					#Ctnr_PFDAutomobileSpeedometerPanelStatus {
 						position: absolute; top: 0; left: 0;
-						width: 35px; height: 65px;
+						width: 40px; height: 75px;
 					}
 					#Ctnr_PFDAutomobileSpeedometerPanelStatus .CtrlGroup {
 						width: 100%; height: 100%; padding: 5px;
 						flex-direction: column;
 					}
 					#Ctnr_PFDAutomobileSpeedometerPanelStatus .Ctrl {
-						width: 100%; height: 25px;
+						width: 100%; height: 30px;
 						display: flex; justify-content: center; align-items: center;
 						color: #404040;
 					}
@@ -49,11 +52,12 @@
 
 					/* Speed */
 					#Ctnr_PFDAutomobileSpeedometerPanelSpeed {
-						position: absolute; top: 25px; left: 25px;
-						width: 400px; height: 400px;
+						position: absolute; top: 20px; left: 20px;
+						width: 400px; height: 350px;
 					}
 					#Ctnr_PFDAutomobileSpeedometerPanelSpeed > .CtrlGroup {
-						width: 100%; height: 100%;
+						position: relative;
+						width: 100%; height: 400px;
 					}
 						/* Additional indicators */
 						#Ctrl_PFDAutomobileSpeedometerPanelAdditionalIndicators {
@@ -121,19 +125,19 @@
 							background-color: #FFFFFF;
 						}
 						#Ctrl_PFDAutomobileSpeedometerPanelDial .DialNumber1 {
-							width: unset; margin: 2px 0 0 0;
+							margin: 2px 0 0 0;
 							font-size: 1.50em; text-align: center;
 						}
 						#Ctrl_PFDAutomobileSpeedometerPanelDial .DialNumber2 {
-							width: unset; margin: 8px 0 0 0;
+							margin: 8px 0 0 0;
 							font-size: 1.50em; text-align: center;
 						}
 						#Ctrl_PFDAutomobileSpeedometerPanelDial .DialNumber3 {
-							width: unset; margin: 6px 0 0 0;
+							margin: 6px 0 0 0;
 							font-size: 1.50em; text-align: center;
 						}
 						#Ctrl_PFDAutomobileSpeedometerPanelDial .DialNumber4 {
-							width: unset; margin: 14px 0 0 0;
+							margin: 14px 0 0 0;
 							font-size: 1.50em; text-align: center;
 						}
 
@@ -154,15 +158,15 @@
 							pointer-events: auto;
 						}
 						#Ctrl_PFDAutomobileSpeedometerPanelNeedle .CenterDot {
-							position: absolute; top: calc(50% - 10px); left: calc(50% - 10px);
-							width: 20px; height: 20px; border-radius: 10px;
+							position: absolute; top: calc(50% - 15px); left: calc(50% - 15px);
+							width: 30px; height: 30px; border-radius: 15px;
 							background-color: #202020;
 							pointer-events: auto;
 						}
 
 						/* Drum */
 						#Ctrl_PFDAutomobileSpeedometerPanelDrum {
-							position: absolute; top: calc(50% + 60px); left: calc(50% - 35px);
+							position: absolute; top: calc(50% + 40px); left: calc(50% - 35px);
 							width: 70px; height: 70px; border-radius: 5px;
 							background-color: #202020;
 						}
@@ -195,7 +199,7 @@
 					/* Speed trend */
 					#Ctnr_PFDAutomobileSpeedometerPanelSpeedTrend {
 						position: absolute; top: 0; right: 0;
-						width: 35px; height: 70px;
+						width: 40px; height: 75px;
 					}
 					#Ctnr_PFDAutomobileSpeedometerPanelSpeedTrend .CtrlGroup {
 						width: 100%; height: 100%; padding: 5px;
@@ -216,28 +220,22 @@
 					/* DME */
 					#Ctnr_PFDAutomobileSpeedometerPanelDME {
 						position: absolute; bottom: 0; left: 0;
-						width: 120px; height: 80px; padding: 5px;
+						width: 120px; height: 70px; padding: 5px;
 						display: flex; flex-direction: column; justify-content: end;
-					}
-					#Label_PFDAutomobileSpeedometerPanelDMEDistance, #Label_PFDAutomobileSpeedometerPanelDMEETA {
-						font-size: 1.25em;
 					}
 
 					/* Altitude */
 					#Ctnr_PFDAutomobileSpeedometerPanelAltitude {
 						position: absolute; bottom: 0; right: 0;
-						width: 120px; height: 80px; padding: 5px;
+						width: 120px; height: 70px; padding: 5px;
 						text-align: end;
 						display: flex; flex-direction: column; justify-content: end;
-					}
-					#Label_PFDAutomobileSpeedometerPanelAltitudeValue {
-						font-size: 1.25em;
 					}
 
 					/* Info */
 					#Ctnr_PFDAutomobileSpeedometerPanelInfo {
 						position: absolute; bottom: 0; left: calc(50% - 90px);
-						width: 180px; height: 80px; padding: 5px;
+						width: 180px; height: 70px; padding: 5px;
 						font-size: 1.25em; text-align: center;
 						display: flex; flex-direction: column; justify-content: end;
 					}
