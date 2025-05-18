@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.26,
+		const CurrentVersion = 0.27,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -2264,13 +2264,12 @@
 						switch(PFD.FlightMode.FlightMode) {
 							case "DepartureGround":
 							case "ArrivalGround":
-								Hide("ProgringFg_PFDAutomobileSpeedometerPanelSpeedLimitMin");
+								ChangeProgring("ProgringFg_PFDAutomobileSpeedometerPanelSpeedLimitMin", 400, 0);
 								break;
 							case "TakeOff":
 							case "Cruise":
 							case "Land":
 							case "EmergencyReturn":
-								Show("ProgringFg_PFDAutomobileSpeedometerPanelSpeedLimitMin");
 								if(ConvertUnit(PFD.Speed.SpeedLimit.Min, "MeterPerSec", Subsystem.I18n.SpeedUnit) <= 120) {
 									ChangeProgring("ProgringFg_PFDAutomobileSpeedometerPanelSpeedLimitMin", 400, ConvertUnit(PFD.Speed.SpeedLimit.Min, "MeterPerSec", Subsystem.I18n.SpeedUnit) * 2 / 360 * 100);
 								} else {
@@ -2379,7 +2378,7 @@
 					Show("Ctnr_PFDAutomobileSpeedometerPanelAltitude");
 					ChangeText("Label_PFDAutomobileSpeedometerPanelAltitudeValue", ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit).toFixed(0));
 				} else {
-					Hide("Ctnr_PFDAutomobileSpeedometerPanelAltitude");
+					Fade("Ctnr_PFDAutomobileSpeedometerPanelAltitude");
 				}
 			}
 
