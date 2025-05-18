@@ -2310,10 +2310,11 @@
 							ChangeTop("RollingDigit_PFDAutomobileSpeedometerPanel3", 15 - 30 * (14 - PFD0.Stats.Speed.BalloonDisplay[3]) + "px");
 							break;
 					}
+
+					// Warning
 					if(PFD0.Alert.Active.SpeedWarning != "") {
 						AddClass("Ctrl_PFDAutomobileSpeedometerPanelDrum", "RedText");
 						Show("Ctnr_PFDAutomobileSpeedometerPanelInfo");
-						RemoveClass("Ctnr_PFDAutomobileSpeedometerPanelInfo", "OrangeText");
 						AddClass("Ctnr_PFDAutomobileSpeedometerPanelInfo", "RedText");
 						ChangeText("Label_PFDAutomobileSpeedometerPanelInfo", Translate(PFD0.Alert.Active.SpeedWarning));
 					} else {
