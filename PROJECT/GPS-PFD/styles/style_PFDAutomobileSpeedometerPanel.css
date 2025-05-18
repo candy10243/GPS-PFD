@@ -4,16 +4,6 @@
 
 /* This is a PFD style variant. */
 
-/* General */
-	/* Variants */
-		/* Foreground */
-		.RedText {
-			color: #FF8080;
-		}
-		.OrangeText {
-			color: #FFC000;
-		}
-
 /* Area specific */
 	/* Main */
 	#PFD.PFDStyleIsAutomobileSpeedometer {
@@ -28,6 +18,12 @@
 				}
 				#Ctnr_PFDAutomobileSpeedometerPanel .Icon {
 					width: 2.00em; height: 2.00em;
+				}
+				#Ctnr_PFDAutomobileSpeedometerPanel .RedText {
+					color: #FF8080;
+				}
+				#Ctnr_PFDAutomobileSpeedometerPanel .OrangeText {
+					color: #FFC000;
 				}
 					/* Status */
 					#Ctnr_PFDAutomobileSpeedometerPanelStatus {

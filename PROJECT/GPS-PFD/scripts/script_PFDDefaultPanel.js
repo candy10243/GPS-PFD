@@ -1,0 +1,776 @@
+// For SamToki.github.io/GPS-PFD
+// Released under GNU GPL v3 open source license.
+// © 2025 SAM TOKI STUDIO
+
+// Initialization
+	// Declare variables
+	"use strict";
+
+// Refresh
+	// PFD
+		// Sub-functions
+			// Sub-functions
+			function RefreshDefaultPanel() {
+				// Info bar
+				if(PFD0.Status.GPS.IsPositionAvailable == true) {
+					RemoveClass("Ctrl_PFDDefaultPanelGPSStatus", "OrangeText");
+					if(PFD0.Status.GPS.IsPositionAccurate == true && PFD0.Status.GPS.IsAltitudeAvailable == true && PFD0.Status.GPS.IsAltitudeAccurate == true) {
+						ChangeText("Label_PFDDefaultPanelGPSStatusValue", Translate("Normal"));
+					} else {
+						ChangeText("Label_PFDDefaultPanelGPSStatusValue", Translate("SignalWeak"));
+					}
+				} else {
+					AddClass("Ctrl_PFDDefaultPanelGPSStatus", "OrangeText");
+					ChangeText("Label_PFDDefaultPanelGPSStatusValue", Translate("Unavailable"));
+				}
+				if(PFD0.Status.IsAccelAvailable == true) {
+					RemoveClass("Ctrl_PFDDefaultPanelAccelStatus", "OrangeText");
+					ChangeText("Label_PFDDefaultPanelAccelStatusValue", Translate("Normal"));
+				} else {
+					AddClass("Ctrl_PFDDefaultPanelAccelStatus", "OrangeText");
+					ChangeText("Label_PFDDefaultPanelAccelStatusValue", Translate("Unavailable"));
+				}
+				if((PFD.Speed.Mode == "GPS" && PFD0.Status.GPS.IsSpeedAvailable == true) ||
+				(PFD.Speed.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
+				(PFD.Speed.Mode == "DualChannel" && (PFD0.Status.GPS.IsSpeedAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
+				PFD.Speed.Mode == "Manual") {
+					ChangeText("Label_PFDDefaultPanelGSValue", ConvertUnit(PFD0.Stats.Speed.GSDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
+					ChangeText("Label_PFDDefaultPanelAvgGSValue", ConvertUnit(PFD0.Stats.Speed.AvgGSDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
+					ChangeText("Label_PFDDefaultPanelTASValue", ConvertUnit(PFD0.Stats.Speed.TASDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
+				} else {
+					ChangeText("Label_PFDDefaultPanelGSValue", "---");
+					ChangeText("Label_PFDDefaultPanelAvgGSValue", "---");
+					ChangeText("Label_PFDDefaultPanelTASValue", "---");
+				}
+				if(PFD.Speed.Wind.Speed > 0) {
+					ChangeText("Label_PFDDefaultPanelWindValue", PFD.Speed.Wind.Direction.toString().padStart(3, "0") + "°/" + ConvertUnit(PFD.Speed.Wind.Speed, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
+					if(PFD0.Status.GPS.IsHeadingAvailable == true) {
+						Show("PFDDefaultPanelWindDirection");
+						ChangeRotate("Needle_PFDDefaultPanelWindDirection", PFD0.Stats.Speed.Wind.RelativeHeading);
+					} else {
+						Fade("PFDDefaultPanelWindDirection");
+					}
+				} else {
+					ChangeText("Label_PFDDefaultPanelWindValue", Translate("NoWind"));
+					Fade("PFDDefaultPanelWindDirection");
+				}
+
+				// FMA
+				ChangeText("Label_PFDDefaultPanelFlightMode", Translate(PFD.FlightMode.FlightMode));
+				if(PFD0.Stats.ClockTime - PFD0.Stats.FlightModeTimestamp < 10000) {
+					AddClass("Ctnr_PFDDefaultPanelFMA2", "ModeChanged");
+				} else {
+					RemoveClass("Ctnr_PFDDefaultPanelFMA2", "ModeChanged");
+				}
+
+				// Attitude
+				Fade("Ctrl_PFDDefaultPanelAttitudeStatus");
+				Fade("Ctrl_PFDDefaultPanelAttitudeBg");
+				Fade("Ctrl_PFDDefaultPanelAttitudePitch");
+				Fade("Ctrl_PFDDefaultPanelAttitudeRoll");
+				Fade("Ctrl_PFDDefaultPanelAttitudeAircraftSymbol");
+				if(PFD.Attitude.IsEnabled == true) {
+					if((PFD.Attitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
+					PFD.Attitude.Mode == "Manual") {
+						Show("Ctrl_PFDDefaultPanelAttitudeBg");
+						Show("Ctrl_PFDDefaultPanelAttitudePitch");
+						Show("Ctrl_PFDDefaultPanelAttitudeRoll");
+						Show("Ctrl_PFDDefaultPanelAttitudeAircraftSymbol");
+						if(System.Display.Anim > 0) {
+							ChangeAnim("Ctrl_PFDDefaultPanelAttitudeBg", "100ms");
+							ChangeAnim("Ctrl_PFDDefaultPanelAttitudePitch", "100ms");
+							ChangeAnim("Ctrl_PFDDefaultPanelAttitudeRoll", "100ms");
+						} else {
+							ChangeAnim("Ctrl_PFDDefaultPanelAttitudeBg", "");
+							ChangeAnim("Ctrl_PFDDefaultPanelAttitudePitch", "");
+							ChangeAnim("Ctrl_PFDDefaultPanelAttitudeRoll", "");
+						}
+						ChangeTop("Ctrl_PFDDefaultPanelAttitudeBg", "calc(50% - 2000px + " + 10 * PFD0.Stats.Attitude.Pitch2 * Math.cos(Math.abs(PFD0.Stats.Attitude.Roll) * (Math.PI / 180)) + "px)");
+						ChangeLeft("Ctrl_PFDDefaultPanelAttitudeBg", "calc(50% - 2000px + " + 10 * PFD0.Stats.Attitude.Pitch2 * Math.sin(PFD0.Stats.Attitude.Roll * (Math.PI / 180)) + "px)");
+						ChangeRotate("Ctrl_PFDDefaultPanelAttitudeBg", -PFD0.Stats.Attitude.Roll);
+						ChangeTop("CtrlGroup_PFDDefaultPanelAttitudePitch", "calc(50% - 900px + " + 10 * PFD0.Stats.Attitude.Pitch + "px)");
+						ChangeRotate("Ctrl_PFDDefaultPanelAttitudePitch", -PFD0.Stats.Attitude.Roll);
+						ChangeRotate("CtrlGroup_PFDDefaultPanelAttitudeRollScale", -PFD0.Stats.Attitude.Roll);
+						if(PFD0.Stats.Attitude.Roll <= 0) {
+							document.getElementById("ProgringFg_PFDDefaultPanelAttitudeRoll").style.strokeDasharray = (Math.PI * 420) * (-PFD0.Stats.Attitude.Roll / 360) + "px, " + (Math.PI * 420) * (1 + PFD0.Stats.Attitude.Roll / 360) + "px";
+						} else {
+							document.getElementById("ProgringFg_PFDDefaultPanelAttitudeRoll").style.strokeDasharray = "0, " + (Math.PI * 420) * (1 - PFD0.Stats.Attitude.Roll / 360) + "px, " + (Math.PI * 420) * (PFD0.Stats.Attitude.Roll / 360) + "px";
+						}
+						if(PFD0.Alert.Active.AttitudeWarning == "BankAngle") {
+							AddClass("ProgringFg_PFDDefaultPanelAttitudeRoll", "BankAngleWarning");
+							AddClass("PFDDefaultPanelAttitudeRollPointer", "BankAngleWarning");
+						} else {
+							RemoveClass("ProgringFg_PFDDefaultPanelAttitudeRoll", "BankAngleWarning");
+							RemoveClass("PFDDefaultPanelAttitudeRollPointer", "BankAngleWarning");
+						}
+					} else {
+						Show("Ctrl_PFDDefaultPanelAttitudeStatus");
+						AddClass("Ctrl_PFDDefaultPanelAttitudeStatus", "OrangeText");
+						ChangeText("Label_PFDDefaultPanelAttitudeStatus", Translate("AttitudeUnavailable"));
+					}
+				} else {
+					Show("Ctrl_PFDDefaultPanelAttitudeStatus");
+					RemoveClass("Ctrl_PFDDefaultPanelAttitudeStatus", "OrangeText");
+					ChangeText("Label_PFDDefaultPanelAttitudeStatus", Translate("AttitudeDisabled"));
+				}
+
+				// Speed
+				Fade("Ctrl_PFDDefaultPanelSpeedStatus");
+				Fade("Ctrl_PFDDefaultPanelSpeedTape");
+				Fade("Ctrl_PFDDefaultPanelSpeedAdditionalIndicators");
+				Fade("Ctrl_PFDDefaultPanelSpeedBalloon");
+				Fade("Ctrl_PFDDefaultPanelSpeedMachNumber");
+				if((PFD.Speed.Mode == "GPS" && PFD0.Status.GPS.IsSpeedAvailable == true) ||
+				(PFD.Speed.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
+				(PFD.Speed.Mode == "DualChannel" && (PFD0.Status.GPS.IsSpeedAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
+				PFD.Speed.Mode == "Manual") {
+					// Show ctrls
+					Show("Ctrl_PFDDefaultPanelSpeedTape");
+					Show("Ctrl_PFDDefaultPanelSpeedAdditionalIndicators");
+					Show("Ctrl_PFDDefaultPanelSpeedBalloon");
+					if(System.Display.Anim > 0) {
+						ChangeAnim("Ctrl_PFDDefaultPanelSpeedTape", "100ms");
+						ChangeAnim("Ctrl_PFDDefaultPanelSpeedAdditionalIndicators", "100ms");
+					} else {
+						ChangeAnim("Ctrl_PFDDefaultPanelSpeedTape", "");
+						ChangeAnim("Ctrl_PFDDefaultPanelSpeedAdditionalIndicators", "");
+					}
+
+					// Tape
+					ChangeTop("CtrlGroup_PFDDefaultPanelSpeedTape", "calc(50% - 5000px + " + 5 * ConvertUnit(PFD0.Stats.Speed.TapeDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit) + "px)");
+
+					// Additional indicators
+						// Speed trend
+						if(Math.abs(ConvertUnit(PFD0.Stats.Speed.TrendDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit)) >= 3) {
+							Show("Needle_PFDDefaultPanelSpeedTrend");
+						} else {
+							Fade("Needle_PFDDefaultPanelSpeedTrend");
+						}
+						ChangeTop("Needle_PFDDefaultPanelSpeedTrend", "calc(50% - " + 5 * Math.abs(ConvertUnit(PFD0.Stats.Speed.TrendDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit)) + "px)");
+						ChangeHeight("Needle_PFDDefaultPanelSpeedTrend", 10 * Math.abs(ConvertUnit(PFD0.Stats.Speed.TrendDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit)) + "px");
+						if(PFD0.Stats.Speed.TrendDisplay >= 0) {
+							RemoveClass("Needle_PFDDefaultPanelSpeedTrend", "Decreasing");
+						} else {
+							AddClass("Needle_PFDDefaultPanelSpeedTrend", "Decreasing");
+						}
+
+						// Other speeds
+						ChangeTop("CtrlGroup_PFDDefaultPanelOtherSpeeds", "calc(50% - 5000px + " + 5 * ConvertUnit(PFD0.Stats.Speed.TapeDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit) + "px)");
+							// Speed limits
+							switch(PFD.FlightMode.FlightMode) {
+								case "DepartureGround":
+								case "ArrivalGround":
+									Hide("Ctrl_PFDDefaultPanelSpeedLimitMin");
+									break;
+								case "TakeOff":
+								case "Cruise":
+								case "Land":
+								case "EmergencyReturn":
+									Show("Ctrl_PFDDefaultPanelSpeedLimitMin");
+									ChangeHeight("Ctrl_PFDDefaultPanelSpeedLimitMin", 5 * ConvertUnit(PFD.Speed.SpeedLimit.Min, "MeterPerSec", Subsystem.I18n.SpeedUnit) + "px");
+									break;
+								default:
+									AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshDefaultPanel is invalid.");
+									break;
+							}
+							ChangeHeight("Ctrl_PFDDefaultPanelSpeedLimitMax", 5 * (1000 - ConvertUnit(CalcMaxSpeedLimit(PFD.Speed.SpeedLimit.MaxOnFlapsUp, PFD.Speed.SpeedLimit.MaxOnFlapsFull, PFD.Flaps), "MeterPerSec", Subsystem.I18n.SpeedUnit)) + "px");
+
+							// Avg IAS
+							ChangeBottom("Ctrl_PFDDefaultPanelAvgIAS", 5 * ConvertUnit(PFD0.Stats.Speed.AvgIASDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit) - 10 + "px");
+
+					// Balloon
+					ChangeTop("RollingDigit_PFDDefaultPanelSpeed1", -45 * (9 - PFD0.Stats.Speed.BalloonDisplay[1]) + "px");
+					ChangeTop("RollingDigit_PFDDefaultPanelSpeed2", -45 * (10 - PFD0.Stats.Speed.BalloonDisplay[2]) + "px");
+					switch(true) {
+						case ConvertUnit(PFD0.Stats.Speed.TapeDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit) < 1:
+							ChangeTop("RollingDigit_PFDDefaultPanelSpeed3", 15 - 30 * (18 - PFD0.Stats.Speed.BalloonDisplay[3]) + "px");
+							break;
+						case ConvertUnit(PFD0.Stats.Speed.TapeDisplay, "MeterPerSec", Subsystem.I18n.SpeedUnit) > 998:
+							ChangeTop("RollingDigit_PFDDefaultPanelSpeed3", 15 - 30 * (9 - PFD0.Stats.Speed.BalloonDisplay[3]) + "px");
+							break;
+						default:
+							ChangeTop("RollingDigit_PFDDefaultPanelSpeed3", 15 - 30 * (14 - PFD0.Stats.Speed.BalloonDisplay[3]) + "px");
+							break;
+					}
+					if(PFD0.Alert.Active.SpeedWarning != "") {
+						AddClass("Ctrl_PFDDefaultPanelSpeedBalloonBalloon", "Warning");
+					} else {
+						RemoveClass("Ctrl_PFDDefaultPanelSpeedBalloonBalloon", "Warning");
+					}
+
+					// Mach number
+					if(PFD0.Stats.Speed.MachNumber >= 0.5) {
+						Show("Ctrl_PFDDefaultPanelSpeedMachNumber");
+						ChangeText("Label_PFDDefaultPanelSpeedMachNumber", PFD0.Stats.Speed.MachNumber.toFixed(3).replace("0.", "."));
+					}
+				} else {
+					Show("Ctrl_PFDDefaultPanelSpeedStatus");
+					ChangeText("Label_PFDDefaultPanelSpeedStatus", Translate("SpeedUnavailable"));
+				}
+
+				// Altitude
+				Fade("Ctrl_PFDDefaultPanelAltitudeStatus");
+				Fade("Ctrl_PFDDefaultPanelAltitudeTape");
+				Fade("Ctrl_PFDDefaultPanelAltitudeAdditionalIndicators");
+				Fade("Ctrl_PFDDefaultPanelAltitudeBalloon");
+				Fade("Ctrl_PFDDefaultPanelAltitudeMetric");
+				if((PFD.Altitude.Mode == "GPS" && PFD0.Status.GPS.IsAltitudeAvailable == true) ||
+				(PFD.Altitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
+				(PFD.Altitude.Mode == "DualChannel" && (PFD0.Status.GPS.IsAltitudeAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
+				PFD.Altitude.Mode == "Manual") {
+					// Show ctrls
+					Show("Ctrl_PFDDefaultPanelAltitudeTape");
+					Show("Ctrl_PFDDefaultPanelAltitudeAdditionalIndicators");
+					Show("Ctrl_PFDDefaultPanelAltitudeBalloon");
+					if(System.Display.Anim > 0) {
+						ChangeAnim("Ctrl_PFDDefaultPanelAltitudeTape", "100ms");
+						ChangeAnim("Ctrl_PFDDefaultPanelAltitudeAdditionalIndicators", "100ms");
+					} else {
+						ChangeAnim("Ctrl_PFDDefaultPanelAltitudeTape", "");
+						ChangeAnim("Ctrl_PFDDefaultPanelAltitudeAdditionalIndicators", "");
+					}
+
+					// Tape
+					ChangeTop("CtrlGroup_PFDDefaultPanelAltitudeTape", "calc(50% - 37500px + " + 0.75 * ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit) + "px)");
+
+					// Additional indicators
+						// Altitude trend
+						if(Math.abs(ConvertUnit(PFD0.Stats.Altitude.TrendDisplay, "Meter", Subsystem.I18n.AltitudeUnit)) >= 20) {
+							Show("Needle_PFDDefaultPanelAltitudeTrend");
+						} else {
+							Fade("Needle_PFDDefaultPanelAltitudeTrend");
+						}
+						ChangeTop("Needle_PFDDefaultPanelAltitudeTrend", "calc(50% - " + 0.75 * Math.abs(ConvertUnit(PFD0.Stats.Altitude.TrendDisplay, "Meter", Subsystem.I18n.AltitudeUnit)) + "px)");
+						ChangeHeight("Needle_PFDDefaultPanelAltitudeTrend", 1.5 * Math.abs(ConvertUnit(PFD0.Stats.Altitude.TrendDisplay, "Meter", Subsystem.I18n.AltitudeUnit)) + "px");
+						if(PFD0.Stats.Altitude.TrendDisplay >= 0) {
+							RemoveClass("Needle_PFDDefaultPanelAltitudeTrend", "Decreasing");
+						} else {
+							AddClass("Needle_PFDDefaultPanelAltitudeTrend", "Decreasing");
+						}
+
+						// Other altitudes
+						ChangeTop("CtrlGroup_PFDDefaultPanelOtherAltitudes", "calc(50% - 37500px + " + 0.75 * ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit) + "px)");
+							// Decision altitude
+							switch(PFD.FlightMode.FlightMode) {
+								case "DepartureGround":
+								case "TakeOff":
+								case "Cruise":
+									Fade("Ctrl_PFDDefaultPanelDecisionAltitude");
+									break;
+								case "Land":
+								case "ArrivalGround":
+									Show("Ctrl_PFDDefaultPanelDecisionAltitude");
+									ChangeBottom("Ctrl_PFDDefaultPanelDecisionAltitude", 0.75 * (ConvertUnit(PFD.Altitude.AirportElevation.Arrival + PFD.Altitude.DecisionHeight, "Meter", Subsystem.I18n.AltitudeUnit) + 2000) - 10 + "px");
+									if(PFD0.Status.IsDecisionAltitudeActive == true) {
+										AddClass("Ctrl_PFDDefaultPanelDecisionAltitude", "Active");
+									} else {
+										RemoveClass("Ctrl_PFDDefaultPanelDecisionAltitude", "Active");
+									}
+									break;
+								case "EmergencyReturn":
+									Show("Ctrl_PFDDefaultPanelDecisionAltitude");
+									ChangeBottom("Ctrl_PFDDefaultPanelDecisionAltitude", 0.75 * (ConvertUnit(PFD.Altitude.AirportElevation.Departure + PFD.Altitude.DecisionHeight, "Meter", Subsystem.I18n.AltitudeUnit) + 2000) - 10 + "px");
+									if(PFD0.Status.IsDecisionAltitudeActive == true) {
+										AddClass("Ctrl_PFDDefaultPanelDecisionAltitude", "Active");
+									} else {
+										RemoveClass("Ctrl_PFDDefaultPanelDecisionAltitude", "Active");
+									}
+									break;
+								default:
+									AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshDefaultPanel is invalid.");
+									break;
+							}
+
+							// Ground altitude
+							switch(PFD.FlightMode.FlightMode) {
+								case "DepartureGround":
+								case "TakeOff":
+								case "EmergencyReturn":
+									ChangeBottom("Ctrl_PFDDefaultPanelGroundAltitude", 0.75 * (ConvertUnit(PFD.Altitude.AirportElevation.Departure, "Meter", Subsystem.I18n.AltitudeUnit) + 2000) - 40 + "px");
+									break;
+								case "Cruise":
+								case "Land":
+								case "ArrivalGround":
+									ChangeBottom("Ctrl_PFDDefaultPanelGroundAltitude", 0.75 * (ConvertUnit(PFD.Altitude.AirportElevation.Arrival, "Meter", Subsystem.I18n.AltitudeUnit) + 2000) - 40 + "px");
+									break;
+								default:
+									AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshDefaultPanel is invalid.");
+									break;
+							}
+
+					// Balloon
+					if(PFD0.Stats.Altitude.TapeDisplay >= 0) {
+						ChangeTop("RollingDigit_PFDDefaultPanelAltitude1", -45 * (5 - PFD0.Stats.Altitude.BalloonDisplay[1]) + "px");
+					} else {
+						ChangeTop("RollingDigit_PFDDefaultPanelAltitude1", "-270px");
+					}
+					ChangeTop("RollingDigit_PFDDefaultPanelAltitude2", -45 * (10 - PFD0.Stats.Altitude.BalloonDisplay[2]) + "px");
+					ChangeTop("RollingDigit_PFDDefaultPanelAltitude3", -45 * (10 - PFD0.Stats.Altitude.BalloonDisplay[3]) + "px");
+					switch(true) {
+						case ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit) < -1980:
+							ChangeTop("RollingDigit_PFDDefaultPanelAltitude4", 17.5 - 25 * (21 - PFD0.Stats.Altitude.BalloonDisplay[4] / 20) + "px");
+							break;
+						case ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit) >= -1980 &&
+						ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit) <= -20:
+							ChangeTop("RollingDigit_PFDDefaultPanelAltitude4", 17.5 - 25 * (17 - PFD0.Stats.Altitude.BalloonDisplay[4] / 20) + "px");
+							break;
+						case ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit) > -20 &&
+						ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit) < 20:
+							ChangeTop("RollingDigit_PFDDefaultPanelAltitude4", 17.5 - 25 * (13 - PFD0.Stats.Altitude.BalloonDisplay[4] / 20) + "px");
+							break;
+						case ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit) >= 20 &&
+						ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit) <= 49980:
+							ChangeTop("RollingDigit_PFDDefaultPanelAltitude4", 17.5 - 25 * (9 - PFD0.Stats.Altitude.BalloonDisplay[4] / 20) + "px");
+							break;
+						case ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit) > 49980:
+							ChangeTop("RollingDigit_PFDDefaultPanelAltitude4", 17.5 - 25 * (5 - PFD0.Stats.Altitude.BalloonDisplay[4] / 20) + "px");
+							break;
+						default:
+							AlertSystemError("The value of ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, \"Meter\", Subsystem.I18n.AltitudeUnit) \"" + ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit) + "\" in function RefreshDefaultPanel is invalid.");
+							break;
+					}
+					if(PFD0.Alert.Active.AltitudeWarning != "") {
+						AddClass("Ctrl_PFDDefaultPanelAltitudeBalloonBalloon", "Warning");
+					} else {
+						RemoveClass("Ctrl_PFDDefaultPanelAltitudeBalloonBalloon", "Warning");
+					}
+
+					// Metric
+					switch(Subsystem.I18n.AltitudeUnit) {
+						case "Meter":
+						case "Feet":
+							break;
+						case "FeetButShowMeterBeside":
+							Show("Ctrl_PFDDefaultPanelAltitudeMetric");
+							ChangeText("Label_PFDDefaultPanelAltitudeMetric", PFD0.Stats.Altitude.TapeDisplay.toFixed(0) + "<span class=\"SmallerText\">" + Translate("MetricAltitude") + "</span>");
+							break;
+						default:
+							AlertSystemError("The value of Subsystem.I18n.AltitudeUnit \"" + Subsystem.I18n.AltitudeUnit + "\" in function RefreshDefaultPanel is invalid.");
+							break;
+					}
+				} else {
+					Show("Ctrl_PFDDefaultPanelAltitudeStatus");
+					ChangeText("Label_PFDDefaultPanelAltitudeStatus", Translate("AltitudeUnavailable"));
+				}
+
+				// Vertical speed
+				Fade("Ctrl_PFDDefaultPanelVerticalSpeedStatus");
+				Fade("Ctrl_PFDDefaultPanelVerticalSpeedTape");
+				Fade("Ctrl_PFDDefaultPanelVerticalSpeedNeedle");
+				Fade("Ctrl_PFDDefaultPanelVerticalSpeedBalloon");
+				if((PFD.Altitude.Mode == "GPS" && PFD0.Status.GPS.IsAltitudeAvailable == true) ||
+				(PFD.Altitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
+				(PFD.Altitude.Mode == "DualChannel" && (PFD0.Status.GPS.IsAltitudeAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
+				PFD.Altitude.Mode == "Manual") {
+					// Show ctrls
+					Show("Ctrl_PFDDefaultPanelVerticalSpeedTape");
+					Show("Ctrl_PFDDefaultPanelVerticalSpeedNeedle");
+					if(System.Display.Anim > 0) {
+						ChangeAnim("Ctrl_PFDDefaultPanelVerticalSpeedNeedle", "100ms");
+					} else {
+						ChangeAnim("Ctrl_PFDDefaultPanelVerticalSpeedNeedle", "");
+					}
+
+					// Needle
+						// Calc needle angle
+						let ConvertedVerticalSpeed = ConvertUnit(PFD0.Stats.Speed.Vertical, "MeterPerSec", Subsystem.I18n.VerticalSpeedUnit),
+						VerticalPixels = 0, NeedleAngle = 0;
+						switch(Subsystem.I18n.VerticalSpeedUnit) {
+							case "MeterPerSec":
+								switch(true) {
+									case ConvertedVerticalSpeed <= -6:
+										VerticalPixels = -180;
+										break;
+									case ConvertedVerticalSpeed > -6 && ConvertedVerticalSpeed <= -2:
+										VerticalPixels = -120 + 60 * ((ConvertedVerticalSpeed + 2) / 4);
+										break;
+									case ConvertedVerticalSpeed > -2 && ConvertedVerticalSpeed < 2:
+										VerticalPixels = 120 * (ConvertedVerticalSpeed / 2);
+										break;
+									case ConvertedVerticalSpeed >= 2 && ConvertedVerticalSpeed < 6:
+										VerticalPixels = 120 + 60 * ((ConvertedVerticalSpeed - 2) / 4);
+										break;
+									case ConvertedVerticalSpeed >= 6:
+										VerticalPixels = 180;
+										break;
+									default:
+										AlertSystemError("The value of ConvertedVerticalSpeed \"" + ConvertedVerticalSpeed + "\" in function RefreshDefaultPanel is invalid.");
+										break;
+								}
+								break;
+							case "FeetPerMin":
+								switch(true) {
+									case ConvertedVerticalSpeed <= -6000:
+										VerticalPixels = -180;
+										break;
+									case ConvertedVerticalSpeed > -6000 && ConvertedVerticalSpeed <= -2000:
+										VerticalPixels = -120 + 60 * ((ConvertedVerticalSpeed + 2000) / 4000);
+										break;
+									case ConvertedVerticalSpeed > -2000 && ConvertedVerticalSpeed < 2000:
+										VerticalPixels = 120 * (ConvertedVerticalSpeed / 2000);
+										break;
+									case ConvertedVerticalSpeed >= 2000 && ConvertedVerticalSpeed < 6000:
+										VerticalPixels = 120 + 60 * ((ConvertedVerticalSpeed - 2000) / 4000);
+										break;
+									case ConvertedVerticalSpeed >= 6000:
+										VerticalPixels = 180;
+										break;
+									default:
+										AlertSystemError("The value of ConvertedVerticalSpeed \"" + ConvertedVerticalSpeed + "\" in function RefreshDefaultPanel is invalid.");
+										break;
+								}
+								break;
+							default:
+								AlertSystemError("The value of Subsystem.I18n.VerticalSpeedUnit \"" + Subsystem.I18n.VerticalSpeedUnit + "\" in function RefreshDefaultPanel is invalid.");
+								break;
+						}
+						NeedleAngle = Math.atan(VerticalPixels / 100) / (Math.PI / 180);
+
+						// Refresh needle
+						let NeedleLength = 100 / Math.cos(NeedleAngle * (Math.PI / 180));
+						ChangeRotate("Needle_PFDDefaultPanelVerticalSpeed", -90 + NeedleAngle);
+						ChangeTop("Needle_PFDDefaultPanelVerticalSpeed", "calc(50% - " + NeedleLength + "px)");
+						ChangeHeight("Needle_PFDDefaultPanelVerticalSpeed", NeedleLength * 2 + "px");
+
+					// Balloon
+					if((Subsystem.I18n.VerticalSpeedUnit == "MeterPerSec" && Math.abs(ConvertedVerticalSpeed) >= 1) ||
+					(Subsystem.I18n.VerticalSpeedUnit == "FeetPerMin" && Math.abs(ConvertedVerticalSpeed) >= 400)) {
+						Show("Ctrl_PFDDefaultPanelVerticalSpeedBalloon");
+						let VerticalSpeedDisplay = 0;
+						switch(Subsystem.I18n.VerticalSpeedUnit) {
+							case "MeterPerSec":
+								VerticalSpeedDisplay = CheckRangeAndCorrect(Math.trunc(ConvertedVerticalSpeed / 0.2) * 0.2, -50, 50);
+								if(VerticalSpeedDisplay > 0) {
+									ChangeText("Label_PFDDefaultPanelVerticalSpeedBalloon", "+" + VerticalSpeedDisplay.toFixed(1));
+								} else {
+									ChangeText("Label_PFDDefaultPanelVerticalSpeedBalloon", VerticalSpeedDisplay.toFixed(1));
+								}
+								break;
+							case "FeetPerMin":
+								VerticalSpeedDisplay = CheckRangeAndCorrect(Math.trunc(ConvertedVerticalSpeed / 50) * 50, -9999, 9999);
+								if(VerticalSpeedDisplay > 0) {
+									ChangeText("Label_PFDDefaultPanelVerticalSpeedBalloon", "+" + VerticalSpeedDisplay);
+								} else {
+									ChangeText("Label_PFDDefaultPanelVerticalSpeedBalloon", VerticalSpeedDisplay);
+								}
+								break;
+							default:
+								AlertSystemError("The value of Subsystem.I18n.VerticalSpeedUnit \"" + Subsystem.I18n.VerticalSpeedUnit + "\" in function RefreshDefaultPanel is invalid.");
+								break;
+						}
+					}
+				} else {
+					Show("Ctrl_PFDDefaultPanelVerticalSpeedStatus");
+					ChangeText("Label_PFDDefaultPanelVerticalSpeedStatus", Translate("VerticalSpeedUnavailable"));
+				}
+
+				// Heading
+				Fade("Ctrl_PFDDefaultPanelHeadingStatus");
+				Fade("Ctrl_PFDDefaultPanelHeadingTape");
+				Fade("Ctrl_PFDDefaultPanelHeadingAdditionalIndicators");
+				Fade("Ctrl_PFDDefaultPanelHeadingBalloon");
+				if(PFD0.Status.GPS.IsHeadingAvailable == true) {
+					Show("Ctrl_PFDDefaultPanelHeadingTape");
+					Show("Ctrl_PFDDefaultPanelHeadingAdditionalIndicators");
+					Show("Ctrl_PFDDefaultPanelHeadingBalloon");
+					if(System.Display.Anim > 0) {
+						ChangeAnim("Ctrl_PFDDefaultPanelHeadingTape", "100ms");
+					} else {
+						ChangeAnim("Ctrl_PFDDefaultPanelHeadingTape", "");
+					}
+					ChangeRotate("CtrlGroup_PFDDefaultPanelHeadingTape", -PFD0.Stats.Heading.Display);
+					if(PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
+						Show("Ctrl_PFDDefaultPanelBearing");
+						ChangeRotate("Ctrl_PFDDefaultPanelBearing", PFD0.Stats.Nav.Bearing - PFD0.Stats.Heading.Display);
+					} else {
+						Fade("Ctrl_PFDDefaultPanelBearing");
+					}
+					ChangeText("Label_PFDDefaultPanelHeadingBalloon", Math.trunc(PFD0.Stats.Heading.Display).toString().padStart(3, "0"));
+				} else {
+					Show("Ctrl_PFDDefaultPanelHeadingStatus");
+					ChangeText("Label_PFDDefaultPanelHeadingStatus", Translate("HeadingUnavailable"));
+				}
+
+				// DME
+				if(PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
+					Show("Ctnr_PFDDefaultPanelDME");
+					if(PFD0.Stats.Nav.Distance < 10000000) { // Max 10000 kilometers.
+						ChangeText("Label_PFDDefaultPanelDMEDistance", ConvertUnit(PFD0.Stats.Nav.Distance, "Meter", Subsystem.I18n.DistanceUnit).toFixed(1));
+						if(PFD0.Stats.Speed.GSDisplay > 0 && PFD0.Stats.Nav.ETA < 360000000) { // Max 100 hours.
+							ChangeText("Label_PFDDefaultPanelDMEETA",
+								Math.trunc(PFD0.Stats.Nav.ETA / 3600000) + "<span class=\"SmallerText\">" + Translate("Hour") + "</span>" +
+								Math.trunc(PFD0.Stats.Nav.ETA % 3600000 / 60000).toString().padStart(2, "0") + "<span class=\"SmallerText\">" + Translate("Minute") + "</span>");
+						} else {
+							ChangeText("Label_PFDDefaultPanelDMEETA", "--<span class=\"SmallerText\">" + Translate("Hour") + "</span>--<span class=\"SmallerText\">" + Translate("Minute") + "</span>");
+						}
+					} else {
+						ChangeText("Label_PFDDefaultPanelDMEDistance", Translate("DistanceTooFar"));
+						ChangeText("Label_PFDDefaultPanelDMEETA", "--<span class=\"SmallerText\">" + Translate("Hour") + "</span>--<span class=\"SmallerText\">" + Translate("Minute") + "</span>");
+					}
+				} else {
+					Fade("Ctnr_PFDDefaultPanelDME");
+				}
+
+				// Localizer
+				Fade("Ctnr_PFDDefaultPanelLocalizer");
+				if(PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true && PFD0.Status.GPS.IsHeadingAvailable == true) {
+					switch(PFD.FlightMode.FlightMode) {
+						case "DepartureGround":
+						case "TakeOff":
+						case "Cruise":
+						case "ArrivalGround":
+							break;
+						case "Land":
+						case "EmergencyReturn":
+							Show("Ctnr_PFDDefaultPanelLocalizer");
+							switch(true) {
+								case PFD0.Stats.Nav.LocalizerDeviation <= -2:
+									ChangeLeft("PFDDefaultPanelLocalizerPointer", 237.5 + "px");
+									break;
+								case PFD0.Stats.Nav.LocalizerDeviation > -2 && PFD0.Stats.Nav.LocalizerDeviation < 2:
+									ChangeLeft("PFDDefaultPanelLocalizerPointer", 117.5 - 120 * (PFD0.Stats.Nav.LocalizerDeviation / 2) + "px");
+									break;
+								case PFD0.Stats.Nav.LocalizerDeviation >= 2:
+									ChangeLeft("PFDDefaultPanelLocalizerPointer", -2.5 + "px");
+									break;
+								default:
+									AlertSystemError("The value of PFD0.Stats.Nav.LocalizerDeviation \"" + PFD0.Stats.Nav.LocalizerDeviation + "\" in function RefreshDefaultPanel is invalid.");
+									break;
+							}
+							if(System.Display.Anim > 0) {
+								ChangeAnim("PFDDefaultPanelLocalizerPointer", "100ms");
+							} else {
+								ChangeAnim("PFDDefaultPanelLocalizerPointer", "");
+							}
+							break;
+						default:
+							AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshDefaultPanel is invalid.");
+							break;
+					}
+				}
+
+				// Glide slope
+				Fade("Ctnr_PFDDefaultPanelGlideSlope");
+				if(PFD.Nav.IsEnabled == true &&
+				PFD0.Status.GPS.IsPositionAvailable == true &&
+				(
+					(PFD.Altitude.Mode == "GPS" && PFD0.Status.GPS.IsAltitudeAvailable == true) ||
+					(PFD.Altitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
+					(PFD.Altitude.Mode == "DualChannel" && (PFD0.Status.GPS.IsAltitudeAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
+					PFD.Altitude.Mode == "Manual"
+				)) {
+					switch(PFD.FlightMode.FlightMode) {
+						case "DepartureGround":
+						case "TakeOff":
+						case "Cruise":
+						case "ArrivalGround":
+							break;
+						case "Land":
+						case "EmergencyReturn":
+							Show("Ctnr_PFDDefaultPanelGlideSlope");
+							switch(true) {
+								case PFD0.Stats.Nav.GlideSlopeDeviation <= -0.7:
+									ChangeTop("PFDDefaultPanelGlideSlopePointer", -2.5 + "px");
+									break;
+								case PFD0.Stats.Nav.GlideSlopeDeviation > -0.7 && PFD0.Stats.Nav.GlideSlopeDeviation < 0.7:
+									ChangeTop("PFDDefaultPanelGlideSlopePointer", 117.5 + 120 * (PFD0.Stats.Nav.GlideSlopeDeviation / 0.7) + "px");
+									break;
+								case PFD0.Stats.Nav.GlideSlopeDeviation >= 0.7:
+									ChangeTop("PFDDefaultPanelGlideSlopePointer", 237.5 + "px");
+									break;
+								default:
+									AlertSystemError("The value of PFD0.Stats.Nav.GlideSlopeDeviation \"" + PFD0.Stats.Nav.GlideSlopeDeviation + "\" in function RefreshDefaultPanel is invalid.");
+									break;
+							}
+							if(System.Display.Anim > 0) {
+								ChangeAnim("PFDDefaultPanelGlideSlopePointer", "100ms");
+							} else {
+								ChangeAnim("PFDDefaultPanelGlideSlopePointer", "");
+							}
+							break;
+						default:
+							AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshDefaultPanel is invalid.");
+							break;
+					}
+				}
+
+				// Marker beacon
+				Fade("Ctnr_PFDDefaultPanelMarkerBeacon");
+				if(PFD.Nav.IsEnabled == true &&
+				PFD0.Status.GPS.IsPositionAvailable == true &&
+				(
+					(PFD.Altitude.Mode == "GPS" && PFD0.Status.GPS.IsAltitudeAvailable == true) ||
+					(PFD.Altitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
+					(PFD.Altitude.Mode == "DualChannel" && (PFD0.Status.GPS.IsAltitudeAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
+					PFD.Altitude.Mode == "Manual"
+				) &&
+				PFD0.Status.GPS.IsHeadingAvailable == true) {
+					switch(PFD.FlightMode.FlightMode) {
+						case "DepartureGround":
+						case "TakeOff":
+						case "Cruise":
+						case "ArrivalGround":
+							break;
+						case "Land":
+						case "EmergencyReturn":
+							switch(PFD0.Stats.Nav.MarkerBeacon) {
+								case "":
+									break;
+								case "OuterMarker":
+								case "MiddleMarker":
+								case "InnerMarker":
+									Show("Ctnr_PFDDefaultPanelMarkerBeacon");
+									ChangeMarkerBeaconColor(PFD0.Stats.Nav.MarkerBeacon);
+									ChangeText("Label_PFDDefaultPanelMarkerBeacon", Translate(PFD0.Stats.Nav.MarkerBeacon));
+									break;
+								default:
+									AlertSystemError("The value of PFD0.Stats.Nav.MarkerBeacon \"" + PFD0.Stats.Nav.MarkerBeacon + "\" in function RefreshDefaultPanel is invalid.");
+									break;
+							}
+							break;
+						default:
+							AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshDefaultPanel is invalid.");
+							break;
+					}
+				}
+
+				// Radio altitude
+				if((
+					(PFD.Altitude.Mode == "GPS" && PFD0.Status.GPS.IsAltitudeAvailable == true) ||
+					(PFD.Altitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
+					(PFD.Altitude.Mode == "DualChannel" && (PFD0.Status.GPS.IsAltitudeAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
+					PFD.Altitude.Mode == "Manual"
+				) &&
+				Math.abs(PFD0.Stats.Altitude.RadioDisplay) <= 762) {
+					Show("Ctnr_PFDDefaultPanelRadioAltitude");
+					let ConvertedRadioAltitude = ConvertUnit(PFD0.Stats.Altitude.RadioDisplay, "Meter", Subsystem.I18n.AltitudeUnit),
+					ConvertedRadioAltitudeDisplay = 0;
+					switch(true) {
+						case Math.abs(ConvertedRadioAltitude) >= 500:
+							switch(Subsystem.I18n.AltitudeUnit) {
+								case "Meter":
+									ConvertedRadioAltitudeDisplay = Math.round(ConvertedRadioAltitude / 10) * 10;
+									break;
+								case "Feet":
+								case "FeetButShowMeterBeside":
+									ConvertedRadioAltitudeDisplay = Math.round(ConvertedRadioAltitude / 20) * 20;
+									break;
+								default:
+									AlertSystemError("The value of Subsystem.I18n.AltitudeUnit \"" + Subsystem.I18n.AltitudeUnit + "\" in function RefreshDefaultPanel is invalid.");
+									break;
+							}
+							break;
+						case Math.abs(ConvertedRadioAltitude) >= 100 && Math.abs(ConvertedRadioAltitude) < 500:
+							switch(Subsystem.I18n.AltitudeUnit) {
+								case "Meter":
+									ConvertedRadioAltitudeDisplay = Math.round(ConvertedRadioAltitude / 5) * 5;
+									break;
+								case "Feet":
+								case "FeetButShowMeterBeside":
+									ConvertedRadioAltitudeDisplay = Math.round(ConvertedRadioAltitude / 10) * 10;
+									break;
+								default:
+									AlertSystemError("The value of Subsystem.I18n.AltitudeUnit \"" + Subsystem.I18n.AltitudeUnit + "\" in function RefreshDefaultPanel is invalid.");
+									break;
+							}
+							break;
+						case Math.abs(ConvertedRadioAltitude) < 100:
+							switch(Subsystem.I18n.AltitudeUnit) {
+								case "Meter":
+									ConvertedRadioAltitudeDisplay = Math.round(ConvertedRadioAltitude);
+									break;
+								case "Feet":
+								case "FeetButShowMeterBeside":
+									ConvertedRadioAltitudeDisplay = Math.round(ConvertedRadioAltitude / 2) * 2;
+									break;
+								default:
+									AlertSystemError("The value of Subsystem.I18n.AltitudeUnit \"" + Subsystem.I18n.AltitudeUnit + "\" in function RefreshDefaultPanel is invalid.");
+									break;
+							}
+							break;
+						default:
+							AlertSystemError("The value of Math.abs(ConvertedRadioAltitude) \"" + Math.abs(ConvertedRadioAltitude) + "\" in function RefreshDefaultPanel is invalid.");
+							break;
+					}
+					ChangeText("ProgringText_PFDDefaultPanelRadioAltitude", ConvertedRadioAltitudeDisplay);
+					Fade("CtrlGroup_PFDDefaultPanelRadioAltitudeDialScale");
+					Fade("Progring_PFDDefaultPanelRadioAltitude");
+					if(Math.abs(ConvertedRadioAltitudeDisplay) < 1000) {
+						Show("CtrlGroup_PFDDefaultPanelRadioAltitudeDialScale");
+						if(ConvertedRadioAltitude >= 0) {
+							Show("Progring_PFDDefaultPanelRadioAltitude");
+							document.getElementById("ProgringFg_PFDDefaultPanelRadioAltitude").style.strokeDasharray = (Math.PI * 82) * (ConvertedRadioAltitude / 1000) + "px, " + (Math.PI * 82) * (1 - ConvertedRadioAltitude / 1000) + "px";
+							if(System.Display.Anim > 0) {
+								ChangeAnim("ProgringFg_PFDDefaultPanelRadioAltitude", "100ms");
+							} else {
+								ChangeAnim("ProgringFg_PFDDefaultPanelRadioAltitude", "");
+							}
+						}
+					}
+				} else {
+					Fade("Ctnr_PFDDefaultPanelRadioAltitude");
+				}
+
+				// Decision altitude
+				Fade("Ctnr_PFDDefaultPanelDecisionAltitude");
+				if((PFD.Altitude.Mode == "GPS" && PFD0.Status.GPS.IsAltitudeAvailable == true) ||
+				(PFD.Altitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
+				(PFD.Altitude.Mode == "DualChannel" && (PFD0.Status.GPS.IsAltitudeAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
+				PFD.Altitude.Mode == "Manual") {
+					switch(PFD.FlightMode.FlightMode) {
+						case "DepartureGround":
+						case "TakeOff":
+						case "Cruise":
+							break;
+						case "Land":
+						case "ArrivalGround":
+							Show("Ctnr_PFDDefaultPanelDecisionAltitude");
+							ChangeText("Label_PFDDefaultPanelDecisionAltitudeValue", Math.trunc(ConvertUnit(PFD.Altitude.AirportElevation.Arrival + PFD.Altitude.DecisionHeight, "Meter", Subsystem.I18n.AltitudeUnit)));
+							if(PFD0.Status.IsDecisionAltitudeActive == true) {
+								AddClass("Ctnr_PFDDefaultPanelDecisionAltitude", "Active");
+								if(PFD0.Stats.ClockTime - PFD0.Stats.Altitude.DecisionTimestamp < 3000) {
+									AddClass("Ctnr_PFDDefaultPanelDecisionAltitude", "Caution");
+								} else {
+									RemoveClass("Ctnr_PFDDefaultPanelDecisionAltitude", "Caution");
+								}
+							} else {
+								RemoveClass("Ctnr_PFDDefaultPanelDecisionAltitude", "Active");
+								RemoveClass("Ctnr_PFDDefaultPanelDecisionAltitude", "Caution");
+							}
+							break;
+						case "EmergencyReturn":
+							Show("Ctnr_PFDDefaultPanelDecisionAltitude");
+							ChangeText("Label_PFDDefaultPanelDecisionAltitudeValue", Math.trunc(ConvertUnit(PFD.Altitude.AirportElevation.Departure + PFD.Altitude.DecisionHeight, "Meter", Subsystem.I18n.AltitudeUnit)));
+							if(PFD0.Status.IsDecisionAltitudeActive == true) {
+								AddClass("Ctnr_PFDDefaultPanelDecisionAltitude", "Active");
+								if(PFD0.Stats.ClockTime - PFD0.Stats.Altitude.DecisionTimestamp < 3000) {
+									AddClass("Ctnr_PFDDefaultPanelDecisionAltitude", "Caution");
+								} else {
+									RemoveClass("Ctnr_PFDDefaultPanelDecisionAltitude", "Caution");
+								}
+							} else {
+								RemoveClass("Ctnr_PFDDefaultPanelDecisionAltitude", "Active");
+								RemoveClass("Ctnr_PFDDefaultPanelDecisionAltitude", "Caution");
+							}
+							break;
+						default:
+							AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshDefaultPanel is invalid.");
+							break;
+					}
+				}
+
+				// Warning
+				Fade("Ctnr_PFDDefaultPanelWarning");
+				if(PFD0.Alert.Active.AttitudeWarning != "") {
+					Show("Ctnr_PFDDefaultPanelWarning");
+					ChangeText("Label_PFDDefaultPanelWarning", Translate(PFD0.Alert.Active.AttitudeWarning));
+				}
+				if(PFD0.Alert.Active.SpeedWarning != "") {
+					Show("Ctnr_PFDDefaultPanelWarning");
+					ChangeText("Label_PFDDefaultPanelWarning", Translate(PFD0.Alert.Active.SpeedWarning));
+				}
+				if(PFD0.Alert.Active.AltitudeWarning != "") {
+					Show("Ctnr_PFDDefaultPanelWarning");
+					ChangeText("Label_PFDDefaultPanelWarning", Translate(PFD0.Alert.Active.AltitudeWarning));
+				}
+			}
