@@ -39,9 +39,11 @@
 					// Show ctrls
 					RemoveClass("Ctnr_PFDAutomobileSpeedometerPanelSpeed", "Transparent");
 					if(System.Display.Anim > 0) {
-						ChangeAnim("Ctnr_PFDAutomobileSpeedometerPanelSpeed", "100ms");
+						ChangeAnim("Ctrl_PFDAutomobileSpeedometerPanelNeedle", "100ms");
+						ChangeAnim("Ctrl_PFDAutomobileSpeedometerPanelAdditionalIndicators", "100ms");
 					} else {
-						ChangeAnim("Ctnr_PFDAutomobileSpeedometerPanelSpeed", "");
+						ChangeAnim("Ctrl_PFDAutomobileSpeedometerPanelNeedle", "");
+						ChangeAnim("Ctrl_PFDAutomobileSpeedometerPanelAdditionalIndicators", "");
 					}
 
 					// Needle

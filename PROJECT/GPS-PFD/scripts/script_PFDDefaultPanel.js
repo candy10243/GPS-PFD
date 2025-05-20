@@ -475,8 +475,10 @@
 					Show("Ctrl_PFDDefaultPanelHeadingBalloon");
 					if(System.Display.Anim > 0) {
 						ChangeAnim("Ctrl_PFDDefaultPanelHeadingTape", "100ms");
+						ChangeAnim("Ctrl_PFDDefaultPanelHeadingAdditionalIndicators", "100ms");
 					} else {
 						ChangeAnim("Ctrl_PFDDefaultPanelHeadingTape", "");
+						ChangeAnim("Ctrl_PFDDefaultPanelHeadingAdditionalIndicators", "");
 					}
 					ChangeRotate("CtrlGroup_PFDDefaultPanelHeadingTape", -PFD0.Stats.Heading.Display);
 					if(PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
