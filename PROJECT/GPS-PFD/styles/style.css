@@ -555,9 +555,6 @@
 						}
 
 						/* Tape */
-						#Ctrl_PFDDefaultPanelVerticalSpeedTape {
-							height: 100%;
-						}
 						#Ctrl_PFDDefaultPanelVerticalSpeedTape .CtrlGroup {
 							top: 20px;
 							height: calc(100% - 40px);
