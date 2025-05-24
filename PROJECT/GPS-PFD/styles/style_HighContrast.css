@@ -56,7 +56,7 @@
 						}
 
 					/* Info bar */
-					#CtrlGroup_PFDDefaultPanelFlapStatus .Progbar {
+					#CtrlGroup_PFDDefaultPanelFlapsStatus .Progbar {
 						border: 1px solid #FFFFFF;
 					}
 					#ProgbarFg_PFDDefaultPanelFlaps {

@@ -25,24 +25,24 @@
 				#Ctnr_PFDAutomobileSpeedometerPanel .OrangeText {
 					color: #FFC000;
 				}
-					/* Status */
-					#Ctnr_PFDAutomobileSpeedometerPanelStatus {
+					/* Hardware status */
+					#Ctnr_PFDAutomobileSpeedometerPanelHardwareStatus {
 						position: absolute; top: 0; left: 0;
 						width: 40px; height: 75px;
 					}
-					#Ctnr_PFDAutomobileSpeedometerPanelStatus .CtrlGroup {
+					#Ctnr_PFDAutomobileSpeedometerPanelHardwareStatus .CtrlGroup {
 						width: 100%; height: 100%; padding: 5px;
 						flex-direction: column;
 					}
-					#Ctnr_PFDAutomobileSpeedometerPanelStatus .Ctrl {
+					#Ctnr_PFDAutomobileSpeedometerPanelHardwareStatus .Ctrl {
 						width: 100%; height: 30px;
 						display: flex; justify-content: center; align-items: center;
 						color: #404040;
 					}
-					#Ctnr_PFDAutomobileSpeedometerPanelStatus .Ctrl.Orange {
+					#Ctnr_PFDAutomobileSpeedometerPanelHardwareStatus .Ctrl.Orange {
 						color: #FFA000;
 					}
-					#Ctnr_PFDAutomobileSpeedometerPanelStatus .Ctrl.Green {
+					#Ctnr_PFDAutomobileSpeedometerPanelHardwareStatus .Ctrl.Green {
 						color: #00E000;
 					}
 
@@ -96,6 +96,7 @@
 						#Ctrl_PFDAutomobileSpeedometerPanelDial {
 							position: absolute; top: 0; left: 0;
 							width: 100%; height: 100%;
+							pointer-events: none;
 						}
 						#Ctrl_PFDAutomobileSpeedometerPanelDial .Progring {
 							width: 100%; height: 100%;
@@ -184,11 +185,11 @@
 						#RollingDigit_PFDAutomobileSpeedometerPanel3 {
 							top: calc(15px - 30px * 18);
 						}
-						.RollingDigit span {
+						#Ctnr_PFDAutomobileSpeedometerPanel .RollingDigit span {
 							height: 30px; margin: 15px 0;
 							font-size: 2.25em;
 						}
-						#RollingDigit_PFDAutomobileSpeedometerPanel3 span {
+						#Ctnr_PFDAutomobileSpeedometerPanel #RollingDigit_PFDAutomobileSpeedometerPanel3 span {
 							margin: 0;
 						}
 

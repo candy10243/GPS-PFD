@@ -1,0 +1,823 @@
+/* For SamToki.github.io/GPS-PFD */
+/* Released under GNU GPL v3 open source license. */
+/* © 2025 SAM TOKI STUDIO */
+
+/* This is a PFD style variant. */
+
+/* Area specific */
+	/* Main */
+	#PFD.PFDStyleIsHUD {
+		background-color: #000000;
+	}
+		/* PFD */
+			/* Panels */
+				/* HUD panel */
+				#Ctnr_PFDHUDPanel {
+					width: 1004px; height: 900px;
+					color: #00FF00;
+				}
+				#Ctnr_PFDHUDPanel .NeedleFg {
+					background-color: #00FF00;
+				}
+				#Ctnr_PFDHUDPanel .NeedleArrow {
+					clip-path: unset;
+					background-color: unset; filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+				}
+				#Ctnr_PFDHUDPanel .NeedleArrow div {
+					width: 100%; height: 100%; clip-path: polygon(50% 0, 100% 100%, 0 100%);
+					background-color: #000000;
+				}
+					/* Hardware status */
+					#Ctnr_PFDHUDPanelHardwareStatus {
+						position: absolute; top: 0; left: 0;
+						width: 200px; height: 70px;
+					}
+					#Ctnr_PFDHUDPanelHardwareStatus .CtrlGroup {
+						width: 100%; height: 100%;
+						flex-direction: column;
+					}
+					#Ctnr_PFDHUDPanelHardwareStatus .Ctrl {
+						width: 100%; height: 50%; padding: 5px;
+						display: flex; align-items: center;
+					}
+					#Ctnr_PFDHUDPanel .HardwareStatusValue {
+						margin: 0 0 0 5px;
+						font-size: 1.50em;
+					}
+
+					/* FMA 1 */
+					#Ctnr_PFDHUDPanelFMA1 {
+						position: absolute; top: 0; left: calc(50% - 227px);
+						width: 454px; height: 55px;
+					}
+					#Ctnr_PFDHUDPanelFMA1 .CtrlGroup {
+						width: 100%; height: 100%;
+					}
+					#Ctnr_PFDHUDPanelFMA1 .Ctrl {
+						width: calc((100% - 4px) / 3); height: 100%; padding: 5px;
+						text-align: center;
+						display: flex; flex-direction: column; justify-content: center; align-items: center;
+					}
+					#Ctnr_PFDHUDPanelFMA1 .FMASeparator {
+						width: 2px; border-radius: 1px; padding: 0;
+						background-color: #00FF00;
+					}
+					#Ctnr_PFDHUDPanel .FMAValue {
+						font-size: 1.50em;
+					}
+
+					/* FMA 2 */
+					#Ctnr_PFDHUDPanelFMA2 {
+						position: absolute; top: calc(50% - 380px); left: calc(50% - 75px);
+						width: 150px; height: 40px; border-radius: 5px; padding: 5px;
+						text-align: center;
+						display: flex; justify-content: center; align-items: center;
+					}
+					#Label_PFDHUDPanelFlightMode {
+						font-size: 1.50em;
+					}
+
+					/* Attitude */
+					#Ctnr_PFDHUDPanelAttitude {
+						position: absolute; top: calc(50% - 325px); left: calc(50% - 325px);
+						width: 650px; height: 650px;
+					}
+					#Ctnr_PFDHUDPanelAttitude > .CtrlGroup {
+						width: 100%; height: 100%;
+					}
+						/* Status */
+						#Ctnr_PFDHUDPanel .StatusBox {
+							position: absolute; top: unset; left: unset;
+							height: 80px; padding: 5px;
+							background-color: unset;
+							text-align: center;
+							display: flex; justify-content: center; align-items: center;
+						}
+						#Ctnr_PFDHUDPanel #Ctrl_PFDHUDPanelAttitudeStatus {
+							top: calc(50% - 40px); left: calc(50% - 100px);
+							width: 200px;
+						}
+
+						/* Pitch */
+						#Ctrl_PFDHUDPanelAttitudePitch {
+							position: absolute; top: 40px; left: 40px;
+							width: 570px; height: 570px; border-radius: 285px;
+							overflow: hidden;
+						}
+						#CtrlGroup_PFDHUDPanelAttitudePitch {
+							position: absolute; top: calc(50% - 1800px); left: 0;
+							width: 100%; height: 3600px;
+							flex-direction: column;
+						}
+						#CtrlGroup_PFDHUDPanelAttitudePitch .Ctrl {
+							width: 100%; height: 0;
+							display: flex; justify-content: center; align-items: center;
+						}
+						#CtrlGroup_PFDHUDPanelAttitudePitch .AttitudeScale0 {
+							width: 100%; height: 2px; border-radius: 1px;
+							background-color: #00FF00;
+						}
+						#CtrlGroup_PFDHUDPanelAttitudePitch .AttitudeScaleSeparator {
+							width: 80px;
+						}
+						#CtrlGroup_PFDHUDPanelAttitudePitch .AttitudeScale1 {
+							width: 55px; height: 2px; border-radius: 1px; margin: 0 2.5px;
+							background-color: #00FF00;
+						}
+						#CtrlGroup_PFDHUDPanelAttitudePitch .AttitudeScale2 {
+							width: 15px; height: 2px; border-radius: 1px; margin: 0 2.5px;
+							background-color: #00FF00;
+						}
+						#CtrlGroup_PFDHUDPanelAttitudePitch .AttitudeScale3 {
+							width: 2px; height: 10px; border-radius: 1px; margin: 9px -3.5px 0 -3.5px;
+							background-color: #00FF00;
+						}
+						#CtrlGroup_PFDHUDPanelAttitudePitch .AttitudeScale4 {
+							width: 2px; height: 10px; border-radius: 1px; margin: 0 -3.5px 9px -3.5px;
+							background-color: #00FF00;
+						}
+						#CtrlGroup_PFDHUDPanelAttitudePitch span {
+							margin: 0 10px;
+						}
+
+						/* Roll */
+						#Ctrl_PFDHUDPanelAttitudeRoll {
+							position: absolute; top: 0; left: 0;
+							width: 100%; height: 100%;
+							pointer-events: none;
+						}
+						#CtrlGroup_PFDHUDPanelAttitudeRollScale {
+							position: absolute; top: 0; left: 0;
+							width: 650px; height: 650px; border-radius: 325px;
+						}
+						#CtrlGroup_PFDHUDPanelAttitudeRollScale .Ctrl {
+							position: absolute; top: 0; left: 50%;
+							width: 0; height: 100%;
+							display: flex; flex-direction: column; align-items: center;
+						}
+						#CtrlGroup_PFDHUDPanelAttitudeRollScale .AttitudeScale0 {
+							width: 15px; height: 15px;
+							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+						}
+						#CtrlGroup_PFDHUDPanelAttitudeRollScale .AttitudeScale0 div {
+							width: 100%; height: 100%; clip-path: polygon(0 0, 100% 0, 50% 100%);
+							background-color: #000000;
+						}
+						#CtrlGroup_PFDHUDPanelAttitudeRollScale .AttitudeScale1 {
+							width: 2px; height: 15px; border-radius: 1px;
+							background-color: #00FF00;
+						}
+						#Progring_PFDHUDPanelAttitudeRoll {
+							position: absolute; top: 14px; left: 14px;
+							width: 622px; height: 622px;
+						}
+						#ProgringFg_PFDHUDPanelAttitudeRoll {
+							stroke: #00FF00; stroke-width: 2; stroke-linecap: unset; stroke-dasharray: 0, calc((622px - 2px) * 3.1415926);
+						}
+						#PFDHUDPanelAttitudeRollPointer {
+							position: absolute; top: 15px; left: calc(50% - 10px);
+							width: 20px; height: 20px;
+							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+						}
+						#PFDHUDPanelAttitudeRollPointer div {
+							width: 100%; height: 100%; clip-path: polygon(50% 0, 100% 100%, 0 100%);
+							background-color: #000000;
+							pointer-events: auto;
+						}
+
+						/* Aircraft symbol */
+						#Ctrl_PFDHUDPanelAttitudeAircraftSymbol {
+							position: absolute; top: calc(50% - 5px); left: calc(50% - 50px);
+							width: 100px; height: 20px;
+							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+						}
+						#Ctrl_PFDHUDPanelAttitudeAircraftSymbol div {
+							width: 100%; height: 100%; clip-path: polygon(0 0, 42% 0, 50% 40%, 58% 0, 100% 0, 100% 50%, 60% 50%, 50% 100%, 40% 50%, 0 50%);
+							background-color: #000000;
+						}
+
+					/* Speed */
+					#Ctnr_PFDHUDPanelSpeed {
+						position: absolute; top: calc(50% - 300px); left: 37px;
+						width: 105px; height: 700px;
+					}
+					#Ctnr_PFDHUDPanelSpeed > .CtrlGroup {
+						width: 100%; height: 100%;
+					}
+						/* Status */
+						#Ctnr_PFDHUDPanel #Ctrl_PFDHUDPanelSpeedStatus {
+							top: calc((100% - 100px) / 2 - 40px); left: 0;
+							width: 100%;
+						}
+
+						/* Tape */
+						#Ctnr_PFDHUDPanel .Tape {
+							position: absolute; top: 0; left: 0;
+							width: 100%; height: 100%; border-radius: 5px;
+							background-color: unset;
+							overflow: hidden;
+						}
+						#Ctnr_PFDHUDPanel #Ctrl_PFDHUDPanelSpeedTape {
+							height: calc(100% - 100px); border-top: 2px solid #00FF00; border-right: 2px solid #00FF00; border-bottom: 2px solid #00FF00; border-top-left-radius: 0; border-bottom-left-radius: 0;
+						}
+						#Ctnr_PFDHUDPanel .Tape .CtrlGroup {
+							position: absolute; top: unset; left: 0;
+							width: 100%;
+							flex-direction: column;
+						}
+						#Ctnr_PFDHUDPanel #CtrlGroup_PFDHUDPanelSpeedTape {
+							top: calc(50% - 5000px);
+							width: calc(100% + 2px); height: 5000px;
+						}
+						#Ctnr_PFDHUDPanel .Tape .Ctrl {
+							width: 100%; height: 0;
+							display: flex; justify-content: space-between; align-items: center;
+						}
+						#CtrlGroup_PFDHUDPanelSpeedTape .Ctrl {
+							flex-direction: row-reverse;
+						}
+						#Ctnr_PFDHUDPanel .TapeScale {
+							width: 20px; height: 2px; border-radius: 1px;
+							background-color: #00FF00;
+						}
+						#Ctnr_PFDHUDPanel .TapeNumber {
+							width: calc(100% - 30px);
+							color: #00FF00; font-size: 1.50em; text-align: end;
+						}
+
+						/* Additional indicators */
+						#Ctrl_PFDHUDPanelSpeedAdditionalIndicators {
+							position: absolute; top: 0; left: 0;
+							width: calc(100% + 22px); height: calc(100% - 100px);
+							overflow: hidden;
+							pointer-events: none;
+						}
+							/* Speed trend */
+							#Needle_PFDHUDPanelSpeedTrend {
+								position: absolute; top: unset; right: 32px;
+								width: 15px; height: 0;
+							}
+							#Needle_PFDHUDPanelSpeedTrend.Decreasing {
+								transform: scaleY(-1);
+							}
+							#Needle_PFDHUDPanelSpeedTrend .NeedleFg {
+								position: absolute; top: 5px; left: calc(50% - 1px);
+								width: 2px; height: calc(50% - 5px); border-radius: 1px;
+								pointer-events: auto;
+							}
+							#Needle_PFDHUDPanelSpeedTrend .NeedleArrow {
+								height: 15px;
+								pointer-events: auto;
+							}
+
+							/* Other speeds */
+							#CtrlGroup_PFDHUDPanelOtherSpeeds {
+								position: absolute; top: calc(50% - 5000px); right: 2px;
+								width: 20px; height: 5000px;
+							}
+							#CtrlGroup_PFDHUDPanelOtherSpeeds .Ctrl {
+								position: absolute; top: unset; left: 0;
+								pointer-events: auto;
+							}
+							#CtrlGroup_PFDHUDPanelOtherSpeeds #Ctrl_PFDHUDPanelSpeedLimitMin {
+								bottom: 0;
+								width: 10px; height: 0;
+								background: repeating-linear-gradient(45deg, transparent, transparent 4px, #00FF00 5px, #00FF00 6px, transparent 7px);
+							}
+							#CtrlGroup_PFDHUDPanelOtherSpeeds #Ctrl_PFDHUDPanelSpeedLimitMax {
+								top: 0;
+								width: 10px; height: 0;
+								background: repeating-linear-gradient(135deg, transparent, transparent 4px, #00FF00 5px, #00FF00 6px, transparent 7px);
+							}
+							#CtrlGroup_PFDHUDPanelOtherSpeeds #Ctrl_PFDHUDPanelAvgIAS {
+								bottom: -10px;
+								width: 20px; height: 20px;
+								filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+							}
+							#CtrlGroup_PFDHUDPanelOtherSpeeds #Ctrl_PFDHUDPanelAvgIAS div {
+								width: 100%; height: 100%; clip-path: polygon(100% 0, 100% 100%, 0 50%);
+								background-color: #000000;
+							}
+
+						/* Balloon */
+						#Ctrl_PFDHUDPanelSpeedBalloon {
+							position: absolute; top: calc((100% - 100px) / 2 - 35px); left: 0;
+							width: 90px; height: 70px;
+							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+						}
+						#Ctrl_PFDHUDPanelSpeedBalloon > .CtrlGroup {
+							width: 100%; height: 100%;
+						}
+						#Ctrl_PFDHUDPanelSpeedBalloon > .CtrlGroup > .Ctrl {
+							position: absolute; top: 0; left: unset;
+							height: 100%;
+							background-color: #000000;
+						}
+						#Ctrl_PFDHUDPanelSpeedBalloon .CtrlGroup .Balloon {
+							left: 0;
+							width: 70px; border-radius: 5px;
+						}
+						#Ctrl_PFDHUDPanelSpeedBalloon .CtrlGroup .BalloonTail {
+							right: 0;
+							width: 25px; clip-path: polygon(100% 50%, 0 67.85714%, 0 32.14286%);
+						}
+						#Ctrl_PFDHUDPanelSpeedBalloon .CtrlGroup .Balloon .CtrlGroup {
+							width: 100%; height: 100%; padding: 5px;
+							justify-content: end;
+						}
+						#Ctrl_PFDHUDPanelSpeedBalloon .CtrlGroup .Balloon .Ctrl {
+							width: 20px; height: 100%;
+						}
+						#Ctnr_PFDHUDPanel .Balloon .Box {
+							background-color: transparent;
+						}
+						#RollingDigit_PFDHUDPanelSpeed1 {
+							top: calc(-45px * 9);
+						}
+						#RollingDigit_PFDHUDPanelSpeed2 {
+							top: calc(-45px * 10);
+						}
+						#RollingDigit_PFDHUDPanelSpeed3 {
+							top: calc(15px - 30px * 18);
+						}
+						#Ctnr_PFDHUDPanel .RollingDigit span {
+							height: 30px; margin: 15px 0;
+							font-size: 2.25em;
+						}
+						#Ctnr_PFDHUDPanel #RollingDigit_PFDHUDPanelSpeed3 span {
+							margin: 0;
+						}
+
+						/* Mach number */
+						#Ctrl_PFDHUDPanelSpeedMachNumber {
+							position: absolute; bottom: 40px; left: 0;
+							width: 100%; height: 40px; padding: 5px;
+							display: flex; align-items: center;
+						}
+						#Label_PFDHUDPanelSpeedMachNumber {
+							font-size: 1.50em;
+						}
+
+						/* Ground speed */
+						#Ctrl_PFDHUDPanelSpeedGS {
+							position: absolute; bottom: 0; left: 0;
+							width: 100%; height: 40px; padding: 5px;
+							display: flex; align-items: center;
+						}
+						#Label_PFDHUDPanelSpeedGSValue {
+							margin: 0 0 0 5px;
+							font-size: 1.50em;
+						}
+
+					/* Altitude */
+					#Ctnr_PFDHUDPanelAltitude {
+						position: absolute; top: calc(50% - 300px); right: 2px;
+						width: 140px; height: 660px;
+					}
+					#Ctnr_PFDHUDPanelAltitude > .CtrlGroup {
+						width: 100%; height: 100%;
+					}
+						/* Status */
+						#Ctnr_PFDHUDPanel #Ctrl_PFDHUDPanelAltitudeStatus {
+							top: calc((100% - 60px) / 2 - 40px); left: 0;
+							width: 100%;
+						}
+
+						/* Tape */
+						#Ctnr_PFDHUDPanel #Ctrl_PFDHUDPanelAltitudeTape {
+							width: 105px; height: calc(100% - 60px); border-top: 2px solid #00FF00; border-bottom: 2px solid #00FF00; border-left: 2px solid #00FF00; border-top-right-radius: 0; border-bottom-right-radius: 0;
+						}
+						#Ctnr_PFDHUDPanel #CtrlGroup_PFDHUDPanelAltitudeTape {
+							top: calc(50% - 37500px); left: -2px; /* 300px for 400ft. */
+							width: calc(100% - 10px); height: 39000px;
+						}
+
+						/* Additional indicators */
+						#Ctrl_PFDHUDPanelAltitudeAdditionalIndicators {
+							position: absolute; top: 0; right: 35px;
+							width: calc(100% - 13px); height: calc(100% - 60px);
+							overflow: hidden;
+							pointer-events: none;
+						}
+							/* Altitude trend */
+							#Needle_PFDHUDPanelAltitudeTrend {
+								position: absolute; top: unset; left: 32px;
+								width: 15px; height: 0;
+							}
+							#Needle_PFDHUDPanelAltitudeTrend.Decreasing {
+								transform: scaleY(-1);
+							}
+							#Needle_PFDHUDPanelAltitudeTrend .NeedleFg {
+								position: absolute; top: 5px; left: calc(50% - 1px);
+								width: 2px; height: calc(50% - 5px); border-radius: 1px;
+								pointer-events: auto;
+							}
+							#Needle_PFDHUDPanelAltitudeTrend .NeedleArrow {
+								height: 15px;
+								pointer-events: auto;
+							}
+
+							/* Other altitudes */
+							#CtrlGroup_PFDHUDPanelOtherAltitudes {
+								position: absolute; top: calc(50% - 37500px); left: 2px;
+								width: 20px; height: 39000px;
+							}
+							#CtrlGroup_PFDHUDPanelOtherAltitudes .Ctrl {
+								position: absolute; top: unset; right: 0;
+								pointer-events: auto;
+							}
+							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelDecisionAltitude {
+								bottom: 1677.5px; /* Default decision height is 250ft. */
+								width: 20px; height: 20px;
+								filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+							}
+							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelDecisionAltitude.Active {
+								background-color: unset;
+							}
+							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelDecisionAltitude div {
+								width: 100%; height: 100%; clip-path: polygon(100% 50%, 0 100%, 0 0);
+								background-color: #000000;
+							}
+							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelDecisionAltitude.Active div {
+								background-color: #00FF00;
+							}
+							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelGroundAltitude {
+								bottom: 1460px; left: 20px;
+								width: 105px; height: 40px; border-top: 2px solid #00FF00;
+								background: repeating-linear-gradient(45deg, transparent, transparent 4px, #00FF00 5px, #00FF00 6px, transparent 7px);
+							}
+
+						/* Balloon */
+						#Ctrl_PFDHUDPanelAltitudeBalloon {
+							position: absolute; top: calc((100% - 60px) / 2 - 35px); right: 0;
+							width: 125px; height: 70px;
+							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+						}
+						#Ctrl_PFDHUDPanelAltitudeBalloon > .CtrlGroup {
+							width: 100%; height: 100%;
+						}
+						#Ctrl_PFDHUDPanelAltitudeBalloon > .CtrlGroup > .Ctrl {
+							position: absolute; top: 0; left: unset;
+							height: 100%;
+							background-color: #000000;
+						}
+						#Ctrl_PFDHUDPanelAltitudeBalloon .CtrlGroup .Balloon {
+							right: 0;
+							width: 105px; border-radius: 5px;
+						}
+						#Ctrl_PFDHUDPanelAltitudeBalloon .CtrlGroup .BalloonTail {
+							left: 0;
+							width: 25px; clip-path: polygon(100% 32.14286%, 100% 67.85714%, 0 50%);
+						}
+						#Ctrl_PFDHUDPanelAltitudeBalloon .CtrlGroup .Balloon .CtrlGroup {
+							width: 100%; height: 100%; padding: 5px;
+							justify-content: start;
+						}
+						#Ctrl_PFDHUDPanelAltitudeBalloon .CtrlGroup .Balloon .Ctrl {
+							width: 20px; height: 100%;
+						}
+						#Ctrl_PFDHUDPanelAltitudeBalloon .CtrlGroup .Balloon #Ctrl_PFDHUDPanelAltitude4 {
+							width: 35px;
+						}
+						#RollingDigit_PFDHUDPanelAltitude1 {
+							top: calc(-45px * 5);
+						}
+						#RollingDigit_PFDHUDPanelAltitude2 {
+							top: calc(-45px * 10);
+						}
+						#RollingDigit_PFDHUDPanelAltitude3 {
+							top: calc(-45px * 10);
+						}
+						#RollingDigit_PFDHUDPanelAltitude4 {
+							top: calc(17.5px - 25px * 13);
+						}
+						#Ctnr_PFDHUDPanel #RollingDigit_PFDHUDPanelAltitude4 span {
+							height: 25px; margin: 0;
+							font-size: 1.75em;
+						}
+
+						/* Metric */
+						#Ctrl_PFDHUDPanelAltitudeMetric {
+							position: absolute; bottom: 0; left: 0;
+							width: calc(100% - 35px); height: 40px; padding: 5px;
+							text-align: end;
+							display: flex; justify-content: end; align-items: center;
+						}
+						#Label_PFDHUDPanelAltitudeMetric {
+							font-size: 1.50em;
+						}
+
+					/* Heading */
+					#Ctnr_PFDHUDPanelHeading {
+						position: absolute; bottom: 0; left: calc(50% - 300px);
+						width: 600px; height: 112px;
+						overflow: hidden;
+					}
+					#Ctnr_PFDHUDPanelHeading > .CtrlGroup {
+						width: 100%; height: 100%;
+					}
+						/* Status */
+						#Ctnr_PFDHUDPanel #Ctrl_PFDHUDPanelHeadingStatus {
+							top: calc(50% - 30px); left: calc(50% - 100px);
+							width: 200px;
+						}
+
+						/* Tape */
+						#Ctnr_PFDHUDPanel #Ctrl_PFDHUDPanelHeadingTape {
+							top: 22px; left: -100px;
+							width: 800px; height: 800px; border-radius: 400px;
+						}
+						#Ctnr_PFDHUDPanel #CtrlGroup_PFDHUDPanelHeadingTape {
+							width: 100%; height: 100%;
+						}
+						#Ctnr_PFDHUDPanel #CtrlGroup_PFDHUDPanelHeadingTape .Ctrl {
+							position: absolute; top: 0; left: 50%;
+							width: 0; height: 100%;
+							flex-direction: column; justify-content: start;
+						}
+						#CtrlGroup_PFDHUDPanelHeadingTape .TapeScale {
+							width: 2px; height: 15px;
+						}
+						#CtrlGroup_PFDHUDPanelHeadingTape .TapeNumber {
+							width: unset; margin: 10px 0 0 0;
+							text-align: center;
+						}
+
+						/* Additional indicators */
+						#Ctrl_PFDHUDPanelHeadingAdditionalIndicators {
+							position: absolute; top: 2px; left: -120px;
+							width: 840px; height: 840px;
+							pointer-events: none;
+						}
+						#Ctrl_PFDHUDPanelHeadingAdditionalIndicators .CtrlGroup {
+							width: 100%; height: 100%;
+						}
+						#Ctrl_PFDHUDPanelBearing {
+							position: absolute; top: 0; left: calc(50% - 10px);
+							width: 20px; height: 100%;
+							display: flex; justify-content: center;
+						}
+						#Ctrl_PFDHUDPanelBearing div {
+							width: 20px; height: 20px;
+							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+							pointer-events: auto;
+						}
+						#Ctrl_PFDHUDPanelBearing div div {
+							width: 100%; height: 100%; clip-path: polygon(0 0, 100% 0, 50% 100%);
+							background-color: #000000;
+						}
+
+						/* Balloon */
+						#Ctrl_PFDHUDPanelHeadingBalloon {
+							position: absolute; top: 22px; left: calc(50% - 35px);
+							width: 70px; height: 60px;
+							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+						}
+						#Ctrl_PFDHUDPanelHeadingBalloon > .CtrlGroup {
+							width: 100%; height: 100%;
+						}
+						#Ctrl_PFDHUDPanelHeadingBalloon > .CtrlGroup > .Ctrl {
+							position: absolute; top: unset; left: 0;
+							width: 100%;
+							background-color: #000000;
+						}
+						#Ctrl_PFDHUDPanelHeadingBalloon .CtrlGroup .Balloon {
+							top: 20px;
+							height: 40px; border-radius: 5px; padding: 5px;
+							text-align: center;
+							display: flex; justify-content: center; align-items: center;
+						}
+						#Ctrl_PFDHUDPanelHeadingBalloon .CtrlGroup .BalloonTail {
+							top: 0;
+							height: 25px; clip-path: polygon(50% 0, 67.85714% 100%, 32.14286% 100%);
+						}
+						#Label_PFDHUDPanelHeadingBalloon {
+							font-size: 2.25em;
+						}
+
+					/* Wind */
+					#Ctnr_PFDHUDPanelWind {
+						position: absolute; bottom: calc(50% - 325px); left: calc(50% - 325px);
+						width: 100px; height: 100px; padding: 5px;
+						display: flex; flex-direction: column; justify-content: end;
+					}
+					#PFDHUDPanelWindDirection {
+						width: 40px; height: 40px; margin: 0 0 5px 0;
+						display: flex; justify-content: center;
+					}
+					#Needle_PFDHUDPanelWindDirection {
+						position: relative;
+						width: 10px; height: 100%;
+					}
+					#Needle_PFDHUDPanelWindDirection .NeedleFg {
+						position: absolute; top: 5px; left: calc(50% - 1px);
+						width: 2px; height: calc(100% - 5px); border-radius: 1px;
+					}
+					#Needle_PFDHUDPanelWindDirection .NeedleArrow {
+						height: 10px;
+					}
+					#Label_PFDHUDPanelWind {
+						font-size: 1.50em;
+					}
+
+					/* Vertical speed */
+					#Ctnr_PFDHUDPanelVerticalSpeed {
+						position: absolute; bottom: calc(50% - 325px); right: calc(50% - 325px);
+						width: 140px; height: 40px; padding: 5px;
+						text-align: end;
+						display: flex; justify-content: end; align-items: center;
+					}
+					#Icon_PFDHUDPanelVerticalSpeed.Decreasing {
+						transform: scaleY(-1);
+					}
+					#Label_PFDHUDPanelVerticalSpeed {
+						font-size: 1.50em;
+					}
+
+					/* DME */
+					#Ctnr_PFDHUDPanelDME {
+						position: absolute; top: calc(50% - 325px); left: calc(50% - 325px);
+						width: 120px; height: 85px; padding: 5px;
+						display: flex; flex-direction: column;
+					}
+					#Label_PFDHUDPanelDMEDistance, #Label_PFDHUDPanelDMEETA {
+						font-size: 1.50em;
+					}
+
+					/* Localizer */
+					#Ctnr_PFDHUDPanelLocalizer {
+						position: absolute; bottom: calc(50% - 325px); left: calc(50% - 132.5px);
+						width: 265px; height: 25px;
+						background-color: #000000;
+					}
+					#PFDHUDPanelLocalizerPointer {
+						position: absolute; top: 5px; left: calc(50% - 15px);
+						width: 30px; height: 15px; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+						background-color: #00FF00;
+					}
+					#Ctnr_PFDHUDPanelLocalizer .CtrlGroup {
+						width: 100%; height: 100%;
+					}
+					#Ctnr_PFDHUDPanel .ILSCircle {
+						width: 12.5px; height: 12.5px; border: 2px solid #00FF00; border-radius: 10px; margin: 6.25px;
+					}
+					#Ctnr_PFDHUDPanel .ILSLine {
+						width: 25px; height: 25px;
+					}
+					#Ctnr_PFDHUDPanelLocalizer .ILSLine div {
+						position: absolute; top: 0; left: calc(50% - 1px);
+						width: 2px; height: 100%; border-radius: 1px;
+						background-color: #00FF00;
+					}
+
+					/* Glide slope */
+					#Ctnr_PFDHUDPanelGlideSlope {
+						position: absolute; top: calc(50% - 132.5px); right: calc(50% - 325px);
+						width: 25px; height: 265px;
+						background-color: #000000;
+					}
+					#PFDHUDPanelGlideSlopePointer {
+						position: absolute; top: calc(50% - 15px); left: 5px;
+						width: 15px; height: 30px; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+						background-color: #00FF00;
+					}
+					#Ctnr_PFDHUDPanelGlideSlope .CtrlGroup {
+						width: 100%; height: 100%;
+						flex-direction: column;
+					}
+					#Ctnr_PFDHUDPanelGlideSlope .ILSLine div {
+						position: absolute; top: calc(50% - 1px); left: 0;
+						width: 100%; height: 2px; border-radius: 1px;
+						background-color: #00FF00;
+					}
+
+					/* Marker beacons */
+					#Ctnr_PFDHUDPanelMarkerBeacon {
+						position: absolute; top: calc(50% - 325px); right: calc(50% - 325px);
+						width: 50px; height: 50px; border: 2px solid #00FF00; border-radius: 25px;
+						text-align: center;
+						display: flex; justify-content: center; align-items: center;
+					}
+					#Ctnr_PFDHUDPanelMarkerBeacon.OuterMarker {
+						animation: Anim_PFDOuterMarker 500ms infinite step-end;
+					}
+						@keyframes Anim_PFDOuterMarker {
+							0% {
+								opacity: 1;
+							}
+							80% {
+								opacity: 0;
+							}
+						}
+					#Ctnr_PFDHUDPanelMarkerBeacon.MiddleMarker {
+						animation: Anim_PFDMiddleMarker 700ms infinite step-end;
+					}
+						@keyframes Anim_PFDMiddleMarker {
+							0%, 28.57143% {
+								opacity: 1;
+							}
+							14.28571%, 85.71429% {
+								opacity: 0;
+							}
+						}
+					#Ctnr_PFDHUDPanelMarkerBeacon.InnerMarker {
+						animation: Anim_PFDInnerMarker 200ms infinite step-end;
+					}
+						@keyframes Anim_PFDInnerMarker {
+							0% {
+								opacity: 1;
+							}
+							50% {
+								opacity: 0;
+							}
+						}
+					#Label_PFDHUDPanelMarkerBeacon {
+						font-size: 1.50em;
+					}
+
+					/* Radio altitude */
+					#Ctnr_PFDHUDPanelRadioAltitude {
+						position: absolute; top: calc(50% + 80px); right: calc(50% - 50px);
+						width: 100px; height: 40px; border-radius: 5px; padding: 5px;
+						background-color: #000000; filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+						text-align: center;
+						display: flex; justify-content: center; align-items: center;
+					}
+					#Label_PFDHUDPanelRadioAltitude {
+						font-size: 2.00em;
+					}
+
+					/* Decision altitude */
+					#Ctnr_PFDHUDPanelDecisionAltitude {
+						position: absolute; bottom: calc(50% - 285px); right: calc(50% - 325px);
+						width: 140px; height: 40px; border-radius: 5px; padding: 5px;
+						text-align: end;
+						display: flex; justify-content: end; align-items: center;
+					}
+					#Label_PFDHUDPanelDecisionAltitudeValue {
+						margin: 0 0 0 5px;
+						font-size: 1.50em;
+					}
+
+					/* Warning */
+					#Ctnr_PFDHUDPanelWarning {
+						position: absolute; top: calc(50% - 125px); left: calc(50% - 140px);
+						width: 280px; height: 50px; border-radius: 5px;
+						background-color: #000000; filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+						text-align: center;
+						display: flex; justify-content: center; align-items: center;
+					}
+					#Label_PFDHUDPanelWarning {
+						font-size: 2.00em;
+					}
+
+					/* Blink */
+					#Ctnr_PFDHUDPanel .ModeChanged {
+						box-shadow: 0 0 0 3px #00FF00;
+						animation: Anim_PFDHUDPanelModeChanged 1000ms infinite ease-in-out;
+					}
+						@keyframes Anim_PFDHUDPanelModeChanged {
+							0%, 75%, 100% {
+								box-shadow: none;
+							}
+							25%, 50% {
+								box-shadow: 0 0 0 3px #00FF00;
+							}
+						}
+					#Ctnr_PFDHUDPanel .Warning {
+						box-shadow: 0 0 0 3px #00FF00;
+						animation: Anim_PFDHUDPanelWarning 500ms infinite ease-in-out;
+					}
+						@keyframes Anim_PFDHUDPanelWarning {
+							0%, 75%, 100% {
+								box-shadow: none;
+							}
+							25%, 50% {
+								box-shadow: 0 0 0 3px #00FF00;
+							}
+						}
+					#Ctnr_PFDHUDPanel .BankAngleWarning {
+						background-color: #00FF00;
+						animation: Anim_PFDHUDPanelBankAngleWarning 500ms infinite ease-in-out;
+					}
+						@keyframes Anim_PFDHUDPanelBankAngleWarning {
+							0%, 75%, 100% {
+								background-color: #000000;
+							}
+							25%, 50% {
+								background-color: #00FF00;
+							}
+						}
+
+/* Dev */
+#Html.VideoFootageMode #Ctnr_PFDHUDPanelHardwareStatus,
+#Html.VideoFootageMode #Ctnr_PFDHUDPanelFMA1 .Ctrl:not(.FMASeparator),
+#Html.VideoFootageMode #Ctnr_PFDHUDPanelFMA2,
+#Html.VideoFootageMode #PFDHUDPanelAttitudeRollPointer,
+#Html.VideoFootageMode #Ctrl_PFDHUDPanelAttitudeAircraftSymbol,
+#Html.VideoFootageMode #Ctrl_PFDHUDPanelAvgIAS,
+#Html.VideoFootageMode #Ctnr_PFDHUDPanelHeading,
+#Html.VideoFootageMode #Ctnr_PFDHUDPanelRadioAltitude { /* .Faded */
+	opacity: 0 !important;
+	pointer-events: none !important;
+}

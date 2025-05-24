@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.28,
+		const CurrentVersion = 0.29,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -135,6 +135,9 @@
 			I18n: {
 				AlwaysUseEnglishTerminologyOnPFD: false,
 				SpeedUnit: "Knot", DistanceUnit: "NauticalMile", AltitudeUnit: "Feet", VerticalSpeedUnit: "FeetPerMin", TemperatureUnit: "Celsius", PressureUnit: "Hectopascal"
+			},
+			Dev: {
+				VideoFootageMode: false
 			}
 		},
 		PFD = {
@@ -203,7 +206,7 @@
 		}
 		switch(System.I18n.Language) {
 			case "Auto":
-				// navigator.language ...
+				// navigator.languages ...
 				break;
 			case "en-US":
 				/* ChangeCursorOverall("wait");
@@ -535,6 +538,9 @@
 					AddClass("PFD", "PFDStyleIsDefault");
 					break;
 				case "HUD":
+					Show("Ctnr_PFDHUDPanel");
+					AddClass("PFD", "PFDStyleIsHUD");
+					break;
 				case "Bocchi737":
 				case "AnalogGauges":
 					AlertSystemError("A PFD style which is still under construction was selected.");
@@ -547,7 +553,6 @@
 					AlertSystemError("The value of Subsystem.Display.PFDStyle \"" + Subsystem.Display.PFDStyle + "\" in function RefreshSubsystem is invalid.");
 					break;
 			}
-			ChangeChecked("Checkbox_PFDOptionsFlipPFDVertically", Subsystem.Display.FlipPFDVertically);
 			ChangeChecked("Checkbox_SettingsFlipPFDVertically", Subsystem.Display.FlipPFDVertically);
 			ChangeChecked("Checkbox_PFDOptionsKeepScreenOn", Subsystem.Display.KeepScreenOn);
 			ChangeChecked("Checkbox_SettingsKeepScreenOn", Subsystem.Display.KeepScreenOn);
@@ -588,8 +593,7 @@
 			if(Subsystem.I18n.AlwaysUseEnglishTerminologyOnPFD == false) {
 				switch(Subsystem.Display.PFDStyle) {
 					case "Default":
-						ChangeText("Label_PFDDefaultPanelGPSStatusTitle", "GPS 状态");
-						ChangeText("Label_PFDDefaultPanelAccelStatusTitle", "加速计状态");
+						ChangeText("Label_PFDDefaultPanelAccelTitle", "加速计");
 						ChangeText("Label_PFDDefaultPanelGSTitle", "地速");
 						ChangeText("Label_PFDDefaultPanelAvgGSTitle", "平均地速");
 						ChangeText("Label_PFDDefaultPanelTASTitle", "真空速");
@@ -602,6 +606,14 @@
 						ChangeText("Label_PFDDefaultPanelDecisionAltitudeTitle", "决断高度");
 						break;
 					case "HUD":
+						ChangeText("Label_PFDHUDPanelAccelTitle", "加速计");
+						ChangeText("Label_PFDHUDPanelAttitudeModeTitle", "姿态模式");
+						ChangeText("Label_PFDHUDPanelSpeedModeTitle", "速度模式");
+						ChangeText("Label_PFDHUDPanelAltitudeModeTitle", "高度模式");
+						ChangeText("Label_PFDHUDPanelSpeedGSTitle", "地速");
+						ChangeText("Label_PFDHUDPanelDMETitle", "测距仪");
+						ChangeText("Label_PFDHUDPanelDecisionAltitudeTitle", "决断高度");
+						break;
 					case "Bocchi737":
 					case "AnalogGauges":
 						AlertSystemError("A PFD style which is still under construction was selected.");
@@ -617,8 +629,7 @@
 			} else {
 				switch(Subsystem.Display.PFDStyle) {
 					case "Default":
-						ChangeText("Label_PFDDefaultPanelGPSStatusTitle", "GPS STS");
-						ChangeText("Label_PFDDefaultPanelAccelStatusTitle", "ACCEL STS");
+						ChangeText("Label_PFDDefaultPanelAccelTitle", "ACCEL");
 						ChangeText("Label_PFDDefaultPanelGSTitle", "GS");
 						ChangeText("Label_PFDDefaultPanelAvgGSTitle", "AVG GS");
 						ChangeText("Label_PFDDefaultPanelTASTitle", "TAS");
@@ -631,6 +642,14 @@
 						ChangeText("Label_PFDDefaultPanelDecisionAltitudeTitle", "DA");
 						break;
 					case "HUD":
+						ChangeText("Label_PFDHUDPanelAccelTitle", "ACCEL");
+						ChangeText("Label_PFDHUDPanelAttitudeModeTitle", "ATT MODE");
+						ChangeText("Label_PFDHUDPanelSpeedModeTitle", "SPD MODE");
+						ChangeText("Label_PFDHUDPanelAltitudeModeTitle", "ALT MODE");
+						ChangeText("Label_PFDHUDPanelSpeedGSTitle", "GS");
+						ChangeText("Label_PFDHUDPanelDMETitle", "DME");
+						ChangeText("Label_PFDHUDPanelDecisionAltitudeTitle", "DA");
+						break;
 					case "Bocchi737":
 					case "AnalogGauges":
 						AlertSystemError("A PFD style which is still under construction was selected.");
@@ -861,6 +880,14 @@
 					break;
 			}
 			ChangeText("Label_SettingsQNHUnit", Translate(Subsystem.I18n.PressureUnit));
+
+			// Dev
+			ChangeChecked("Checkbox_SettingsVideoFootageMode", Subsystem.Dev.VideoFootageMode);
+			if(Subsystem.Dev.VideoFootageMode == true) {
+				AddClass("Html", "VideoFootageMode");
+			} else {
+				RemoveClass("Html", "VideoFootageMode");
+			}
 
 		// Save user data
 		localStorage.setItem("GPSPFD_Subsystem", JSON.stringify(Subsystem));
@@ -1432,6 +1459,8 @@
 					RefreshDefaultPanel();
 					break;
 				case "HUD":
+					RefreshHUDPanel();
+					break;
 				case "Bocchi737":
 				case "AnalogGauges":
 					AlertSystemError("A PFD style which is still under construction was selected.");
@@ -1687,6 +1716,15 @@
 					ChangeText("Label_PFDDefaultPanelAltitudeModeValue", Translate(PFD.Altitude.Mode));
 					break;
 				case "HUD":
+					if(PFD.Attitude.IsEnabled == true) {
+						Show("Ctrl_PFDHUDPanelAttitudeMode");
+						ChangeText("Label_PFDHUDPanelAttitudeModeValue", Translate(PFD.Attitude.Mode));
+					} else {
+						Hide("Ctrl_PFDHUDPanelAttitudeMode");
+					}
+					ChangeText("Label_PFDHUDPanelSpeedModeValue", Translate(PFD.Speed.Mode));
+					ChangeText("Label_PFDHUDPanelAltitudeModeValue", Translate(PFD.Altitude.Mode));
+					break;
 				case "Bocchi737":
 				case "AnalogGauges":
 					AlertSystemError("A PFD style which is still under construction was selected.");
@@ -1749,7 +1787,6 @@
 				ChangeValue("Combobox_PFDOptionsAltitudeMode", PFD.Altitude.Mode);
 				ChangeChecked("Checkbox_PFDOptionsEnableNav", PFD.Nav.IsEnabled);
 				ChangeValue("Combobox_PFDOptionsFlightMode", PFD.FlightMode.FlightMode);
-				ChangeChecked("Checkbox_PFDOptionsFlipPFDVertically", Subsystem.Display.FlipPFDVertically);
 				ChangeChecked("Checkbox_PFDOptionsKeepScreenOn", Subsystem.Display.KeepScreenOn);
 
 		// Settings
@@ -2205,10 +2242,6 @@
 				PFD0.Stats.FlightModeTimestamp = Date.now();
 				RefreshPFD();
 			}
-			function SetFlipPFDVerticallyAtPFDOptions() {
-				Subsystem.Display.FlipPFDVertically = IsChecked("Checkbox_PFDOptionsFlipPFDVertically");
-				RefreshSubsystem();
-			}
 			function SetKeepScreenOnAtPFDOptions() {
 				Subsystem.Display.KeepScreenOn = IsChecked("Checkbox_PFDOptionsKeepScreenOn");
 				RefreshSubsystem();
@@ -2576,6 +2609,12 @@
 			System.DontShowAgain = [0];
 			RefreshSystem();
 			ShowToast("已重置");
+		}
+
+		// Dev
+		function SetVideoFootageMode() {
+			Subsystem.Dev.VideoFootageMode = IsChecked("Checkbox_SettingsVideoFootageMode");
+			RefreshSubsystem();
 		}
 
 		// User data
