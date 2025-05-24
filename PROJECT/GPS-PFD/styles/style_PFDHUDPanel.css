@@ -241,7 +241,7 @@
 							background-color: #00FF00;
 						}
 						#Ctnr_PFDHUDPanel .TapeNumber {
-							width: calc(100% - 30px);
+							width: calc(100% - 35px);
 							color: #00FF00; font-size: 1.50em; text-align: end;
 						}
 
@@ -389,7 +389,7 @@
 						}
 						#Ctnr_PFDHUDPanel #CtrlGroup_PFDHUDPanelAltitudeTape {
 							top: calc(50% - 37500px); left: -2px; /* 300px for 400ft. */
-							width: calc(100% - 10px); height: 39000px;
+							width: calc(100% - 5px); height: 39000px;
 						}
 
 						/* Additional indicators */
