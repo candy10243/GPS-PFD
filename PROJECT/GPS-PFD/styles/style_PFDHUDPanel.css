@@ -380,7 +380,7 @@
 						/* Status */
 						#Ctnr_PFDHUDPanel #Ctrl_PFDHUDPanelAltitudeStatus {
 							top: calc((100% - 60px) / 2 - 40px); left: 0;
-							width: 100%;
+							width: calc(100% - 35px);
 						}
 
 						/* Tape */
