@@ -2497,6 +2497,7 @@
 		function SetPFDStyle() {
 			Subsystem.Display.PFDStyle = ReadValue("Combobox_SettingsPFDStyle");
 			RefreshSubsystem();
+			RefreshPFD();
 		}
 		function SetFlipPFDVertically() {
 			Subsystem.Display.FlipPFDVertically = IsChecked("Checkbox_SettingsFlipPFDVertically");
