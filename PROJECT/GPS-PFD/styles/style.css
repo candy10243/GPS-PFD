@@ -33,13 +33,15 @@
 					}
 						/* Status */
 						.StatusBox {
+							position: absolute; top: unset; left: unset;
+							height: 80px; padding: 5px;
 							background-color: #FFFFFF80;
-						}
-						#Ctrl_PFDDefaultPanelAttitudeStatus {
-							position: absolute; top: calc(50% - 40px); left: calc(50% - 100px);
-							width: 200px; height: 80px; padding: 5px;
 							text-align: center;
 							display: flex; justify-content: center; align-items: center;
+						}
+						#Ctrl_PFDDefaultPanelAttitudeStatus {
+							top: calc(50% - 40px); left: calc(50% - 100px);
+							width: 200px;
 						}
 
 						/* Bg (Artificial horizon) */
@@ -132,7 +134,7 @@
 
 						/* Aircraft symbol */
 						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol {
-							position: absolute; top: calc(50% - 8px); left: 75px;
+							position: absolute; top: calc(50% - 8px); left: calc(50% - 150px);
 							width: 300px; height: 28px;
 						}
 						#Ctrl_PFDDefaultPanelAttitudeAircraftSymbol .CtrlGroup {
@@ -169,15 +171,15 @@
 						position: absolute; top: 0; left: 0;
 						width: 125px; height: 100%;
 					}
-					#CtrlGroup_PFDDefaultPanelStatus {
+					#CtrlGroup_PFDDefaultPanelHardwareStatus {
 						position: absolute; top: 0; left: 0;
-						width: 100%; height: 140px;
+						width: 100%; height: 120px;
 					}
 					#CtrlGroup_PFDDefaultPanelAdditionalSpeeds {
 						position: absolute; top: calc(50% - 140px); left: 0;
 						width: 100%; height: 280px;
 					}
-					#CtrlGroup_PFDDefaultPanelFlapStatus {
+					#CtrlGroup_PFDDefaultPanelFlapsStatus {
 						position: absolute; bottom: 0; left: 0;
 						width: 100%; height: 180px;
 					}
@@ -185,13 +187,10 @@
 						width: 100%; height: 60px; padding: 5px;
 						display: flex; flex-direction: column;
 					}
-					#Ctnr_PFDDefaultPanelInfoBar #Ctrl_PFDDefaultPanelAccelStatus {
-						height: 80px;
-					}
 					#Ctnr_PFDDefaultPanelInfoBar #Ctrl_PFDDefaultPanelWind {
 						height: 100px;
 					}
-					#CtrlGroup_PFDDefaultPanelFlapStatus .Ctrl {
+					#CtrlGroup_PFDDefaultPanelFlapsStatus .Ctrl {
 						height: 100%;
 					}
 					.InfoBarValue {
@@ -212,10 +211,10 @@
 					#Needle_PFDDefaultPanelWindDirection .NeedleArrow {
 						height: 10px;
 					}
-					#CtrlGroup_PFDDefaultPanelFlapStatus .Ctrl {
+					#CtrlGroup_PFDDefaultPanelFlapsStatus .Ctrl {
 						justify-content: end;
 					}
-					#CtrlGroup_PFDDefaultPanelFlapStatus .Progbar {
+					#CtrlGroup_PFDDefaultPanelFlapsStatus .Progbar {
 						width: 12px; height: 112px; border: 1px solid #000000; border-radius: 6px; margin: 5px 0 0 0; transform: scaleY(-1);
 						background-color: transparent;
 					}
@@ -262,10 +261,8 @@
 					}
 						/* Status */
 						#Ctrl_PFDDefaultPanelSpeedStatus {
-							position: absolute; top: calc((100% - 60px) / 2 - 40px); left: 0;
-							width: 100%; height: 80px; padding: 5px;
-							text-align: center;
-							display: flex; justify-content: center; align-items: center;
+							top: calc((100% - 60px) / 2 - 40px); left: 0;
+							width: 100%;
 						}
 
 						/* Tape */
@@ -422,10 +419,8 @@
 					}
 						/* Status */
 						#Ctrl_PFDDefaultPanelAltitudeStatus {
-							position: absolute; top: calc((100% - 60px) / 2 - 40px); left: 0;
-							width: 100%; height: 80px; padding: 5px;
-							text-align: center;
-							display: flex; justify-content: center; align-items: center;
+							top: calc((100% - 60px) / 2 - 40px); left: 0;
+							width: 100%;
 						}
 
 						/* Tape */
@@ -555,10 +550,8 @@
 					}
 						/* Status */
 						#Ctrl_PFDDefaultPanelVerticalSpeedStatus {
-							position: absolute; top: calc(50% - 40px); left: 0;
-							width: 100%; height: 80px; padding: 5px;
-							text-align: center;
-							display: flex; justify-content: center; align-items: center;
+							top: calc(50% - 40px); left: 0;
+							width: 100%;
 						}
 
 						/* Tape */
@@ -614,10 +607,8 @@
 					}
 						/* Status */
 						#Ctrl_PFDDefaultPanelHeadingStatus {
-							position: absolute; top: calc(50% - 30px); left: calc(50% - 100px);
-							width: 200px; height: 80px; padding: 5px;
-							text-align: center;
-							display: flex; justify-content: center; align-items: center;
+							top: calc(50% - 30px); left: calc(50% - 100px);
+							width: 200px;
 						}
 
 						/* Tape */

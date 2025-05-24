@@ -17,18 +17,18 @@
 				RemoveClass("Ctnr_PFDAutomobileSpeedometerPanelInfo", "OrangeText");
 
 				// Status
-				RemoveClass("Ctrl_PFDAutomobileSpeedometerPanelGPSStatus", "Orange");
-				RemoveClass("Ctrl_PFDAutomobileSpeedometerPanelGPSStatus", "Green");
-				RemoveClass("Ctrl_PFDAutomobileSpeedometerPanelAccelStatus", "Green");
+				RemoveClass("Ctrl_PFDAutomobileSpeedometerPanelGPS", "Orange");
+				RemoveClass("Ctrl_PFDAutomobileSpeedometerPanelGPS", "Green");
+				RemoveClass("Ctrl_PFDAutomobileSpeedometerPanelAccel", "Green");
 				if(PFD0.Status.GPS.IsPositionAvailable == true) {
 					if(PFD0.Status.GPS.IsPositionAccurate == true && PFD0.Status.GPS.IsAltitudeAvailable == true && PFD0.Status.GPS.IsAltitudeAccurate == true) {
-						AddClass("Ctrl_PFDAutomobileSpeedometerPanelGPSStatus", "Green");
+						AddClass("Ctrl_PFDAutomobileSpeedometerPanelGPS", "Green");
 					} else {
-						AddClass("Ctrl_PFDAutomobileSpeedometerPanelGPSStatus", "Orange");
+						AddClass("Ctrl_PFDAutomobileSpeedometerPanelGPS", "Orange");
 					}
 				}
 				if(PFD0.Status.IsAccelAvailable == true) {
-					AddClass("Ctrl_PFDAutomobileSpeedometerPanelAccelStatus", "Green");
+					AddClass("Ctrl_PFDAutomobileSpeedometerPanelAccel", "Green");
 				}
 
 				// Speed

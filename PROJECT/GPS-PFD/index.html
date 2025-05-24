@@ -10,7 +10,7 @@
 		<link rel="icon" type="image/png" href="images/Icon_Small.png" />
 		<title>GPS-PFD</title>
 		<meta name="author" content="SAM TOKI STUDIO" />
-		<meta name="version" content="v0.28 (2025/05/20) Beta Test. Since 2024/12/01." />
+		<meta name="version" content="v0.29 (2025/05/24) Beta Test. Since 2024/12/01." />
 		<meta name="description" content="利用 GPS 与加速计，在移动设备上模拟飞机驾驶舱的 PFD。" />
 		<meta name="copyright" content="© 2025 SAM TOKI STUDIO" />
 
@@ -23,11 +23,13 @@
 		<link rel="stylesheet" href="styles/style.css" />
 		<link id="ThemeVariant_Style" rel="stylesheet" href="styles/style_Dark.css" media="(prefers-color-scheme: dark)" />
 		<link id="ThemeVariant_Style_HighContrast" rel="stylesheet" href="styles/style_HighContrast.css" media="(prefers-contrast: more)" />
+		<link rel="stylesheet" href="styles/style_PFDHUDPanel.css" />
 		<link rel="stylesheet" href="styles/style_PFDAutomobileSpeedometerPanel.css" />
 		<!-- <link rel="stylesheet" href="styles/style_PFD???.css" /> -->
 		<script defer src="../scripts/common.js"></script>
 		<script defer src="../scripts/common_UserDataRepairer.js"></script>
 		<script defer src="scripts/script_PFDDefaultPanel.js"></script>
+		<script defer src="scripts/script_PFDHUDPanel.js"></script>
 		<script defer src="scripts/script_PFDAutomobileSpeedometerPanel.js"></script>
 		<!-- <script defer src="scripts/script_PFD???.js"></script> -->
 		<script defer src="scripts/script.js"></script>
@@ -215,14 +217,14 @@
 							</ul>
 						</div>
 						<div class="Ctnr" id="Ctnr_PFDDefaultPanelInfoBar">
-							<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelStatus">
-								<li class="Ctrl" id="Ctrl_PFDDefaultPanelGPSStatus">
-									<span class="InfoBarTitle" id="Label_PFDDefaultPanelGPSStatusTitle">GPS 状态</span>
-									<span class="InfoBarValue" id="Label_PFDDefaultPanelGPSStatusValue">未知</span>
+							<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelHardwareStatus">
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelGPS">
+									<span class="InfoBarTitle">GPS</span>
+									<span class="InfoBarValue" id="Label_PFDDefaultPanelGPSValue">未知</span>
 								</li>
-								<li class="Ctrl" id="Ctrl_PFDDefaultPanelAccelStatus">
-									<span class="InfoBarTitle" id="Label_PFDDefaultPanelAccelStatusTitle">加速计状态</span>
-									<span class="InfoBarValue" id="Label_PFDDefaultPanelAccelStatusValue">未知</span>
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelAccel">
+									<span class="InfoBarTitle" id="Label_PFDDefaultPanelAccelTitle">加速计</span>
+									<span class="InfoBarValue" id="Label_PFDDefaultPanelAccelValue">未知</span>
 								</li>
 							</ul>
 							<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelAdditionalSpeeds">
@@ -249,7 +251,7 @@
 									</div>
 								</li>
 							</ul>
-							<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelFlapStatus">
+							<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelFlapsStatus">
 								<li class="Ctrl">
 									<span class="InfoBarTitle" id="Label_PFDDefaultPanelFlapsTitle">襟翼</span>
 									<span class="InfoBarValue" id="Label_PFDDefaultPanelFlapsValue">未知</span>
@@ -1198,7 +1200,1152 @@
 						</div>
 					</div>
 					<div class="Ctnr PFDPanel HiddenHorizontally" id="Ctnr_PFDHUDPanel">
-						???
+						<div class="Ctnr" id="Ctnr_PFDHUDPanelHardwareStatus">
+							<ul class="CtrlGroup">
+								<li class="Ctrl">
+									<span>GPS</span>
+									<span class="HardwareStatusValue" id="Label_PFDHUDPanelGPSValue">未知</span>
+								</li>
+								<li class="Ctrl">
+									<span id="Label_PFDHUDPanelAccelTitle">加速计</span>
+									<span class="HardwareStatusValue" id="Label_PFDHUDPanelAccelValue">未知</span>
+								</li>
+							</ul>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDHUDPanelFMA1">
+							<ul class="CtrlGroup">
+								<li class="Ctrl">
+									<span class="FMATitle" id="Label_PFDHUDPanelSpeedModeTitle">速度模式</span>
+									<span class="FMAValue" id="Label_PFDHUDPanelSpeedModeValue">未知</span>
+								</li>
+								<li class="Ctrl FMASeparator"></li>
+								<li class="Ctrl" id="Ctrl_PFDHUDPanelAttitudeMode">
+									<span class="FMATitle" id="Label_PFDHUDPanelAttitudeModeTitle">姿态模式</span>
+									<span class="FMAValue" id="Label_PFDHUDPanelAttitudeModeValue">未知</span>
+								</li>
+								<li class="Ctrl FMASeparator"></li>
+								<li class="Ctrl">
+									<span class="FMATitle" id="Label_PFDHUDPanelAltitudeModeTitle">高度模式</span>
+									<span class="FMAValue" id="Label_PFDHUDPanelAltitudeModeValue">未知</span>
+								</li>
+							</ul>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDHUDPanelFMA2">
+							<span id="Label_PFDHUDPanelFlightMode" title="飞航模式" aria-label="飞航模式">飞航模式</span>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDHUDPanelAttitude">
+							<ul class="CtrlGroup">
+								<li class="Ctrl Box StatusBox Faded" id="Ctrl_PFDHUDPanelAttitudeStatus" inert="true">
+									<span id="Label_PFDHUDPanelAttitudeStatus">姿态仪状态</span>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDHUDPanelAttitudePitch" title="姿态仪" aria-label="姿态仪">
+									<ul class="CtrlGroup" id="CtrlGroup_PFDHUDPanelAttitudePitch">
+										<li class="Ctrl">
+											<span class="LargerText">90</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">90</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">85</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">85</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">80</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">80</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">75</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">75</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">70</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">70</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">65</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">65</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">60</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">60</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">55</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">55</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">50</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">50</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">45</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">45</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">40</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">40</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">35</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">35</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">30</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">30</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">25</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">25</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">20</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">20</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">15</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">15</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">10</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">10</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">5</span><div class="AttitudeScale3"></div><div class="AttitudeScale1"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale1"></div><div class="AttitudeScale3"></div><span class="LargerText">5</span>
+										</li>
+										<li class="Ctrl"><div class="AttitudeScale0"></div></li>
+										<li class="Ctrl">
+											<span class="LargerText">-5</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-5</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-10</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-10</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-15</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-15</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-20</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-20</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-25</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-25</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-30</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-30</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-35</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-35</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-40</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-40</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-45</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-45</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-50</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-50</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-55</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-55</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-60</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-60</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-65</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-65</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-70</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-70</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-75</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-75</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-80</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-80</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-85</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-85</span>
+										</li>
+										<li class="Ctrl">
+											<span class="LargerText">-90</span><div class="AttitudeScale4"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div>
+											<div class="AttitudeScaleSeparator"></div>
+											<div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale2"></div><div class="AttitudeScale4"></div><span class="LargerText">-90</span>
+										</li>
+									</ul>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDHUDPanelAttitudeRoll">
+									<ul class="CtrlGroup" id="CtrlGroup_PFDHUDPanelAttitudeRollScale">
+										<li class="Ctrl" style="transform: rotate(-30deg);"><div class="AttitudeScale1"></div></li>
+										<li class="Ctrl" style="transform: rotate(-20deg);"><div class="AttitudeScale1"></div></li>
+										<li class="Ctrl" style="transform: rotate(-10deg);"><div class="AttitudeScale1"></div></li>
+										<li class="Ctrl">
+											<div class="AttitudeScale0">
+												<div id="PFDHUDPanelAttitudeRollScaleInner"></div>
+											</div>
+										</li>
+										<li class="Ctrl" style="transform: rotate(10deg);"><div class="AttitudeScale1"></div></li>
+										<li class="Ctrl" style="transform: rotate(20deg);"><div class="AttitudeScale1"></div></li>
+										<li class="Ctrl" style="transform: rotate(30deg);"><div class="AttitudeScale1"></div></li>
+									</ul>
+									<svg class="Progring" id="Progring_PFDHUDPanelAttitudeRoll" viewBox="0 0 622 622" aria-hidden="true">
+										<circle class="ProgringFg" id="ProgringFg_PFDHUDPanelAttitudeRoll" cx="311" cy="311" r="310" />
+									</svg>
+									<div id="PFDHUDPanelAttitudeRollPointer">
+										<div id="PFDHUDPanelAttitudeRollPointerInner" title="横滚指针" aria-label="横滚指针"></div>
+									</div>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDHUDPanelAttitudeAircraftSymbol">
+									<div title="姿态仪" aria-label="姿态仪"></div>
+								</li>
+							</ul>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDHUDPanelSpeed">
+							<ul class="CtrlGroup">
+								<li class="Ctrl Box StatusBox Faded" id="Ctrl_PFDHUDPanelSpeedStatus" inert="true">
+									<span id="Label_PFDHUDPanelSpeedStatus">空速表状态</span>
+								</li>
+								<li class="Ctrl Tape" id="Ctrl_PFDHUDPanelSpeedTape" title="空速表" aria-label="空速表">
+									<ul class="CtrlGroup" id="CtrlGroup_PFDHUDPanelSpeedTape">
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">1000</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">980</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">960</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">940</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">920</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">900</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">880</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">860</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">840</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">820</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">800</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">780</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">760</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">740</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">720</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">700</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">680</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">660</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">640</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">620</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">600</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">580</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">560</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">540</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">520</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">500</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">480</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">460</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">440</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">420</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">400</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">380</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">360</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">340</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">320</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">300</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">280</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">260</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">240</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">220</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">200</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">180</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">160</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">140</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">120</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">100</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">80</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">60</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">40</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">20</span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">0</span></li>
+									</ul>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDHUDPanelSpeedAdditionalIndicators">
+									<div class="Needle Faded" id="Needle_PFDHUDPanelSpeedTrend" inert="true">
+										<div class="NeedleFg" title="速度趋势" aria-label="速度趋势"></div>
+										<div class="NeedleArrow">
+											<div title="速度趋势" aria-label="速度趋势"></div>
+										</div>
+									</div>
+									<ul class="CtrlGroup" id="CtrlGroup_PFDHUDPanelOtherSpeeds">
+										<li class="Ctrl" id="Ctrl_PFDHUDPanelSpeedLimitMin" title="最低限速" aria-label="最低限速"></li>
+										<li class="Ctrl" id="Ctrl_PFDHUDPanelSpeedLimitMax" title="最高限速" aria-label="最高限速"></li>
+										<li class="Ctrl" id="Ctrl_PFDHUDPanelAvgIAS">
+											<div title="平均表速" aria-label="平均表速"></div>
+										</li>
+									</ul>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDHUDPanelSpeedBalloon">
+									<ul class="CtrlGroup">
+										<li class="Ctrl Balloon" id="Ctrl_PFDHUDPanelSpeedBalloonBalloon" title="当前表速" aria-label="当前表速">
+											<ul class="CtrlGroup">
+												<li class="Ctrl Box">
+													<div class="RollingDigit" id="RollingDigit_PFDHUDPanelSpeed1">
+														<span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span> </span>
+													</div>
+												</li>
+												<li class="Ctrl Box">
+													<div class="RollingDigit" id="RollingDigit_PFDHUDPanelSpeed2">
+														<span>0</span><span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span>
+													</div>
+												</li>
+												<li class="Ctrl Box">
+													<div class="RollingDigit" id="RollingDigit_PFDHUDPanelSpeed3">
+														<span>9</span><span>8</span><span>7</span>
+														<span>1</span><span>0</span><span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span><span>9</span>
+														<span>2</span><span>1</span><span>0</span>
+													</div>
+												</li>
+											</ul>
+										</li>
+										<li class="Ctrl BalloonTail" title="当前表速" aria-label="当前表速"></li>
+									</ul>
+								</li>
+								<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelSpeedMachNumber" inert="true">
+									<span id="Label_PFDHUDPanelSpeedMachNumber" title="当前表速 (马赫)" aria-label="当前表速 (马赫)">马赫数</span>
+								</li>
+								<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelSpeedGS" inert="true">
+									<span id="Label_PFDHUDPanelSpeedGSTitle">地速</span>
+									<span id="Label_PFDHUDPanelSpeedGSValue">未知</span>
+								</li>
+							</ul>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDHUDPanelAltitude">
+							<ul class="CtrlGroup">
+								<li class="Ctrl Box StatusBox Faded" id="Ctrl_PFDHUDPanelAltitudeStatus" inert="true">
+									<span id="Label_PFDHUDPanelAltitudeStatus">高度表状态</span>
+								</li>
+								<li class="Ctrl Tape" id="Ctrl_PFDHUDPanelAltitudeTape" title="高度表" aria-label="高度表">
+									<ul class="CtrlGroup" id="CtrlGroup_PFDHUDPanelAltitudeTape">
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">500<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">498<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">496<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">494<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">492<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">490<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">488<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">486<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">484<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">482<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">480<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">478<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">476<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">474<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">472<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">470<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">468<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">466<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">464<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">462<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">460<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">458<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">456<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">454<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">452<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">450<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">448<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">446<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">444<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">442<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">440<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">438<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">436<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">434<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">432<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">430<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">428<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">426<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">424<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">422<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">420<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">418<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">416<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">414<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">412<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">410<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">408<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">406<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">404<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">402<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">400<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">398<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">396<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">394<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">392<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">390<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">388<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">386<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">384<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">382<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">380<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">378<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">376<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">374<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">372<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">370<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">368<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">366<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">364<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">362<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">360<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">358<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">356<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">354<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">352<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">350<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">348<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">346<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">344<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">342<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">340<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">338<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">336<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">334<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">332<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">330<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">328<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">326<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">324<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">322<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">320<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">318<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">316<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">314<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">312<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">310<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">308<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">306<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">304<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">302<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">300<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">298<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">296<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">294<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">292<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">290<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">288<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">286<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">284<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">282<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">280<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">278<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">276<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">274<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">272<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">270<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">268<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">266<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">264<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">262<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">260<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">258<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">256<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">254<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">252<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">250<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">248<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">246<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">244<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">242<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">240<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">238<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">236<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">234<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">232<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">230<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">228<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">226<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">224<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">222<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">220<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">218<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">216<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">214<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">212<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">210<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">208<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">206<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">204<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">202<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">200<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">198<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">196<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">194<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">192<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">190<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">188<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">186<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">184<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">182<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">180<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">178<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">176<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">174<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">172<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">170<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">168<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">166<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">164<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">162<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">160<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">158<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">156<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">154<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">152<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">150<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">148<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">146<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">144<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">142<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">140<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">138<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">136<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">134<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">132<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">130<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">128<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">126<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">124<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">122<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">120<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">118<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">116<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">114<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">112<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">110<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">108<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">106<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">104<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">102<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">100<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">98<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">96<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">94<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">92<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">90<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">88<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">86<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">84<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">82<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">80<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">78<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">76<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">74<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">72<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">70<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">68<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">66<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">64<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">62<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">60<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">58<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">56<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">54<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">52<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">50<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">48<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">46<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">44<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">42<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">40<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">38<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">36<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">34<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">32<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">30<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">28<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">26<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">24<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">22<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">20<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">18<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">16<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">14<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">12<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">10<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">8<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">6<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">4<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">2<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">0<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-2<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-4<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-6<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-8<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-10<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-12<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-14<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-16<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-18<span class="SmallerText">00</span></span></li>
+										<li class="Ctrl"><div class="TapeScale"></div></li>
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">-20<span class="SmallerText">00</span></span></li>
+									</ul>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDHUDPanelAltitudeAdditionalIndicators">
+									<div class="Needle Faded" id="Needle_PFDHUDPanelAltitudeTrend" inert="true">
+										<div class="NeedleFg" title="高度趋势" aria-label="高度趋势"></div>
+										<div class="NeedleArrow">
+											<div title="高度趋势" aria-label="高度趋势"></div>
+										</div>
+									</div>
+									<ul class="CtrlGroup" id="CtrlGroup_PFDHUDPanelOtherAltitudes">
+										<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelDecisionAltitude">
+											<div title="决断高度" aria-label="决断高度"></div>
+										</li>
+										<li class="Ctrl" id="Ctrl_PFDHUDPanelGroundAltitude" title="地面高度" aria-label="地面高度"></li>
+									</ul>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDHUDPanelAltitudeBalloon">
+									<ul class="CtrlGroup">
+										<li class="Ctrl Balloon" id="Ctrl_PFDHUDPanelAltitudeBalloonBalloon" title="当前高度" aria-label="当前高度">
+											<ul class="CtrlGroup">
+												<li class="Ctrl Box">
+													<div class="RollingDigit" id="RollingDigit_PFDHUDPanelAltitude1">
+														<span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span> </span><span>-</span>
+													</div>
+												</li>
+												<li class="Ctrl Box">
+													<div class="RollingDigit" id="RollingDigit_PFDHUDPanelAltitude2">
+														<span>0</span><span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span>
+														<span>1</span><span>2</span>
+													</div>
+												</li>
+												<li class="Ctrl Box">
+													<div class="RollingDigit" id="RollingDigit_PFDHUDPanelAltitude3">
+														<span>0</span><span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span>
+														<span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span>
+													</div>
+												</li>
+												<li class="Ctrl Box" id="Ctrl_PFDHUDPanelAltitude4">
+													<div class="RollingDigit" id="RollingDigit_PFDHUDPanelAltitude4">
+														<span>00</span><span>80</span><span>60</span>
+														<span>20</span><span>00</span><span>80</span><span>60</span><span>40</span><span>20</span><span>00</span><span>80</span>
+														<span>40</span><span>20</span><span>00</span><span>20</span><span>40</span>
+														<span>80</span><span>00</span><span>20</span><span>40</span><span>60</span><span>80</span><span>00</span><span>20</span>
+														<span>60</span><span>80</span><span>00</span>
+													</div>
+												</li>
+											</ul>
+										</li>
+										<li class="Ctrl BalloonTail" title="当前高度" aria-label="当前高度"></li>
+									</ul>
+								</li>
+								<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelAltitudeMetric" inert="true">
+									<span id="Label_PFDHUDPanelAltitudeMetric" title="当前高度 (米)" aria-label="当前高度 (米)">米制高度</span>
+								</li>
+							</ul>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDHUDPanelHeading">
+							<ul class="CtrlGroup">
+								<li class="Ctrl Box StatusBox Faded" id="Ctrl_PFDHUDPanelHeadingStatus" inert="true">
+									<span id="Label_PFDHUDPanelHeadingStatus">朝向指示器状态</span>
+								</li>
+								<li class="Ctrl Tape" id="Ctrl_PFDHUDPanelHeadingTape" title="朝向指示器 (指南针)" aria-label="朝向指示器 (指南针)">
+									<ul class="CtrlGroup" id="CtrlGroup_PFDHUDPanelHeadingTape">
+										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">0</span></li>
+										<li class="Ctrl" style="transform: rotate(5deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(10deg);"><div class="TapeScale"></div><span class="TapeNumber">1</span></li>
+										<li class="Ctrl" style="transform: rotate(15deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(20deg);"><div class="TapeScale"></div><span class="TapeNumber">2</span></li>
+										<li class="Ctrl" style="transform: rotate(25deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(30deg);"><div class="TapeScale"></div><span class="TapeNumber">3</span></li>
+										<li class="Ctrl" style="transform: rotate(35deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(40deg);"><div class="TapeScale"></div><span class="TapeNumber">4</span></li>
+										<li class="Ctrl" style="transform: rotate(45deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(50deg);"><div class="TapeScale"></div><span class="TapeNumber">5</span></li>
+										<li class="Ctrl" style="transform: rotate(55deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(60deg);"><div class="TapeScale"></div><span class="TapeNumber">6</span></li>
+										<li class="Ctrl" style="transform: rotate(65deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(70deg);"><div class="TapeScale"></div><span class="TapeNumber">7</span></li>
+										<li class="Ctrl" style="transform: rotate(75deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(80deg);"><div class="TapeScale"></div><span class="TapeNumber">8</span></li>
+										<li class="Ctrl" style="transform: rotate(85deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(90deg);"><div class="TapeScale"></div><span class="TapeNumber">9</span></li>
+										<li class="Ctrl" style="transform: rotate(95deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(100deg);"><div class="TapeScale"></div><span class="TapeNumber">10</span></li>
+										<li class="Ctrl" style="transform: rotate(105deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(110deg);"><div class="TapeScale"></div><span class="TapeNumber">11</span></li>
+										<li class="Ctrl" style="transform: rotate(115deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(120deg);"><div class="TapeScale"></div><span class="TapeNumber">12</span></li>
+										<li class="Ctrl" style="transform: rotate(125deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(130deg);"><div class="TapeScale"></div><span class="TapeNumber">13</span></li>
+										<li class="Ctrl" style="transform: rotate(135deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(140deg);"><div class="TapeScale"></div><span class="TapeNumber">14</span></li>
+										<li class="Ctrl" style="transform: rotate(145deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(150deg);"><div class="TapeScale"></div><span class="TapeNumber">15</span></li>
+										<li class="Ctrl" style="transform: rotate(155deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(160deg);"><div class="TapeScale"></div><span class="TapeNumber">16</span></li>
+										<li class="Ctrl" style="transform: rotate(165deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(170deg);"><div class="TapeScale"></div><span class="TapeNumber">17</span></li>
+										<li class="Ctrl" style="transform: rotate(175deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(180deg);"><div class="TapeScale"></div><span class="TapeNumber">18</span></li>
+										<li class="Ctrl" style="transform: rotate(185deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(190deg);"><div class="TapeScale"></div><span class="TapeNumber">19</span></li>
+										<li class="Ctrl" style="transform: rotate(195deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(200deg);"><div class="TapeScale"></div><span class="TapeNumber">20</span></li>
+										<li class="Ctrl" style="transform: rotate(205deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(210deg);"><div class="TapeScale"></div><span class="TapeNumber">21</span></li>
+										<li class="Ctrl" style="transform: rotate(215deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(220deg);"><div class="TapeScale"></div><span class="TapeNumber">22</span></li>
+										<li class="Ctrl" style="transform: rotate(225deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(230deg);"><div class="TapeScale"></div><span class="TapeNumber">23</span></li>
+										<li class="Ctrl" style="transform: rotate(235deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(240deg);"><div class="TapeScale"></div><span class="TapeNumber">24</span></li>
+										<li class="Ctrl" style="transform: rotate(245deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(250deg);"><div class="TapeScale"></div><span class="TapeNumber">25</span></li>
+										<li class="Ctrl" style="transform: rotate(255deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(260deg);"><div class="TapeScale"></div><span class="TapeNumber">26</span></li>
+										<li class="Ctrl" style="transform: rotate(265deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(270deg);"><div class="TapeScale"></div><span class="TapeNumber">27</span></li>
+										<li class="Ctrl" style="transform: rotate(275deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(280deg);"><div class="TapeScale"></div><span class="TapeNumber">28</span></li>
+										<li class="Ctrl" style="transform: rotate(285deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(290deg);"><div class="TapeScale"></div><span class="TapeNumber">29</span></li>
+										<li class="Ctrl" style="transform: rotate(295deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(300deg);"><div class="TapeScale"></div><span class="TapeNumber">30</span></li>
+										<li class="Ctrl" style="transform: rotate(305deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(310deg);"><div class="TapeScale"></div><span class="TapeNumber">31</span></li>
+										<li class="Ctrl" style="transform: rotate(315deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(320deg);"><div class="TapeScale"></div><span class="TapeNumber">32</span></li>
+										<li class="Ctrl" style="transform: rotate(325deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(330deg);"><div class="TapeScale"></div><span class="TapeNumber">33</span></li>
+										<li class="Ctrl" style="transform: rotate(335deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(340deg);"><div class="TapeScale"></div><span class="TapeNumber">34</span></li>
+										<li class="Ctrl" style="transform: rotate(345deg);"><div class="TapeScale"></div></li>
+										<li class="Ctrl" style="transform: rotate(350deg);"><div class="TapeScale"></div><span class="TapeNumber">35</span></li>
+										<li class="Ctrl" style="transform: rotate(355deg);"><div class="TapeScale"></div></li>
+									</ul>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDHUDPanelHeadingAdditionalIndicators">
+									<ul class="CtrlGroup">
+										<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelBearing" inert="true">
+											<div>
+												<div title="导航朝向" aria-label="导航朝向"></div>
+											</div>
+										</li>
+									</ul>
+								</li>
+								<li class="Ctrl" id="Ctrl_PFDHUDPanelHeadingBalloon">
+									<ul class="CtrlGroup">
+										<li class="Ctrl Balloon" title="当前朝向" aria-label="当前朝向">
+											<span id="Label_PFDHUDPanelHeadingBalloon"><span class="SmallerText">朝向</span></span>
+										</li>
+										<li class="Ctrl BalloonTail" title="当前朝向" aria-label="当前朝向"></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="Ctnr Faded" id="Ctnr_PFDHUDPanelWind" inert="true">
+							<div id="PFDHUDPanelWindDirection" title="风向 (相对于您的朝向)" aria-label="风向 (相对于您的朝向)">
+								<div class="Needle" id="Needle_PFDHUDPanelWindDirection">
+									<div class="NeedleFg"></div>
+									<div class="NeedleArrow"><div></div></div>
+								</div>
+							</div>
+							<span id="Label_PFDHUDPanelWind" title="风速" aria-label="风速">风速</span>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDHUDPanelVerticalSpeed">
+							<svg class="Icon Larger" id="Icon_PFDHUDPanelVerticalSpeed" viewBox="0 0 16 16" aria-hidden="true" title="上升或下降指示器" aria-label="上升或下降指示器">
+								<path d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
+							</svg>
+							<span id="Label_PFDHUDPanelVerticalSpeed" title="当前垂直速度" aria-label="当前垂直速度">垂直速度</span>
+						</div>
+						<div class="Ctnr Faded" id="Ctnr_PFDHUDPanelDME" inert="true">
+							<span id="Label_PFDHUDPanelDMETitle">测距仪</span>
+							<span id="Label_PFDHUDPanelDMEDistance">距离</span>
+							<span id="Label_PFDHUDPanelDMEETA"><span class="SmallerText">预计剩余时间</span></span>
+						</div>
+						<div class="Ctnr Faded" id="Ctnr_PFDHUDPanelLocalizer" inert="true" title="航向台" aria-label="航向台">
+							<div id="PFDHUDPanelLocalizerPointer" title="航向台指针" aria-label="航向台指针"></div>
+							<ul class="CtrlGroup">
+								<li class="Ctrl ILSCircle"></li>
+								<li class="Ctrl ILSCircle"></li>
+								<li class="Ctrl ILSLine"><div></div></li>
+								<li class="Ctrl ILSCircle"></li>
+								<li class="Ctrl ILSCircle"></li>
+							</ul>
+						</div>
+						<div class="Ctnr Faded" id="Ctnr_PFDHUDPanelGlideSlope" inert="true" title="下滑道" aria-label="下滑道">
+							<div id="PFDHUDPanelGlideSlopePointer" title="下滑道指针" aria-label="下滑道指针"></div>
+							<ul class="CtrlGroup">
+								<li class="Ctrl ILSCircle"></li>
+								<li class="Ctrl ILSCircle"></li>
+								<li class="Ctrl ILSLine"><div></div></li>
+								<li class="Ctrl ILSCircle"></li>
+								<li class="Ctrl ILSCircle"></li>
+							</ul>
+						</div>
+						<div class="Ctnr Faded" id="Ctnr_PFDHUDPanelMarkerBeacon" inert="true" title="指点标" aria-label="指点标">
+							<span id="Label_PFDHUDPanelMarkerBeacon">指</span>
+						</div>
+						<div class="Ctnr" id="Ctnr_PFDHUDPanelRadioAltitude" title="无线电高度表" aria-label="无线电高度表">
+							<span id="Label_PFDHUDPanelRadioAltitude"><span class="SmallerText"><span class="SmallerText">无线电高度</span></span></span>
+						</div>
+						<div class="Ctnr Faded" id="Ctnr_PFDHUDPanelDecisionAltitude" inert="true">
+							<span id="Label_PFDHUDPanelDecisionAltitudeTitle">决断高度</span>
+							<span id="Label_PFDHUDPanelDecisionAltitudeValue">未知</span>
+						</div>
+						<div class="Ctnr Faded" id="Ctnr_PFDHUDPanelWarning" inert="true">
+							<span id="Label_PFDHUDPanelWarning">警告信息</span>
+						</div>
 					</div>
 					<div class="Ctnr PFDPanel HiddenHorizontally" id="Ctnr_PFDBocchi737Panel">
 						???
@@ -1207,15 +2354,15 @@
 						???
 					</div>
 					<div class="Ctnr PFDPanel HiddenHorizontally" id="Ctnr_PFDAutomobileSpeedometerPanel">
-						<div class="Ctnr" id="Ctnr_PFDAutomobileSpeedometerPanelStatus">
+						<div class="Ctnr" id="Ctnr_PFDAutomobileSpeedometerPanelHardwareStatus">
 							<ul class="CtrlGroup">
-								<li class="Ctrl" id="Ctrl_PFDAutomobileSpeedometerPanelGPSStatus" title="GPS 状态" aria-label="GPS 状态">
+								<li class="Ctrl" id="Ctrl_PFDAutomobileSpeedometerPanelGPS" title="GPS 状态" aria-label="GPS 状态">
 									<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
 										<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
 										<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
 									</svg>
 								</li>
-								<li class="Ctrl" id="Ctrl_PFDAutomobileSpeedometerPanelAccelStatus" title="加速计状态" aria-label="加速计状态">
+								<li class="Ctrl" id="Ctrl_PFDAutomobileSpeedometerPanelAccel" title="加速计状态" aria-label="加速计状态">
 									<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
 										<path d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10M.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8"/>
 									</svg>
@@ -1334,7 +2481,7 @@
 								</li>
 							</ul>
 						</div>
-						<div class="Ctnr" id="Ctnr_PFDAutomobileSpeedometerPanelSpeedTrend" title="速度趋势指示" aria-label="速度趋势指示">
+						<div class="Ctnr" id="Ctnr_PFDAutomobileSpeedometerPanelSpeedTrend" title="速度趋势" aria-label="速度趋势">
 							<ul class="CtrlGroup">
 								<li class="Ctrl" id="Ctrl_PFDAutomobileSpeedometerPanelSpeedTrend1">
 									<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
@@ -1576,12 +2723,6 @@
 															<option value="ArrivalGround">到达地面</option>
 															<option value="EmergencyReturn">紧急返航</option>
 														</select>
-													</label>
-												</li>
-												<li class="Ctrl">
-													<label for="Checkbox_PFDOptionsFlipPFDVertically">
-														<input class="Checkbox" id="Checkbox_PFDOptionsFlipPFDVertically" type="checkbox" checked="false" onchange="SetFlipPFDVerticallyAtPFDOptions()" />
-														<span>垂直翻转 PFD</span>
 													</label>
 												</li>
 												<li class="Ctrl">
@@ -2088,12 +3229,12 @@
 										<select class="Combobox" id="Combobox_SettingsPFDStyle" onchange="SetPFDStyle()">
 											<optgroup label="PFD">
 												<option value="Default" selected>默认</option>
-												<option value="HUD" disabled="true">HUD (制作中)</option>
+												<option value="HUD">HUD</option>
 												<option value="Bocchi737" disabled="true">波奇737 (制作中)</option>
 											</optgroup>
 											<optgroup label="非 PFD">
 												<option value="AnalogGauges" disabled="true">传统仪表 (制作中)</option>
-												<option value="AutomobileSpeedometer">汽车速度表 (Beta)</option>
+												<option value="AutomobileSpeedometer">汽车速度表</option>
 											</optgroup>
 										</select>
 									</label>
@@ -2292,6 +3433,12 @@
 										<input class="Textbox" id="Textbox_SettingsFont" type="text" onchange="SetFont()" />
 									</label>
 								</li>
+								<li class="Ctrl">
+									<label for="Checkbox_SettingsVideoFootageMode">
+										<input class="Checkbox" id="Checkbox_SettingsVideoFootageMode" type="checkbox" checked="false" onchange="SetVideoFootageMode()" />
+										<span>视频素材模式</span>
+									</label>
+								</li>
 							</ul>
 						</fieldset>
 					</li>
@@ -2332,7 +3479,7 @@
 						<fieldset>
 							<legend>使用前须知</legend>
 							<h4>使用环境</h4>
-							<p>建议在搭载了 GPS 芯片与加速计的移动设备 (智能手机或平板电脑) 上使用本应用程序。否则核心功能可能不可用。GPS 可能会非常耗电，因此建议使用时连接移动电源 (充电宝)。</p>
+							<p>建议在搭载了 GPS 芯片与加速计的移动设备 (智能手机或平板电脑) 上使用本应用程序。否则核心功能可能不可用。在交通工具上可能需要靠窗才能接收到 GPS 信号。GPS 可能会非常耗电，因此建议使用时连接移动电源 (充电宝)。</p>
 							<h4>离线使用</h4>
 							<p>在没有网络连接的飞机上，您需要离线使用本应用程序。有两种方式来离线使用：①断网前先在线访问一次。②下载资源至本地，在本地运行网页。详见<a href="docs/GPS-PFD%20说明文档.pdf">说明文档</a>中的「使用方式」。</p>
 							<h4>安全与隐私</h4>
@@ -2406,7 +3553,7 @@
 							<h4>图标</h4>
 							<p>UI 图标：<a href="https://icons.getbootstrap.com">Bootstrap Icons</a></p>
 							<h4>音频</h4>
-							<p>警报声音：<a href="https://youtube.com/watch?v=H_EdufukKfU">YouTube 视频1</a>, <a href="https://youtube.com/watch?v=H2aidghuxzU">YouTube 视频2</a></p>
+							<p>警报声音：<a href="https://youtube.com/watch?v=H_EdufukKfU">YouTube 视频1</a>, <a href="https://youtube.com/watch?v=4YW8Lt7ZPCw">YouTube 视频2</a>, <a href="https://youtube.com/watch?v=H2aidghuxzU">YouTube 视频3</a></p>
 						</fieldset>
 					</li>
 					<li class="Item">
@@ -2414,7 +3561,7 @@
 							<legend>关于</legend>
 							<p>GPS-PFD</p>
 							<p>by SAM TOKI STUDIO</p>
-							<p>版本 v0.28 (<time datetime="2025-05-20" pubdate="pubdate">2025/05/20</time>) Beta Test<br />
+							<p>版本 v0.29 (<time datetime="2025-05-24" pubdate="pubdate">2025/05/24</time>) Beta Test<br />
 								始于 2024/12/01</p>
 							<p class="GreenText Hidden" id="Label_HelpPWANewVersionReady" inert="true">新版本已就绪，将在下次启动时生效。</p>
 							<ul class="CtrlGroup BelowParagraph">

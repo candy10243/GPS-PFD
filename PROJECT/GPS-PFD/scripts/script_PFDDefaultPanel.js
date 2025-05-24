@@ -13,22 +13,22 @@
 			function RefreshDefaultPanel() {
 				// Info bar
 				if(PFD0.Status.GPS.IsPositionAvailable == true) {
-					RemoveClass("Ctrl_PFDDefaultPanelGPSStatus", "OrangeText");
+					RemoveClass("Ctrl_PFDDefaultPanelGPS", "OrangeText");
 					if(PFD0.Status.GPS.IsPositionAccurate == true && PFD0.Status.GPS.IsAltitudeAvailable == true && PFD0.Status.GPS.IsAltitudeAccurate == true) {
-						ChangeText("Label_PFDDefaultPanelGPSStatusValue", Translate("Normal"));
+						ChangeText("Label_PFDDefaultPanelGPSValue", Translate("Normal"));
 					} else {
-						ChangeText("Label_PFDDefaultPanelGPSStatusValue", Translate("SignalWeak"));
+						ChangeText("Label_PFDDefaultPanelGPSValue", Translate("SignalWeak"));
 					}
 				} else {
-					AddClass("Ctrl_PFDDefaultPanelGPSStatus", "OrangeText");
-					ChangeText("Label_PFDDefaultPanelGPSStatusValue", Translate("Unavailable"));
+					AddClass("Ctrl_PFDDefaultPanelGPS", "OrangeText");
+					ChangeText("Label_PFDDefaultPanelGPSValue", Translate("Unavailable"));
 				}
 				if(PFD0.Status.IsAccelAvailable == true) {
-					RemoveClass("Ctrl_PFDDefaultPanelAccelStatus", "OrangeText");
-					ChangeText("Label_PFDDefaultPanelAccelStatusValue", Translate("Normal"));
+					RemoveClass("Ctrl_PFDDefaultPanelAccel", "OrangeText");
+					ChangeText("Label_PFDDefaultPanelAccelValue", Translate("Normal"));
 				} else {
-					AddClass("Ctrl_PFDDefaultPanelAccelStatus", "OrangeText");
-					ChangeText("Label_PFDDefaultPanelAccelStatusValue", Translate("Unavailable"));
+					AddClass("Ctrl_PFDDefaultPanelAccel", "OrangeText");
+					ChangeText("Label_PFDDefaultPanelAccelValue", Translate("Unavailable"));
 				}
 				if((PFD.Speed.Mode == "GPS" && PFD0.Status.GPS.IsSpeedAvailable == true) ||
 				(PFD.Speed.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||

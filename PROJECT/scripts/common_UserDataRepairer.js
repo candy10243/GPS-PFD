@@ -129,15 +129,17 @@
 			}
 
 		// GPS-PFD
-			// v0.17 (2025/02/22) Beta Test
-			// New feature (Avg GS)
-			if(localStorage.GPSPFD_PFD != undefined) {
-				let PFD = JSON.parse(localStorage.getItem("GPSPFD_PFD"));
-				if(PFD.DME.ETACalcMethod == undefined) {
-					PFD.DME.ETACalcMethod = "UseAvgGS";
-					localStorage.setItem("GPSPFD_PFD", JSON.stringify(PFD));
+			// v0.29 (2025/05/25) Beta Test
+			// New feature (Video footage mode)
+			if(localStorage.GPSPFD_Subsystem != undefined) {
+				let Subsystem = JSON.parse(localStorage.getItem("GPSPFD_Subsystem"));
+				if(Subsystem.Dev == undefined) {
+					Subsystem.Dev = {
+						VideoFootageMode: false
+					};
+					localStorage.setItem("GPSPFD_Subsystem", JSON.stringify(Subsystem));
 					console.info("● User Data Repairer\n" +
-						"Repaired user data \"GPSPFD PFD DME ETACalcMethod\".");
+						"Repaired user data \"GPSPFD Subsystem Dev\".");
 				}
 			}
 	}

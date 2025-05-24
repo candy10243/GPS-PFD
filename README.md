@@ -16,8 +16,8 @@ Note: The "GPS" here stands for location services. Location services use [GNSSes
 
 ## 使用环境 Usage Environment
 
-建议在搭载了 GPS 芯片与加速计的移动设备（智能手机或平板电脑）上使用本应用程序。否则核心功能可能不可用。GPS 可能会非常耗电，因此建议使用时连接移动电源（充电宝）。<br>
-It is recommended that you use this application on a mobile device (smartphone or tablet) with a GPS chip and an accelerometer. Otherwise the basic features may become unavailable. Besides, GPS may be power hungry. It is recommended to connect your device to a power bank while using the application.
+建议在搭载了 GPS 芯片与加速计的移动设备（智能手机或平板电脑）上使用本应用程序。否则核心功能可能不可用。在交通工具上可能需要靠窗才能接收到 GPS 信号。GPS 可能会非常耗电，因此建议使用时连接移动电源（充电宝）。<br>
+It is recommended that you use this application on a mobile device (smartphone or tablet) with a GPS chip and an accelerometer. Otherwise the basic features may become unavailable. On a vehicle you may have to stay near a window to receive GPS signal. Besides, GPS may be power hungry. It is recommended to connect your device to a power bank while using the application.
 
 ## 离线使用 Offline Use
 
