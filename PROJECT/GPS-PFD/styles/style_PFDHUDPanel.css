@@ -21,7 +21,7 @@
 				}
 				#Ctnr_PFDHUDPanel .NeedleArrow {
 					clip-path: unset;
-					background-color: unset; filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+					background-color: unset; filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
 				}
 				#Ctnr_PFDHUDPanel .NeedleArrow div {
 					width: 100%; height: 100%; clip-path: polygon(50% 0, 100% 100%, 0 100%);
@@ -157,7 +157,7 @@
 						}
 						#CtrlGroup_PFDHUDPanelAttitudeRollScale .AttitudeScale0 {
 							width: 15px; height: 15px;
-							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
 						}
 						#CtrlGroup_PFDHUDPanelAttitudeRollScale .AttitudeScale0 div {
 							width: 100%; height: 100%; clip-path: polygon(0 0, 100% 0, 50% 100%);
@@ -177,7 +177,7 @@
 						#PFDHUDPanelAttitudeRollPointer {
 							position: absolute; top: 15px; left: calc(50% - 10px);
 							width: 20px; height: 20px;
-							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
 						}
 						#PFDHUDPanelAttitudeRollPointer div {
 							width: 100%; height: 100%; clip-path: polygon(50% 0, 100% 100%, 0 100%);
@@ -189,7 +189,7 @@
 						#Ctrl_PFDHUDPanelAttitudeAircraftSymbol {
 							position: absolute; top: calc(50% - 5px); left: calc(50% - 50px);
 							width: 100px; height: 20px;
-							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
 						}
 						#Ctrl_PFDHUDPanelAttitudeAircraftSymbol div {
 							width: 100%; height: 100%; clip-path: polygon(0 0, 42% 0, 50% 40%, 58% 0, 100% 0, 100% 50%, 60% 50%, 50% 100%, 40% 50%, 0 50%);
@@ -292,7 +292,7 @@
 							#CtrlGroup_PFDHUDPanelOtherSpeeds #Ctrl_PFDHUDPanelAvgIAS {
 								bottom: -10px;
 								width: 20px; height: 20px;
-								filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+								filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
 							}
 							#CtrlGroup_PFDHUDPanelOtherSpeeds #Ctrl_PFDHUDPanelAvgIAS div {
 								width: 100%; height: 100%; clip-path: polygon(100% 0, 100% 100%, 0 50%);
@@ -303,7 +303,7 @@
 						#Ctrl_PFDHUDPanelSpeedBalloon {
 							position: absolute; top: calc((100% - 100px) / 2 - 35px); left: 0;
 							width: 90px; height: 70px;
-							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
 						}
 						#Ctrl_PFDHUDPanelSpeedBalloon > .CtrlGroup {
 							width: 100%; height: 100%;
@@ -429,7 +429,7 @@
 							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelDecisionAltitude {
 								bottom: 1677.5px; /* Default decision height is 250ft. */
 								width: 20px; height: 20px;
-								filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+								filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
 							}
 							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelDecisionAltitude.Active {
 								background-color: unset;
@@ -451,7 +451,7 @@
 						#Ctrl_PFDHUDPanelAltitudeBalloon {
 							position: absolute; top: calc((100% - 60px) / 2 - 35px); right: 0;
 							width: 125px; height: 70px;
-							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
 						}
 						#Ctrl_PFDHUDPanelAltitudeBalloon > .CtrlGroup {
 							width: 100%; height: 100%;
@@ -559,7 +559,7 @@
 						}
 						#Ctrl_PFDHUDPanelBearing div {
 							width: 20px; height: 20px;
-							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
 							pointer-events: auto;
 						}
 						#Ctrl_PFDHUDPanelBearing div div {
@@ -571,7 +571,7 @@
 						#Ctrl_PFDHUDPanelHeadingBalloon {
 							position: absolute; top: 22px; left: calc(50% - 35px);
 							width: 70px; height: 60px;
-							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+							filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
 						}
 						#Ctrl_PFDHUDPanelHeadingBalloon > .CtrlGroup {
 							width: 100%; height: 100%;
@@ -740,7 +740,7 @@
 					#Ctnr_PFDHUDPanelRadioAltitude {
 						position: absolute; top: calc(50% + 80px); right: calc(50% - 50px);
 						width: 100px; height: 40px; border-radius: 5px; padding: 5px;
-						background-color: #000000; filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+						background-color: #000000; filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
 						text-align: center;
 						display: flex; justify-content: center; align-items: center;
 					}
@@ -764,7 +764,7 @@
 					#Ctnr_PFDHUDPanelWarning {
 						position: absolute; top: calc(50% - 125px); left: calc(50% - 140px);
 						width: 280px; height: 50px; border-radius: 5px;
-						background-color: #000000; filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+						background-color: #000000; filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
 						text-align: center;
 						display: flex; justify-content: center; align-items: center;
 					}
