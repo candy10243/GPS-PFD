@@ -631,6 +631,7 @@
 						transform: scaleY(-1);
 					}
 					#Label_PFDHUDPanelVerticalSpeed {
+						margin: 0 0 0 5px;
 						font-size: 1.50em;
 					}
 
