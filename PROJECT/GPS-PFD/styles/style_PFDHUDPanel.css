@@ -813,12 +813,9 @@
 /* Dev */
 #Html.VideoFootageMode #Ctnr_PFDHUDPanelHardwareStatus,
 #Html.VideoFootageMode #Ctnr_PFDHUDPanelFMA1 .Ctrl:not(.FMASeparator),
-#Html.VideoFootageMode #Ctnr_PFDHUDPanelFMA2,
 #Html.VideoFootageMode #PFDHUDPanelAttitudeRollPointer,
 #Html.VideoFootageMode #Ctrl_PFDHUDPanelAttitudeAircraftSymbol,
-#Html.VideoFootageMode #Ctrl_PFDHUDPanelAvgIAS,
-#Html.VideoFootageMode #Ctnr_PFDHUDPanelHeading,
-#Html.VideoFootageMode #Ctnr_PFDHUDPanelRadioAltitude { /* .Faded */
+#Html.VideoFootageMode #Ctrl_PFDHUDPanelAvgIAS { /* .Faded */
 	opacity: 0 !important;
 	pointer-events: none !important;
 }
