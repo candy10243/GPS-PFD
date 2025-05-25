@@ -21,7 +21,7 @@
 				}
 				#Ctnr_PFDHUDPanel .NeedleArrow {
 					clip-path: unset;
-					background-color: unset; filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+					background-color: transparent; filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
 				}
 				#Ctnr_PFDHUDPanel .NeedleArrow div {
 					width: 100%; height: 100%; clip-path: polygon(50% 0, 100% 100%, 0 100%);
@@ -89,7 +89,7 @@
 						#Ctnr_PFDHUDPanel .StatusBox {
 							position: absolute; top: unset; left: unset;
 							height: 80px; padding: 5px;
-							background-color: unset;
+							background-color: transparent;
 							text-align: center;
 							display: flex; justify-content: center; align-items: center;
 						}
@@ -214,7 +214,7 @@
 						#Ctnr_PFDHUDPanel .Tape {
 							position: absolute; top: 0; left: 0;
 							width: 100%; height: 100%; border-radius: 5px;
-							background-color: unset;
+							background-color: transparent;
 							overflow: hidden;
 						}
 						#Ctnr_PFDHUDPanel #Ctrl_PFDHUDPanelSpeedTape {
@@ -252,24 +252,6 @@
 							overflow: hidden;
 							pointer-events: none;
 						}
-							/* Speed trend */
-							#Needle_PFDHUDPanelSpeedTrend {
-								position: absolute; top: unset; right: 32px;
-								width: 15px; height: 0;
-							}
-							#Needle_PFDHUDPanelSpeedTrend.Decreasing {
-								transform: scaleY(-1);
-							}
-							#Needle_PFDHUDPanelSpeedTrend .NeedleFg {
-								position: absolute; top: 5px; left: calc(50% - 1px);
-								width: 2px; height: calc(50% - 5px); border-radius: 1px;
-								pointer-events: auto;
-							}
-							#Needle_PFDHUDPanelSpeedTrend .NeedleArrow {
-								height: 15px;
-								pointer-events: auto;
-							}
-
 							/* Other speeds */
 							#CtrlGroup_PFDHUDPanelOtherSpeeds {
 								position: absolute; top: calc(50% - 5000px); right: 2px;
@@ -297,6 +279,24 @@
 							#CtrlGroup_PFDHUDPanelOtherSpeeds #Ctrl_PFDHUDPanelAvgIAS div {
 								width: 100%; height: 100%; clip-path: polygon(100% 0, 100% 100%, 0 50%);
 								background-color: #000000;
+							}
+
+							/* Speed trend */
+							#Needle_PFDHUDPanelSpeedTrend {
+								position: absolute; top: unset; right: 32px;
+								width: 15px; height: 0;
+							}
+							#Needle_PFDHUDPanelSpeedTrend.Decreasing {
+								transform: scaleY(-1);
+							}
+							#Needle_PFDHUDPanelSpeedTrend .NeedleFg {
+								position: absolute; top: 5px; left: calc(50% - 1px);
+								width: 2px; height: calc(50% - 5px); border-radius: 1px;
+								pointer-events: auto;
+							}
+							#Needle_PFDHUDPanelSpeedTrend .NeedleArrow {
+								height: 15px;
+								pointer-events: auto;
 							}
 
 						/* Balloon */
@@ -329,6 +329,7 @@
 							width: 20px; height: 100%;
 						}
 						#Ctnr_PFDHUDPanel .Balloon .Box {
+							border-radius: unset;
 							background-color: transparent;
 						}
 						#RollingDigit_PFDHUDPanelSpeed1 {
@@ -399,6 +400,36 @@
 							overflow: hidden;
 							pointer-events: none;
 						}
+							/* Other altitudes */
+							#CtrlGroup_PFDHUDPanelOtherAltitudes {
+								position: absolute; top: calc(50% - 37500px); left: 2px;
+								width: 20px; height: 39000px;
+							}
+							#CtrlGroup_PFDHUDPanelOtherAltitudes .Ctrl {
+								position: absolute; top: unset; right: 0;
+								pointer-events: auto;
+							}
+							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelDecisionAltitude {
+								bottom: 1677.5px; /* Default decision height is 250ft. */
+								width: 20px; height: 20px;
+								filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+							}
+							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelDecisionAltitude.Active {
+								background-color: transparent;
+							}
+							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelDecisionAltitude div {
+								width: 100%; height: 100%; clip-path: polygon(100% 50%, 0 100%, 0 0);
+								background-color: #000000;
+							}
+							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelDecisionAltitude.Active div {
+								background-color: #00FF00;
+							}
+							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelGroundAltitude {
+								bottom: 1460px; left: 20px;
+								width: 105px; height: 40px; border-top: 2px solid #00FF00;
+								background: repeating-linear-gradient(45deg, transparent, transparent 4px, #00FF00 5px, #00FF00 6px, transparent 7px);
+							}
+
 							/* Altitude trend */
 							#Needle_PFDHUDPanelAltitudeTrend {
 								position: absolute; top: unset; left: 32px;
@@ -415,36 +446,6 @@
 							#Needle_PFDHUDPanelAltitudeTrend .NeedleArrow {
 								height: 15px;
 								pointer-events: auto;
-							}
-
-							/* Other altitudes */
-							#CtrlGroup_PFDHUDPanelOtherAltitudes {
-								position: absolute; top: calc(50% - 37500px); left: 2px;
-								width: 20px; height: 39000px;
-							}
-							#CtrlGroup_PFDHUDPanelOtherAltitudes .Ctrl {
-								position: absolute; top: unset; right: 0;
-								pointer-events: auto;
-							}
-							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelDecisionAltitude {
-								bottom: 1677.5px; /* Default decision height is 250ft. */
-								width: 20px; height: 20px;
-								filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
-							}
-							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelDecisionAltitude.Active {
-								background-color: unset;
-							}
-							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelDecisionAltitude div {
-								width: 100%; height: 100%; clip-path: polygon(100% 50%, 0 100%, 0 0);
-								background-color: #000000;
-							}
-							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelDecisionAltitude.Active div {
-								background-color: #00FF00;
-							}
-							#CtrlGroup_PFDHUDPanelOtherAltitudes #Ctrl_PFDHUDPanelGroundAltitude {
-								bottom: 1460px; left: 20px;
-								width: 105px; height: 40px; border-top: 2px solid #00FF00;
-								background: repeating-linear-gradient(45deg, transparent, transparent 4px, #00FF00 5px, #00FF00 6px, transparent 7px);
 							}
 
 						/* Balloon */

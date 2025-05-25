@@ -81,12 +81,6 @@
 						}
 
 						/* Additional indicators */
-							/* Speed trend */
-							#Needle_PFDDefaultPanelSpeedTrend .NeedleFg, #Needle_PFDDefaultPanelSpeedTrend .NeedleArrow,
-							#Needle_PFDDefaultPanelAltitudeTrend .NeedleFg, #Needle_PFDDefaultPanelAltitudeTrend .NeedleArrow {
-								background-color: #00FF00;
-							}
-
 							/* Other speeds */
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelSpeedLimitMin {
 								background-color: #FF4040;
@@ -96,6 +90,12 @@
 							}
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelAvgIAS {
 								background-color: #FF80FF;
+							}
+
+							/* Speed trend */
+							#Needle_PFDDefaultPanelSpeedTrend .NeedleFg, #Needle_PFDDefaultPanelSpeedTrend .NeedleArrow,
+							#Needle_PFDDefaultPanelAltitudeTrend .NeedleFg, #Needle_PFDDefaultPanelAltitudeTrend .NeedleArrow {
+								background-color: #00FF00;
 							}
 
 						/* Balloon */
