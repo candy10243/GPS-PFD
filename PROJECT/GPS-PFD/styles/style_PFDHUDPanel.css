@@ -797,7 +797,8 @@
 								box-shadow: 0 0 0 3px #00FF00;
 							}
 						}
-					#Ctnr_PFDHUDPanel .BankAngleWarning {
+					#Ctnr_PFDHUDPanel .BankAngleWarning,
+					#CtrlGroup_PFDHUDPanelAttitudeRollScale .AttitudeScale0 div.BankAngleWarning {
 						background-color: #00FF00;
 						animation: Anim_PFDHUDPanelBankAngleWarning 500ms infinite ease-in-out;
 					}
