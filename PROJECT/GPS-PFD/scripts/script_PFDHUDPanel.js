@@ -364,26 +364,31 @@
 				(PFD.Altitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
 				(PFD.Altitude.Mode == "DualChannel" && (PFD0.Status.GPS.IsAltitudeAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
 				PFD.Altitude.Mode == "Manual") {
-					Show("Ctnr_PFDHUDPanelVerticalSpeed");
 					let ConvertedVerticalSpeed = 0, VerticalSpeedDisplay = 0;
 					ConvertedVerticalSpeed = ConvertUnit(PFD0.Stats.Speed.Vertical, "MeterPerSec", Subsystem.I18n.VerticalSpeedUnit);
-					if(ConvertedVerticalSpeed >= 0) {
-						RemoveClass("Icon_PFDHUDPanelVerticalSpeed", "Decreasing");
+					if((Subsystem.I18n.VerticalSpeedUnit == "MeterPerSec" && Math.abs(ConvertedVerticalSpeed) >= 0.2) ||
+					(Subsystem.I18n.VerticalSpeedUnit == "FeetPerMin" && Math.abs(ConvertedVerticalSpeed) >= 50)) {
+						Show("Ctnr_PFDHUDPanelVerticalSpeed");
+						if(ConvertedVerticalSpeed >= 0) {
+							RemoveClass("Icon_PFDHUDPanelVerticalSpeed", "Decreasing");
+						} else {
+							AddClass("Icon_PFDHUDPanelVerticalSpeed", "Decreasing");
+						}
+						switch(Subsystem.I18n.VerticalSpeedUnit) {
+							case "MeterPerSec":
+								VerticalSpeedDisplay = CheckRangeAndCorrect(Math.trunc(ConvertedVerticalSpeed / 0.2) * 0.2, -50, 50);
+								ChangeText("Label_PFDHUDPanelVerticalSpeed", Math.abs(VerticalSpeedDisplay).toFixed(1));
+								break;
+							case "FeetPerMin":
+								VerticalSpeedDisplay = CheckRangeAndCorrect(Math.trunc(ConvertedVerticalSpeed / 50) * 50, -9999, 9999);
+								ChangeText("Label_PFDHUDPanelVerticalSpeed", Math.abs(VerticalSpeedDisplay));
+								break;
+							default:
+								AlertSystemError("The value of Subsystem.I18n.VerticalSpeedUnit \"" + Subsystem.I18n.VerticalSpeedUnit + "\" in function RefreshHUDPanel is invalid.");
+								break;
+						}
 					} else {
-						AddClass("Icon_PFDHUDPanelVerticalSpeed", "Decreasing");
-					}
-					switch(Subsystem.I18n.VerticalSpeedUnit) {
-						case "MeterPerSec":
-							VerticalSpeedDisplay = CheckRangeAndCorrect(Math.trunc(ConvertedVerticalSpeed / 0.2) * 0.2, -50, 50);
-							ChangeText("Label_PFDHUDPanelVerticalSpeed", Math.abs(VerticalSpeedDisplay).toFixed(1));
-							break;
-						case "FeetPerMin":
-							VerticalSpeedDisplay = CheckRangeAndCorrect(Math.trunc(ConvertedVerticalSpeed / 50) * 50, -9999, 9999);
-							ChangeText("Label_PFDHUDPanelVerticalSpeed", Math.abs(VerticalSpeedDisplay));
-							break;
-						default:
-							AlertSystemError("The value of Subsystem.I18n.VerticalSpeedUnit \"" + Subsystem.I18n.VerticalSpeedUnit + "\" in function RefreshHUDPanel is invalid.");
-							break;
+						Fade("Ctnr_PFDHUDPanelVerticalSpeed");
 					}
 				} else {
 					Fade("Ctnr_PFDHUDPanelVerticalSpeed");
