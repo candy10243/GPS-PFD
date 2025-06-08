@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CacheName = "GPS-PFD_v0.30";
+		const CacheName = "GPS-PFD_v0.31";
 
 // Listeners
 	// Service worker (https://learn.microsoft.com/en-us/microsoft-edge/progressive-web-apps-chromium/how-to/#step-5---add-a-service-worker)
@@ -61,6 +61,8 @@
 				"audio/Boeing_ApproachingMinimums.mp3",
 				"audio/Boeing_Minimums.mp3",
 				"audio/Boeing_Overspeed.mp3",
+				"audio/Boeing_V1.mp3",
+				"audio/Common_AltitudeBeep.mp3",
 				"audio/Common_BankAngle.mp3",
 				"audio/Common_DontSink.mp3",
 				"audio/Common_GlideSlope.mp3",
