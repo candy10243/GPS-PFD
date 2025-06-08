@@ -175,11 +175,11 @@
 						position: absolute; top: 0; left: 0;
 						width: 100%; height: 120px;
 					}
-					#CtrlGroup_PFDDefaultPanelAdditionalSpeeds {
+					#CtrlGroup_PFDDefaultPanelInfoBarSpeeds {
 						position: absolute; top: calc(50% - 140px); left: 0;
 						width: 100%; height: 280px;
 					}
-					#CtrlGroup_PFDDefaultPanelFlapsStatus {
+					#CtrlGroup_PFDDefaultPanelFlaps {
 						position: absolute; bottom: 0; left: 0;
 						width: 100%; height: 180px;
 					}
@@ -190,7 +190,7 @@
 					#Ctnr_PFDDefaultPanelInfoBar #Ctrl_PFDDefaultPanelWind {
 						height: 100px;
 					}
-					#CtrlGroup_PFDDefaultPanelFlapsStatus .Ctrl {
+					#CtrlGroup_PFDDefaultPanelFlaps .Ctrl {
 						height: 100%;
 					}
 					.InfoBarValue {
@@ -211,10 +211,10 @@
 					#Needle_PFDDefaultPanelWindDirection .NeedleArrow {
 						height: 10px;
 					}
-					#CtrlGroup_PFDDefaultPanelFlapsStatus .Ctrl {
+					#CtrlGroup_PFDDefaultPanelFlaps .Ctrl {
 						justify-content: end;
 					}
-					#CtrlGroup_PFDDefaultPanelFlapsStatus .Progbar {
+					#CtrlGroup_PFDDefaultPanelFlaps .Progbar {
 						width: 12px; height: 112px; border: 1px solid #000000; border-radius: 6px; margin: 5px 0 0 0; transform: scaleY(-1);
 						background-color: transparent;
 					}
@@ -253,15 +253,15 @@
 
 					/* Speed */
 					#Ctnr_PFDDefaultPanelSpeed {
-						position: absolute; top: calc(50% - 300px); left: 140px;
-						width: 105px; height: 660px;
+						position: absolute; top: calc(50% - 360px); left: 140px;
+						width: 105px; height: 720px;
 					}
 					#Ctnr_PFDDefaultPanelSpeed > .CtrlGroup {
 						width: 100%; height: 100%;
 					}
 						/* Status */
 						#Ctrl_PFDDefaultPanelSpeedStatus {
-							top: calc((100% - 60px) / 2 - 40px); left: 0;
+							top: calc(50% - 40px); left: 0;
 							width: 100%;
 						}
 
@@ -273,7 +273,8 @@
 							overflow: hidden;
 						}
 						#Ctrl_PFDDefaultPanelSpeedTape {
-							height: calc(100% - 60px);
+							top: 60px;
+							height: calc(100% - 120px);
 						}
 						.Tape .CtrlGroup {
 							position: absolute; top: unset; left: 0;
@@ -302,8 +303,8 @@
 
 						/* Additional indicators */
 						#Ctrl_PFDDefaultPanelSpeedAdditionalIndicators {
-							position: absolute; top: 0; left: 0;
-							width: calc(100% + 20px); height: calc(100% - 60px);
+							position: absolute; top: 60px; left: 0;
+							width: calc(100% + 20px); height: calc(100% - 120px);
 							overflow: hidden;
 							pointer-events: none;
 						}
@@ -319,17 +320,38 @@
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelSpeedLimitMin {
 								bottom: 0;
 								width: 10px; height: 0;
-								background-color: #FF0000;
+								background: repeating-linear-gradient(45deg, transparent, transparent 4px, #FF0000 5px, #FF0000 6px, transparent 7px);
 							}
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelSpeedLimitMax {
 								top: 0;
 								width: 10px; height: 0;
-								background-color: #FF0000;
+								background: repeating-linear-gradient(135deg, transparent, transparent 4px, #FF0000 5px, #FF0000 6px, transparent 7px);
 							}
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelAvgIAS {
 								bottom: -10px;
 								width: 20px; height: 20px; clip-path: polygon(100% 0, 100% 100%, 0 50%);
-								background-color: #C040C0;
+								background-color: #0090D0;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelMCPSpeedCircle {
+								bottom: -10px; left: -10px;
+								width: 20px; height: 20px; border: 2px solid #C040C0; border-radius: 10px;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelV1,
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelVR {
+								bottom: 0; left: -20px;
+								width: 50px; height: 0;
+								display: flex; align-items: center;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelV1 div,
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelVR div {
+								bottom: 0; left: -20px;
+								width: 20px; height: 2px; border-radius: 1px;
+								background-color: #00A000;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelV1 span,
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelVR span {
+								margin: 0 0 0 2px;
+								color: #00A000;
 							}
 
 							/* Speed trend */
@@ -352,7 +374,7 @@
 
 						/* Balloon */
 						#Ctrl_PFDDefaultPanelSpeedBalloon {
-							position: absolute; top: calc((100% - 60px) / 2 - 35px); left: 0;
+							position: absolute; top: calc(50% - 35px); left: 0;
 							width: 90px; height: 70px;
 							filter: drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000);
 						}
@@ -400,33 +422,44 @@
 							margin: 0;
 						}
 
+						/* MCP */
+						#Ctrl_PFDDefaultPanelMCPSpeed {
+							position: absolute; top: 0; left: 0;
+							width: 100%; height: 60px; padding: 5px;
+							display: flex; align-items: center;
+						}
+						#Label_PFDDefaultPanelMCPSpeed {
+							color: #C040C0; font-size: 2.00em;
+						}
+
 						/* Mach number */
-						#Ctrl_PFDDefaultPanelSpeedMachNumber {
+						#Ctrl_PFDDefaultPanelMachNumber {
 							position: absolute; bottom: 0; left: 0;
 							width: 100%; height: 60px; padding: 5px;
 							display: flex; align-items: center;
 						}
-						#Label_PFDDefaultPanelSpeedMachNumber {
+						#Label_PFDDefaultPanelMachNumber {
 							font-size: 2.00em;
 						}
 
 					/* Altitude */
 					#Ctnr_PFDDefaultPanelAltitude {
-						position: absolute; top: calc(50% - 300px); right: 105px;
-						width: 140px; height: 660px;
+						position: absolute; top: calc(50% - 360px); right: 105px;
+						width: 140px; height: 720px;
 					}
 					#Ctnr_PFDDefaultPanelAltitude > .CtrlGroup {
 						width: 100%; height: 100%;
 					}
 						/* Status */
 						#Ctrl_PFDDefaultPanelAltitudeStatus {
-							top: calc((100% - 60px) / 2 - 40px); left: 0;
+							top: calc(50% - 40px); left: 0;
 							width: 100%;
 						}
 
 						/* Tape */
 						#Ctrl_PFDDefaultPanelAltitudeTape {
-							height: calc(100% - 60px);
+							top: 60px;
+							height: calc(100% - 120px);
 						}
 						#CtrlGroup_PFDDefaultPanelAltitudeTape {
 							top: calc(50% - 37500px); /* 300px for 400ft. */
@@ -435,8 +468,8 @@
 
 						/* Additional indicators */
 						#Ctrl_PFDDefaultPanelAltitudeAdditionalIndicators {
-							position: absolute; top: 0; right: 0;
-							width: calc(100% + 20px); height: calc(100% - 60px);
+							position: absolute; top: 60px; right: 0;
+							width: calc(100% + 20px); height: calc(100% - 120px);
 							overflow: hidden;
 							pointer-events: none;
 						}
@@ -449,6 +482,11 @@
 								position: absolute; top: unset; right: 0;
 								pointer-events: auto;
 							}
+							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelGroundAltitude {
+								bottom: 1460px; right: -140px;
+								width: 140px; height: 40px; border-top: 2px solid #00000080;
+								background: repeating-linear-gradient(45deg, transparent, transparent 4px, #00000080 5px, #00000080 6px, transparent 7px);
+							}
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude {
 								bottom: 1677.5px; /* Default decision height is 250ft. */
 								width: 20px; height: 20px; clip-path: polygon(100% 50%, 0 100%, 0 0);
@@ -457,10 +495,9 @@
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude.Active {
 								background-color: #E06000;
 							}
-							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelGroundAltitude {
-								bottom: 1460px; left: 20px;
-								width: 140px; height: 40px; border-top: 2px solid #00000080;
-								background: repeating-linear-gradient(45deg, transparent, transparent 4px, #00000080 5px, #00000080 6px, transparent 7px);
+							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelMCPAltitudeCircle {
+								bottom: 1490px; right: -10px;
+								width: 20px; height: 20px; border: 2px solid #C040C0; border-radius: 10px;
 							}
 
 							/* Altitude trend */
@@ -483,7 +520,7 @@
 
 						/* Balloon */
 						#Ctrl_PFDDefaultPanelAltitudeBalloon {
-							position: absolute; top: calc((100% - 60px) / 2 - 35px); right: 0;
+							position: absolute; top: calc(50% - 35px); right: 0;
 							width: 125px; height: 70px;
 							filter: drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000) drop-shadow(0 0 0.5px #000000);
 						}
@@ -530,14 +567,25 @@
 							font-size: 1.75em;
 						}
 
+						/* MCP */
+						#Ctrl_PFDDefaultPanelMCPAltitude {
+							position: absolute; top: 0; left: 0;
+							width: 100%; height: 60px; padding: 5px;
+							text-align: end;
+							display: flex; justify-content: end; align-items: center;
+						}
+						#Label_PFDDefaultPanelMCPAltitude {
+							color: #C040C0; font-size: 2.00em;
+						}
+
 						/* Metric */
-						#Ctrl_PFDDefaultPanelAltitudeMetric {
+						#Ctrl_PFDDefaultPanelMetricAltitude {
 							position: absolute; bottom: 0; left: 0;
 							width: 100%; height: 60px; padding: 5px;
 							text-align: end;
 							display: flex; justify-content: end; align-items: center;
 						}
-						#Label_PFDDefaultPanelAltitudeMetric {
+						#Label_PFDDefaultPanelMetricAltitude {
 							font-size: 2.00em;
 						}
 
@@ -639,14 +687,18 @@
 						#Ctrl_PFDDefaultPanelHeadingAdditionalIndicators .CtrlGroup {
 							width: 100%; height: 100%;
 						}
-						#Ctrl_PFDDefaultPanelBearing {
+						#Ctrl_PFDDefaultPanelHeadingAdditionalIndicators .Ctrl {
 							position: absolute; top: 0; left: calc(50% - 10px);
 							width: 20px; height: 100%;
 							display: flex; justify-content: center;
 						}
 						#Ctrl_PFDDefaultPanelBearing div {
 							width: 20px; height: 20px; clip-path: polygon(0 0, 100% 0, 50% 100%);
-							background-color: #C040C0;
+							background-color: #0090D0;
+							pointer-events: auto;
+						}
+						#Ctrl_PFDDefaultPanelMCPHeadingCircle div {
+							width: 20px; height: 20px; border: 2px solid #C040C0; border-radius: 10px; margin: 10px 0 0 0;
 							pointer-events: auto;
 						}
 
@@ -676,6 +728,17 @@
 						}
 						#Label_PFDDefaultPanelHeadingBalloon {
 							font-size: 2.25em;
+						}
+
+						/* MCP */
+						#Ctrl_PFDDefaultPanelMCPHeading {
+							position: absolute; bottom: 0; left: calc(50% - 35px);
+							width: 70px; height: 40px; padding: 5px;
+							text-align: center;
+							display: flex; justify-content: center; align-items: center;
+						}
+						#Label_PFDDefaultPanelMCPHeading {
+							color: #C040C0; font-size: 2.00em;
 						}
 
 					/* DME */
@@ -956,7 +1019,7 @@
 
 						/* Manual maneuver */
 						#Ctrl_PFDManualManeuver > .CtrlGroup {
-							width: 255px;
+							width: 100%;
 						}
 						#Ctrl_PFDManualManeuver > .CtrlGroup > .Ctrl {
 							height: 110px; margin: 0 0 10px 0;
@@ -964,7 +1027,7 @@
 						#Ctrl_PFDAttitudeManeuver {
 							width: 125px;
 						}
-						#Ctrl_PFDSpeedManeuver, #Ctrl_PFDAltitudeManeuver {
+						#Ctrl_PFDSpeedManeuver, #Ctrl_PFDAltitudeManeuver, #Ctrl_PFDHeadingManeuver {
 							width: 35px;
 						}
 						#Ctrl_PFDManualManeuver > .CtrlGroup > .Ctrl > span {
@@ -992,11 +1055,21 @@
 						#Ctrl_PFDManualManeuver .Ctrl #Ctrl_PFDRollRight {
 							top: 22.5px; left: 90px;
 						}
-						#CtrlGroup_PFDSpeedManeuver, #CtrlGroup_PFDAltitudeManeuver {
+						#CtrlGroup_PFDSpeedManeuver, #CtrlGroup_PFDAltitudeManeuver, #CtrlGroup_PFDHeadingManeuver {
 							flex-direction: column;
 						}
-						#CtrlGroup_PFDSpeedManeuver .Ctrl, #CtrlGroup_PFDAltitudeManeuver .Ctrl {
+						#CtrlGroup_PFDSpeedManeuver .Ctrl,
+						#CtrlGroup_PFDAltitudeManeuver .Ctrl,
+						#CtrlGroup_PFDHeadingManeuver .Ctrl {
 							width: 35px;
+						}
+
+						/* MCP */
+						#Ctrl_PFDMCP .Ctrl {
+							width: 100%; height: 35px; margin: 0 0 10px 0;
+						}
+						#Ctrl_PFDMCP .Textbox {
+							width: 120px;
 						}
 
 						/* Flaps */

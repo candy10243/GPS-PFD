@@ -53,7 +53,7 @@
 						}
 
 					/* Info bar */
-					#CtrlGroup_PFDDefaultPanelFlapsStatus .Progbar {
+					#CtrlGroup_PFDDefaultPanelFlaps .Progbar {
 						border: 1px solid #EEE4D9;
 					}
 					#ProgbarFg_PFDDefaultPanelFlaps {
@@ -80,13 +80,24 @@
 						/* Additional indicators */
 							/* Other speeds */
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelSpeedLimitMin {
-								background-color: #FF4040;
+								background: repeating-linear-gradient(45deg, transparent, transparent 4px, #FF4040 5px, #FF4040 6px, transparent 7px);
 							}
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelSpeedLimitMax {
-								background-color: #FF4040;
+								background: repeating-linear-gradient(135deg, transparent, transparent 4px, #FF4040 5px, #FF4040 6px, transparent 7px);
 							}
 							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelAvgIAS {
-								background-color: #E060E0;
+								background-color: #00A0E0;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelMCPSpeedCircle {
+								border: 2px solid #E060E0;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelV1 div,
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelVR div {
+								background-color: #00C000;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelV1 span,
+							#CtrlGroup_PFDDefaultPanelOtherSpeeds #Ctrl_PFDDefaultPanelVR span {
+								color: #00C000;
 							}
 
 						/* Balloon */
@@ -97,18 +108,26 @@
 							background-color: #485267;
 						}
 
+						/* MCP */
+						#Label_PFDDefaultPanelMCPSpeed {
+							color: #E060E0;
+						}
+
 					/* Altitude */
 						/* Additional indicators */
 							/* Other altitudes */
+							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelGroundAltitude {
+								border-top: 2px solid #EEE4D980;
+								background: repeating-linear-gradient(45deg, transparent, transparent 4px, #EEE4D980 5px, #EEE4D980 6px, transparent 7px);
+							}
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude {
 								background-color: #00C000;
 							}
 							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelDecisionAltitude.Active {
 								background-color: #FF8000;
 							}
-							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelGroundAltitude {
-								border-top: 2px solid #EEE4D980;
-								background: repeating-linear-gradient(45deg, transparent, transparent 4px, #EEE4D980 5px, #EEE4D980 6px, transparent 7px);
+							#CtrlGroup_PFDDefaultPanelOtherAltitudes #Ctrl_PFDDefaultPanelMCPAltitudeCircle {
+								border: 2px solid #E060E0;
 							}
 
 						/* Balloon */
@@ -117,6 +136,11 @@
 						}
 						#Ctrl_PFDDefaultPanelAltitudeBalloon > .CtrlGroup > .Ctrl {
 							background-color: #485267;
+						}
+
+						/* MCP */
+						#Label_PFDDefaultPanelMCPAltitude {
+							color: #E060E0;
 						}
 
 					/* Vertical speed */
@@ -129,7 +153,10 @@
 						/* Additional indicators */
 							/* Other headings */
 							#Ctrl_PFDDefaultPanelBearing div {
-								background-color: #E060E0;
+								background-color: #00A0E0;
+							}
+							#Ctrl_PFDDefaultPanelMCPHeadingCircle div {
+								border: 2px solid #E060E0;
 							}
 
 						/* Balloon */
@@ -138,6 +165,11 @@
 						}
 						#Ctrl_PFDDefaultPanelHeadingBalloon > .CtrlGroup > .Ctrl {
 							background-color: #485267;
+						}
+
+						/* MCP */
+						#Label_PFDDefaultPanelMCPHeading {
+							color: #E060E0;
 						}
 
 					/* Localizer */

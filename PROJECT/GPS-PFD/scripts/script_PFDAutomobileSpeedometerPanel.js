@@ -89,6 +89,18 @@
 							ChangeRotate("Ctrl_PFDAutomobileSpeedometerPanelAvgIAS", 120);
 						}
 
+						// MCP
+						if(PFD.MCP.Speed.IsEnabled == true) {
+							Show("Ctrl_PFDAutomobileSpeedometerPanelMCPSpeedCircle");
+							if(ConvertUnit(PFD.MCP.Speed.Value, "MeterPerSec", Subsystem.I18n.SpeedUnit) <= 120) {
+								ChangeRotate("Ctrl_PFDAutomobileSpeedometerPanelMCPSpeedCircle", -120 + ConvertUnit(PFD.MCP.Speed.Value, "MeterPerSec", Subsystem.I18n.SpeedUnit) * 2);
+							} else {
+								ChangeRotate("Ctrl_PFDAutomobileSpeedometerPanelMCPSpeedCircle", 120);
+							}
+						} else {
+							Fade("Ctrl_PFDAutomobileSpeedometerPanelMCPSpeedCircle");
+						}
+
 					// Drum
 					ChangeTop("RollingDigit_PFDAutomobileSpeedometerPanel1", -45 * (9 - PFD0.Stats.Speed.BalloonDisplay[1]) + "px");
 					ChangeTop("RollingDigit_PFDAutomobileSpeedometerPanel2", -45 * (10 - PFD0.Stats.Speed.BalloonDisplay[2]) + "px");

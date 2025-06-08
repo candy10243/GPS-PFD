@@ -10,7 +10,7 @@
 		<link rel="icon" type="image/png" href="images/Icon_Small.png" />
 		<title>GPS-PFD</title>
 		<meta name="author" content="SAM TOKI STUDIO" />
-		<meta name="version" content="v0.30 (2025/05/25) Beta Test. Since 2024/12/01." />
+		<meta name="version" content="v0.31 (2025/06/08) Beta Test. Since 2024/12/01." />
 		<meta name="description" content="利用 GPS 与加速计，在移动设备上模拟飞机驾驶舱的 PFD。" />
 		<meta name="copyright" content="© 2025 SAM TOKI STUDIO" />
 
@@ -219,29 +219,29 @@
 						<div class="Ctnr" id="Ctnr_PFDDefaultPanelInfoBar">
 							<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelHardwareStatus">
 								<li class="Ctrl" id="Ctrl_PFDDefaultPanelGPS">
-									<span class="InfoBarTitle">GPS</span>
+									<span>GPS</span>
 									<span class="InfoBarValue" id="Label_PFDDefaultPanelGPSValue">未知</span>
 								</li>
 								<li class="Ctrl" id="Ctrl_PFDDefaultPanelAccel">
-									<span class="InfoBarTitle" id="Label_PFDDefaultPanelAccelTitle">加速计</span>
+									<span id="Label_PFDDefaultPanelAccelTitle">加速计</span>
 									<span class="InfoBarValue" id="Label_PFDDefaultPanelAccelValue">未知</span>
 								</li>
 							</ul>
-							<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelAdditionalSpeeds">
+							<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelInfoBarSpeeds">
 								<li class="Ctrl">
-									<span class="InfoBarTitle" id="Label_PFDDefaultPanelGSTitle">地速</span>
+									<span id="Label_PFDDefaultPanelGSTitle">地速</span>
 									<span class="InfoBarValue" id="Label_PFDDefaultPanelGSValue">未知</span>
 								</li>
 								<li class="Ctrl">
-									<span class="InfoBarTitle" id="Label_PFDDefaultPanelAvgGSTitle">平均地速</span>
+									<span id="Label_PFDDefaultPanelAvgGSTitle">平均地速</span>
 									<span class="InfoBarValue" id="Label_PFDDefaultPanelAvgGSValue">未知</span>
 								</li>
 								<li class="Ctrl">
-									<span class="InfoBarTitle" id="Label_PFDDefaultPanelTASTitle">真空速</span>
+									<span id="Label_PFDDefaultPanelTASTitle">真空速</span>
 									<span class="InfoBarValue" id="Label_PFDDefaultPanelTASValue">未知</span>
 								</li>
 								<li class="Ctrl" id="Ctrl_PFDDefaultPanelWind">
-									<span class="InfoBarTitle" id="Label_PFDDefaultPanelWindTitle">风</span>
+									<span id="Label_PFDDefaultPanelWindTitle">风</span>
 									<span class="InfoBarValue" id="Label_PFDDefaultPanelWindValue">未知</span>
 									<div class="Faded" id="PFDDefaultPanelWindDirection" inert="true" title="风向 (相对于您的朝向)" aria-label="风向 (相对于您的朝向)">
 										<div class="Needle" id="Needle_PFDDefaultPanelWindDirection">
@@ -251,9 +251,9 @@
 									</div>
 								</li>
 							</ul>
-							<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelFlapsStatus">
+							<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelFlaps">
 								<li class="Ctrl">
-									<span class="InfoBarTitle" id="Label_PFDDefaultPanelFlapsTitle">襟翼</span>
+									<span id="Label_PFDDefaultPanelFlapsTitle">襟翼</span>
 									<span class="InfoBarValue" id="Label_PFDDefaultPanelFlapsValue">未知</span>
 									<div class="Progbar" title="襟翼指示器" aria-label="襟翼指示器">
 										<div class="ProgbarFg Vertical" id="ProgbarFg_PFDDefaultPanelFlaps"></div>
@@ -264,15 +264,15 @@
 						<div class="Ctnr" id="Ctnr_PFDDefaultPanelFMA1">
 							<ul class="CtrlGroup">
 								<li class="Ctrl">
-									<span class="FMATitle" id="Label_PFDDefaultPanelSpeedModeTitle">速度模式</span>
+									<span id="Label_PFDDefaultPanelSpeedModeTitle">速度模式</span>
 									<span class="FMAValue" id="Label_PFDDefaultPanelSpeedModeValue">未知</span>
 								</li>
 								<li class="Ctrl" id="Ctrl_PFDDefaultPanelAttitudeMode">
-									<span class="FMATitle" id="Label_PFDDefaultPanelAttitudeModeTitle">姿态模式</span>
+									<span id="Label_PFDDefaultPanelAttitudeModeTitle">姿态模式</span>
 									<span class="FMAValue" id="Label_PFDDefaultPanelAttitudeModeValue">未知</span>
 								</li>
 								<li class="Ctrl">
-									<span class="FMATitle" id="Label_PFDDefaultPanelAltitudeModeTitle">高度模式</span>
+									<span id="Label_PFDDefaultPanelAltitudeModeTitle">高度模式</span>
 									<span class="FMAValue" id="Label_PFDDefaultPanelAltitudeModeValue">未知</span>
 								</li>
 							</ul>
@@ -392,9 +392,18 @@
 								</li>
 								<li class="Ctrl" id="Ctrl_PFDDefaultPanelSpeedAdditionalIndicators">
 									<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelOtherSpeeds">
-										<li class="Ctrl" id="Ctrl_PFDDefaultPanelSpeedLimitMin" title="最低限速" aria-label="最低限速"></li>
+										<li class="Ctrl Hidden" id="Ctrl_PFDDefaultPanelSpeedLimitMin" inert="true" title="最低限速" aria-label="最低限速"></li>
 										<li class="Ctrl" id="Ctrl_PFDDefaultPanelSpeedLimitMax" title="最高限速" aria-label="最高限速"></li>
 										<li class="Ctrl" id="Ctrl_PFDDefaultPanelAvgIAS" title="平均表速" aria-label="平均表速"></li>
+										<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelMCPSpeedCircle" inert="true" title="MCP 速度" aria-label="MCP 速度"></li>
+										<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelV1" inert="true" title="V1 (中断起飞速度)" aria-label="V1 (中断起飞速度)">
+											<div></div>
+											<span>V1</span>
+										</li>
+										<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelVR" inert="true" title="VR (抬头速度)" aria-label="VR (抬头速度)">
+											<div></div>
+											<span>R</span>
+										</li>
 									</ul>
 									<div class="Needle Faded" id="Needle_PFDDefaultPanelSpeedTrend" inert="true">
 										<div class="NeedleFg" title="速度趋势" aria-label="速度趋势"></div>
@@ -427,8 +436,11 @@
 										<li class="Ctrl BalloonTail" title="当前表速" aria-label="当前表速"></li>
 									</ul>
 								</li>
-								<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelSpeedMachNumber" inert="true">
-									<span id="Label_PFDDefaultPanelSpeedMachNumber" title="当前表速 (马赫)" aria-label="当前表速 (马赫)">马赫数</span>
+								<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelMCPSpeed" inert="true">
+									<span id="Label_PFDDefaultPanelMCPSpeed" title="MCP 速度" aria-label="MCP 速度">速度</span>
+								</li>
+								<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelMachNumber" inert="true">
+									<span id="Label_PFDDefaultPanelMachNumber" title="当前表速 (马赫)" aria-label="当前表速 (马赫)">马赫数</span>
 								</li>
 							</ul>
 						</div>
@@ -964,8 +976,9 @@
 								</li>
 								<li class="Ctrl" id="Ctrl_PFDDefaultPanelAltitudeAdditionalIndicators">
 									<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelOtherAltitudes">
-										<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelDecisionAltitude" inert="true" title="决断高度" aria-label="决断高度"></li>
 										<li class="Ctrl" id="Ctrl_PFDDefaultPanelGroundAltitude" title="地面高度" aria-label="地面高度"></li>
+										<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelDecisionAltitude" inert="true" title="决断高度" aria-label="决断高度"></li>
+										<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelMCPAltitudeCircle" inert="true" title="MCP 高度" aria-label="MCP 高度"></li>
 									</ul>
 									<div class="Needle Faded" id="Needle_PFDDefaultPanelAltitudeTrend" inert="true">
 										<div class="NeedleFg" title="高度趋势" aria-label="高度趋势"></div>
@@ -1007,8 +1020,11 @@
 										<li class="Ctrl BalloonTail" title="当前高度" aria-label="当前高度"></li>
 									</ul>
 								</li>
-								<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelAltitudeMetric" inert="true">
-									<span id="Label_PFDDefaultPanelAltitudeMetric" title="当前高度 (米)" aria-label="当前高度 (米)">米制高度</span>
+								<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelMCPAltitude" inert="true">
+									<span id="Label_PFDDefaultPanelMCPAltitude" title="MCP 高度" aria-label="MCP 高度">高度</span>
+								</li>
+								<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelMetricAltitude" inert="true">
+									<span id="Label_PFDDefaultPanelMetricAltitude" title="当前高度 (米)" aria-label="当前高度 (米)">米制高度</span>
 								</li>
 							</ul>
 						</div>
@@ -1130,6 +1146,9 @@
 										<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelBearing" inert="true">
 											<div title="导航朝向" aria-label="导航朝向"></div>
 										</li>
+										<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelMCPHeadingCircle" inert="true">
+											<div title="MCP 朝向" aria-label="MCP 朝向"></div>
+										</li>
 									</ul>
 								</li>
 								<li class="Ctrl" id="Ctrl_PFDDefaultPanelHeadingBalloon">
@@ -1139,6 +1158,9 @@
 										</li>
 										<li class="Ctrl BalloonTail" title="当前朝向" aria-label="当前朝向"></li>
 									</ul>
+								</li>
+								<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelMCPHeading" inert="true">
+									<span id="Label_PFDDefaultPanelMCPHeading" title="MCP 朝向" aria-label="MCP 朝向">朝向</span>
 								</li>
 							</ul>
 						</div>
@@ -1215,17 +1237,17 @@
 						<div class="Ctnr" id="Ctnr_PFDHUDPanelFMA1">
 							<ul class="CtrlGroup">
 								<li class="Ctrl">
-									<span class="FMATitle" id="Label_PFDHUDPanelSpeedModeTitle">速度模式</span>
+									<span id="Label_PFDHUDPanelSpeedModeTitle">速度模式</span>
 									<span class="FMAValue" id="Label_PFDHUDPanelSpeedModeValue">未知</span>
 								</li>
 								<li class="Ctrl FMASeparator"></li>
 								<li class="Ctrl" id="Ctrl_PFDHUDPanelAttitudeMode">
-									<span class="FMATitle" id="Label_PFDHUDPanelAttitudeModeTitle">姿态模式</span>
+									<span id="Label_PFDHUDPanelAttitudeModeTitle">姿态模式</span>
 									<span class="FMAValue" id="Label_PFDHUDPanelAttitudeModeValue">未知</span>
 								</li>
 								<li class="Ctrl FMASeparator"></li>
 								<li class="Ctrl">
-									<span class="FMATitle" id="Label_PFDHUDPanelAltitudeModeTitle">高度模式</span>
+									<span id="Label_PFDHUDPanelAltitudeModeTitle">高度模式</span>
 									<span class="FMAValue" id="Label_PFDHUDPanelAltitudeModeValue">未知</span>
 								</li>
 							</ul>
@@ -1561,10 +1583,19 @@
 								</li>
 								<li class="Ctrl" id="Ctrl_PFDHUDPanelSpeedAdditionalIndicators">
 									<ul class="CtrlGroup" id="CtrlGroup_PFDHUDPanelOtherSpeeds">
-										<li class="Ctrl" id="Ctrl_PFDHUDPanelSpeedLimitMin" title="最低限速" aria-label="最低限速"></li>
+										<li class="Ctrl Hidden" id="Ctrl_PFDHUDPanelSpeedLimitMin" inert="true" title="最低限速" aria-label="最低限速"></li>
 										<li class="Ctrl" id="Ctrl_PFDHUDPanelSpeedLimitMax" title="最高限速" aria-label="最高限速"></li>
 										<li class="Ctrl" id="Ctrl_PFDHUDPanelAvgIAS">
 											<div title="平均表速" aria-label="平均表速"></div>
+										</li>
+										<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelMCPSpeedCircle" inert="true" title="MCP 速度" aria-label="MCP 速度"></li>
+										<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelV1" inert="true" title="V1 (中断起飞速度)" aria-label="V1 (中断起飞速度)">
+											<div></div>
+											<span>V1</span>
+										</li>
+										<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelVR" inert="true" title="VR (抬头速度)" aria-label="VR (抬头速度)">
+											<div></div>
+											<span>R</span>
 										</li>
 									</ul>
 									<div class="Needle Faded" id="Needle_PFDHUDPanelSpeedTrend" inert="true">
@@ -1600,8 +1631,11 @@
 										<li class="Ctrl BalloonTail" title="当前表速" aria-label="当前表速"></li>
 									</ul>
 								</li>
-								<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelSpeedMachNumber" inert="true">
-									<span id="Label_PFDHUDPanelSpeedMachNumber" title="当前表速 (马赫)" aria-label="当前表速 (马赫)">马赫数</span>
+								<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelMCPSpeed" inert="true">
+									<span id="Label_PFDHUDPanelMCPSpeed" title="MCP 速度" aria-label="MCP 速度">速度</span>
+								</li>
+								<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelMachNumber" inert="true">
+									<span id="Label_PFDHUDPanelMachNumber" title="当前表速 (马赫)" aria-label="当前表速 (马赫)">马赫数</span>
 								</li>
 								<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelSpeedGS" inert="true">
 									<span id="Label_PFDHUDPanelSpeedGSTitle">地速</span>
@@ -2141,10 +2175,11 @@
 								</li>
 								<li class="Ctrl" id="Ctrl_PFDHUDPanelAltitudeAdditionalIndicators">
 									<ul class="CtrlGroup" id="CtrlGroup_PFDHUDPanelOtherAltitudes">
+										<li class="Ctrl" id="Ctrl_PFDHUDPanelGroundAltitude" title="地面高度" aria-label="地面高度"></li>
 										<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelDecisionAltitude" inert="true">
 											<div title="决断高度" aria-label="决断高度"></div>
 										</li>
-										<li class="Ctrl" id="Ctrl_PFDHUDPanelGroundAltitude" title="地面高度" aria-label="地面高度"></li>
+										<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelMCPAltitudeCircle" inert="true" title="MCP 高度" aria-label="MCP 高度"></li>
 									</ul>
 									<div class="Needle Faded" id="Needle_PFDHUDPanelAltitudeTrend" inert="true">
 										<div class="NeedleFg" title="高度趋势" aria-label="高度趋势"></div>
@@ -2188,8 +2223,11 @@
 										<li class="Ctrl BalloonTail" title="当前高度" aria-label="当前高度"></li>
 									</ul>
 								</li>
-								<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelAltitudeMetric" inert="true">
-									<span id="Label_PFDHUDPanelAltitudeMetric" title="当前高度 (米)" aria-label="当前高度 (米)">米制高度</span>
+								<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelMCPAltitude" inert="true">
+									<span id="Label_PFDHUDPanelMCPAltitude" title="MCP 高度" aria-label="MCP 高度">高度</span>
+								</li>
+								<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelMetricAltitude" inert="true">
+									<span id="Label_PFDHUDPanelMetricAltitude" title="当前高度 (米)" aria-label="当前高度 (米)">米制高度</span>
 								</li>
 							</ul>
 						</div>
@@ -2281,6 +2319,9 @@
 												<div title="导航朝向" aria-label="导航朝向"></div>
 											</div>
 										</li>
+										<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelMCPHeadingCircle" inert="true">
+											<div title="MCP 朝向" aria-label="MCP 朝向"></div>
+										</li>
 									</ul>
 								</li>
 								<li class="Ctrl" id="Ctrl_PFDHUDPanelHeadingBalloon">
@@ -2290,6 +2331,9 @@
 										</li>
 										<li class="Ctrl BalloonTail" title="当前朝向" aria-label="当前朝向"></li>
 									</ul>
+								</li>
+								<li class="Ctrl Faded" id="Ctrl_PFDHUDPanelMCPHeading" inert="true">
+									<span id="Label_PFDHUDPanelMCPHeading" title="MCP 朝向" aria-label="MCP 朝向">朝向</span>
 								</li>
 							</ul>
 						</div>
@@ -2381,6 +2425,9 @@
 										</li>
 										<li class="Ctrl" id="Ctrl_PFDAutomobileSpeedometerPanelAvgIAS">
 											<div title="平均表速" aria-label="平均表速"></div>
+										</li>
+										<li class="Ctrl Faded" id="Ctrl_PFDAutomobileSpeedometerPanelMCPSpeedCircle" inert="true">
+											<div title="MCP 速度" aria-label="MCP 速度"></div>
 										</li>
 									</ul>
 								</li>
@@ -2613,7 +2660,51 @@
 																</li>
 															</ul>
 														</li>
+														<li class="Ctrl" id="Ctrl_PFDHeadingManeuver">
+															<span>朝向</span>
+															<ul class="CtrlGroup" id="CtrlGroup_PFDHeadingManeuver">
+																<li class="Ctrl">
+																	<button class="Button" id="Button_PFDHeadingLeft" disabled="true" onclick="HeadingLeft()">←</button>
+																	<span class="HotkeyIndicator Faded" inert="true">Q</span>
+																</li>
+																<li class="Ctrl">
+																	<button class="Button" id="Button_PFDHeadingRight" disabled="true" onclick="HeadingRight()">→</button>
+																	<span class="HotkeyIndicator Faded" inert="true">E</span>
+																</li>
+															</ul>
+														</li>
 													</ul>
+													<p>微调快捷键：Y-加速，H-减速，I-上升，K-下降。</p>
+												</li>
+												<li class="Ctrl" id="Ctrl_PFDMCP">
+													<h4>MCP</h4>
+													<ul class="CtrlGroup BelowParagraph">
+														<li class="Ctrl">
+															<label for="Checkbox_PFDMCPSpeed">
+																<input class="Checkbox" id="Checkbox_PFDMCPSpeed" type="checkbox" checked="false" onchange="SetEnableMCPSpeed()" />
+																<span>速度：</span>
+																<input class="Textbox" id="Textbox_PFDMCPSpeed" type="number" min="0" max="539" step="1" value="0" onclick="SelectText('Textbox_PFDMCPSpeed')" onchange="SetMCPSpeed()" placeholder="0~539" title="0~539" />
+																<span id="Label_PFDMCPSpeedUnit">节</span>
+															</label>
+														</li>
+														<li class="Ctrl">
+															<label for="Checkbox_PFDMCPAltitude">
+																<input class="Checkbox" id="Checkbox_PFDMCPAltitude" type="checkbox" checked="false" onchange="SetEnableMCPAltitude()" />
+																<span>高度：</span>
+																<input class="Textbox" id="Textbox_PFDMCPAltitude" type="number" min="-2000" max="50000" step="100" value="0" onclick="SelectText('Textbox_PFDMCPAltitude')" onchange="SetMCPAltitude()" placeholder="-2000~50000" title="-2000~50000" />
+																<span id="Label_PFDMCPAltitudeUnit">英尺</span>
+															</label>
+														</li>
+														<li class="Ctrl">
+															<label for="Checkbox_PFDMCPHeading">
+																<input class="Checkbox" id="Checkbox_PFDMCPHeading" type="checkbox" checked="false" onchange="SetEnableMCPHeading()" />
+																<span>朝向：</span>
+																<input class="Textbox" id="Textbox_PFDMCPHeading" type="number" min="0" max="359" step="1" value="0" onclick="SelectText('Textbox_PFDMCPHeading')" onchange="SetMCPHeading()" placeholder="0~359" title="0~359" />
+																<span>度</span>
+															</label>
+														</li>
+													</ul>
+													<p>快捷键：Z-减速，X-加速，B-下降，N-上升，C-左转，V-右转。</p>
 												</li>
 												<li class="Ctrl" id="Ctrl_PFDFlaps">
 													<h4>襟翼</h4>
@@ -2702,6 +2793,15 @@
 															<option value="GPS" selected>GPS</option>
 															<option value="Accel">加速计 (不推荐)</option>
 															<option value="DualChannel">双通道 (GPS 与加速计)</option>
+															<option value="Manual">手动</option>
+														</select>
+													</label>
+												</li>
+												<li class="Ctrl">
+													<label for="Combobox_PFDOptionsHeadingMode">
+														<span>朝向模式：</span>
+														<select class="Combobox" id="Combobox_PFDOptionsHeadingMode" onchange="SetHeadingModeAtPFDOptions()">
+															<option value="GPS" selected>GPS</option>
 															<option value="Manual">手动</option>
 														</select>
 													</label>
@@ -2797,7 +2897,8 @@
 													<p>俯仰：<span id="Label_PFDTechInfoManualPitch">未知</span><br />
 														横滚：<span id="Label_PFDTechInfoManualRoll">未知</span><br />
 														速度：<span id="Label_PFDTechInfoManualSpeed">未知</span><br />
-														高度：<span id="Label_PFDTechInfoManualAltitude">未知</span></p>
+														高度：<span id="Label_PFDTechInfoManualAltitude">未知</span><br />
+														朝向：<span id="Label_PFDTechInfoManualHeading">未知</span></p>
 												</li>
 											</ul>
 										</li>
@@ -2950,6 +3051,23 @@
 								</li>
 								<li class="Ctrl Hidden"></li> <!-- Placeholder for the wider fieldset UI. -->
 							</ul>
+							<h4>起飞</h4>
+							<ul class="CtrlGroup BelowParagraph">
+								<li class="Ctrl">
+									<label for="Textbox_SettingsV1">
+										<span><a href="https://zh.wikipedia.org/wiki/V速度">V<sub>1</sub> (中断起飞速度)</a>：</span>
+										<input class="Textbox Width120" id="Textbox_SettingsV1" type="number" min="0" max="539" step="5" value="140" onclick="SelectText('Textbox_SettingsV1')" onchange="SetV1()" placeholder="0~539" title="0~539" />
+										<span id="Label_SettingsV1Unit">节</span>
+									</label>
+								</li>
+								<li class="Ctrl">
+									<label for="Textbox_SettingsVR">
+										<span>V<sub>R</sub> (抬头速度)：</span>
+										<input class="Textbox Width120" id="Textbox_SettingsVR" type="number" min="0" max="539" step="5" value="145" onclick="SelectText('Textbox_SettingsVR')" onchange="SetVR()" placeholder="0~539" title="0~539" />
+										<span id="Label_SettingsVRUnit">节</span>
+									</label>
+								</li>
+							</ul>
 							<h4>限速</h4>
 							<ul class="CtrlGroup BelowParagraph">
 								<li class="Ctrl">
@@ -3042,6 +3160,22 @@
 								</li>
 								<li class="Ctrl">
 									<a class="Button" href="#Item_SettingsI18n" onclick="ShowIAmHere('Item_SettingsI18n')">切换高度单位...</a>
+								</li>
+							</ul>
+						</fieldset>
+					</li>
+					<li class="Item">
+						<fieldset>
+							<legend>朝向</legend>
+							<ul class="CtrlGroup">
+								<li class="Ctrl">
+									<label for="Combobox_SettingsHeadingMode">
+										<span>模式：</span>
+										<select class="Combobox" id="Combobox_SettingsHeadingMode" onchange="SetHeadingMode()">
+											<option value="GPS" selected>GPS</option>
+											<option value="Manual">手动</option>
+										</select>
+									</label>
 								</li>
 							</ul>
 						</fieldset>
@@ -3561,7 +3695,7 @@
 							<legend>关于</legend>
 							<p>GPS-PFD</p>
 							<p>by SAM TOKI STUDIO</p>
-							<p>版本 v0.30 (<time datetime="2025-05-25" pubdate="pubdate">2025/05/25</time>) Beta Test<br />
+							<p>版本 v0.31 (<time datetime="2025-06-08" pubdate="pubdate">2025/06/08</time>) Beta Test<br />
 								始于 2024/12/01</p>
 							<p class="GreenText Hidden" id="Label_HelpPWANewVersionReady" inert="true">新版本已就绪，将在下次启动时生效。</p>
 							<ul class="CtrlGroup BelowParagraph">
