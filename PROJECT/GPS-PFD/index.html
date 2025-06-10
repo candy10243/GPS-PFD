@@ -2639,11 +2639,11 @@
 															<ul class="CtrlGroup" id="CtrlGroup_PFDSpeedManeuver">
 																<li class="Ctrl">
 																	<button class="Button" id="Button_PFDSpeedUp" disabled="true" onclick="SpeedUp()">↑</button>
-																	<span class="HotkeyIndicator Faded" inert="true">U</span>
+																	<span class="HotkeyIndicator Faded" inert="true">U/Y</span>
 																</li>
 																<li class="Ctrl">
 																	<button class="Button" id="Button_PFDSpeedDown" disabled="true" onclick="SpeedDown()">↓</button>
-																	<span class="HotkeyIndicator Faded" inert="true">J</span>
+																	<span class="HotkeyIndicator Faded" inert="true">J/H</span>
 																</li>
 															</ul>
 														</li>
@@ -2652,11 +2652,11 @@
 															<ul class="CtrlGroup" id="CtrlGroup_PFDAltitudeManeuver">
 																<li class="Ctrl">
 																	<button class="Button" id="Button_PFDAltitudeUp" disabled="true" onclick="AltitudeUp()">↑</button>
-																	<span class="HotkeyIndicator Faded" inert="true">O</span>
+																	<span class="HotkeyIndicator Faded" inert="true">O/I</span>
 																</li>
 																<li class="Ctrl">
 																	<button class="Button" id="Button_PFDAltitudeDown" disabled="true" onclick="AltitudeDown()">↓</button>
-																	<span class="HotkeyIndicator Faded" inert="true">L</span>
+																	<span class="HotkeyIndicator Faded" inert="true">L/K</span>
 																</li>
 															</ul>
 														</li>
@@ -2674,7 +2674,6 @@
 															</ul>
 														</li>
 													</ul>
-													<p>微调快捷键：Y-加速，H-减速，I-上升，K-下降。</p>
 												</li>
 												<li class="Ctrl" id="Ctrl_PFDMCP">
 													<h4>MCP</h4>
@@ -2686,6 +2685,7 @@
 																<input class="Textbox" id="Textbox_PFDMCPSpeed" type="number" min="0" max="539" step="1" value="0" onclick="SelectText('Textbox_PFDMCPSpeed')" onchange="SetMCPSpeed()" placeholder="0~539" title="0~539" />
 																<span id="Label_PFDMCPSpeedUnit">节</span>
 															</label>
+															<span class="HotkeyIndicator Faded" inert="true">Z↔X</span>
 														</li>
 														<li class="Ctrl">
 															<label for="Checkbox_PFDMCPAltitude">
@@ -2694,6 +2694,7 @@
 																<input class="Textbox" id="Textbox_PFDMCPAltitude" type="number" min="-2000" max="50000" step="100" value="0" onclick="SelectText('Textbox_PFDMCPAltitude')" onchange="SetMCPAltitude()" placeholder="-2000~50000" title="-2000~50000" />
 																<span id="Label_PFDMCPAltitudeUnit">英尺</span>
 															</label>
+															<span class="HotkeyIndicator Faded" inert="true">B↔N</span>
 														</li>
 														<li class="Ctrl">
 															<label for="Checkbox_PFDMCPHeading">
@@ -2702,9 +2703,9 @@
 																<input class="Textbox" id="Textbox_PFDMCPHeading" type="number" min="0" max="359" step="1" value="0" onclick="SelectText('Textbox_PFDMCPHeading')" onchange="SetMCPHeading()" placeholder="0~359" title="0~359" />
 																<span>度</span>
 															</label>
+															<span class="HotkeyIndicator Faded" inert="true">C↔V</span>
 														</li>
 													</ul>
-													<p>快捷键：Z-减速，X-加速，B-下降，N-上升，C-左转，V-右转。</p>
 												</li>
 												<li class="Ctrl" id="Ctrl_PFDFlaps">
 													<h4>襟翼</h4>

@@ -1058,9 +1058,11 @@
 						#CtrlGroup_PFDSpeedManeuver, #CtrlGroup_PFDAltitudeManeuver, #CtrlGroup_PFDHeadingManeuver {
 							flex-direction: column;
 						}
-						#CtrlGroup_PFDSpeedManeuver .Ctrl,
-						#CtrlGroup_PFDAltitudeManeuver .Ctrl,
-						#CtrlGroup_PFDHeadingManeuver .Ctrl {
+						#CtrlGroup_PFDSpeedManeuver .Ctrl, #CtrlGroup_PFDAltitudeManeuver .Ctrl, #CtrlGroup_PFDHeadingManeuver .Ctrl {
+							width: 35px;
+						}
+						#CtrlGroup_PFDSpeedManeuver .HotkeyIndicator, #CtrlGroup_PFDAltitudeManeuver .HotkeyIndicator {
+							left: calc(50% - 17.5px);
 							width: 35px;
 						}
 
@@ -1070,6 +1072,10 @@
 						}
 						#Ctrl_PFDMCP .Textbox {
 							width: 120px;
+						}
+						#Ctrl_PFDMCP .HotkeyIndicator {
+							left: calc(50% - 25px);
+							width: 50px;
 						}
 
 						/* Flaps */
