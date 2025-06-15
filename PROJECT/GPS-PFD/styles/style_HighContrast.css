@@ -286,6 +286,9 @@
 
 			/* Menu */
 				/* Sections */
+				#CtrlGroup_PFDMenuCloseButton, #CtrlGroup_PFDMenuContents {
+					width: 318px;
+				}
 				.PFDMenuContent {
 					border-bottom: 1px solid #FFFFFF;
 				}
