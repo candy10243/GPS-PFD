@@ -593,7 +593,12 @@
 
 				// Localizer
 				Fade("Ctnr_PFDDefaultPanelLocalizer");
-				if(PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true && PFD0.Status.GPS.IsHeadingAvailable == true) {
+				if(PFD.Nav.IsEnabled == true &&
+				PFD0.Status.GPS.IsPositionAvailable == true &&
+				(
+					(PFD.Heading.Mode == "GPS" && PFD0.Status.GPS.IsHeadingAvailable == true) ||
+					PFD.Heading.Mode == "Manual"
+				)) {
 					switch(PFD.FlightMode.FlightMode) {
 						case "DepartureGround":
 						case "TakeOff":
