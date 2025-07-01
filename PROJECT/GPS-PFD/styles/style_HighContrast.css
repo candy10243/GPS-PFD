@@ -283,6 +283,18 @@
 								stroke: #FF4040;
 							}
 						}
+					#Ctnr_PFDDefaultPanel .GlideSlopeWarning {
+						background-color: #FF4040;
+						animation: Anim_PFDDefaultPanelGlideSlopeWarning 500ms infinite ease-in-out;
+					}
+						@keyframes Anim_PFDDefaultPanelGlideSlopeWarning {
+							0%, 75%, 100% {
+								background-color: #FF80FF;
+							}
+							25%, 50% {
+								background-color: #FF4040;
+							}
+						}
 
 			/* Menu */
 				/* Sections */
