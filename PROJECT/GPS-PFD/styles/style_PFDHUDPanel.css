@@ -873,6 +873,18 @@
 								background-color: #00FF00;
 							}
 						}
+					#Ctnr_PFDHUDPanel .GlideSlopeWarning {
+						background-color: #00FF00;
+						animation: Anim_PFDHUDPanelGlideSlopeWarning 500ms infinite ease-in-out;
+					}
+						@keyframes Anim_PFDHUDPanelGlideSlopeWarning {
+							0%, 75%, 100% {
+								background-color: #00FF00;
+							}
+							25%, 50% {
+								background-color: #000000;
+							}
+						}
 
 /* Dev */
 #Html.VideoFootageMode #Ctnr_PFDHUDPanelHardwareStatus,

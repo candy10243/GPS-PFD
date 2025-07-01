@@ -350,7 +350,7 @@
 							AlertSystemError("The value of ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, \"Meter\", Subsystem.I18n.AltitudeUnit) \"" + ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit) + "\" in function RefreshHUDPanel is invalid.");
 							break;
 					}
-					if(PFD0.Alert.Active.AltitudeWarning != "") {
+					if(PFD0.Alert.Active.AltitudeWarning != "" && PFD0.Alert.Active.AltitudeWarning != "GlideSlope") {
 						AddClass("Ctrl_PFDHUDPanelAltitudeBalloonBalloon", "Warning");
 					} else {
 						RemoveClass("Ctrl_PFDHUDPanelAltitudeBalloonBalloon", "Warning");
@@ -561,6 +561,11 @@
 								ChangeAnim("PFDHUDPanelGlideSlopePointer", "100ms");
 							} else {
 								ChangeAnim("PFDHUDPanelGlideSlopePointer", "");
+							}
+							if(PFD0.Alert.Active.AltitudeWarning == "GlideSlope") {
+								AddClass("PFDHUDPanelGlideSlopePointer", "GlideSlopeWarning");
+							} else {
+								RemoveClass("PFDHUDPanelGlideSlopePointer", "GlideSlopeWarning");
 							}
 							break;
 						default:

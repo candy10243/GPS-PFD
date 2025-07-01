@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.31,
+		const CurrentVersion = 0.32,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -3846,7 +3846,7 @@
 			case "Land":
 			case "EmergencyReturn":
 				if(PFD0.Stats.Altitude.RadioDisplay >= 60.96 && PFD0.Stats.Altitude.RadioDisplay <= 304.8) {
-					return PFD0.Stats.Nav.GlideSlopeDeviation < -0.7;
+					return PFD0.Stats.Nav.GlideSlopeDeviation < -0.455; // 2 dots (full deviation) is 0.7 degrees. So 1.3 dots is 0.455 degrees.
 				} else {
 					return false;
 				}
