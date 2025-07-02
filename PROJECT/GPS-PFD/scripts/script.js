@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.32,
+		const CurrentVersion = 0.33,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -1097,7 +1097,8 @@
 				PFD0.Stats.Speed.AvgGSDisplay += (PFD0.Stats.Speed.AvgGS - PFD0.Stats.Speed.AvgGSDisplay) / 50 * ((PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime) / 30);
 
 				// TAS
-				if(PFD0.Status.GPS.IsHeadingAvailable == true) {
+				if((PFD.Heading.Mode == "GPS" && PFD0.Status.GPS.IsHeadingAvailable == true) ||
+				PFD.Heading.Mode == "Manual") {
 					PFD0.Stats.Speed.Wind.Heading = PFD.Speed.Wind.Direction + 180;
 					if(PFD0.Stats.Speed.Wind.Heading >= 360) {
 						PFD0.Stats.Speed.Wind.Heading -= 360;

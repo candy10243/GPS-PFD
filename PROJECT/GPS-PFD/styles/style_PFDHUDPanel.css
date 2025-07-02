@@ -887,22 +887,9 @@
 						}
 
 /* Dev */
-#Html.VideoFootageMode #Ctnr_PFDHUDPanelHardwareStatus,
-#Html.VideoFootageMode #Ctnr_PFDHUDPanelFMA1 .Ctrl:not(.FMASeparator),
-#Html.VideoFootageMode #Ctnr_PFDHUDPanelFMA2,
-#Html.VideoFootageMode #Progring_PFDHUDPanelAttitudeRoll,
 #Html.VideoFootageMode #PFDHUDPanelAttitudeRollPointer,
 #Html.VideoFootageMode #Ctrl_PFDHUDPanelAttitudeAircraftSymbol,
-#Html.VideoFootageMode #Ctrl_PFDHUDPanelAvgIAS,
-#Html.VideoFootageMode #Ctrl_PFDHUDPanelSpeedGS,
-#Html.VideoFootageMode #Ctnr_PFDHUDPanelHeading,
-#Html.VideoFootageMode #Ctnr_PFDHUDPanelWind,
-#Html.VideoFootageMode #Ctnr_PFDHUDPanelDME,
-#Html.VideoFootageMode #Ctnr_PFDHUDPanelLocalizer,
-#Html.VideoFootageMode #Ctnr_PFDHUDPanelGlideSlope,
-#Html.VideoFootageMode #Ctnr_PFDHUDPanelMarkerBeacon,
-#Html.VideoFootageMode #Ctnr_PFDHUDPanelRadioAltitude,
-#Html.VideoFootageMode #Ctnr_PFDHUDPanelWarning { /* .Faded */
+#Html.VideoFootageMode #Ctrl_PFDHUDPanelAvgIAS { /* .Faded */
 	opacity: 0 !important;
 	pointer-events: none !important;
 }

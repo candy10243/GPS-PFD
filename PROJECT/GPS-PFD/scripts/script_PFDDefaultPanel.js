@@ -44,7 +44,8 @@
 				}
 				if(PFD.Speed.Wind.Speed > 0) {
 					ChangeText("Label_PFDDefaultPanelWindValue", PFD.Speed.Wind.Direction.toString().padStart(3, "0") + "°/" + ConvertUnit(PFD.Speed.Wind.Speed, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
-					if(PFD0.Status.GPS.IsHeadingAvailable == true) {
+					if((PFD.Heading.Mode == "GPS" && PFD0.Status.GPS.IsHeadingAvailable == true) ||
+					PFD.Heading.Mode == "Manual") {
 						Show("PFDDefaultPanelWindDirection");
 						ChangeRotate("Needle_PFDDefaultPanelWindDirection", PFD0.Stats.Speed.Wind.RelativeHeading);
 					} else {
@@ -694,7 +695,10 @@
 					(PFD.Altitude.Mode == "DualChannel" && (PFD0.Status.GPS.IsAltitudeAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
 					PFD.Altitude.Mode == "Manual"
 				) &&
-				PFD0.Status.GPS.IsHeadingAvailable == true) {
+				(
+					(PFD.Heading.Mode == "GPS" && PFD0.Status.GPS.IsHeadingAvailable == true) ||
+					PFD.Heading.Mode == "Manual"
+				)) {
 					switch(PFD.FlightMode.FlightMode) {
 						case "DepartureGround":
 						case "TakeOff":
