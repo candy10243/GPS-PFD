@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.33,
+		const CurrentVersion = 0.34,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -3675,11 +3675,14 @@
 	function CalcTAS(GS, WindRelativeHeading, WindSpeed, VerticalSpeed) {
 		let HorizontalTAS = 0, TAS = 0;
 		if(WindRelativeHeading != null) {
-			HorizontalTAS = GS + WindSpeed * Math.cos(WindRelativeHeading * (Math.PI / 180));
+			HorizontalTAS = GS - WindSpeed * Math.cos(WindRelativeHeading * (Math.PI / 180));
 		} else {
 			HorizontalTAS = GS;
 		}
 		TAS = Math.sqrt(Math.pow(HorizontalTAS, 2) + Math.pow(VerticalSpeed, 2));
+		if(HorizontalTAS < 0) {
+			TAS *= -1;
+		}
 		return TAS;
 	}
 	function CalcOutsideAirTemperature(Altitude, AirportAltitude, AirportTemperature) { // Air temperature drops 2 Celsius for each 1000 feet. (https://aviation.stackexchange.com/a/44763)
@@ -3714,6 +3717,9 @@
 				OutsideAirPressure = CalcOutsideAirPressure(Altitude, QNH, OutsideAirTemperature);
 				OutsideAirDensity = CalcOutsideAirDensity(OutsideAirTemperature, OutsideAirPressure, RelativeHumidity);
 				IAS = 340.3 * Math.sqrt(5 * (Math.pow(OutsideAirDensity / 2 * Math.pow(TAS, 2) / 101325 + 1, 2 / 7) - 1));
+				if(TAS < 0) {
+					IAS *= -1;
+				}
 				break;
 			case "UseTASDirectly":
 				IAS = TAS;
