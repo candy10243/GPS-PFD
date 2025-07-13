@@ -1092,7 +1092,7 @@
 				if(PFD0.Stats.Speed.Speed > 0) {
 					PFD0.Stats.Speed.Pitch = Math.asin(CheckRangeAndCorrect(PFD0.Stats.Speed.Vertical / PFD0.Stats.Speed.Speed, -1, 1)) / (Math.PI / 180);
 				} else {
-					PFD0.Stats.Speed.Pitch = 90;
+					PFD0.Stats.Speed.Pitch = 0;
 				}
 
 				// GS
