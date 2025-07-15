@@ -1989,7 +1989,7 @@
 					ChangeDisabled("Button_SettingsAirportCoordinatesSwap", true);
 				}
 				ChangeValue("Combobox_SettingsETACalcMethod", PFD.Nav.ETACalcMethod);
-				ChangeValue("Textbox_SettingsGlideSlopeAngle", PFD.Nav.GlideSlopeAngle.toFixed(1));
+				ChangeValue("Textbox_SettingsGlideSlopeAngle", PFD.Nav.GlideSlopeAngle.toFixed(2));
 				ChangeValue("Textbox_SettingsOuterMarkerDistance", ConvertUnit(PFD.Nav.MarkerBeaconDistance.OuterMarker, "Meter", Subsystem.I18n.DistanceUnit).toFixed(2));
 				ChangeValue("Textbox_SettingsMiddleMarkerDistance", ConvertUnit(PFD.Nav.MarkerBeaconDistance.MiddleMarker, "Meter", Subsystem.I18n.DistanceUnit).toFixed(2));
 				ChangeValue("Textbox_SettingsInnerMarkerDistance", ConvertUnit(PFD.Nav.MarkerBeaconDistance.InnerMarker, "Meter", Subsystem.I18n.DistanceUnit).toFixed(2));
@@ -2632,7 +2632,7 @@
 			RefreshPFD();
 		}
 		function SetGlideSlopeAngle() {
-			PFD.Nav.GlideSlopeAngle = CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsGlideSlopeAngle") * 10) / 10, 0, 5);
+			PFD.Nav.GlideSlopeAngle = CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_SettingsGlideSlopeAngle") * 100) / 100, 0, 5);
 			RefreshPFD();
 		}
 		function SetOuterMarkerDistance() {
