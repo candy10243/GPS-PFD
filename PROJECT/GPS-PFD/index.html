@@ -10,7 +10,7 @@
 		<link rel="icon" type="image/png" href="images/Icon_Small.png" />
 		<title>GPS-PFD</title>
 		<meta name="author" content="SAM TOKI STUDIO" />
-		<meta name="version" content="v0.34 (2025/07/05) Beta Test. Since 2024/12/01." />
+		<meta name="version" content="v0.35 (2025/07/17) Beta Test. Since 2024/12/01." />
 		<meta name="description" content="利用 GPS 与加速计，在移动设备上模拟飞机驾驶舱的 PFD。" />
 		<meta name="copyright" content="© 2025 SAM TOKI STUDIO" />
 
@@ -2682,8 +2682,11 @@
 															<label for="Checkbox_PFDMCPSpeed">
 																<input class="Checkbox" id="Checkbox_PFDMCPSpeed" type="checkbox" checked="false" onchange="SetEnableMCPSpeed()" />
 																<span>速度：</span>
-																<input class="Textbox" id="Textbox_PFDMCPSpeed" type="number" min="0" max="539" step="1" value="0" onclick="SelectText('Textbox_PFDMCPSpeed')" onchange="SetMCPSpeed()" placeholder="0~539" title="0~539" />
-																<span id="Label_PFDMCPSpeedUnit">节</span>
+																<input class="Textbox Width100" id="Textbox_PFDMCPSpeed" type="number" min="0" max="539" step="1" value="0" onclick="SelectText('Textbox_PFDMCPSpeed')" onchange="SetMCPSpeed()" placeholder="0~539" title="0~539" />
+																<select class="Combobox Width100" id="Combobox_PFDMCPSpeedMode" onchange="SetMCPSpeedMode()">
+																	<option id="ComboboxOption_PFDMCPSpeedModeIAS" value="IAS" selected>节</option>
+																	<option value="MachNumber">马赫</option>
+																</select>
 															</label>
 															<span class="HotkeyIndicator Faded" inert="true">Z↔X</span>
 														</li>
@@ -2691,7 +2694,7 @@
 															<label for="Checkbox_PFDMCPAltitude">
 																<input class="Checkbox" id="Checkbox_PFDMCPAltitude" type="checkbox" checked="false" onchange="SetEnableMCPAltitude()" />
 																<span>高度：</span>
-																<input class="Textbox" id="Textbox_PFDMCPAltitude" type="number" min="-2000" max="50000" step="100" value="0" onclick="SelectText('Textbox_PFDMCPAltitude')" onchange="SetMCPAltitude()" placeholder="-2000~50000" title="-2000~50000" />
+																<input class="Textbox Width100" id="Textbox_PFDMCPAltitude" type="number" min="-2000" max="50000" step="100" value="0" onclick="SelectText('Textbox_PFDMCPAltitude')" onchange="SetMCPAltitude()" placeholder="-2000~50000" title="-2000~50000" />
 																<span id="Label_PFDMCPAltitudeUnit">英尺</span>
 															</label>
 															<span class="HotkeyIndicator Faded" inert="true">B↔N</span>
@@ -2700,7 +2703,7 @@
 															<label for="Checkbox_PFDMCPHeading">
 																<input class="Checkbox" id="Checkbox_PFDMCPHeading" type="checkbox" checked="false" onchange="SetEnableMCPHeading()" />
 																<span>朝向：</span>
-																<input class="Textbox" id="Textbox_PFDMCPHeading" type="number" min="0" max="359" step="1" value="0" onclick="SelectText('Textbox_PFDMCPHeading')" onchange="SetMCPHeading()" placeholder="0~359" title="0~359" />
+																<input class="Textbox Width100" id="Textbox_PFDMCPHeading" type="number" min="0" max="359" step="1" value="0" onclick="SelectText('Textbox_PFDMCPHeading')" onchange="SetMCPHeading()" placeholder="0~359" title="0~359" />
 																<span>度</span>
 															</label>
 															<span class="HotkeyIndicator Faded" inert="true">C↔V</span>
@@ -3700,7 +3703,7 @@
 							<legend>关于</legend>
 							<p>GPS-PFD</p>
 							<p>by SAM TOKI STUDIO</p>
-							<p>版本 v0.34 (<time datetime="2025-07-05" pubdate="pubdate">2025/07/05</time>) Beta Test<br />
+							<p>版本 v0.35 (<time datetime="2025-07-17" pubdate="pubdate">2025/07/17</time>) Beta Test<br />
 								始于 2024/12/01</p>
 							<p class="GreenText Hidden" id="Label_HelpPWANewVersionReady" inert="true">新版本已就绪，将在下次启动时生效。</p>
 							<ul class="CtrlGroup BelowParagraph">
