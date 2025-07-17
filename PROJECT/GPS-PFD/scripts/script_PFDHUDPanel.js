@@ -155,7 +155,7 @@
 							// MCP
 							if(PFD.MCP.Speed.IsEnabled == true) {
 								Show("Ctrl_PFDHUDPanelMCPSpeedCircle");
-								ChangeBottom("Ctrl_PFDHUDPanelMCPSpeedCircle", 5 * ConvertUnit(PFD.MCP.Speed.Value, "MeterPerSec", Subsystem.I18n.SpeedUnit) - 10 + "px");
+								ChangeBottom("Ctrl_PFDHUDPanelMCPSpeedCircle", 5 * ConvertUnit(PFD.MCP.Speed.IAS, "MeterPerSec", Subsystem.I18n.SpeedUnit) - 10 + "px");
 							} else {
 								Fade("Ctrl_PFDHUDPanelMCPSpeedCircle");
 							}
@@ -204,7 +204,17 @@
 					// MCP
 					if(PFD.MCP.Speed.IsEnabled == true) {
 						Show("Ctrl_PFDHUDPanelMCPSpeed");
-						ChangeText("Label_PFDHUDPanelMCPSpeed", ConvertUnit(PFD.MCP.Speed.Value, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
+						switch(PFD.MCP.Speed.Mode) {
+							case "IAS":
+								ChangeText("Label_PFDHUDPanelMCPSpeed", ConvertUnit(PFD.MCP.Speed.IAS, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
+								break;
+							case "MachNumber":
+								ChangeText("Label_PFDHUDPanelMCPSpeed", PFD.MCP.Speed.MachNumber.toFixed(3).replace("0.", "."));
+								break;
+							default:
+								AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function RefreshHUDPanel is invalid.");
+								break;
+						}
 					}
 
 					// Mach number

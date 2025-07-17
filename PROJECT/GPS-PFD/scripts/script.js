@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.34,
+		const CurrentVersion = 0.35,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -202,7 +202,7 @@
 			},
 			MCP: {
 				Speed: {
-					IsEnabled: false, Value: 0
+					IsEnabled: false, Mode: "IAS", IAS: 0, MachNumber: 0
 				},
 				Altitude: {
 					IsEnabled: false, Value: 0
@@ -704,9 +704,23 @@
 			ChangeValue("Combobox_SettingsSpeedUnit", Subsystem.I18n.SpeedUnit);
 			switch(Subsystem.I18n.SpeedUnit) {
 				case "KilometerPerHour":
-					ChangeMax("Textbox_PFDMCPSpeed", "999");
-					ChangePlaceholder("Textbox_PFDMCPSpeed", "0~999");
-					ChangeTooltip("Textbox_PFDMCPSpeed", "0~999");
+					switch(PFD.MCP.Speed.Mode) {
+						case "IAS":
+							ChangeMax("Textbox_PFDMCPSpeed", "999");
+							ChangeStep("Textbox_PFDMCPSpeed", "1");
+							ChangePlaceholder("Textbox_PFDMCPSpeed", "0~999");
+							ChangeTooltip("Textbox_PFDMCPSpeed", "0~999");
+							break;
+						case "MachNumber":
+							ChangeMax("Textbox_PFDMCPSpeed", "0.999");
+							ChangeStep("Textbox_PFDMCPSpeed", "0.01");
+							ChangePlaceholder("Textbox_PFDMCPSpeed", "0~0.999");
+							ChangeTooltip("Textbox_PFDMCPSpeed", "0~0.999");
+							break;
+						default:
+							AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function RefreshSubsystem is invalid.");
+							break;
+					}
 					ChangeMax("Textbox_SettingsWindSpeed", "999");
 					ChangePlaceholder("Textbox_SettingsWindSpeed", "0~999");
 					ChangeTooltip("Textbox_SettingsWindSpeed", "0~999");
@@ -723,9 +737,23 @@
 					ChangeTooltip("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "20~999");
 					break;
 				case "MilePerHour":
-					ChangeMax("Textbox_PFDMCPSpeed", "621");
-					ChangePlaceholder("Textbox_PFDMCPSpeed", "0~621");
-					ChangeTooltip("Textbox_PFDMCPSpeed", "0~621");
+					switch(PFD.MCP.Speed.Mode) {
+						case "IAS":
+							ChangeMax("Textbox_PFDMCPSpeed", "621");
+							ChangeStep("Textbox_PFDMCPSpeed", "1");
+							ChangePlaceholder("Textbox_PFDMCPSpeed", "0~621");
+							ChangeTooltip("Textbox_PFDMCPSpeed", "0~621");
+							break;
+						case "MachNumber":
+							ChangeMax("Textbox_PFDMCPSpeed", "0.999");
+							ChangeStep("Textbox_PFDMCPSpeed", "0.01");
+							ChangePlaceholder("Textbox_PFDMCPSpeed", "0~0.999");
+							ChangeTooltip("Textbox_PFDMCPSpeed", "0~0.999");
+							break;
+						default:
+							AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function RefreshSubsystem is invalid.");
+							break;
+					}
 					ChangeMax("Textbox_SettingsWindSpeed", "621");
 					ChangePlaceholder("Textbox_SettingsWindSpeed", "0~621");
 					ChangeTooltip("Textbox_SettingsWindSpeed", "0~621");
@@ -742,9 +770,23 @@
 					ChangeTooltip("Textbox_SettingsSpeedLimitMaxOnFlapsFull", "12~621");
 					break;
 				case "Knot":
-					ChangeMax("Textbox_PFDMCPSpeed", "539");
-					ChangePlaceholder("Textbox_PFDMCPSpeed", "0~539");
-					ChangeTooltip("Textbox_PFDMCPSpeed", "0~539");
+					switch(PFD.MCP.Speed.Mode) {
+						case "IAS":
+							ChangeMax("Textbox_PFDMCPSpeed", "539");
+							ChangeStep("Textbox_PFDMCPSpeed", "1");
+							ChangePlaceholder("Textbox_PFDMCPSpeed", "0~539");
+							ChangeTooltip("Textbox_PFDMCPSpeed", "0~539");
+							break;
+						case "MachNumber":
+							ChangeMax("Textbox_PFDMCPSpeed", "0.999");
+							ChangeStep("Textbox_PFDMCPSpeed", "0.01");
+							ChangePlaceholder("Textbox_PFDMCPSpeed", "0~0.999");
+							ChangeTooltip("Textbox_PFDMCPSpeed", "0~0.999");
+							break;
+						default:
+							AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function RefreshSubsystem is invalid.");
+							break;
+					}
 					ChangeMax("Textbox_SettingsWindSpeed", "539");
 					ChangePlaceholder("Textbox_SettingsWindSpeed", "0~539");
 					ChangeTooltip("Textbox_SettingsWindSpeed", "0~539");
@@ -764,7 +806,7 @@
 					AlertSystemError("The value of Subsystem.I18n.SpeedUnit \"" + Subsystem.I18n.SpeedUnit + "\" in function RefreshSubsystem is invalid.");
 					break;
 			}
-			ChangeText("Label_PFDMCPSpeedUnit", Translate(Subsystem.I18n.SpeedUnit));
+			ChangeText("ComboboxOption_PFDMCPSpeedModeIAS", Translate(Subsystem.I18n.SpeedUnit));
 			ChangeText("Label_SettingsWindSpeedUnit", Translate(Subsystem.I18n.SpeedUnit));
 			ChangeText("Label_SettingsV1Unit", Translate(Subsystem.I18n.SpeedUnit));
 			ChangeText("Label_SettingsVRUnit", Translate(Subsystem.I18n.SpeedUnit));
@@ -1171,6 +1213,48 @@
 					case "Land":
 					case "ArrivalGround":
 						PFD0.Stats.Speed.MachNumber = CalcMachNumber(PFD0.Stats.Speed.TASDisplay, PFD0.Stats.Altitude.TapeDisplay, PFD.Altitude.AirportElevation.Arrival, PFD.Speed.AirportTemperature.Arrival);
+						break;
+					default:
+						AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshPFDData is invalid.");
+						break;
+				}
+
+			// MCP
+				// Speed
+				switch(PFD.FlightMode.FlightMode) {
+					case "DepartureGround":
+					case "TakeOff":
+					case "EmergencyReturn":
+						switch(PFD.MCP.Speed.Mode) {
+							case "IAS":
+								PFD.MCP.Speed.MachNumber = CalcMCPMachNumberFromIAS(PFD.Speed.IASAlgorithm, PFD.MCP.Speed.IAS, PFD0.Stats.Altitude.TapeDisplay,
+									PFD.Altitude.AirportElevation.Departure, PFD.Speed.AirportTemperature.Departure, PFD.Speed.RelativeHumidity.Departure, PFD.Speed.QNH.Departure);
+								break;
+							case "MachNumber":
+								PFD.MCP.Speed.IAS = CalcMCPIASFromMachNumber(PFD.Speed.IASAlgorithm, PFD.MCP.Speed.MachNumber, PFD0.Stats.Altitude.TapeDisplay,
+									PFD.Altitude.AirportElevation.Departure, PFD.Speed.AirportTemperature.Departure, PFD.Speed.RelativeHumidity.Departure, PFD.Speed.QNH.Departure);
+								break;
+							default:
+								AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function RefreshPFDData is invalid.");
+								break;
+						}
+						break;
+					case "Cruise":
+					case "Land":
+					case "ArrivalGround":
+						switch(PFD.MCP.Speed.Mode) {
+							case "IAS":
+								PFD.MCP.Speed.MachNumber = CalcMCPMachNumberFromIAS(PFD.Speed.IASAlgorithm, PFD.MCP.Speed.IAS, PFD0.Stats.Altitude.TapeDisplay,
+									PFD.Altitude.AirportElevation.Arrival, PFD.Speed.AirportTemperature.Arrival, PFD.Speed.RelativeHumidity.Arrival, PFD.Speed.QNH.Arrival);
+								break;
+							case "MachNumber":
+								PFD.MCP.Speed.IAS = CalcMCPIASFromMachNumber(PFD.Speed.IASAlgorithm, PFD.MCP.Speed.MachNumber, PFD0.Stats.Altitude.TapeDisplay,
+									PFD.Altitude.AirportElevation.Arrival, PFD.Speed.AirportTemperature.Arrival, PFD.Speed.RelativeHumidity.Arrival, PFD.Speed.QNH.Arrival);
+								break;
+							default:
+								AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function RefreshPFDData is invalid.");
+								break;
+						}
 						break;
 					default:
 						AlertSystemError("The value of PFD.FlightMode.FlightMode \"" + PFD.FlightMode.FlightMode + "\" in function RefreshPFDData is invalid.");
@@ -1824,7 +1908,45 @@
 
 					// MCP
 					ChangeChecked("Checkbox_PFDMCPSpeed", PFD.MCP.Speed.IsEnabled);
-					ChangeValue("Textbox_PFDMCPSpeed", ConvertUnit(PFD.MCP.Speed.Value, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
+					switch(PFD.MCP.Speed.Mode) {
+						case "IAS":
+							switch(Subsystem.I18n.SpeedUnit) {
+								case "KilometerPerHour":
+									ChangeMax("Textbox_PFDMCPSpeed", "999");
+									ChangeStep("Textbox_PFDMCPSpeed", "1");
+									ChangePlaceholder("Textbox_PFDMCPSpeed", "0~999");
+									ChangeTooltip("Textbox_PFDMCPSpeed", "0~999");
+									break;
+								case "MilePerHour":
+									ChangeMax("Textbox_PFDMCPSpeed", "621");
+									ChangeStep("Textbox_PFDMCPSpeed", "1");
+									ChangePlaceholder("Textbox_PFDMCPSpeed", "0~621");
+									ChangeTooltip("Textbox_PFDMCPSpeed", "0~621");
+									break;
+								case "Knot":
+									ChangeMax("Textbox_PFDMCPSpeed", "539");
+									ChangeStep("Textbox_PFDMCPSpeed", "1");
+									ChangePlaceholder("Textbox_PFDMCPSpeed", "0~539");
+									ChangeTooltip("Textbox_PFDMCPSpeed", "0~539");
+									break;
+								default:
+									AlertSystemError("The value of Subsystem.I18n.SpeedUnit \"" + Subsystem.I18n.SpeedUnit + "\" in function RefreshPFD is invalid.");
+									break;
+							}
+							ChangeValue("Textbox_PFDMCPSpeed", ConvertUnit(PFD.MCP.Speed.IAS, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
+							break;
+						case "MachNumber":
+							ChangeMax("Textbox_PFDMCPSpeed", "0.999");
+							ChangeStep("Textbox_PFDMCPSpeed", "0.01");
+							ChangePlaceholder("Textbox_PFDMCPSpeed", "0~0.999");
+							ChangeTooltip("Textbox_PFDMCPSpeed", "0~0.999");
+							ChangeValue("Textbox_PFDMCPSpeed", PFD.MCP.Speed.MachNumber.toFixed(3).replace("0.", "."));
+							break;
+						default:
+							AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function RefreshPFD is invalid.");
+							break;
+					}
+					ChangeValue("Combobox_PFDMCPSpeedMode", PFD.MCP.Speed.Mode);
 					ChangeChecked("Checkbox_PFDMCPAltitude", PFD.MCP.Altitude.IsEnabled);
 					ChangeValue("Textbox_PFDMCPAltitude", ConvertUnit(PFD.MCP.Altitude.Value, "Meter", Subsystem.I18n.AltitudeUnit).toFixed(0));
 					ChangeChecked("Checkbox_PFDMCPHeading", PFD.MCP.Heading.IsEnabled);
@@ -2312,7 +2434,21 @@
 					RefreshPFD();
 				}
 				function SetMCPSpeed() {
-					PFD.MCP.Speed.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPSpeed")), Subsystem.I18n.SpeedUnit, "MeterPerSec"), 0, 277.5);
+					switch(PFD.MCP.Speed.Mode) {
+						case "IAS":
+							PFD.MCP.Speed.IAS = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPSpeed")), Subsystem.I18n.SpeedUnit, "MeterPerSec"), 0, 277.5);
+							break;
+						case "MachNumber":
+							PFD.MCP.Speed.MachNumber = CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_PFDMCPSpeed") * 1000) / 1000, 0, 0.999);
+							break;
+						default:
+							AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function SetMCPSpeed is invalid.");
+							break;
+					}
+					RefreshPFD();
+				}
+				function SetMCPSpeedMode() {
+					PFD.MCP.Speed.Mode = ReadValue("Combobox_PFDMCPSpeedMode");
 					RefreshPFD();
 				}
 				function SetEnableMCPAltitude() {
@@ -3059,7 +3195,17 @@
 				// MCP
 				case "Z":
 					if(PFD.MCP.Speed.IsEnabled == true) {
-						PFD.MCP.Speed.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPSpeed")) - 1, Subsystem.I18n.SpeedUnit, "MeterPerSec"), 0, 277.5);
+						switch(PFD.MCP.Speed.Mode) {
+							case "IAS":
+								PFD.MCP.Speed.IAS = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPSpeed")) - 1, Subsystem.I18n.SpeedUnit, "MeterPerSec"), 0, 277.5);
+								break;
+							case "MachNumber":
+								PFD.MCP.Speed.MachNumber = CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_PFDMCPSpeed") * 1000) / 1000 - 0.01, 0, 0.999);
+								break;
+							default:
+								AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function Event Listener Keydown is invalid.");
+								break;
+						}
 						RefreshPFD();
 					}
 					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
@@ -3068,7 +3214,17 @@
 					break;
 				case "X":
 					if(PFD.MCP.Speed.IsEnabled == true) {
-						PFD.MCP.Speed.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPSpeed")) + 1, Subsystem.I18n.SpeedUnit, "MeterPerSec"), 0, 277.5);
+						switch(PFD.MCP.Speed.Mode) {
+							case "IAS":
+								PFD.MCP.Speed.IAS = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPSpeed")) + 1, Subsystem.I18n.SpeedUnit, "MeterPerSec"), 0, 277.5);
+								break;
+							case "MachNumber":
+								PFD.MCP.Speed.MachNumber = CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_PFDMCPSpeed") * 1000) / 1000 + 0.01, 0, 0.999);
+								break;
+							default:
+								AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function Event Listener Keydown is invalid.");
+								break;
+						}
 						RefreshPFD();
 					}
 					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
@@ -3745,6 +3901,40 @@
 		OutsideAirTemperature = CalcOutsideAirTemperature(Altitude, AirportAltitude, AirportTemperature);
 		SoundSpeed = 331.15 + 0.61 * ConvertUnit(OutsideAirTemperature, "Kelvin", "Celsius");
 		return TAS / SoundSpeed;
+	}
+	function CalcMCPIASFromMachNumber(IASAlgorithm, MachNumber, Altitude, AirportAltitude, AirportTemperature, RelativeHumidity, QNH) {
+		let OutsideAirTemperature = 0, SoundSpeed = 0, TAS = 0;
+		OutsideAirTemperature = CalcOutsideAirTemperature(Altitude, AirportAltitude, AirportTemperature);
+		SoundSpeed = 331.15 + 0.61 * ConvertUnit(OutsideAirTemperature, "Kelvin", "Celsius");
+		TAS = SoundSpeed * MachNumber;
+		return CalcIAS(IASAlgorithm, TAS, Altitude, AirportAltitude, AirportTemperature, RelativeHumidity, QNH, false, null);
+	}
+	function CalcMCPMachNumberFromIAS(IASAlgorithm, IAS, Altitude, AirportAltitude, AirportTemperature, RelativeHumidity, QNH) {
+		let OutsideAirTemperature = 0, OutsideAirPressure = 0, OutsideAirDensity = 0, TAS = 0;
+		switch(IASAlgorithm) {
+			case "SimpleAlgorithm":
+				TAS = IAS * (1 + 0.02 * (Altitude / 304.8));
+				break;
+			case "AdvancedAlgorithmA":
+				OutsideAirTemperature = CalcOutsideAirTemperature(Altitude, AirportAltitude, AirportTemperature);
+				OutsideAirPressure = CalcOutsideAirPressure(Altitude, QNH, OutsideAirTemperature);
+				OutsideAirDensity = CalcOutsideAirDensity(OutsideAirTemperature, OutsideAirPressure, RelativeHumidity);
+				TAS = IAS / Math.sqrt(OutsideAirDensity / 1.225);
+				break;
+			case "AdvancedAlgorithmB":
+				OutsideAirTemperature = CalcOutsideAirTemperature(Altitude, AirportAltitude, AirportTemperature);
+				OutsideAirPressure = CalcOutsideAirPressure(Altitude, QNH, OutsideAirTemperature);
+				OutsideAirDensity = CalcOutsideAirDensity(OutsideAirTemperature, OutsideAirPressure, RelativeHumidity);
+				TAS = Math.sqrt((Math.pow(Math.pow(IAS / 340.3, 2) / 5 + 1, 7 / 2) - 1) / OutsideAirDensity * 2 * 101325);
+				break;
+			case "UseTASDirectly":
+				TAS = IAS;
+				break;
+			default:
+				AlertSystemError("The value of IASAlgorithm \"" + IASAlgorithm + "\" in function CalcMCPMachNumberFromIAS is invalid.");
+				break;
+		}
+		return CalcMachNumber(TAS, Altitude, AirportAltitude, AirportTemperature);
 	}
 	function CalcMaxSpeedLimit(MaxSpeedOnFlapsUp, MaxSpeedOnFlapsFull, FlapsPercentage) {
 		return MaxSpeedOnFlapsUp - (MaxSpeedOnFlapsUp - MaxSpeedOnFlapsFull) * (FlapsPercentage / 100);
