@@ -3203,7 +3203,7 @@
 								PFD.MCP.Speed.MachNumber = CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_PFDMCPSpeed") * 1000) / 1000 - 0.01, 0, 0.999);
 								break;
 							default:
-								AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function Event Listener Keydown is invalid.");
+								AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function Keydown Event Listener is invalid.");
 								break;
 						}
 						RefreshPFD();
@@ -3222,7 +3222,7 @@
 								PFD.MCP.Speed.MachNumber = CheckRangeAndCorrect(Math.trunc(ReadValue("Textbox_PFDMCPSpeed") * 1000) / 1000 + 0.01, 0, 0.999);
 								break;
 							default:
-								AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function Event Listener Keydown is invalid.");
+								AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function Keydown Event Listener is invalid.");
 								break;
 						}
 						RefreshPFD();

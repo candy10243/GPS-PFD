@@ -1080,10 +1080,7 @@
 
 						/* MCP */
 						#Ctrl_PFDMCP .Ctrl {
-							width: 100%; height: 35px; margin: 0 0 10px 0;
-						}
-						#Ctrl_PFDMCP .Textbox {
-							width: 120px;
+							width: 100%; margin: 0 0 10px 0;
 						}
 						#Ctrl_PFDMCP .HotkeyIndicator {
 							left: calc(50% - 25px);
