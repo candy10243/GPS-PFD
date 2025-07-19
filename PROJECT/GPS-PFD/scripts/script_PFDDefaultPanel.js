@@ -63,14 +63,9 @@
 				ChangeProgbar("ProgbarFg_PFDDefaultPanelFlaps", "Vertical", PFD.Flaps);
 
 				// FMA
-				if(PFD.Attitude.IsEnabled == true) {
-					Show("Ctrl_PFDDefaultPanelAttitudeMode");
-					ChangeText("Label_PFDDefaultPanelAttitudeModeValue", Translate(PFD.Attitude.Mode));
-				} else {
-					Hide("Ctrl_PFDDefaultPanelAttitudeMode");
-				}
 				ChangeText("Label_PFDDefaultPanelSpeedModeValue", Translate(PFD.Speed.Mode));
 				ChangeText("Label_PFDDefaultPanelAltitudeModeValue", Translate(PFD.Altitude.Mode));
+				ChangeText("Label_PFDDefaultPanelHeadingModeValue", Translate(PFD.Heading.Mode));
 				ChangeText("Label_PFDDefaultPanelFlightMode", Translate(PFD.FlightMode.FlightMode));
 				if(PFD0.Stats.ClockTime - PFD0.Stats.FlightModeTimestamp < 10000) {
 					AddClass("Ctnr_PFDDefaultPanelFMA2", "ModeChanged");
