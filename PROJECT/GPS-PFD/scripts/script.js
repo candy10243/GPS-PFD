@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.35,
+		const CurrentVersion = 0.36,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -622,17 +622,17 @@
 						ChangeText("Label_PFDDefaultPanelTASTitle", "真空速");
 						ChangeText("Label_PFDDefaultPanelWindTitle", "风");
 						ChangeText("Label_PFDDefaultPanelFlapsTitle", "襟翼");
-						ChangeText("Label_PFDDefaultPanelAttitudeModeTitle", "姿态模式");
 						ChangeText("Label_PFDDefaultPanelSpeedModeTitle", "速度模式");
 						ChangeText("Label_PFDDefaultPanelAltitudeModeTitle", "高度模式");
+						ChangeText("Label_PFDDefaultPanelHeadingModeTitle", "朝向模式");
 						ChangeText("Label_PFDDefaultPanelDMETitle", "测距仪");
 						ChangeText("Label_PFDDefaultPanelDecisionAltitudeTitle", "决断高度");
 						break;
 					case "HUD":
 						ChangeText("Label_PFDHUDPanelAccelTitle", "加速计");
-						ChangeText("Label_PFDHUDPanelAttitudeModeTitle", "姿态模式");
 						ChangeText("Label_PFDHUDPanelSpeedModeTitle", "速度模式");
 						ChangeText("Label_PFDHUDPanelAltitudeModeTitle", "高度模式");
+						ChangeText("Label_PFDHUDPanelHeadingModeTitle", "朝向模式");
 						ChangeText("Label_PFDHUDPanelSpeedGSTitle", "地速");
 						ChangeText("Label_PFDHUDPanelDMETitle", "测距仪");
 						ChangeText("Label_PFDHUDPanelDecisionAltitudeTitle", "决断高度");
@@ -658,17 +658,17 @@
 						ChangeText("Label_PFDDefaultPanelTASTitle", "TAS");
 						ChangeText("Label_PFDDefaultPanelWindTitle", "WIND");
 						ChangeText("Label_PFDDefaultPanelFlapsTitle", "FLAPS");
-						ChangeText("Label_PFDDefaultPanelAttitudeModeTitle", "ATT MODE");
 						ChangeText("Label_PFDDefaultPanelSpeedModeTitle", "SPD MODE");
 						ChangeText("Label_PFDDefaultPanelAltitudeModeTitle", "ALT MODE");
+						ChangeText("Label_PFDDefaultPanelHeadingModeTitle", "HDG MODE");
 						ChangeText("Label_PFDDefaultPanelDMETitle", "DME");
 						ChangeText("Label_PFDDefaultPanelDecisionAltitudeTitle", "DA");
 						break;
 					case "HUD":
 						ChangeText("Label_PFDHUDPanelAccelTitle", "ACCEL");
-						ChangeText("Label_PFDHUDPanelAttitudeModeTitle", "ATT MODE");
 						ChangeText("Label_PFDHUDPanelSpeedModeTitle", "SPD MODE");
 						ChangeText("Label_PFDHUDPanelAltitudeModeTitle", "ALT MODE");
+						ChangeText("Label_PFDHUDPanelHeadingModeTitle", "HDG MODE");
 						ChangeText("Label_PFDHUDPanelSpeedGSTitle", "GS");
 						ChangeText("Label_PFDHUDPanelDMETitle", "DME");
 						ChangeText("Label_PFDHUDPanelDecisionAltitudeTitle", "DA");

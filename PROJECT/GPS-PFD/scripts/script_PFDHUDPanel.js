@@ -28,14 +28,9 @@
 				}
 
 				// FMA
-				if(PFD.Attitude.IsEnabled == true) {
-					Show("Ctrl_PFDHUDPanelAttitudeMode");
-					ChangeText("Label_PFDHUDPanelAttitudeModeValue", Translate(PFD.Attitude.Mode));
-				} else {
-					Hide("Ctrl_PFDHUDPanelAttitudeMode");
-				}
 				ChangeText("Label_PFDHUDPanelSpeedModeValue", Translate(PFD.Speed.Mode));
 				ChangeText("Label_PFDHUDPanelAltitudeModeValue", Translate(PFD.Altitude.Mode));
+				ChangeText("Label_PFDHUDPanelHeadingModeValue", Translate(PFD.Heading.Mode));
 				ChangeText("Label_PFDHUDPanelFlightMode", Translate(PFD.FlightMode.FlightMode));
 				if(PFD0.Stats.ClockTime - PFD0.Stats.FlightModeTimestamp < 10000) {
 					AddClass("Ctnr_PFDHUDPanelFMA2", "ModeChanged");
