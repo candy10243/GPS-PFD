@@ -1227,12 +1227,16 @@
 					case "EmergencyReturn":
 						switch(PFD.MCP.Speed.Mode) {
 							case "IAS":
-								PFD.MCP.Speed.MachNumber = CalcMCPMachNumberFromIAS(PFD.Speed.IASAlgorithm, PFD.MCP.Speed.IAS, PFD0.Stats.Altitude.TapeDisplay,
-									PFD.Altitude.AirportElevation.Departure, PFD.Speed.AirportTemperature.Departure, PFD.Speed.RelativeHumidity.Departure, PFD.Speed.QNH.Departure);
+								PFD.MCP.Speed.MachNumber = CheckRangeAndCorrect(
+									CalcMCPMachNumberFromIAS(PFD.Speed.IASAlgorithm, PFD.MCP.Speed.IAS, PFD0.Stats.Altitude.TapeDisplay,
+									PFD.Altitude.AirportElevation.Departure, PFD.Speed.AirportTemperature.Departure, PFD.Speed.RelativeHumidity.Departure, PFD.Speed.QNH.Departure),
+									0, 0.999);
 								break;
 							case "MachNumber":
-								PFD.MCP.Speed.IAS = CalcMCPIASFromMachNumber(PFD.Speed.IASAlgorithm, PFD.MCP.Speed.MachNumber, PFD0.Stats.Altitude.TapeDisplay,
-									PFD.Altitude.AirportElevation.Departure, PFD.Speed.AirportTemperature.Departure, PFD.Speed.RelativeHumidity.Departure, PFD.Speed.QNH.Departure);
+								PFD.MCP.Speed.IAS = CheckRangeAndCorrect(
+									CalcMCPIASFromMachNumber(PFD.Speed.IASAlgorithm, PFD.MCP.Speed.MachNumber, PFD0.Stats.Altitude.TapeDisplay,
+									PFD.Altitude.AirportElevation.Departure, PFD.Speed.AirportTemperature.Departure, PFD.Speed.RelativeHumidity.Departure, PFD.Speed.QNH.Departure),
+									0, 277.5);
 								break;
 							default:
 								AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function RefreshPFDData is invalid.");
@@ -1244,12 +1248,16 @@
 					case "ArrivalGround":
 						switch(PFD.MCP.Speed.Mode) {
 							case "IAS":
-								PFD.MCP.Speed.MachNumber = CalcMCPMachNumberFromIAS(PFD.Speed.IASAlgorithm, PFD.MCP.Speed.IAS, PFD0.Stats.Altitude.TapeDisplay,
-									PFD.Altitude.AirportElevation.Arrival, PFD.Speed.AirportTemperature.Arrival, PFD.Speed.RelativeHumidity.Arrival, PFD.Speed.QNH.Arrival);
+								PFD.MCP.Speed.MachNumber = CheckRangeAndCorrect(
+									CalcMCPMachNumberFromIAS(PFD.Speed.IASAlgorithm, PFD.MCP.Speed.IAS, PFD0.Stats.Altitude.TapeDisplay,
+									PFD.Altitude.AirportElevation.Arrival, PFD.Speed.AirportTemperature.Arrival, PFD.Speed.RelativeHumidity.Arrival, PFD.Speed.QNH.Arrival),
+									0, 0.999);
 								break;
 							case "MachNumber":
-								PFD.MCP.Speed.IAS = CalcMCPIASFromMachNumber(PFD.Speed.IASAlgorithm, PFD.MCP.Speed.MachNumber, PFD0.Stats.Altitude.TapeDisplay,
-									PFD.Altitude.AirportElevation.Arrival, PFD.Speed.AirportTemperature.Arrival, PFD.Speed.RelativeHumidity.Arrival, PFD.Speed.QNH.Arrival);
+								PFD.MCP.Speed.IAS = CheckRangeAndCorrect(
+									CalcMCPIASFromMachNumber(PFD.Speed.IASAlgorithm, PFD.MCP.Speed.MachNumber, PFD0.Stats.Altitude.TapeDisplay,
+									PFD.Altitude.AirportElevation.Arrival, PFD.Speed.AirportTemperature.Arrival, PFD.Speed.RelativeHumidity.Arrival, PFD.Speed.QNH.Arrival),
+									0, 277.5);
 								break;
 							default:
 								AlertSystemError("The value of PFD.MCP.Speed.Mode \"" + PFD.MCP.Speed.Mode + "\" in function RefreshPFDData is invalid.");
