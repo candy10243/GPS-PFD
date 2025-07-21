@@ -3184,7 +3184,7 @@
 					}
 					break;
 				case "Q":
-					if(PFD.Altitude.Mode == "Manual") {
+					if(PFD.Heading.Mode == "Manual") {
 						HeadingLeft();
 					}
 					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
@@ -3192,7 +3192,7 @@
 					}
 					break;
 				case "E":
-					if(PFD.Altitude.Mode == "Manual") {
+					if(PFD.Heading.Mode == "Manual") {
 						HeadingRight();
 					}
 					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
