@@ -95,8 +95,8 @@
 							ChangeAnim("Ctrl_PFDDefaultPanelAttitudePitch", "");
 							ChangeAnim("Ctrl_PFDDefaultPanelAttitudeRoll", "");
 						}
-						ChangeTop("Ctrl_PFDDefaultPanelAttitudeBg", "calc(50% - 2000px + " + 10 * PFD0.Stats.Attitude.Pitch2 * Math.cos(Math.abs(PFD0.Stats.Attitude.Roll) * (Math.PI / 180)) + "px)");
-						ChangeLeft("Ctrl_PFDDefaultPanelAttitudeBg", "calc(50% - 2000px + " + 10 * PFD0.Stats.Attitude.Pitch2 * Math.sin(PFD0.Stats.Attitude.Roll * (Math.PI / 180)) + "px)");
+						ChangeTop("Ctrl_PFDDefaultPanelAttitudeBg", "calc(50% - 2000px + " + 10 * PFD0.Stats.Attitude.Pitch2 * Math.cos(DegToRad(Math.abs(PFD0.Stats.Attitude.Roll))) + "px)");
+						ChangeLeft("Ctrl_PFDDefaultPanelAttitudeBg", "calc(50% - 2000px + " + 10 * PFD0.Stats.Attitude.Pitch2 * Math.sin(DegToRad(PFD0.Stats.Attitude.Roll)) + "px)");
 						ChangeRotate("Ctrl_PFDDefaultPanelAttitudeBg", -PFD0.Stats.Attitude.Roll);
 						ChangeTop("CtrlGroup_PFDDefaultPanelAttitudePitch", "calc(50% - 900px + " + 10 * PFD0.Stats.Attitude.Pitch + "px)");
 						ChangeRotate("Ctrl_PFDDefaultPanelAttitudePitch", -PFD0.Stats.Attitude.Roll);
@@ -496,10 +496,10 @@
 								AlertSystemError("The value of Subsystem.I18n.VerticalSpeedUnit \"" + Subsystem.I18n.VerticalSpeedUnit + "\" in function RefreshDefaultPanel is invalid.");
 								break;
 						}
-						NeedleAngle = Math.atan(VerticalPixels / 100) / (Math.PI / 180);
+						NeedleAngle = RadToDeg(Math.atan(VerticalPixels / 100));
 
 						// Refresh needle
-						let NeedleLength = 100 / Math.cos(NeedleAngle * (Math.PI / 180));
+						let NeedleLength = 100 / Math.cos(DegToRad(NeedleAngle));
 						ChangeRotate("Needle_PFDDefaultPanelVerticalSpeed", -90 + NeedleAngle);
 						ChangeTop("Needle_PFDDefaultPanelVerticalSpeed", "calc(50% - " + NeedleLength + "px)");
 						ChangeHeight("Needle_PFDDefaultPanelVerticalSpeed", NeedleLength * 2 + "px");

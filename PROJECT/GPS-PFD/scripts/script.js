@@ -1132,7 +1132,7 @@
 			}
 				// Pitch
 				if(PFD0.Stats.Speed.Speed > 0) {
-					PFD0.Stats.Speed.Pitch = Math.asin(CheckRangeAndCorrect(PFD0.Stats.Speed.Vertical / PFD0.Stats.Speed.Speed, -1, 1)) / (Math.PI / 180);
+					PFD0.Stats.Speed.Pitch = RadToDeg(Math.asin(CheckRangeAndCorrect(PFD0.Stats.Speed.Vertical / PFD0.Stats.Speed.Speed, -1, 1)));
 				} else {
 					PFD0.Stats.Speed.Pitch = 0;
 				}
@@ -1316,7 +1316,7 @@
 
 				// Glide slope
 				if(PFD0.Stats.Nav.Distance > 0) {
-					PFD0.Stats.Nav.GlideSlopeDeviation = Math.atan(PFD0.Stats.Altitude.RadioDisplay / PFD0.Stats.Nav.Distance) / (Math.PI / 180) - PFD.Nav.GlideSlopeAngle;
+					PFD0.Stats.Nav.GlideSlopeDeviation = RadToDeg(Math.atan(PFD0.Stats.Altitude.RadioDisplay / PFD0.Stats.Nav.Distance)) - PFD.Nav.GlideSlopeAngle;
 				} else {
 					PFD0.Stats.Nav.GlideSlopeDeviation = -PFD.Nav.GlideSlopeAngle;
 				}
@@ -1846,7 +1846,7 @@
 			ChangeText("Label_PFDTechInfoSpeedVectorRight", PFD0.RawData.Accel.Speed.Vector.Right.toFixed(2) + "米/秒");
 			ChangeText("Label_PFDTechInfoSpeedVectorUpward", PFD0.RawData.Accel.Speed.Vector.Upward.toFixed(2) + "米/秒");
 			let NeedleAngle = 0, NeedleLength = 0;
-			NeedleAngle = Math.atan2(PFD0.RawData.Accel.Speed.Vector.Forward, PFD0.RawData.Accel.Speed.Vector.Right) / (Math.PI / 180);
+			NeedleAngle = RadToDeg(Math.atan2(PFD0.RawData.Accel.Speed.Vector.Forward, PFD0.RawData.Accel.Speed.Vector.Right));
 			NeedleLength = Math.sqrt(Math.pow(PFD0.RawData.Accel.Speed.Vector.Right, 2) + Math.pow(PFD0.RawData.Accel.Speed.Vector.Forward, 2)) * 5;
 			ChangeTop("Needle_PFDTechInfoSpeedVectorGraph", "calc(50% - " + NeedleLength + "px)");
 			ChangeRotate("Needle_PFDTechInfoSpeedVectorGraph", 90 - NeedleAngle);
@@ -2294,9 +2294,9 @@
 		// Aligned accel
 			// Convert to opposite and align orientation
 			PFD0.RawData.Accel.Accel.Aligned = {
-				Forward: -PFD0.RawData.Accel.Accel.Relative.Forward * Math.cos(Math.abs(PFD0.RawData.Accel.Attitude.Original.Pitch * (Math.PI / 180))),
-				Right: -PFD0.RawData.Accel.Accel.Relative.Right * Math.cos(Math.abs(PFD0.RawData.Accel.Attitude.Original.Roll * (Math.PI / 180))),
-				Upward: -PFD0.RawData.Accel.Accel.Relative.Upward * Math.cos(Math.abs(PFD0.RawData.Accel.Attitude.Original.Roll * (Math.PI / 180))) * Math.cos(Math.abs(PFD0.RawData.Accel.Attitude.Original.Pitch * (Math.PI / 180)))
+				Forward: -PFD0.RawData.Accel.Accel.Relative.Forward * Math.cos(DegToRad(Math.abs(PFD0.RawData.Accel.Attitude.Original.Pitch))),
+				Right: -PFD0.RawData.Accel.Accel.Relative.Right * Math.cos(DegToRad(Math.abs(PFD0.RawData.Accel.Attitude.Original.Roll))),
+				Upward: -PFD0.RawData.Accel.Accel.Relative.Upward * Math.cos(DegToRad(Math.abs(PFD0.RawData.Accel.Attitude.Original.Roll))) * Math.cos(DegToRad(Math.abs(PFD0.RawData.Accel.Attitude.Original.Pitch)))
 			};
 
 			// Reduce sensitivity to prevent incorrect speed inflation
@@ -3838,14 +3838,14 @@
 	// Maths
 	function CalcAttitude(AccelVector, AccelVectorWithGravity) { // https://youtube.com/watch?v=p7tjtLkIlFo
 		return {
-			Pitch: -Math.asin(CheckRangeAndCorrect((AccelVectorWithGravity.Forward - AccelVector.Forward) / 9.80665, -1, 1)) / (Math.PI / 180),
-			Roll: Math.atan2(AccelVectorWithGravity.Right - AccelVector.Right, AccelVector.Upward - AccelVectorWithGravity.Upward) / (Math.PI / 180)
+			Pitch: -RadToDeg(Math.asin(CheckRangeAndCorrect((AccelVectorWithGravity.Forward - AccelVector.Forward) / 9.80665, -1, 1))),
+			Roll: RadToDeg(Math.atan2(AccelVectorWithGravity.Right - AccelVector.Right, AccelVector.Upward - AccelVectorWithGravity.Upward))
 		};
 	}
 	function CalcTAS(GS, WindRelativeHeading, WindSpeed, VerticalSpeed) {
 		let HorizontalTAS = 0, TAS = 0;
 		if(WindRelativeHeading != null) {
-			HorizontalTAS = GS - WindSpeed * Math.cos(WindRelativeHeading * (Math.PI / 180));
+			HorizontalTAS = GS - WindSpeed * Math.cos(DegToRad(WindRelativeHeading));
 		} else {
 			HorizontalTAS = GS;
 		}
@@ -3899,7 +3899,7 @@
 				break;
 		}
 		if(IsAttitudeConsidered == true) {
-			return IAS * Math.cos(RelativePitch * (Math.PI / 180));
+			return IAS * Math.cos(DegToRad(RelativePitch));
 		} else {
 			return IAS;
 		}
@@ -3948,19 +3948,16 @@
 		return MaxSpeedOnFlapsUp - (MaxSpeedOnFlapsUp - MaxSpeedOnFlapsFull) * (FlapsPercentage / 100);
 	}
 	function CalcDistance(Lat1, Lon1, Lat2, Lon2) { // Haversine formula (https://stackoverflow.com/a/27943)
-		let EarthRadius = 6371008.8, LatDiffInRad = 0, LonDiffInRad = 0, Calc = 0, Distance = 0;
-		LatDiffInRad = (Lat2 - Lat1) * (Math.PI / 180);
-		LonDiffInRad = (Lon2 - Lon1) * (Math.PI / 180);
-		Calc = Math.sin(LatDiffInRad / 2) * Math.sin(LatDiffInRad / 2) + Math.cos(Lat1 * (Math.PI / 180)) * Math.cos(Lat2 * (Math.PI / 180)) * Math.sin(LonDiffInRad / 2) * Math.sin(LonDiffInRad / 2);
+		let EarthRadius = 6371008.8, Calc = 0, Distance = 0;
+		Calc = Math.pow(Math.sin(DegToRad((Lat2 - Lat1) / 2)), 2) + Math.cos(DegToRad(Lat1)) * Math.cos(DegToRad(Lat2)) * Math.pow(Math.sin(DegToRad((Lon2 - Lon1) / 2)), 2);
 		Distance = 2 * EarthRadius * Math.atan2(Math.sqrt(Calc), Math.sqrt(1 - Calc));
 		return Distance;
 	}
 	function CalcBearing(Lat1, Lon1, Lat2, Lon2) { // https://www.igismap.com/formula-to-find-bearing-or-heading-angle-between-two-points-latitude-longitude/
-		let LonDiffInRad = 0, Calc1 = 0, Calc2 = 0, Bearing = 0;
-		LonDiffInRad = (Lon2 - Lon1) * (Math.PI / 180);
-		Calc1 = Math.cos(Lat2 * (Math.PI / 180)) * Math.sin(LonDiffInRad);
-		Calc2 = Math.cos(Lat1 * (Math.PI / 180)) * Math.sin(Lat2 * (Math.PI / 180)) - Math.sin(Lat1 * (Math.PI / 180)) * Math.cos(Lat2 * (Math.PI / 180)) * Math.cos(LonDiffInRad);
-		Bearing = Math.atan2(Calc1, Calc2) / (Math.PI / 180);
+		let Calc1 = 0, Calc2 = 0, Bearing = 0;
+		Calc1 = Math.cos(DegToRad(Lat2)) * Math.sin(DegToRad(Lon2 - Lon1));
+		Calc2 = Math.cos(DegToRad(Lat1)) * Math.sin(DegToRad(Lat2)) - Math.sin(DegToRad(Lat1)) * Math.cos(DegToRad(Lat2)) * Math.cos(DegToRad(Lon2 - Lon1));
+		Bearing = RadToDeg(Math.atan2(Calc1, Calc2));
 		if(Bearing < 0) {
 			Bearing += 360;
 		}
