@@ -649,6 +649,12 @@
 	function Randomize(Min, Max) { // Return an integer between two integers.
 		return Min + Math.trunc(Math.random() * (Max - Min + 1));
 	}
+	function DegToRad(Number) {
+		return Number * (Math.PI / 180);
+	}
+	function RadToDeg(Number) {
+		return Number / (Math.PI / 180);
+	}
 
 	// Highlight active section in nav
 	function HighlightActiveSectionInNav() {
