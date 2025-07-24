@@ -1998,7 +1998,7 @@
 			NeedleAngle = RadToDeg(Math.atan2(PFD0.RawData.Accel.Speed.Vector.Forward, PFD0.RawData.Accel.Speed.Vector.Right));
 			NeedleLength = Math.sqrt(Math.pow(PFD0.RawData.Accel.Speed.Vector.Right, 2) + Math.pow(PFD0.RawData.Accel.Speed.Vector.Forward, 2)) * 5;
 			ChangeTop("Needle_PFDTechInfoSpeedVectorGraph", "calc(50% - " + NeedleLength + "px)");
-			Change too :(Rotate("Needle_PFDTechInfoSpeedVectorGraph", 90 - NeedleAngle);
+			(Rotate("Needle_PFDTechInfoSpeedVectorGraph", 90 - NeedleAngle);
 			ChangeHeight("Needle_PFDTechInfoSpeedVectorGraph", NeedleLength * 2 + "px");
 			ChangeText("Label_PFDTechInfoAccelSpeed", PFD0.RawData.Accel.Speed.Speed.toFixed(2) + "米/秒");
 			ChangeText("Label_PFDTechInfoAccelAltitude", PFD0.RawData.Accel.Altitude.toFixed(2) + "米");
