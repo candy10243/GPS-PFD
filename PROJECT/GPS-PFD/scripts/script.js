@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.36,
+		const CurrentVersion = 0.37,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -2230,58 +2230,60 @@
 		PFD0.RawData.Accel.Interval = DeviceMotionAPIData.interval;
 
 		// Relative accel
-		switch(screen.orientation.type) {
-			case "landscape-primary":
-				PFD0.RawData.Accel.Accel.Relative = {
-					Forward: PFD0.RawData.Accel.Accel.Absolute.Z,
-					Right: PFD0.RawData.Accel.Accel.Absolute.Y,
-					Upward: -PFD0.RawData.Accel.Accel.Absolute.X
-				};
-				PFD0.RawData.Accel.Accel.RelativeWithGravity = {
-					Forward: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Z,
-					Right: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Y,
-					Upward: -PFD0.RawData.Accel.Accel.AbsoluteWithGravity.X
-				};
-				break;
-			case "landscape-secondary":
-				PFD0.RawData.Accel.Accel.Relative = {
-					Forward: PFD0.RawData.Accel.Accel.Absolute.Z,
-					Right: -PFD0.RawData.Accel.Accel.Absolute.Y,
-					Upward: PFD0.RawData.Accel.Accel.Absolute.X
-				};
-				PFD0.RawData.Accel.Accel.RelativeWithGravity = {
-					Forward: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Z,
-					Right: -PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Y,
-					Upward: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.X
-				};
-				break;
-			case "portrait-primary":
-				PFD0.RawData.Accel.Accel.Relative = {
-					Forward: PFD0.RawData.Accel.Accel.Absolute.Z,
-					Right: -PFD0.RawData.Accel.Accel.Absolute.X,
-					Upward: -PFD0.RawData.Accel.Accel.Absolute.Y
-				};
-				PFD0.RawData.Accel.Accel.RelativeWithGravity = {
-					Forward: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Z,
-					Right: -PFD0.RawData.Accel.Accel.AbsoluteWithGravity.X,
-					Upward: -PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Y
-				};
-				break;
-			case "portrait-secondary":
-				PFD0.RawData.Accel.Accel.Relative = {
-					Forward: PFD0.RawData.Accel.Accel.Absolute.Z,
-					Right: PFD0.RawData.Accel.Accel.Absolute.X,
-					Upward: PFD0.RawData.Accel.Accel.Absolute.Y
-				};
-				PFD0.RawData.Accel.Accel.RelativeWithGravity = {
-					Forward: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Z,
-					Right: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.X,
-					Upward: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Y
-				};
-				break;
-			default:
-				AlertSystemError("The value of screen.orientation.type \"" + screen.orientation.type + "\" in function RefreshAccelData is invalid.");
-				break;
+		if(IsNullInObject(PFD0.RawData.Accel.Accel.Absolute) == false && IsNullInObject(PFD0.RawData.Accel.Accel.AbsoluteWithGravity) == false) {
+			switch(screen.orientation.type) {
+				case "landscape-primary":
+					PFD0.RawData.Accel.Accel.Relative = {
+						Forward: PFD0.RawData.Accel.Accel.Absolute.Z,
+						Right: PFD0.RawData.Accel.Accel.Absolute.Y,
+						Upward: -PFD0.RawData.Accel.Accel.Absolute.X
+					};
+					PFD0.RawData.Accel.Accel.RelativeWithGravity = {
+						Forward: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Z,
+						Right: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Y,
+						Upward: -PFD0.RawData.Accel.Accel.AbsoluteWithGravity.X
+					};
+					break;
+				case "landscape-secondary":
+					PFD0.RawData.Accel.Accel.Relative = {
+						Forward: PFD0.RawData.Accel.Accel.Absolute.Z,
+						Right: -PFD0.RawData.Accel.Accel.Absolute.Y,
+						Upward: PFD0.RawData.Accel.Accel.Absolute.X
+					};
+					PFD0.RawData.Accel.Accel.RelativeWithGravity = {
+						Forward: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Z,
+						Right: -PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Y,
+						Upward: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.X
+					};
+					break;
+				case "portrait-primary":
+					PFD0.RawData.Accel.Accel.Relative = {
+						Forward: PFD0.RawData.Accel.Accel.Absolute.Z,
+						Right: -PFD0.RawData.Accel.Accel.Absolute.X,
+						Upward: -PFD0.RawData.Accel.Accel.Absolute.Y
+					};
+					PFD0.RawData.Accel.Accel.RelativeWithGravity = {
+						Forward: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Z,
+						Right: -PFD0.RawData.Accel.Accel.AbsoluteWithGravity.X,
+						Upward: -PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Y
+					};
+					break;
+				case "portrait-secondary":
+					PFD0.RawData.Accel.Accel.Relative = {
+						Forward: PFD0.RawData.Accel.Accel.Absolute.Z,
+						Right: PFD0.RawData.Accel.Accel.Absolute.X,
+						Upward: PFD0.RawData.Accel.Accel.Absolute.Y
+					};
+					PFD0.RawData.Accel.Accel.RelativeWithGravity = {
+						Forward: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Z,
+						Right: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.X,
+						Upward: PFD0.RawData.Accel.Accel.AbsoluteWithGravity.Y
+					};
+					break;
+				default:
+					AlertSystemError("The value of screen.orientation.type \"" + screen.orientation.type + "\" in function RefreshAccelData is invalid.");
+					break;
+			}
 		}
 
 		// Attitude
@@ -2932,9 +2934,9 @@
 		function ImportUserData() {
 			if(ReadValue("Textbox_SettingsUserDataImport") != "") {
 				if(ReadValue("Textbox_SettingsUserDataImport").startsWith("{\"System\":{\"Display\":{\"Theme\":") == true) {
-					let Objects = JSON.parse(ReadValue("Textbox_SettingsUserDataImport"));
-					Object.keys(Objects).forEach(function(ObjectName) {
-						localStorage.setItem(ObjectName, JSON.stringify(Objects[ObjectName]));
+					let UserData = JSON.parse(ReadValue("Textbox_SettingsUserDataImport"));
+					Object.keys(UserData).forEach(function(SubobjectName) {
+						localStorage.setItem(SubobjectName, JSON.stringify(UserData[SubobjectName]));
 					});
 					RefreshWebpage();
 				} else {
@@ -3037,8 +3039,8 @@
 						ShowIAmHere("Item_SettingsUserData");
 						break;
 					case 2:
-						Object.keys(Automation).forEach(function(AutomationName) {
-							clearTimeout(Automation[AutomationName]);
+						Object.keys(Automation).forEach(function(SubobjectName) {
+							clearTimeout(Automation[SubobjectName]);
 						});
 						break;
 					case 3:
