@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.37,
+		const CurrentVersion = 0.38,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -1639,6 +1639,8 @@
 					RefreshBoeingAudio();
 					break;
 				case "Airbus":
+					RefreshAirbusAudio();
+					break;
 				case "Bocchi737":
 					AlertSystemError("An audio scheme which is still under construction was selected.");
 					break;
@@ -1752,7 +1754,107 @@
 				}
 			}
 			function RefreshAirbusAudio() {
-				// ???
+				// Attitude
+				if(PFD0.Alert.Active.AttitudeWarning != PFD0.Alert.NowPlaying.AttitudeWarning) {
+					switch(PFD0.Alert.Active.AttitudeWarning) {
+						case "":
+							StopAudio("Audio_AttitudeAlert");
+							break;
+						case "BankAngle":
+							ChangeAudioLoop("Audio_AttitudeAlert", true);
+							PlayAudio("Audio_AttitudeAlert", "audio/Common_" + PFD0.Alert.Active.AttitudeWarning + ".mp3");
+							break;
+						default:
+							AlertSystemError("The value of PFD0.Alert.Active.AttitudeWarning \"" + PFD0.Alert.Active.AttitudeWarning + "\" in function RefreshAirbusAudio is invalid.");
+							break;
+					}
+					PFD0.Alert.NowPlaying.AttitudeWarning = PFD0.Alert.Active.AttitudeWarning;
+				}
+
+				// Speed
+				if(PFD0.Alert.Active.SpeedWarning != PFD0.Alert.NowPlaying.SpeedWarning) {
+					switch(PFD0.Alert.Active.SpeedWarning) {
+						case "":
+							StopAudio("Audio_SpeedAlert");
+							break;
+						case "AirspeedLow":
+						case "Overspeed":
+							ChangeAudioLoop("Audio_SpeedAlert", true);
+							PlayAudio("Audio_SpeedAlert", "audio/Airbus_" + PFD0.Alert.Active.SpeedWarning + ".mp3");
+							break;
+						default:
+							AlertSystemError("The value of PFD0.Alert.Active.SpeedWarning \"" + PFD0.Alert.Active.SpeedWarning + "\" in function RefreshAirbusAudio is invalid.");
+							break;
+					}
+					PFD0.Alert.NowPlaying.SpeedWarning = PFD0.Alert.Active.SpeedWarning;
+				}
+				if(PFD0.Alert.Active.SpeedCallout != PFD0.Alert.NowPlaying.SpeedCallout && PFD0.Alert.Active.SpeedWarning == "") {
+					switch(PFD0.Alert.Active.SpeedCallout) {
+						case "":
+							break;
+						case "V1":
+							ChangeAudioLoop("Audio_SpeedAlert", false);
+							PlayAudio("Audio_SpeedAlert", "audio/Airbus_" + PFD0.Alert.Active.SpeedCallout + ".mp3");
+							break;
+						default:
+							AlertSystemError("The value of PFD0.Alert.Active.SpeedCallout \"" + PFD0.Alert.Active.SpeedCallout + "\" in function RefreshAirbusAudio is invalid.");
+							break;
+					}
+					PFD0.Alert.NowPlaying.SpeedCallout = PFD0.Alert.Active.SpeedCallout;
+				}
+
+				// Altitude
+				if(PFD0.Alert.Active.AltitudeWarning != PFD0.Alert.NowPlaying.AltitudeWarning) {
+					switch(PFD0.Alert.Active.AltitudeWarning) {
+						case "":
+							StopAudio("Audio_AltitudeAlert");
+							break;
+						case "DontSink":
+						case "GlideSlope":
+						case "SinkRate":
+						case "PullUp":
+							ChangeAudioLoop("Audio_AltitudeAlert", true);
+							PlayAudio("Audio_AltitudeAlert", "audio/Common_" + PFD0.Alert.Active.AltitudeWarning + ".mp3");
+							break;
+						default:
+							AlertSystemError("The value of PFD0.Alert.Active.AltitudeWarning \"" + PFD0.Alert.Active.AltitudeWarning + "\" in function RefreshAirbusAudio is invalid.");
+							break;
+					}
+					PFD0.Alert.NowPlaying.AltitudeWarning = PFD0.Alert.Active.AltitudeWarning;
+				}
+				if(PFD0.Alert.Active.AltitudeCallout != PFD0.Alert.NowPlaying.AltitudeCallout && PFD0.Alert.Active.AltitudeWarning == "") {
+					switch(PFD0.Alert.Active.AltitudeCallout) {
+						case "":
+						case "ApproachingMinimums":
+							break;
+						case "AltitudeBeep":
+							ChangeAudioLoop("Audio_AltitudeAlert", false);
+							PlayAudio("Audio_AltitudeAlert", "audio/Common_" + PFD0.Alert.Active.AltitudeCallout + ".mp3");
+							break;
+						case "2500":
+						case "1000":
+						case "500":
+						case "400":
+						case "300":
+						case "200":
+						case "100":
+						case "50":
+						case "40":
+						case "30":
+						case "20":
+						case "Retard":
+						case "10":
+						case "HundredAbove":
+						case "Minimums":
+							ChangeAudioLoop("Audio_AltitudeAlert", false);
+							PlayAudio("Audio_AltitudeAlert", "audio/Airbus_" + PFD0.Alert.Active.AltitudeCallout + ".mp3");
+							break;
+						default:
+							AlertSystemError("The value of PFD0.Alert.Active.AltitudeCallout \"" + PFD0.Alert.Active.AltitudeCallout + "\" in function RefreshAirbusAudio is invalid.");
+							break;
+					}
+					PFD0.Alert.NowPlaying.AltitudeCallout = PFD0.Alert.Active.AltitudeCallout;
+				}
 			}
 			function RefreshBocchi737Audio() {
 				// ???
