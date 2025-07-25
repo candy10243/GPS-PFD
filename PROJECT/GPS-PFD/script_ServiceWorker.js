@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CacheName = "GPS-PFD_v0.37";
+		const CacheName = "GPS-PFD_v0.38";
 
 // Listeners
 	// Service worker (https://learn.microsoft.com/en-us/microsoft-edge/progressive-web-apps-chromium/how-to/#step-5---add-a-service-worker)
@@ -47,6 +47,24 @@
 				"../cursors/GenshinNahida.cur",
 				"../images/Background.jpg",
 				"../audio/Beep.mp3",
+				"audio/Airbus_10.mp3",
+				"audio/Airbus_20.mp3",
+				"audio/Airbus_30.mp3",
+				"audio/Airbus_40.mp3",
+				"audio/Airbus_50.mp3",
+				"audio/Airbus_100.mp3",
+				"audio/Airbus_200.mp3",
+				"audio/Airbus_300.mp3",
+				"audio/Airbus_400.mp3",
+				"audio/Airbus_500.mp3",
+				"audio/Airbus_1000.mp3",
+				"audio/Airbus_2500.mp3",
+				"audio/Airbus_AirspeedLow.mp3",
+				"audio/Airbus_HundredAbove.mp3",
+				"audio/Airbus_Minimums.mp3",
+				"audio/Airbus_Overspeed.mp3",
+				"audio/Airbus_Retard.mp3",
+				"audio/Airbus_V1.mp3",
 				"audio/Boeing_10.mp3",
 				"audio/Boeing_20.mp3",
 				"audio/Boeing_30.mp3",
