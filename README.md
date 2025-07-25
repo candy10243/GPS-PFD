@@ -10,7 +10,8 @@ Note: The "GPS" here stands for location services. Location services use [GNSSes
 
 # 预览 Preview
 
-![预览 Preview](/PREVIEW/预览%20Preview.png)
+![预览 Preview 1](/PREVIEW/预览%20Preview%201.png)
+![预览 Preview 2](/PREVIEW/预览%20Preview%202.png)
 
 # 使用前须知 Read Before Use
 
@@ -41,8 +42,8 @@ This application is still in beta test. Known issues are as follows:
 
 - 加速计误差严重。系统已尽可能减小误差。<br>
 The accelerometer is seriously inaccurate. The system does its best to reduce errors.
-- 在 [Firefox](https://zh.wikipedia.org/wiki/Firefox) for Android 上，「保持屏幕常亮」可能不起作用，且偶尔会出错。<br>
-On [Firefox](https://en.wikipedia.org/wiki/Firefox) for Android, the "keep screen on" feature may not work, and unexpected errors sometimes occur.
+- 在 [Firefox](https://zh.wikipedia.org/wiki/Firefox) for Android 上，「保持屏幕常亮」可能不起作用。<br>
+On [Firefox](https://en.wikipedia.org/wiki/Firefox) for Android, the "keep screen on" feature may not work.
 - 在 [Brave](https://zh.wikipedia.org/wiki/Brave浏览器) for Android 上无法使用。<br>
 Completely unusable on [Brave](https://en.wikipedia.org/wiki/Brave_(web_browser)) for Android.
 
