@@ -10,7 +10,7 @@
 		<link rel="icon" type="image/png" href="images/Icon_Small.png" />
 		<title>GPS-PFD</title>
 		<meta name="author" content="SAM TOKI STUDIO" />
-		<meta name="version" content="v0.38 (2025/07/25) Beta Test. Since 2024/12/01." />
+		<meta name="version" content="v0.39 (2025/07/28) Beta Test. Since 2024/12/01." />
 		<meta name="description" content="利用 GPS 与加速计，在移动设备上模拟飞机驾驶舱的 PFD。" />
 		<meta name="copyright" content="© 2025 SAM TOKI STUDIO" />
 
@@ -2617,20 +2617,53 @@
 															<span>姿态</span>
 															<ul class="CtrlGroup" id="CtrlGroup_PFDAttitudeManeuver">
 																<li class="Ctrl" id="Ctrl_PFDPitchDown">
-																	<button class="Button" id="Button_PFDPitchDown" disabled="true" onclick="PitchDown()">推</button>
+																	<button class="Button" id="Button_PFDPitchDown" disabled="true" onclick="PitchDown()" title="推杆" aria-label="推杆">
+																		<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+																			<path d="M14 13.5a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1 0-1h4.793L2.146 2.854a.5.5 0 1 1 .708-.708L13 12.293V7.5a.5.5 0 0 1 1 0z"/>
+																		</svg>
+																	</button>
 																	<span class="HotkeyIndicator Faded" inert="true">W</span>
 																</li>
 																<li class="Ctrl" id="Ctrl_PFDPitchUp">
-																	<button class="Button" id="Button_PFDPitchUp" disabled="true" onclick="PitchUp()">拉</button>
+																	<button class="Button" id="Button_PFDPitchUp" disabled="true" onclick="PitchUp()" title="拉杆" aria-label="拉杆">
+																		<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+																			<path d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"/>
+																		</svg>
+																	</button>
 																	<span class="HotkeyIndicator Faded" inert="true">S</span>
 																</li>
 																<li class="Ctrl" id="Ctrl_PFDRollLeft">
-																	<button class="Button" id="Button_PFDRollLeft" disabled="true" onclick="RollLeft()">←</button>
+																	<button class="Button" id="Button_PFDRollLeft" disabled="true" onclick="RollLeft()" title="向左横滚" aria-label="向左横滚">
+																		<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+																			<path d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+																		</svg>
+																	</button>
 																	<span class="HotkeyIndicator Faded" inert="true">A</span>
 																</li>
 																<li class="Ctrl" id="Ctrl_PFDRollRight">
-																	<button class="Button" id="Button_PFDRollRight" disabled="true" onclick="RollRight()">→</button>
+																	<button class="Button" id="Button_PFDRollRight" disabled="true" onclick="RollRight()" title="向右横滚" aria-label="向右横滚">
+																		<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+																			<path d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+																		</svg>
+																	</button>
 																	<span class="HotkeyIndicator Faded" inert="true">D</span>
+																</li>
+																<li class="Ctrl" id="Ctrl_PFDMaintainAttitude">
+																	<button class="Button" id="Button_PFDMaintainAttitude" disabled="true" onclick="MaintainAttitude()" title="保持" aria-label="保持">
+																		<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+																			<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+																		</svg>
+																	</button>
+																	<span class="HotkeyIndicator Faded" inert="true">E</span>
+																</li>
+																<li class="Ctrl" id="Ctrl_PFDResetAttitude">
+																	<button class="Button" id="Button_PFDResetAttitude" disabled="true" onclick="ResetAttitude()" title="重置" aria-label="重置">
+																		<svg class="Icon Larger" viewBox="0 0 16 16" aria-hidden="true">
+																			<path d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+																			<path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+																		</svg>
+																	</button>
+																	<span class="HotkeyIndicator Faded" inert="true">Q</span>
 																</li>
 															</ul>
 														</li>
@@ -2638,12 +2671,28 @@
 															<span>速度</span>
 															<ul class="CtrlGroup" id="CtrlGroup_PFDSpeedManeuver">
 																<li class="Ctrl">
-																	<button class="Button" id="Button_PFDSpeedUp" disabled="true" onclick="SpeedUp()">↑</button>
-																	<span class="HotkeyIndicator Faded" inert="true">U/Y</span>
+																	<button class="Button" id="Button_PFDSpeedUp" disabled="true" onclick="SpeedUp()" title="加速" aria-label="加速">
+																		<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+																			<path d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
+																		</svg>
+																	</button>
+																	<span class="HotkeyIndicator Faded" inert="true">U</span>
+																</li>
+																<li class="Ctrl" id="Ctrl_PFDMaintainSpeed">
+																	<button class="Button" id="Button_PFDMaintainSpeed" disabled="true" onclick="MaintainSpeed()" title="保持" aria-label="保持">
+																		<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+																			<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+																		</svg>
+																	</button>
+																	<span class="HotkeyIndicator Faded" inert="true">I</span>
 																</li>
 																<li class="Ctrl">
-																	<button class="Button" id="Button_PFDSpeedDown" disabled="true" onclick="SpeedDown()">↓</button>
-																	<span class="HotkeyIndicator Faded" inert="true">J/H</span>
+																	<button class="Button" id="Button_PFDSpeedDown" disabled="true" onclick="SpeedDown()" title="减速" aria-label="减速">
+																		<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+																			<path d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
+																		</svg>
+																	</button>
+																	<span class="HotkeyIndicator Faded" inert="true">J</span>
 																</li>
 															</ul>
 														</li>
@@ -2651,12 +2700,28 @@
 															<span>高度</span>
 															<ul class="CtrlGroup" id="CtrlGroup_PFDAltitudeManeuver">
 																<li class="Ctrl">
-																	<button class="Button" id="Button_PFDAltitudeUp" disabled="true" onclick="AltitudeUp()">↑</button>
-																	<span class="HotkeyIndicator Faded" inert="true">O/I</span>
+																	<button class="Button" id="Button_PFDAltitudeUp" disabled="true" onclick="AltitudeUp()" title="上升" aria-label="上升">
+																		<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+																			<path d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
+																		</svg>
+																	</button>
+																	<span class="HotkeyIndicator Faded" inert="true">O</span>
+																</li>
+																<li class="Ctrl" id="Ctrl_PFDMaintainAltitude">
+																	<button class="Button" id="Button_PFDMaintainAltitude" disabled="true" onclick="MaintainAltitude()" title="保持" aria-label="保持">
+																		<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+																			<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+																		</svg>
+																	</button>
+																	<span class="HotkeyIndicator Faded" inert="true">P</span>
 																</li>
 																<li class="Ctrl">
-																	<button class="Button" id="Button_PFDAltitudeDown" disabled="true" onclick="AltitudeDown()">↓</button>
-																	<span class="HotkeyIndicator Faded" inert="true">L/K</span>
+																	<button class="Button" id="Button_PFDAltitudeDown" disabled="true" onclick="AltitudeDown()" title="下降" aria-label="下降">
+																		<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+																			<path d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
+																		</svg>
+																	</button>
+																	<span class="HotkeyIndicator Faded" inert="true">L</span>
 																</li>
 															</ul>
 														</li>
@@ -2664,12 +2729,28 @@
 															<span>朝向</span>
 															<ul class="CtrlGroup" id="CtrlGroup_PFDHeadingManeuver">
 																<li class="Ctrl">
-																	<button class="Button" id="Button_PFDHeadingLeft" disabled="true" onclick="HeadingLeft()">←</button>
-																	<span class="HotkeyIndicator Faded" inert="true">Q</span>
+																	<button class="Button" id="Button_PFDHeadingLeft" disabled="true" onclick="HeadingLeft()" title="左转" aria-label="左转">
+																		<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+																			<path d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+																		</svg>
+																	</button>
+																	<span class="HotkeyIndicator Faded" inert="true">G</span>
+																</li>
+																<li class="Ctrl" id="Ctrl_PFDMaintainHeading">
+																	<button class="Button" id="Button_PFDMaintainHeading" disabled="true" onclick="MaintainHeading()" title="保持" aria-label="保持">
+																		<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+																			<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+																		</svg>
+																	</button>
+																	<span class="HotkeyIndicator Faded" inert="true">Y</span>
 																</li>
 																<li class="Ctrl">
-																	<button class="Button" id="Button_PFDHeadingRight" disabled="true" onclick="HeadingRight()">→</button>
-																	<span class="HotkeyIndicator Faded" inert="true">E</span>
+																	<button class="Button" id="Button_PFDHeadingRight" disabled="true" onclick="HeadingRight()" title="右转" aria-label="右转">
+																		<svg class="Icon" viewBox="0 0 16 16" aria-hidden="true">
+																			<path d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+																		</svg>
+																	</button>
+																	<span class="HotkeyIndicator Faded" inert="true">H</span>
 																</li>
 															</ul>
 														</li>
@@ -2749,6 +2830,9 @@
 												</li>
 												<li class="Ctrl" id="Ctrl_PFDResetAvgSpeeds">
 													<button class="Button" onclick="ResetAvgSpeeds()">重置平均速度</button>
+												</li>
+												<li class="Ctrl" id="Ctrl_PFDHotkeyList">
+													<a class="Button" href="images/快捷键一览.jpg">快捷键一览</a>
 												</li>
 											</ul>
 										</li>
@@ -2899,10 +2983,15 @@
 														时间戳：<span id="Label_PFDTechInfoAccelTimestamp">未知</span></p>
 													<h4>手动</h4>
 													<p>俯仰：<span id="Label_PFDTechInfoManualPitch">未知</span><br />
+														俯仰趋势：<span id="Label_PFDTechInfoManualPitchTrend">未知</span><br />
 														横滚：<span id="Label_PFDTechInfoManualRoll">未知</span><br />
+														横滚趋势：<span id="Label_PFDTechInfoManualRollTrend">未知</span><br />
 														速度：<span id="Label_PFDTechInfoManualSpeed">未知</span><br />
+														速度趋势：<span id="Label_PFDTechInfoManualSpeedTrend">未知</span><br />
 														高度：<span id="Label_PFDTechInfoManualAltitude">未知</span><br />
-														朝向：<span id="Label_PFDTechInfoManualHeading">未知</span></p>
+														高度趋势：<span id="Label_PFDTechInfoManualAltitudeTrend">未知</span><br />
+														朝向：<span id="Label_PFDTechInfoManualHeading">未知</span><br />
+														朝向趋势：<span id="Label_PFDTechInfoManualHeadingTrend">未知</span></p>
 												</li>
 											</ul>
 										</li>
@@ -3632,8 +3721,11 @@
 							<legend>教程</legend>
 							<p>本应用程序的教程以 PDF 文档的形式提供。这方便您保存至本地，还可以打印出来备用。</p>
 							<ul class="CtrlGroup BelowParagraph">
-								<li class="Ctrl">
+								<li class="Ctrl WidthDividedBy2">
 									<a class="Button" href="docs/GPS-PFD%20说明文档.pdf">说明文档</a>
+								</li>
+								<li class="Ctrl WidthDividedBy2">
+									<a class="Button" href="images/快捷键一览.jpg">快捷键一览</a>
 								</li>
 							</ul>
 						</fieldset>
@@ -3703,7 +3795,7 @@
 							<legend>关于</legend>
 							<p>GPS-PFD</p>
 							<p>by SAM TOKI STUDIO</p>
-							<p>版本 v0.38 (<time datetime="2025-07-25" pubdate="pubdate">2025/07/25</time>) Beta Test<br />
+							<p>版本 v0.39 (<time datetime="2025-07-28" pubdate="pubdate">2025/07/28</time>) Beta Test<br />
 								始于 2024/12/01</p>
 							<p class="GreenText Hidden" id="Label_HelpPWANewVersionReady" inert="true">新版本已就绪，将在下次启动时生效。</p>
 							<ul class="CtrlGroup BelowParagraph">
