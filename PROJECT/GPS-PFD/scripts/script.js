@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.38,
+		const CurrentVersion = 0.39,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -61,9 +61,12 @@
 				},
 				Manual: {
 					Attitude: {
-						Pitch: 0, Roll: 0
+						Pitch: 0, PitchTrend: 0,
+						Roll: 0, RollTrend: 0
 					},
-					Speed: 0, Altitude: 0, Heading: 0
+					Speed: 0, SpeedTrend: 0,
+					Altitude: 0, AltitudeTrend: 0,
+					Heading: 0, HeadingTrend: 0
 				}
 			},
 			Status: {
@@ -991,6 +994,7 @@
 		// Call
 		RefreshGPSStatus();
 		RefreshAccelStatus();
+		RefreshManualData();
 		RefreshPFDData();
 		RefreshScale();
 		RefreshPanel();
@@ -1037,6 +1041,40 @@
 				PFD0.Status.IsAccelAvailable = false;
 			}
 		}
+		function RefreshManualData() {
+			// Attitude
+			if(PFD.Attitude.IsEnabled == true && PFD.Attitude.Mode == "Manual") {
+				PFD0.RawData.Manual.Attitude.Pitch = CheckRangeAndCorrect(PFD0.RawData.Manual.Attitude.Pitch + PFD0.RawData.Manual.Attitude.PitchTrend * ((PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime) / 1000), -90, 90);
+				PFD0.RawData.Manual.Attitude.Roll += PFD0.RawData.Manual.Attitude.RollTrend * ((PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime) / 1000);
+				if(PFD0.RawData.Manual.Attitude.Roll < -180) {
+					PFD0.RawData.Manual.Attitude.Roll += 360;
+				}
+				if(PFD0.RawData.Manual.Attitude.Roll > 180) {
+					PFD0.RawData.Manual.Attitude.Roll -= 360;
+				}
+			}
+
+			// Speed
+			if(PFD.Speed.Mode == "Manual") {
+				PFD0.RawData.Manual.Speed = CheckRangeAndCorrect(PFD0.RawData.Manual.Speed + PFD0.RawData.Manual.SpeedTrend * ((PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime) / 1000), 0, 555.55556);
+			}
+
+			// Altitude
+			if(PFD.Altitude.Mode == "Manual") {
+				PFD0.RawData.Manual.Altitude = CheckRangeAndCorrect(PFD0.RawData.Manual.Altitude + PFD0.RawData.Manual.AltitudeTrend * ((PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime) / 1000), -609.6, 15240);
+			}
+
+			// Heading
+			if(PFD.Heading.Mode == "Manual") {
+				PFD0.RawData.Manual.Heading += PFD0.RawData.Manual.HeadingTrend * ((PFD0.Stats.ClockTime - PFD0.Stats.PreviousClockTime) / 1000);
+				if(PFD0.RawData.Manual.Heading < 0) {
+					PFD0.RawData.Manual.Heading += 360;
+				}
+				if(PFD0.RawData.Manual.Heading >= 360) {
+					PFD0.RawData.Manual.Heading -= 360;
+				}
+			}
+		}
 		function RefreshPFDData() {
 			// Attitude
 			if(PFD.Attitude.IsEnabled == true) {
@@ -1044,21 +1082,21 @@
 					case PFD.Attitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true:
 						PFD0.Stats.Attitude.Pitch = CheckRangeAndCorrect(PFD0.RawData.Accel.Attitude.Aligned.Pitch, -90, 90);
 						PFD0.Stats.Attitude.Roll = PFD0.RawData.Accel.Attitude.Aligned.Roll;
+						if(PFD0.Stats.Attitude.Roll < -180) {
+							PFD0.Stats.Attitude.Roll += 360;
+						}
+						if(PFD0.Stats.Attitude.Roll > 180) {
+							PFD0.Stats.Attitude.Roll -= 360;
+						}
 						break;
 					case PFD.Attitude.Mode == "Manual":
-						PFD0.Stats.Attitude.Pitch = CheckRangeAndCorrect(PFD0.RawData.Manual.Attitude.Pitch, -90, 90);
+						PFD0.Stats.Attitude.Pitch = PFD0.RawData.Manual.Attitude.Pitch;
 						PFD0.Stats.Attitude.Roll = PFD0.RawData.Manual.Attitude.Roll;
 						break;
 					default:
 						break;
 				}
 				PFD0.Stats.Attitude.Pitch2 = CheckRangeAndCorrect(PFD0.Stats.Attitude.Pitch, -20, 20);
-				if(PFD0.Stats.Attitude.Roll < -180) {
-					PFD0.Stats.Attitude.Roll += 360;
-				}
-				if(PFD0.Stats.Attitude.Roll > 180) {
-					PFD0.Stats.Attitude.Roll -= 360;
-				}
 			}
 
 			// Altitude (Updated before speed because speed data relies on altitude variation)
@@ -1964,10 +2002,15 @@
 
 			// Manual
 			ChangeText("Label_PFDTechInfoManualPitch", PFD0.RawData.Manual.Attitude.Pitch.toFixed(2) + "度");
+			ChangeText("Label_PFDTechInfoManualPitchTrend", PFD0.RawData.Manual.Attitude.PitchTrend.toFixed(2) + "度/秒");
 			ChangeText("Label_PFDTechInfoManualRoll", PFD0.RawData.Manual.Attitude.Roll.toFixed(2) + "度");
+			ChangeText("Label_PFDTechInfoManualRollTrend", PFD0.RawData.Manual.Attitude.RollTrend.toFixed(2) + "度/秒");
 			ChangeText("Label_PFDTechInfoManualSpeed", PFD0.RawData.Manual.Speed.toFixed(2) + "米/秒");
+			ChangeText("Label_PFDTechInfoManualSpeedTrend", PFD0.RawData.Manual.SpeedTrend.toFixed(2) + "m/s²");
 			ChangeText("Label_PFDTechInfoManualAltitude", PFD0.RawData.Manual.Altitude.toFixed(2) + "米");
+			ChangeText("Label_PFDTechInfoManualAltitudeTrend", PFD0.RawData.Manual.AltitudeTrend.toFixed(2) + "米/秒");
 			ChangeText("Label_PFDTechInfoManualHeading", PFD0.RawData.Manual.Heading.toFixed(2) + "度");
+			ChangeText("Label_PFDTechInfoManualHeadingTrend", PFD0.RawData.Manual.HeadingTrend.toFixed(2) + "度/秒");
 		}
 
 	function RefreshPFD() {
@@ -1985,32 +2028,42 @@
 							ChangeDisabled("Button_PFDPitchUp", false);
 							ChangeDisabled("Button_PFDRollLeft", false);
 							ChangeDisabled("Button_PFDRollRight", false);
+							ChangeDisabled("Button_PFDMaintainAttitude", false);
+							ChangeDisabled("Button_PFDResetAttitude", false);
 						} else {
 							ChangeDisabled("Button_PFDPitchDown", true);
 							ChangeDisabled("Button_PFDPitchUp", true);
 							ChangeDisabled("Button_PFDRollLeft", true);
 							ChangeDisabled("Button_PFDRollRight", true);
+							ChangeDisabled("Button_PFDMaintainAttitude", true);
+							ChangeDisabled("Button_PFDResetAttitude", true);
 						}
 						if(PFD.Speed.Mode == "Manual") {
 							ChangeDisabled("Button_PFDSpeedUp", false);
 							ChangeDisabled("Button_PFDSpeedDown", false);
+							ChangeDisabled("Button_PFDMaintainSpeed", false);
 						} else {
 							ChangeDisabled("Button_PFDSpeedUp", true);
 							ChangeDisabled("Button_PFDSpeedDown", true);
+							ChangeDisabled("Button_PFDMaintainSpeed", true);
 						}
 						if(PFD.Altitude.Mode == "Manual") {
 							ChangeDisabled("Button_PFDAltitudeUp", false);
 							ChangeDisabled("Button_PFDAltitudeDown", false);
+							ChangeDisabled("Button_PFDMaintainAltitude", false);
 						} else {
 							ChangeDisabled("Button_PFDAltitudeUp", true);
 							ChangeDisabled("Button_PFDAltitudeDown", true);
+							ChangeDisabled("Button_PFDMaintainAltitude", true);
 						}
 						if(PFD.Heading.Mode == "Manual") {
 							ChangeDisabled("Button_PFDHeadingLeft", false);
 							ChangeDisabled("Button_PFDHeadingRight", false);
+							ChangeDisabled("Button_PFDMaintainHeading", false);
 						} else {
 							ChangeDisabled("Button_PFDHeadingLeft", true);
 							ChangeDisabled("Button_PFDHeadingRight", true);
+							ChangeDisabled("Button_PFDMaintainHeading", true);
 						}
 					} else {
 						Hide("Ctrl_PFDManualManeuver");
@@ -2460,84 +2513,53 @@
 			// Ctrl
 				// Manual maneuver
 				function PitchDown() {
-					PFD0.RawData.Manual.Attitude.Pitch = CheckRangeAndCorrect(PFD0.RawData.Manual.Attitude.Pitch - 0.5, -90, 90);
-					RefreshPFD();
+					PFD0.RawData.Manual.Attitude.PitchTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.Attitude.PitchTrend - 0.25, -50, 50);
 				}
 				function PitchUp() {
-					PFD0.RawData.Manual.Attitude.Pitch = CheckRangeAndCorrect(PFD0.RawData.Manual.Attitude.Pitch + 0.5, -90, 90);
-					RefreshPFD();
+					PFD0.RawData.Manual.Attitude.PitchTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.Attitude.PitchTrend + 0.25, -50, 50);
 				}
 				function RollLeft() {
-					PFD0.RawData.Manual.Attitude.Roll -= 0.5;
-					if(PFD0.RawData.Manual.Attitude.Roll < -180) {
-						PFD0.RawData.Manual.Attitude.Roll += 360;
-					}
-					if(PFD0.RawData.Manual.Attitude.Roll > 180) {
-						PFD0.RawData.Manual.Attitude.Roll -= 360;
-					}
-					RefreshPFD();
+					PFD0.RawData.Manual.Attitude.RollTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.Attitude.RollTrend - 0.5, -100, 100);
 				}
 				function RollRight() {
-					PFD0.RawData.Manual.Attitude.Roll += 0.5;
-					if(PFD0.RawData.Manual.Attitude.Roll < -180) {
-						PFD0.RawData.Manual.Attitude.Roll += 360;
-					}
-					if(PFD0.RawData.Manual.Attitude.Roll > 180) {
-						PFD0.RawData.Manual.Attitude.Roll -= 360;
-					}
-					RefreshPFD();
+					PFD0.RawData.Manual.Attitude.RollTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.Attitude.RollTrend + 0.5, -100, 100);
+				}
+				function MaintainAttitude() {
+					PFD0.RawData.Manual.Attitude.PitchTrend = 0;
+					PFD0.RawData.Manual.Attitude.RollTrend = 0;
+				}
+				function ResetAttitude() {
+					PFD0.RawData.Manual.Attitude = {
+						Pitch: 0, PitchTrend: 0,
+						Roll: 0, RollTrend: 0
+					};
 				}
 				function SpeedUp() {
-					PFD0.RawData.Manual.Speed = CheckRangeAndCorrect(PFD0.RawData.Manual.Speed + 0.5, 0, 555.55556);
-					RefreshPFD();
+					PFD0.RawData.Manual.SpeedTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.SpeedTrend + 0.05144, -10.288, 10.288);
 				}
 				function SpeedDown() {
-					PFD0.RawData.Manual.Speed = CheckRangeAndCorrect(PFD0.RawData.Manual.Speed - 0.5, 0, 555.55556);
-					RefreshPFD();
+					PFD0.RawData.Manual.SpeedTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.SpeedTrend - 0.05144, -10.288, 10.288);
 				}
-				function SpeedUpSlightly() {
-					PFD0.RawData.Manual.Speed = CheckRangeAndCorrect(PFD0.RawData.Manual.Speed + 0.1, 0, 555.55556);
-					RefreshPFD();
-				}
-				function SpeedDownSlightly() {
-					PFD0.RawData.Manual.Speed = CheckRangeAndCorrect(PFD0.RawData.Manual.Speed - 0.1, 0, 555.55556);
-					RefreshPFD();
+				function MaintainSpeed() {
+					PFD0.RawData.Manual.SpeedTrend = 0;
 				}
 				function AltitudeUp() {
-					PFD0.RawData.Manual.Altitude = CheckRangeAndCorrect(PFD0.RawData.Manual.Altitude + 2, -609.6, 15240);
-					RefreshPFD();
+					PFD0.RawData.Manual.AltitudeTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.AltitudeTrend + 0.33867, -67.73333, 67.73333);
 				}
 				function AltitudeDown() {
-					PFD0.RawData.Manual.Altitude = CheckRangeAndCorrect(PFD0.RawData.Manual.Altitude - 2, -609.6, 15240);
-					RefreshPFD();
+					PFD0.RawData.Manual.AltitudeTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.AltitudeTrend - 0.33867, -67.73333, 67.73333);
 				}
-				function AltitudeUpSlightly() {
-					PFD0.RawData.Manual.Altitude = CheckRangeAndCorrect(PFD0.RawData.Manual.Altitude + 0.4, -609.6, 15240);
-					RefreshPFD();
-				}
-				function AltitudeDownSlightly() {
-					PFD0.RawData.Manual.Altitude = CheckRangeAndCorrect(PFD0.RawData.Manual.Altitude - 0.4, -609.6, 15240);
-					RefreshPFD();
+				function MaintainAltitude() {
+					PFD0.RawData.Manual.AltitudeTrend = 0;
 				}
 				function HeadingLeft() {
-					PFD0.RawData.Manual.Heading -= 1;
-					if(PFD0.RawData.Manual.Heading < 0) {
-						PFD0.RawData.Manual.Heading += 360;
-					}
-					if(PFD0.RawData.Manual.Heading >= 360) {
-						PFD0.RawData.Manual.Heading -= 360;
-					}
-					RefreshPFD();
+					PFD0.RawData.Manual.HeadingTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.HeadingTrend - 0.5, -100, 100);
 				}
 				function HeadingRight() {
-					PFD0.RawData.Manual.Heading += 1;
-					if(PFD0.RawData.Manual.Heading < 0) {
-						PFD0.RawData.Manual.Heading += 360;
-					}
-					if(PFD0.RawData.Manual.Heading >= 360) {
-						PFD0.RawData.Manual.Heading -= 360;
-					}
-					RefreshPFD();
+					PFD0.RawData.Manual.HeadingTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.HeadingTrend + 0.5, -100, 100);
+				}
+				function MaintainHeading() {
+					PFD0.RawData.Manual.HeadingTrend = 0;
 				}
 
 				// MCP
@@ -3223,6 +3245,22 @@
 						ShowHotkeyIndicators();
 					}
 					break;
+				case "E":
+					if(PFD.Attitude.Mode == "Manual") {
+						MaintainAttitude();
+					}
+					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
+						ShowHotkeyIndicators();
+					}
+					break;
+				case "Q":
+					if(PFD.Attitude.Mode == "Manual") {
+						ResetAttitude();
+					}
+					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
+						ShowHotkeyIndicators();
+					}
+					break;
 				case "U":
 					if(PFD.Speed.Mode == "Manual") {
 						SpeedUp();
@@ -3239,17 +3277,9 @@
 						ShowHotkeyIndicators();
 					}
 					break;
-				case "Y":
+				case "I":
 					if(PFD.Speed.Mode == "Manual") {
-						SpeedUpSlightly();
-					}
-					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
-						ShowHotkeyIndicators();
-					}
-					break;
-				case "H":
-					if(PFD.Speed.Mode == "Manual") {
-						SpeedDownSlightly();
+						MaintainSpeed();
 					}
 					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
 						ShowHotkeyIndicators();
@@ -3271,23 +3301,15 @@
 						ShowHotkeyIndicators();
 					}
 					break;
-				case "I":
+				case "P":
 					if(PFD.Altitude.Mode == "Manual") {
-						AltitudeUpSlightly();
+						MaintainAltitude();
 					}
 					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
 						ShowHotkeyIndicators();
 					}
 					break;
-				case "K":
-					if(PFD.Altitude.Mode == "Manual") {
-						AltitudeDownSlightly();
-					}
-					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
-						ShowHotkeyIndicators();
-					}
-					break;
-				case "Q":
+				case "G":
 					if(PFD.Heading.Mode == "Manual") {
 						HeadingLeft();
 					}
@@ -3295,9 +3317,17 @@
 						ShowHotkeyIndicators();
 					}
 					break;
-				case "E":
+				case "H":
 					if(PFD.Heading.Mode == "Manual") {
 						HeadingRight();
+					}
+					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
+						ShowHotkeyIndicators();
+					}
+					break;
+				case "Y":
+					if(PFD.Heading.Mode == "Manual") {
+						MaintainHeading();
 					}
 					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
 						ShowHotkeyIndicators();

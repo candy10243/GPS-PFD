@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CacheName = "GPS-PFD_v0.38";
+		const CacheName = "GPS-PFD_v0.39";
 
 // Listeners
 	// Service worker (https://learn.microsoft.com/en-us/microsoft-edge/progressive-web-apps-chromium/how-to/#step-5---add-a-service-worker)
@@ -46,6 +46,7 @@
 				"../cursors/GenshinFurina.cur",
 				"../cursors/GenshinNahida.cur",
 				"../images/Background.jpg",
+				"images/快捷键一览.jpg",
 				"../audio/Beep.mp3",
 				"audio/Airbus_10.mp3",
 				"audio/Airbus_20.mp3",

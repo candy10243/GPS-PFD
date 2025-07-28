@@ -1024,8 +1024,8 @@
 
 				/* Area specific */
 					/* Ctrl */
-						/* Fullscreen & Reset speeds */
-						#Ctrl_PFDToggleFullscreen, #Ctrl_PFDResetAccelSpeed, #Ctrl_PFDResetAvgSpeeds {
+						/* Fullscreen etc. */
+						#Ctrl_PFDToggleFullscreen, #Ctrl_PFDResetAccelSpeed, #Ctrl_PFDResetAvgSpeeds, #Ctrl_PFDHotkeyList {
 							height: 35px;
 						}
 
@@ -1034,7 +1034,7 @@
 							width: 100%;
 						}
 						#Ctrl_PFDManualManeuver > .CtrlGroup > .Ctrl {
-							height: 110px; margin: 0 0 10px 0;
+							height: 155px; margin: 0 0 10px 0;
 						}
 						#Ctrl_PFDAttitudeManeuver {
 							width: 125px;
@@ -1049,7 +1049,7 @@
 						}
 						#Ctrl_PFDManualManeuver .Ctrl .CtrlGroup {
 							position: relative;
-							width: 100%; height: 80px;
+							width: 100%; height: 125px;
 						}
 						#CtrlGroup_PFDAttitudeManeuver .Ctrl {
 							position: absolute; top: unset; left: unset;
@@ -1059,22 +1059,24 @@
 							top: 0; left: 45px;
 						}
 						#Ctrl_PFDManualManeuver .Ctrl #Ctrl_PFDPitchUp {
-							top: 45px; left: 45px;
+							top: 90px; left: 45px;
 						}
 						#Ctrl_PFDManualManeuver .Ctrl #Ctrl_PFDRollLeft {
-							top: 22.5px; left: 0;
+							top: 45px; left: 0;
 						}
 						#Ctrl_PFDManualManeuver .Ctrl #Ctrl_PFDRollRight {
-							top: 22.5px; left: 90px;
+							top: 45px; left: 90px;
+						}
+						#Ctrl_PFDManualManeuver .Ctrl #Ctrl_PFDMaintainAttitude {
+							top: 45px; left: 45px;
+						}
+						#Ctrl_PFDManualManeuver .Ctrl #Ctrl_PFDResetAttitude {
+							top: 0; left: 0;
 						}
 						#CtrlGroup_PFDSpeedManeuver, #CtrlGroup_PFDAltitudeManeuver, #CtrlGroup_PFDHeadingManeuver {
 							flex-direction: column;
 						}
 						#CtrlGroup_PFDSpeedManeuver .Ctrl, #CtrlGroup_PFDAltitudeManeuver .Ctrl, #CtrlGroup_PFDHeadingManeuver .Ctrl {
-							width: 35px;
-						}
-						#CtrlGroup_PFDSpeedManeuver .HotkeyIndicator, #CtrlGroup_PFDAltitudeManeuver .HotkeyIndicator {
-							left: calc(50% - 17.5px);
 							width: 35px;
 						}
 
