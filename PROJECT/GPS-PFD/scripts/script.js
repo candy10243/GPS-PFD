@@ -3212,6 +3212,14 @@
 					}
 					break;
 
+				// Fullscreen
+				case "T":
+					Click("Button_PFDToggleFullscreen");
+					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
+						ShowHotkeyIndicators();
+					}
+					break;
+
 				// Manual maneuver
 				case "W":
 					if(PFD.Attitude.Mode == "Manual") {
