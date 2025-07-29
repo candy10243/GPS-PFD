@@ -3214,7 +3214,7 @@
 
 				// Fullscreen
 				case "T":
-					Click("Button_PFDToggleFullscreen");
+					ToggleFullscreen();
 					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
 						ShowHotkeyIndicators();
 					}
