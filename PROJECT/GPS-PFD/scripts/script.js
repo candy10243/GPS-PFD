@@ -2535,19 +2535,19 @@
 					};
 				}
 				function SpeedUp() {
-					PFD0.RawData.Manual.SpeedTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.SpeedTrend + 0.05144, -10.288, 10.288);
+					PFD0.RawData.Manual.SpeedTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.SpeedTrend + 0.10288, -20.576, 20.576);
 				}
 				function SpeedDown() {
-					PFD0.RawData.Manual.SpeedTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.SpeedTrend - 0.05144, -10.288, 10.288);
+					PFD0.RawData.Manual.SpeedTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.SpeedTrend - 0.10288, -20.576, 20.576);
 				}
 				function MaintainSpeed() {
 					PFD0.RawData.Manual.SpeedTrend = 0;
 				}
 				function AltitudeUp() {
-					PFD0.RawData.Manual.AltitudeTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.AltitudeTrend + 0.33867, -67.73333, 67.73333);
+					PFD0.RawData.Manual.AltitudeTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.AltitudeTrend + 0.67733, -135.46667, 135.46667);
 				}
 				function AltitudeDown() {
-					PFD0.RawData.Manual.AltitudeTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.AltitudeTrend - 0.33867, -67.73333, 67.73333);
+					PFD0.RawData.Manual.AltitudeTrend = CheckRangeAndCorrect(PFD0.RawData.Manual.AltitudeTrend - 0.67733, -135.46667, 135.46667);
 				}
 				function MaintainAltitude() {
 					PFD0.RawData.Manual.AltitudeTrend = 0;
