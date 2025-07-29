@@ -1587,6 +1587,9 @@
 							if(ConvertedRadioAltitude <= 10 && ConvertedPreviousRadioAltitude > 10) {
 								PFD0.Alert.Active.AltitudeCallout = "10";
 							}
+							if(ConvertedRadioAltitude <= 5 && ConvertedPreviousRadioAltitude > 5) {
+								PFD0.Alert.Active.AltitudeCallout = "5";
+							}
 							if(ConvertedRadioAltitude <= (ConvertedDecisionHeight + 100) && ConvertedPreviousRadioAltitude > (ConvertedDecisionHeight + 100)) {
 								PFD0.Alert.Active.AltitudeCallout = "HundredAbove";
 							}
@@ -1595,9 +1598,6 @@
 							}
 							if(ConvertedRadioAltitude <= ConvertedDecisionHeight && ConvertedPreviousRadioAltitude > ConvertedDecisionHeight) {
 								PFD0.Alert.Active.AltitudeCallout = "Minimums";
-							}
-							if(ConvertedRadioAltitude <= 15 && ConvertedPreviousRadioAltitude > 15) {
-								PFD0.Alert.Active.AltitudeCallout = "Retard";
 							}
 							break;
 						case "TakeOff":
@@ -1760,8 +1760,8 @@
 				if(PFD0.Alert.Active.AltitudeCallout != PFD0.Alert.NowPlaying.AltitudeCallout && PFD0.Alert.Active.AltitudeWarning == "") {
 					switch(PFD0.Alert.Active.AltitudeCallout) {
 						case "":
+						case "5":
 						case "HundredAbove":
-						case "Retard":
 							break;
 						case "AltitudeBeep":
 							ChangeAudioLoop("Audio_AltitudeAlert", false);
@@ -1863,6 +1863,7 @@
 				if(PFD0.Alert.Active.AltitudeCallout != PFD0.Alert.NowPlaying.AltitudeCallout && PFD0.Alert.Active.AltitudeWarning == "") {
 					switch(PFD0.Alert.Active.AltitudeCallout) {
 						case "":
+						case "10":
 						case "ApproachingMinimums":
 							break;
 						case "AltitudeBeep":
@@ -1880,8 +1881,7 @@
 						case "40":
 						case "30":
 						case "20":
-						case "Retard":
-						case "10":
+						case "5":
 						case "HundredAbove":
 						case "Minimums":
 							ChangeAudioLoop("Audio_AltitudeAlert", false);

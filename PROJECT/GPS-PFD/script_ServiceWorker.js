@@ -48,7 +48,7 @@
 				"../images/Background.jpg",
 				"images/快捷键一览.jpg",
 				"../audio/Beep.mp3",
-				"audio/Airbus_10.mp3",
+				"audio/Airbus_5.mp3",
 				"audio/Airbus_20.mp3",
 				"audio/Airbus_30.mp3",
 				"audio/Airbus_40.mp3",
