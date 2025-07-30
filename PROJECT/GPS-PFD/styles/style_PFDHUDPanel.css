@@ -801,9 +801,9 @@
 
 					/* Radio altitude */
 					#Ctnr_PFDHUDPanelRadioAltitude {
-						position: absolute; top: calc(50% + 80px); right: calc(50% - 50px);
-						width: 100px; height: 40px; border-radius: 5px; padding: 5px;
-						background-color: #000000; filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+						position: absolute; top: calc(50% + 75px); right: calc(50% - 50px);
+						width: 100px; height: 50px; border-radius: 5px; padding: 5px;
+						background-color: #000000;
 						text-align: center;
 						display: flex; justify-content: center; align-items: center;
 					}
@@ -827,7 +827,7 @@
 					#Ctnr_PFDHUDPanelWarning {
 						position: absolute; top: calc(50% - 125px); left: calc(50% - 140px);
 						width: 280px; height: 50px; border-radius: 5px;
-						background-color: #000000; filter: drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00) drop-shadow(0 0 1px #00FF00);
+						background-color: #000000;
 						text-align: center;
 						display: flex; justify-content: center; align-items: center;
 					}
