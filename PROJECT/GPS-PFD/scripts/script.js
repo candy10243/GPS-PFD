@@ -2196,14 +2196,9 @@
 					break;
 			}
 			ChangeValue("Textbox_SettingsWindDirection", PFD.Speed.Wind.Direction);
+			ChangeValue("Textbox_SettingsWindSpeed", ConvertUnit(PFD.Speed.Wind.Speed, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
 			ChangeValue("Textbox_SettingsV1", ConvertUnit(PFD.Speed.TakeOff.V1, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
 			ChangeValue("Textbox_SettingsVR", ConvertUnit(PFD.Speed.TakeOff.VR, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
-			if(PFD.Speed.Wind.Direction > 0 || PFD.Speed.Wind.Speed > 0) {
-				ChangeDisabled("Button_SettingsWindReset", false);
-			} else {
-				ChangeDisabled("Button_SettingsWindReset", true);
-			}
-			ChangeValue("Textbox_SettingsWindSpeed", ConvertUnit(PFD.Speed.Wind.Speed, "MeterPerSec", Subsystem.I18n.SpeedUnit).toFixed(0));
 			switch(true) {
 				case PFD.Speed.SpeedLimit.Min == 0 && PFD.Speed.SpeedLimit.MaxOnFlapsUp == 277.5 && PFD.Speed.SpeedLimit.MaxOnFlapsFull == 277.5:
 					ChangeValue("Combobox_SettingsSpeedLimitPreset", "NoSpeedLimits");
@@ -2733,12 +2728,6 @@
 		}
 		function SetWindSpeed() {
 			PFD.Speed.Wind.Speed = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_SettingsWindSpeed")), Subsystem.I18n.SpeedUnit, "MeterPerSec"), 0, 277.5);
-			RefreshPFD();
-		}
-		function ResetWind() {
-			PFD.Speed.Wind = {
-				Direction: 0, Speed: 0
-			};
 			RefreshPFD();
 		}
 		function SetV1() {
