@@ -2963,8 +2963,8 @@
 													<p>对齐后向前：<span id="Label_PFDTechInfoAlignedForward">未知</span><br />
 														对齐后向右：<span id="Label_PFDTechInfoAlignedRight">未知</span><br />
 														对齐后向上：<span id="Label_PFDTechInfoAlignedUpward">未知</span></p>
-													<p>俯仰：<span id="Label_PFDTechInfoAccelPitch">未知</span><br />
-														横滚：<span id="Label_PFDTechInfoAccelRoll">未知</span><br />
+													<p><a href="https://zh.wikipedia.org/wiki/航空器三主轴">俯仰</a>：<span id="Label_PFDTechInfoAccelPitch">未知</span><br />
+														<a href="https://zh.wikipedia.org/wiki/航空器三主轴">横滚</a>：<span id="Label_PFDTechInfoAccelRoll">未知</span><br />
 														对齐后俯仰：<span id="Label_PFDTechInfoAlignedPitch">未知</span><br />
 														对齐后横滚：<span id="Label_PFDTechInfoAlignedRoll">未知</span></p>
 													<p>速度矢量向前：<span id="Label_PFDTechInfoSpeedVectorForward">未知</span><br />
@@ -3029,7 +3029,7 @@
 								</li>
 							</ul>
 							<h4 id="Label_SettingsAttitudeOffset">姿态偏移</h4>
-							<p id="Label_SettingsAttitudeOffsetInfo">姿态偏移适用于无法自由摆放设备的情况。俯仰抬头是正值，低头是负值。横滚 (roll) 右倾是正值，左倾是负值。姿态模式为「手动」时此设定无效。</p>
+							<p id="Label_SettingsAttitudeOffsetInfo">姿态偏移适用于无法自由摆放设备的情况。俯仰抬头是正值，低头是负值。<a href="https://zh.wikipedia.org/wiki/航空器三主轴">横滚 (roll) </a>右倾是正值，左倾是负值。姿态模式为「手动」时此设定无效。</p>
 							<ul class="CtrlGroup BelowParagraph">
 								<li class="Ctrl" id="Ctrl_SettingsAttitudeOffsetPitch">
 									<label for="Textbox_SettingsAttitudeOffsetPitch">
@@ -3065,7 +3065,7 @@
 								</li>
 							</ul>
 							<h4>空速</h4>
-							<p>GPS 与加速计只能测量地速，因此空速需要通过算法从地速转换而来。详见<a href="docs/GPS-PFD%20说明文档.pdf">说明文档</a>。</p>
+							<p>GPS 与加速计只能测量地速，因此<a href="https://zh.wikipedia.org/wiki/空速">空速</a>需要通过算法从地速转换而来。详见<a href="docs/GPS-PFD%20说明文档.pdf">说明文档</a>。</p>
 							<ul class="CtrlGroup BelowParagraph">
 								<li class="Ctrl">
 									<label for="Combobox_SettingsIASAlgorithm">
@@ -3269,7 +3269,7 @@
 					<li class="Item" id="Item_SettingsNav">
 						<fieldset>
 							<legend>导航</legend>
-							<p>导航功能参考自<a href="https://zh.wikipedia.org/wiki/仪表着陆系统">仪表着陆系统 (ILS)</a>。包括<a href="https://zh.wikipedia.org/wiki/测距仪">测距仪 (DME) </a>、导航朝向 (bearing)、航向台 (localizer)、下滑道 (glide slope) 以及指点标 (marker beacons)。测距仪测量您与机场之间的水平距离，预测到达机场前的剩余时间。下滑道使<a href="https://zh.wikipedia.org/wiki/近地警告系统">近地警告系统 (GPWS) </a>的下滑道警告功能可用。航向台与下滑道仅在<a href="#Item_SettingsFlightMode" onclick="ShowIAmHere('Item_SettingsFlightMode')">飞航模式</a>为「降落」或「紧急返航」时显示。</p>
+							<p>导航功能参考自<a href="https://zh.wikipedia.org/wiki/仪表着陆系统">仪表着陆系统 (ILS)</a>。包括<a href="https://zh.wikipedia.org/wiki/测距仪">测距仪 (DME) </a>、导航朝向 (bearing)、<a href="https://zh.wikipedia.org/wiki/仪表着陆系统#航向台和下滑台">航向台 (localizer)、下滑道 (glide slope) </a>以及<a href="https://zh.wikipedia.org/wiki/仪表着陆系统#指点标">指点标 (marker beacons)</a>。测距仪测量您与机场之间的水平距离，预测到达机场前的剩余时间。下滑道使<a href="https://zh.wikipedia.org/wiki/近地警告系统">近地警告系统 (GPWS) </a>的下滑道警告功能可用。航向台与下滑道仅在<a href="#Item_SettingsFlightMode" onclick="ShowIAmHere('Item_SettingsFlightMode')">飞航模式</a>为「降落」或「紧急返航」时显示。</p>
 							<ul class="CtrlGroup BelowParagraph">
 								<li class="Ctrl">
 									<label for="Checkbox_SettingsEnableNav">
@@ -3360,7 +3360,7 @@
 					<li class="Item" id="Item_SettingsFlightMode">
 						<fieldset>
 							<legend>飞航模式</legend>
-							<p>飞航模式用于决定参考出发机场还是到达机场的数据，以及切换近地警告系统的模式。飞航模式可在特定条件下自动切换。具体条件详见<a href="docs/GPS-PFD%20说明文档.pdf">说明文档</a>。</p>
+							<p>飞航模式用于决定参考出发机场还是到达机场的数据，以及切换近地警告系统的模式。飞航模式可在特定条件下自动切换。具体条件详见说明文档。</p>
 							<ul class="CtrlGroup BelowParagraph">
 								<li class="Ctrl">
 									<label for="Combobox_SettingsFlightMode">
@@ -3525,7 +3525,7 @@
 								<li class="Ctrl">
 									<label for="Checkbox_SettingsAlwaysUseEnglishTerminologyOnPFD">
 										<input class="Checkbox" id="Checkbox_SettingsAlwaysUseEnglishTerminologyOnPFD" type="checkbox" checked="false" onchange="SetAlwaysUseEnglishTerminologyOnPFD()" />
-										<span>在 PFD 上始终使用英文术语</span>
+										<span>在 <a href="https://zh.wikipedia.org/wiki/主飞行显示器">PFD</a> 上始终使用英文术语</span>
 									</label>
 								</li>
 							</ul>
@@ -3691,7 +3691,7 @@
 					<li class="Item">
 						<fieldset>
 							<legend>简介</legend>
-							<p>GPS-PFD，利用 <a href="https://zh.wikipedia.org/wiki/GPS">GPS</a> 与<a href="https://zh.wikipedia.org/wiki/加速计">加速计</a>，在移动设备上模拟飞机驾驶舱的 <a href="https://zh.wikipedia.org/wiki/主飞行显示器">PFD</a>。</p>
+							<p>GPS-PFD，利用 <a href="https://zh.wikipedia.org/wiki/GPS">GPS</a> 与<a href="https://zh.wikipedia.org/wiki/加速计">加速计</a>，在移动设备上模拟飞机驾驶舱的 PFD。</p>
 							<p>备注：这里的「GPS」指的是位置服务，其利用以 GPS 为代表的<a href="https://zh.wikipedia.org/wiki/卫星导航系统">卫星导航系统 (GNSS) </a>来精确定位。卫星导航系统包括美国 GPS、俄罗斯 <a href="https://zh.wikipedia.org/wiki/GLONASS">GLONASS</a>，以及中国<a href="https://zh.wikipedia.org/wiki/北斗卫星导航系统">北斗</a>等。加速计亦称加速度传感器、重力感应器，用于测量姿态、速度与高度。</p>
 						</fieldset>
 					</li>
@@ -3701,7 +3701,7 @@
 							<h4>使用环境</h4>
 							<p>建议在搭载了 GPS 芯片与加速计的移动设备 (智能手机或平板电脑) 上使用本应用程序。否则核心功能可能不可用。在交通工具上可能需要靠窗才能接收到 GPS 信号。GPS 可能会非常耗电，因此建议使用时连接移动电源 (充电宝)。</p>
 							<h4>离线使用</h4>
-							<p>在没有网络连接的飞机上，您需要离线使用本应用程序。有两种方式来离线使用：①断网前先在线访问一次。②下载资源至本地，在本地运行网页。详见<a href="docs/GPS-PFD%20说明文档.pdf">说明文档</a>中的「使用方式」。</p>
+							<p>在没有网络连接的飞机上，您需要离线使用本应用程序。有两种方式来离线使用：①断网前先在线访问一次。②下载资源至本地，在本地运行网页。详见说明文档中的「使用方式」。</p>
 							<h4>安全与隐私</h4>
 							<p>本应用程序仅供娱乐用途。警报功能可能出现误报。使用时请注意安全。本应用程序可能使用位置服务。详见<a href="#Item_HelpDisclaimer" onclick="ShowIAmHere('Item_HelpDisclaimer')">免责声明</a>与<a href="#Item_HelpPrivacyStatement" onclick="ShowIAmHere('Item_HelpPrivacyStatement')">隐私权声明</a>。</p>
 							<h4>已知问题</h4>
@@ -3746,7 +3746,7 @@
 						<fieldset>
 							<legend>免责声明</legend>
 							<p>本应用程序仅供娱乐用途，不能替代飞机驾驶舱仪表。</p>
-							<p>首先，系统能够测量的数据有限。<a href="https://zh.wikipedia.org/wiki/空速">空速</a>、风、<a href="https://en.wikipedia.org/wiki/Radio_altimeter">无线电高度</a>、<a href="https://zh.wikipedia.org/wiki/航空器三主轴">偏航 (yaw) </a>等无法测量。因此这些数据或是依赖算法转换，或是依赖手动设定，抑或是直接被忽略。其次，数据不保证准确。GPS 与加速计只能测量地速，因此空速需要通过算法从地速转换而来。GPS 高度也不如<a href="https://zh.wikipedia.org/wiki/高度计#氣壓高度計">气压高度计</a>可靠。其三，数据更新可能有延迟。一方面系统为了显示流畅而设计了显示延迟，另一方面 GPS 信号也会有延迟。</p>
+							<p>首先，系统能够测量的数据有限。空速、风、<a href="https://en.wikipedia.org/wiki/Radio_altimeter">无线电高度</a>、<a href="https://zh.wikipedia.org/wiki/航空器三主轴">偏航 (yaw) </a>等无法测量。因此这些数据或是依赖算法转换，或是依赖手动设定，抑或是直接被忽略。其次，数据不保证准确。GPS 与加速计只能测量地速，因此空速需要通过算法从地速转换而来。GPS 高度也不如<a href="https://zh.wikipedia.org/wiki/高度计#氣壓高度計">气压高度计</a>可靠。其三，数据更新可能有延迟。一方面系统为了显示流畅而设计了显示延迟，另一方面 GPS 信号也会有延迟。</p>
 							<p>鉴于上述原因，您尤其需要注意，警报功能可能出现误报。请勿在公共场合外放警报声音。</p>
 							<p>在交通工具上使用时，请固定好您的设备，且不要一边驾驶交通工具一边操作设备。</p>
 							<p>若您不当使用本应用程序造成损失，SAM TOKI STUDIO 恕不负责。</p>
@@ -3765,9 +3765,9 @@
 							<legend>版权说明</legend>
 							<p>本站的源代码遵循 <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU GPL v3 软件开源协议</a>。本站的部分内容为他人作品，版权为原作者所有，本站遵循 <a href="https://zh.wikipedia.org/wiki/fair_use">fair use</a> 原则使用并于 <a href="#Item_HelpCredits" onclick="ShowIAmHere('Item_HelpCredits')">Credits</a> 标注来源。</p>
 							<p>除上述内容之外，本站所有内容以及排版、美术设计均保留版权。</p>
-							<p>「苏菲的炼金工房」是 KOEI TECMO GAMES CO., LTD. 的作品与商标。<br />
-								「孤独摇滚！」是 <span lang="ja-JP">はまじあき／芳文社・アニプレックス</span> 的作品与商标。<br />
-								「原神」是 miHoYo Inc. 的作品与商标。</p>
+							<p>「<a href="https://zh.moegirl.org.cn/苏菲的炼金工房2_～不可思议梦的炼金术士～">苏菲的炼金工房</a>」是 <a href="https://zh.moegirl.org.cn/光荣特库摩游戏">KOEI TECMO GAMES</a> CO., LTD. 的作品与商标。<br />
+								「<a href="https://zh.moegirl.org.cn/孤独摇滚！">孤独摇滚！</a>」是 <span lang="ja-JP"><a href="https://zh.moegirl.org.cn/はまじあき">はまじあき</a>／<a href="https://zh.moegirl.org.cn/芳文社">芳文社</a>・<a href="https://zh.moegirl.org.cn/アニプレックス">アニプレックス</a></span> 的作品与商标。<br />
+								「<a href="https://zh.moegirl.org.cn/原神">原神</a>」是 <a href="https://zh.moegirl.org.cn/miHoYo">miHoYo</a> Inc. 的作品与商标。</p>
 						</fieldset>
 					</li>
 					<li class="Item" id="Item_HelpCredits">
