@@ -479,7 +479,8 @@
 				if(PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
 					Show("Ctnr_PFDHUDPanelDME");
 					if(PFD0.Stats.Nav.Distance < 10000000) { // Max 10000 kilometers.
-						ChangeText("Label_PFDHUDPanelDMEDistance", ConvertUnit(PFD0.Stats.Nav.Distance, "Meter", Subsystem.I18n.DistanceUnit).toFixed(1));
+						ChangeText("Label_PFDHUDPanelDMEDistance",
+							ConvertUnit(PFD0.Stats.Nav.Distance, "Meter", Subsystem.I18n.DistanceUnit).toFixed(1) + "<span class=\"SmallerText\">" + Translate(Subsystem.I18n.DistanceUnit + "OnPFD") + "</span>");
 						if(PFD0.Stats.Speed.GSDisplay > 0 && PFD0.Stats.Nav.ETA < 360000000) { // Max 100 hours.
 							ChangeText("Label_PFDHUDPanelDMEETA",
 								Math.trunc(PFD0.Stats.Nav.ETA / 3600000) + "<span class=\"SmallerText\">" + Translate("Hour") + "</span>" +

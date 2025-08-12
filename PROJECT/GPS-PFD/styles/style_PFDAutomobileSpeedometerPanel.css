@@ -128,18 +128,28 @@
 						#Ctrl_PFDAutomobileSpeedometerPanelDial .DialNumber1 {
 							margin: 2px 0 0 0;
 							font-size: 1.50em; text-align: center;
+							pointer-events: auto;
 						}
 						#Ctrl_PFDAutomobileSpeedometerPanelDial .DialNumber2 {
 							margin: 8px 0 0 0;
 							font-size: 1.50em; text-align: center;
+							pointer-events: auto;
 						}
 						#Ctrl_PFDAutomobileSpeedometerPanelDial .DialNumber3 {
 							margin: 6px 0 0 0;
 							font-size: 1.50em; text-align: center;
+							pointer-events: auto;
 						}
 						#Ctrl_PFDAutomobileSpeedometerPanelDial .DialNumber4 {
 							margin: 14px 0 0 0;
 							font-size: 1.50em; text-align: center;
+							pointer-events: auto;
+						}
+						#Label_PFDAutomobileSpeedometerPanelSpeedUnit {
+							position: absolute; bottom: calc(50% + 45px); left: calc(50% - 40px);
+							width: 80px;
+							text-align: center;
+							pointer-events: auto;
 						}
 
 						/* Needle */

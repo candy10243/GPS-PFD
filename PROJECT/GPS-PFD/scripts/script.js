@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.41,
+		const CurrentVersion = 0.42,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -648,6 +648,7 @@
 						AlertSystemError("A PFD style which is still under construction was selected.");
 						break;
 					case "AutomobileSpeedometer":
+						ChangeText("Label_PFDAutomobileSpeedometerPanelSpeedUnit", Translate(Subsystem.I18n.SpeedUnit + "OnPFD"));
 						ChangeText("Label_PFDAutomobileSpeedometerPanelDMETitle", "测距仪");
 						ChangeText("Label_PFDAutomobileSpeedometerPanelAltitudeTitle", "高度");
 						break;
@@ -684,6 +685,7 @@
 						AlertSystemError("A PFD style which is still under construction was selected.");
 						break;
 					case "AutomobileSpeedometer":
+						ChangeText("Label_PFDAutomobileSpeedometerPanelSpeedUnit", Translate(Subsystem.I18n.SpeedUnit + "OnPFD"));
 						ChangeText("Label_PFDAutomobileSpeedometerPanelDMETitle", "DME");
 						ChangeText("Label_PFDAutomobileSpeedometerPanelAltitudeTitle", "ALT");
 						break;
@@ -4064,21 +4066,70 @@
 				}
 			case "KilometerPerHour":
 				return "公里/小时";
+			case "KilometerPerHourOnPFD":
+				if(Subsystem.I18n.AlwaysUseEnglishTerminologyOnPFD == false) {
+					return "公里/小时";
+				} else {
+					return "KM/H";
+				}
 			case "MilePerHour":
 				return "英里/小时";
+			case "MilePerHourOnPFD":
+				if(Subsystem.I18n.AlwaysUseEnglishTerminologyOnPFD == false) {
+					return "英里/小时";
+				} else {
+					return "MPH";
+				}
 			case "Knot":
 				return "节";
+			case "KnotOnPFD":
+				if(Subsystem.I18n.AlwaysUseEnglishTerminologyOnPFD == false) {
+					return "节";
+				} else {
+					return "KTS";
+				}
 			case "Kilometer":
 				return "公里";
+			case "KilometerOnPFD":
+				if(Subsystem.I18n.AlwaysUseEnglishTerminologyOnPFD == false) {
+					return "公里";
+				} else {
+					return "KM";
+				}
 			case "Mile":
 				return "英里";
+			case "MileOnPFD":
+				if(Subsystem.I18n.AlwaysUseEnglishTerminologyOnPFD == false) {
+					return "英里";
+				} else {
+					return "MI.";
+				}
 			case "NauticalMile":
 				return "海里";
+			case "NauticalMileOnPFD":
+				if(Subsystem.I18n.AlwaysUseEnglishTerminologyOnPFD == false) {
+					return "海里";
+				} else {
+					return "NM";
+				}
 			case "Meter":
 				return "米";
+			case "MeterOnPFD":
+				if(Subsystem.I18n.AlwaysUseEnglishTerminologyOnPFD == false) {
+					return "米";
+				} else {
+					return "M";
+				}
 			case "Feet":
 			case "FeetButShowMeterBeside":
 				return "英尺";
+			case "FeetOnPFD":
+			case "FeetButShowMeterBesideOnPFD":
+				if(Subsystem.I18n.AlwaysUseEnglishTerminologyOnPFD == false) {
+					return "英尺";
+				} else {
+					return "FT";
+				}
 			case "MeterPerSec":
 				return "米/秒";
 			case "FeetPerMin":
