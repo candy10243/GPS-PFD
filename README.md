@@ -12,6 +12,7 @@ Note: The "GPS" here stands for location services. Location services use [GNSSes
 
 ![预览 Preview 1](/PREVIEW/预览%20Preview%201.png)
 ![预览 Preview 2](/PREVIEW/预览%20Preview%202.png)
+![预览 Preview 3](/PREVIEW/预览%20Preview%203.png)
 
 # 使用前须知 Read Before Use
 
