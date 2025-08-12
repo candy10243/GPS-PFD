@@ -144,9 +144,20 @@
 						}
 
 					/* Vertical speed */
+						/* Additional indicators */
+							/* Other vertical speeds */
+							#CtrlGroup_PFDDefaultPanelOtherVerticalSpeeds #Ctrl_PFDDefaultPanelMCPVerticalSpeedCircle {
+								border: 2px solid #C040C0;
+							}
+
 						/* Balloon */
 						#Ctrl_PFDDefaultPanelVerticalSpeedBalloon {
 							background-color: #E7DDD1; filter: drop-shadow(0 0 0.5px #291900) drop-shadow(0 0 0.5px #291900) drop-shadow(0 0 0.5px #291900) drop-shadow(0 0 0.5px #291900);
+						}
+
+						/* MCP */
+						#Label_PFDDefaultPanelMCPVerticalSpeed {
+							color: #C040C0;
 						}
 
 					/* Heading */

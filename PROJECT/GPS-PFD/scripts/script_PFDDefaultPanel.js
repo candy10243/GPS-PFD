@@ -428,20 +428,84 @@
 				// Vertical speed
 				Fade("Ctrl_PFDDefaultPanelVerticalSpeedStatus");
 				Fade("Ctrl_PFDDefaultPanelVerticalSpeedTape");
+				Fade("Ctrl_PFDDefaultPanelVerticalSpeedAdditionalIndicators");
 				Fade("Ctrl_PFDDefaultPanelVerticalSpeedNeedle");
 				Fade("Ctrl_PFDDefaultPanelVerticalSpeedBalloon");
+				Fade("Ctrl_PFDDefaultPanelMCPVerticalSpeed");
 				if((PFD.Altitude.Mode == "GPS" && PFD0.Status.GPS.IsAltitudeAvailable == true) ||
 				(PFD.Altitude.Mode == "Accel" && PFD0.Status.IsAccelAvailable == true) ||
 				(PFD.Altitude.Mode == "DualChannel" && (PFD0.Status.GPS.IsAltitudeAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
 				PFD.Altitude.Mode == "Manual") {
 					// Show ctrls
 					Show("Ctrl_PFDDefaultPanelVerticalSpeedTape");
+					Show("Ctrl_PFDDefaultPanelVerticalSpeedAdditionalIndicators");
 					Show("Ctrl_PFDDefaultPanelVerticalSpeedNeedle");
 					if(System.Display.Anim > 0) {
 						ChangeAnim("Ctrl_PFDDefaultPanelVerticalSpeedNeedle", "100ms");
 					} else {
 						ChangeAnim("Ctrl_PFDDefaultPanelVerticalSpeedNeedle", "");
 					}
+
+					// Additional indicators
+						// Other vertical speeds
+							// MCP
+							if(PFD.MCP.VerticalSpeed.IsEnabled == true) {
+								Show("Ctrl_PFDDefaultPanelMCPVerticalSpeedCircle");
+								let ConvertedVerticalSpeed = ConvertUnit(PFD.MCP.VerticalSpeed.Value, "MeterPerSec", Subsystem.I18n.VerticalSpeedUnit),
+								VerticalPixels = 0;
+								switch(Subsystem.I18n.VerticalSpeedUnit) {
+									case "MeterPerSec":
+										switch(true) {
+											case ConvertedVerticalSpeed <= -6:
+												VerticalPixels = -180;
+												break;
+											case ConvertedVerticalSpeed > -6 && ConvertedVerticalSpeed <= -2:
+												VerticalPixels = -120 + 60 * ((ConvertedVerticalSpeed + 2) / 4);
+												break;
+											case ConvertedVerticalSpeed > -2 && ConvertedVerticalSpeed < 2:
+												VerticalPixels = 120 * (ConvertedVerticalSpeed / 2);
+												break;
+											case ConvertedVerticalSpeed >= 2 && ConvertedVerticalSpeed < 6:
+												VerticalPixels = 120 + 60 * ((ConvertedVerticalSpeed - 2) / 4);
+												break;
+											case ConvertedVerticalSpeed >= 6:
+												VerticalPixels = 180;
+												break;
+											default:
+												AlertSystemError("The value of ConvertedVerticalSpeed \"" + ConvertedVerticalSpeed + "\" in function RefreshDefaultPanel is invalid.");
+												break;
+										}
+										break;
+									case "FeetPerMin":
+										switch(true) {
+											case ConvertedVerticalSpeed <= -6000:
+												VerticalPixels = -180;
+												break;
+											case ConvertedVerticalSpeed > -6000 && ConvertedVerticalSpeed <= -2000:
+												VerticalPixels = -120 + 60 * ((ConvertedVerticalSpeed + 2000) / 4000);
+												break;
+											case ConvertedVerticalSpeed > -2000 && ConvertedVerticalSpeed < 2000:
+												VerticalPixels = 120 * (ConvertedVerticalSpeed / 2000);
+												break;
+											case ConvertedVerticalSpeed >= 2000 && ConvertedVerticalSpeed < 6000:
+												VerticalPixels = 120 + 60 * ((ConvertedVerticalSpeed - 2000) / 4000);
+												break;
+											case ConvertedVerticalSpeed >= 6000:
+												VerticalPixels = 180;
+												break;
+											default:
+												AlertSystemError("The value of ConvertedVerticalSpeed \"" + ConvertedVerticalSpeed + "\" in function RefreshDefaultPanel is invalid.");
+												break;
+										}
+										break;
+									default:
+										AlertSystemError("The value of Subsystem.I18n.VerticalSpeedUnit \"" + Subsystem.I18n.VerticalSpeedUnit + "\" in function RefreshDefaultPanel is invalid.");
+										break;
+								}
+								ChangeBottom("Ctrl_PFDDefaultPanelMCPVerticalSpeedCircle", 170 + VerticalPixels + "px");
+							} else {
+								Fade("Ctrl_PFDDefaultPanelMCPVerticalSpeedCircle");
+							}
 
 					// Needle
 						// Calc needle angle
@@ -512,7 +576,7 @@
 						switch(Subsystem.I18n.VerticalSpeedUnit) {
 							case "MeterPerSec":
 								VerticalSpeedDisplay = CheckRangeAndCorrect(Math.trunc(ConvertedVerticalSpeed / 0.2) * 0.2, -50, 50);
-								if(VerticalSpeedDisplay > 0) {
+								if(VerticalSpeedDisplay >= 0) {
 									ChangeText("Label_PFDDefaultPanelVerticalSpeedBalloon", "+" + VerticalSpeedDisplay.toFixed(1));
 								} else {
 									ChangeText("Label_PFDDefaultPanelVerticalSpeedBalloon", VerticalSpeedDisplay.toFixed(1));
@@ -520,10 +584,35 @@
 								break;
 							case "FeetPerMin":
 								VerticalSpeedDisplay = CheckRangeAndCorrect(Math.trunc(ConvertedVerticalSpeed / 50) * 50, -9999, 9999);
-								if(VerticalSpeedDisplay > 0) {
+								if(VerticalSpeedDisplay >= 0) {
 									ChangeText("Label_PFDDefaultPanelVerticalSpeedBalloon", "+" + VerticalSpeedDisplay);
 								} else {
 									ChangeText("Label_PFDDefaultPanelVerticalSpeedBalloon", VerticalSpeedDisplay);
+								}
+								break;
+							default:
+								AlertSystemError("The value of Subsystem.I18n.VerticalSpeedUnit \"" + Subsystem.I18n.VerticalSpeedUnit + "\" in function RefreshDefaultPanel is invalid.");
+								break;
+						}
+					}
+
+					// MCP
+					if(PFD.MCP.VerticalSpeed.IsEnabled == true) {
+						Show("Ctrl_PFDDefaultPanelMCPVerticalSpeed");
+						ConvertedVerticalSpeed = ConvertUnit(PFD.MCP.VerticalSpeed.Value, "MeterPerSec", Subsystem.I18n.VerticalSpeedUnit);
+						switch(Subsystem.I18n.VerticalSpeedUnit) {
+							case "MeterPerSec":
+								if(ConvertedVerticalSpeed >= 0) {
+									ChangeText("Label_PFDDefaultPanelMCPVerticalSpeed", "+" + ConvertedVerticalSpeed.toFixed(1));
+								} else {
+									ChangeText("Label_PFDDefaultPanelMCPVerticalSpeed", ConvertedVerticalSpeed.toFixed(1));
+								}
+								break;
+							case "FeetPerMin":
+								if(ConvertedVerticalSpeed >= 0) {
+									ChangeText("Label_PFDDefaultPanelMCPVerticalSpeed", "+" + ConvertedVerticalSpeed.toFixed(0));
+								} else {
+									ChangeText("Label_PFDDefaultPanelMCPVerticalSpeed", ConvertedVerticalSpeed.toFixed(0));
 								}
 								break;
 							default:
