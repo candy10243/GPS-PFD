@@ -591,8 +591,8 @@
 
 					/* Vertical speed */
 					#Ctnr_PFDDefaultPanelVerticalSpeed {
-						position: absolute; top: calc(50% - 200px); right: 0;
-						width: 90px; height: 400px;
+						position: absolute; top: calc(50% - 360px); right: 0;
+						width: 90px; height: 720px;
 					}
 					#Ctnr_PFDDefaultPanelVerticalSpeed > .CtrlGroup {
 						width: 100%; height: 100%;
@@ -604,6 +604,10 @@
 						}
 
 						/* Tape */
+						#Ctrl_PFDDefaultPanelVerticalSpeedTape {
+							top: calc(50% - 200px);
+							height: 400px;
+						}
 						#Ctrl_PFDDefaultPanelVerticalSpeedTape .CtrlGroup {
 							top: 20px;
 							height: calc(100% - 40px);
@@ -615,6 +619,27 @@
 							width: calc(100% - 25px);
 							text-align: start;
 						}
+
+						/* Additional indicators */
+						#Ctrl_PFDDefaultPanelVerticalSpeedAdditionalIndicators {
+							position: absolute; top: calc(50% - 200px); right: 0;
+							width: calc(100% + 10px); height: 400px;
+							overflow: hidden;
+							pointer-events: none;
+						}
+							/* Other vertical speeds */
+							#CtrlGroup_PFDDefaultPanelOtherVerticalSpeeds {
+								position: absolute; top: 20px; left: 0;
+								width: 10px; height: calc(100% - 40px);
+							}
+							#CtrlGroup_PFDDefaultPanelOtherVerticalSpeeds .Ctrl {
+								position: absolute; top: unset; right: 0;
+								pointer-events: auto;
+							}
+							#CtrlGroup_PFDDefaultPanelOtherVerticalSpeeds #Ctrl_PFDDefaultPanelMCPVerticalSpeedCircle {
+								bottom: calc(50% - 10px); right: -10px;
+								width: 20px; height: 20px; border: 2px solid #C040C0; border-radius: 10px;
+							}
 
 						/* Needle */
 						#Ctrl_PFDDefaultPanelVerticalSpeedNeedle {
@@ -640,6 +665,16 @@
 						}
 						#Label_PFDDefaultPanelVerticalSpeedBalloon {
 							font-size: 1.75em;
+						}
+
+						/* MCP */
+						#Ctrl_PFDDefaultPanelMCPVerticalSpeed {
+							position: absolute; top: 0; left: 0;
+							width: 100%; height: 60px; padding: 5px;
+							display: flex; align-items: center;
+						}
+						#Label_PFDDefaultPanelMCPVerticalSpeed {
+							color: #C040C0; font-size: 1.75em;
 						}
 
 					/* Heading */

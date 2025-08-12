@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.40,
+		const CurrentVersion = 0.41,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -208,6 +208,9 @@
 					IsEnabled: false, Mode: "IAS", IAS: 0, MachNumber: 0
 				},
 				Altitude: {
+					IsEnabled: false, Value: 0
+				},
+				VerticalSpeed: {
 					IsEnabled: false, Value: 0
 				},
 				Heading: {
@@ -727,6 +730,12 @@
 					ChangeMax("Textbox_SettingsWindSpeed", "999");
 					ChangePlaceholder("Textbox_SettingsWindSpeed", "0~999");
 					ChangeTooltip("Textbox_SettingsWindSpeed", "0~999");
+					ChangeMax("Textbox_SettingsV1", "999");
+					ChangePlaceholder("Textbox_SettingsV1", "0~999");
+					ChangeTooltip("Textbox_SettingsV1", "0~999");
+					ChangeMax("Textbox_SettingsVR", "999");
+					ChangePlaceholder("Textbox_SettingsVR", "0~999");
+					ChangeTooltip("Textbox_SettingsVR", "0~999");
 					ChangeMax("Textbox_SettingsSpeedLimitMin", "980");
 					ChangePlaceholder("Textbox_SettingsSpeedLimitMin", "0~980");
 					ChangeTooltip("Textbox_SettingsSpeedLimitMin", "0~980");
@@ -760,6 +769,12 @@
 					ChangeMax("Textbox_SettingsWindSpeed", "621");
 					ChangePlaceholder("Textbox_SettingsWindSpeed", "0~621");
 					ChangeTooltip("Textbox_SettingsWindSpeed", "0~621");
+					ChangeMax("Textbox_SettingsV1", "621");
+					ChangePlaceholder("Textbox_SettingsV1", "0~621");
+					ChangeTooltip("Textbox_SettingsV1", "0~621");
+					ChangeMax("Textbox_SettingsVR", "621");
+					ChangePlaceholder("Textbox_SettingsVR", "0~621");
+					ChangeTooltip("Textbox_SettingsVR", "0~621");
 					ChangeMax("Textbox_SettingsSpeedLimitMin", "609");
 					ChangePlaceholder("Textbox_SettingsSpeedLimitMin", "0~609");
 					ChangeTooltip("Textbox_SettingsSpeedLimitMin", "0~609");
@@ -793,6 +808,12 @@
 					ChangeMax("Textbox_SettingsWindSpeed", "539");
 					ChangePlaceholder("Textbox_SettingsWindSpeed", "0~539");
 					ChangeTooltip("Textbox_SettingsWindSpeed", "0~539");
+					ChangeMax("Textbox_SettingsV1", "539");
+					ChangePlaceholder("Textbox_SettingsV1", "0~539");
+					ChangeTooltip("Textbox_SettingsV1", "0~539");
+					ChangeMax("Textbox_SettingsVR", "539");
+					ChangePlaceholder("Textbox_SettingsVR", "0~539");
+					ChangeTooltip("Textbox_SettingsVR", "0~539");
 					ChangeMax("Textbox_SettingsSpeedLimitMin", "529");
 					ChangePlaceholder("Textbox_SettingsSpeedLimitMin", "0~529");
 					ChangeTooltip("Textbox_SettingsSpeedLimitMin", "0~529");
@@ -863,6 +884,7 @@
 				case "Meter":
 					ChangeMin("Textbox_PFDMCPAltitude", "-700");
 					ChangeMax("Textbox_PFDMCPAltitude", "15240");
+					ChangeStep("Textbox_PFDMCPAltitude", "50");
 					ChangePlaceholder("Textbox_PFDMCPAltitude", "-609~15240");
 					ChangeTooltip("Textbox_PFDMCPAltitude", "-609~15240");
 					ChangeMin("Textbox_SettingsAirportElevationDeparture", "-500");
@@ -885,6 +907,7 @@
 				case "FeetButShowMeterBeside":
 					ChangeMin("Textbox_PFDMCPAltitude", "-2000");
 					ChangeMax("Textbox_PFDMCPAltitude", "50000");
+					ChangeStep("Textbox_PFDMCPAltitude", "100");
 					ChangePlaceholder("Textbox_PFDMCPAltitude", "-2000~50000");
 					ChangeTooltip("Textbox_PFDMCPAltitude", "-2000~50000");
 					ChangeMin("Textbox_SettingsAirportElevationDeparture", "-1640");
@@ -912,6 +935,26 @@
 			ChangeText("Label_SettingsDecisionHeightUnit", Translate(Subsystem.I18n.AltitudeUnit));
 			ChangeValue("Combobox_SettingsVerticalSpeedUnit", Subsystem.I18n.VerticalSpeedUnit);
 			ChangeValue("Combobox_SettingsTemperatureUnit", Subsystem.I18n.TemperatureUnit);
+			switch(Subsystem.I18n.VerticalSpeedUnit) {
+				case "MeterPerSec":
+					ChangeMin("Textbox_PFDMCPVerticalSpeed", "-30");
+					ChangeMax("Textbox_PFDMCPVerticalSpeed", "30");
+					ChangeStep("Textbox_PFDMCPVerticalSpeed", "1");
+					ChangePlaceholder("Textbox_PFDMCPVerticalSpeed", "-30~30");
+					ChangeTooltip("Textbox_PFDMCPVerticalSpeed", "-30~30");
+					break;
+				case "FeetPerMin":
+					ChangeMin("Textbox_PFDMCPVerticalSpeed", "-6000");
+					ChangeMax("Textbox_PFDMCPVerticalSpeed", "6000");
+					ChangeStep("Textbox_PFDMCPVerticalSpeed", "100");
+					ChangePlaceholder("Textbox_PFDMCPVerticalSpeed", "-6000~6000");
+					ChangeTooltip("Textbox_PFDMCPVerticalSpeed", "-6000~6000");
+					break;
+				default:
+					AlertSystemError("The value of Subsystem.I18n.VerticalSpeedUnit \"" + Subsystem.I18n.VerticalSpeedUnit + "\" in function RefreshSubsystem is invalid.");
+					break;
+			}
+			ChangeText("Label_PFDMCPVerticalSpeedUnit", Translate(Subsystem.I18n.VerticalSpeedUnit));
 			switch(Subsystem.I18n.TemperatureUnit) {
 				case "Celsius":
 					ChangeMin("Textbox_SettingsAirportTemperatureDeparture", "-50");
@@ -2106,6 +2149,18 @@
 					ChangeValue("Combobox_PFDMCPSpeedMode", PFD.MCP.Speed.Mode);
 					ChangeChecked("Checkbox_PFDMCPAltitude", PFD.MCP.Altitude.IsEnabled);
 					ChangeValue("Textbox_PFDMCPAltitude", ConvertUnit(PFD.MCP.Altitude.Value, "Meter", Subsystem.I18n.AltitudeUnit).toFixed(0));
+					ChangeChecked("Checkbox_PFDMCPVerticalSpeed", PFD.MCP.VerticalSpeed.IsEnabled);
+					switch(Subsystem.I18n.VerticalSpeedUnit) {
+						case "MeterPerSec":
+							ChangeValue("Textbox_PFDMCPVerticalSpeed", ConvertUnit(PFD.MCP.VerticalSpeed.Value, "MeterPerSec", Subsystem.I18n.VerticalSpeedUnit).toFixed(1));
+							break;
+						case "FeetPerMin":
+							ChangeValue("Textbox_PFDMCPVerticalSpeed", ConvertUnit(PFD.MCP.VerticalSpeed.Value, "MeterPerSec", Subsystem.I18n.VerticalSpeedUnit).toFixed(0));
+							break;
+						default:
+							AlertSystemError("The value of Subsystem.I18n.VerticalSpeedUnit \"" + Subsystem.I18n.VerticalSpeedUnit + "\" in function RefreshPFD is invalid.");
+							break;
+					}
 					ChangeChecked("Checkbox_PFDMCPHeading", PFD.MCP.Heading.IsEnabled);
 					ChangeValue("Textbox_PFDMCPHeading", PFD.MCP.Heading.Value);
 
@@ -2580,6 +2635,24 @@
 				}
 				function SetMCPAltitude() {
 					PFD.MCP.Altitude.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPAltitude")), Subsystem.I18n.AltitudeUnit, "Meter"), -609.6, 15240);
+					RefreshPFD();
+				}
+				function SetEnableMCPVerticalSpeed() {
+					PFD.MCP.VerticalSpeed.IsEnabled = IsChecked("Checkbox_PFDMCPVerticalSpeed");
+					RefreshPFD();
+				}
+				function SetMCPVerticalSpeed() {
+					switch(Subsystem.I18n.VerticalSpeedUnit) {
+						case "MeterPerSec":
+							PFD.MCP.VerticalSpeed.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPVerticalSpeed") * 10) / 10, Subsystem.I18n.VerticalSpeedUnit, "MeterPerSec"), -30.48, 30.48);
+							break;
+						case "FeetPerMin":
+							PFD.MCP.VerticalSpeed.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPVerticalSpeed")), Subsystem.I18n.VerticalSpeedUnit, "MeterPerSec"), -30.48, 30.48);
+							break;
+						default:
+							AlertSystemError("The value of Subsystem.I18n.VerticalSpeedUnit \"" + Subsystem.I18n.VerticalSpeedUnit + "\" in function SetMCPVerticalSpeed is invalid.");
+							break;
+					}
 					RefreshPFD();
 				}
 				function SetEnableMCPHeading() {
@@ -3366,7 +3439,18 @@
 					break;
 				case "B":
 					if(PFD.MCP.Altitude.IsEnabled == true) {
-						PFD.MCP.Altitude.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPAltitude")) - 100, Subsystem.I18n.AltitudeUnit, "Meter"), -609.6, 15240);
+						switch(Subsystem.I18n.AltitudeUnit) {
+							case "Meter":
+								PFD.MCP.Altitude.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPAltitude")) - 50, Subsystem.I18n.AltitudeUnit, "Meter"), -609.6, 15240);
+								break;
+							case "Feet":
+							case "FeetButShowMeterBeside":
+								PFD.MCP.Altitude.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPAltitude")) - 100, Subsystem.I18n.AltitudeUnit, "Meter"), -609.6, 15240);
+								break;
+							default:
+								AlertSystemError("The value of Subsystem.I18n.AltitudeUnit \"" + Subsystem.I18n.AltitudeUnit + "\" in function Keydown Event Listener is invalid.");
+								break;
+						}
 						RefreshPFD();
 					}
 					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
@@ -3375,7 +3459,56 @@
 					break;
 				case "N":
 					if(PFD.MCP.Altitude.IsEnabled == true) {
-						PFD.MCP.Altitude.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPAltitude")) + 100, Subsystem.I18n.AltitudeUnit, "Meter"), -609.6, 15240);
+						switch(Subsystem.I18n.AltitudeUnit) {
+							case "Meter":
+								PFD.MCP.Altitude.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPAltitude")) + 50, Subsystem.I18n.AltitudeUnit, "Meter"), -609.6, 15240);
+								break;
+							case "Feet":
+							case "FeetButShowMeterBeside":
+								PFD.MCP.Altitude.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPAltitude")) + 100, Subsystem.I18n.AltitudeUnit, "Meter"), -609.6, 15240);
+								break;
+							default:
+								AlertSystemError("The value of Subsystem.I18n.AltitudeUnit \"" + Subsystem.I18n.AltitudeUnit + "\" in function Keydown Event Listener is invalid.");
+								break;
+						}
+						RefreshPFD();
+					}
+					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
+						ShowHotkeyIndicators();
+					}
+					break;
+				case "K":
+					if(PFD.MCP.VerticalSpeed.IsEnabled == true) {
+						switch(Subsystem.I18n.VerticalSpeedUnit) {
+							case "MeterPerSec":
+								PFD.MCP.VerticalSpeed.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPVerticalSpeed") * 10) / 10 - 1, Subsystem.I18n.VerticalSpeedUnit, "MeterPerSec"), -30.48, 30.48);
+								break;
+							case "FeetPerMin":
+								PFD.MCP.VerticalSpeed.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPVerticalSpeed")) - 100, Subsystem.I18n.VerticalSpeedUnit, "MeterPerSec"), -30.48, 30.48);
+								break;
+							default:
+								AlertSystemError("The value of Subsystem.I18n.VerticalSpeedUnit \"" + Subsystem.I18n.VerticalSpeedUnit + "\" in function Keydown Event Listener is invalid.");
+								break;
+						}
+						RefreshPFD();
+					}
+					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
+						ShowHotkeyIndicators();
+					}
+					break;
+				case ",":
+					if(PFD.MCP.VerticalSpeed.IsEnabled == true) {
+						switch(Subsystem.I18n.VerticalSpeedUnit) {
+							case "MeterPerSec":
+								PFD.MCP.VerticalSpeed.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPVerticalSpeed") * 10) / 10 + 1, Subsystem.I18n.VerticalSpeedUnit, "MeterPerSec"), -30.48, 30.48);
+								break;
+							case "FeetPerMin":
+								PFD.MCP.VerticalSpeed.Value = CheckRangeAndCorrect(ConvertUnit(Math.trunc(ReadValue("Textbox_PFDMCPVerticalSpeed")) + 100, Subsystem.I18n.VerticalSpeedUnit, "MeterPerSec"), -30.48, 30.48);
+								break;
+							default:
+								AlertSystemError("The value of Subsystem.I18n.VerticalSpeedUnit \"" + Subsystem.I18n.VerticalSpeedUnit + "\" in function Keydown Event Listener is invalid.");
+								break;
+						}
 						RefreshPFD();
 					}
 					if(System.Display.HotkeyIndicators == "ShowOnAnyKeyPress" || System.Display.HotkeyIndicators == "AlwaysShow") {
@@ -3946,6 +4079,10 @@
 			case "Feet":
 			case "FeetButShowMeterBeside":
 				return "英尺";
+			case "MeterPerSec":
+				return "米/秒";
+			case "FeetPerMin":
+				return "英尺/分钟";
 			case "Celsius":
 				return "℃";
 			case "Fahrenheit":

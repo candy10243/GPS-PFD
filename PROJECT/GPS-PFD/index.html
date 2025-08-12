@@ -10,7 +10,7 @@
 		<link rel="icon" type="image/png" href="images/Icon_Small.png" />
 		<title>GPS-PFD</title>
 		<meta name="author" content="SAM TOKI STUDIO" />
-		<meta name="version" content="v0.40 (2025/07/30) Beta Test. Since 2024/12/01." />
+		<meta name="version" content="v0.41 (2025/08/12) Beta Test. Since 2024/12/01." />
 		<meta name="description" content="利用 GPS 与加速计，在移动设备上模拟飞机驾驶舱的 PFD。" />
 		<meta name="copyright" content="© 2025 SAM TOKI STUDIO" />
 
@@ -1050,6 +1050,11 @@
 										<li class="Ctrl"><div class="TapeScale"></div><span class="TapeNumber">6</span></li>
 									</ul>
 								</li>
+								<li class="Ctrl" id="Ctrl_PFDDefaultPanelVerticalSpeedAdditionalIndicators">
+									<ul class="CtrlGroup" id="CtrlGroup_PFDDefaultPanelOtherVerticalSpeeds">
+										<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelMCPVerticalSpeedCircle" inert="true" title="MCP 垂直速度" aria-label="MCP 垂直速度"></li>
+									</ul>
+								</li>
 								<li class="Ctrl" id="Ctrl_PFDDefaultPanelVerticalSpeedNeedle">
 									<div class="Needle" id="Needle_PFDDefaultPanelVerticalSpeed">
 										<div class="NeedleFg" title="垂直速度指针" aria-label="垂直速度指针"></div>
@@ -1057,6 +1062,9 @@
 								</li>
 								<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelVerticalSpeedBalloon" inert="true" title="当前垂直速度" aria-label="当前垂直速度">
 									<span id="Label_PFDDefaultPanelVerticalSpeedBalloon"><span class="SmallerText">垂直速度</span></span>
+								</li>
+								<li class="Ctrl Faded" id="Ctrl_PFDDefaultPanelMCPVerticalSpeed" inert="true">
+									<span id="Label_PFDDefaultPanelMCPVerticalSpeed" title="MCP 垂直速度" aria-label="MCP 垂直速度"><span class="SmallerText">垂直速度</span></span>
 								</li>
 							</ul>
 						</div>
@@ -2782,6 +2790,15 @@
 															<span class="HotkeyIndicator Faded" inert="true">B↔N</span>
 														</li>
 														<li class="Ctrl">
+															<label for="Checkbox_PFDMCPVerticalSpeed">
+																<input class="Checkbox" id="Checkbox_PFDMCPVerticalSpeed" type="checkbox" checked="false" onchange="SetEnableMCPVerticalSpeed()" />
+																<span>垂直速度：</span>
+																<input class="Textbox Width100" id="Textbox_PFDMCPVerticalSpeed" type="number" min="-6000" max="6000" step="100" value="0" onclick="SelectText('Textbox_PFDMCPVerticalSpeed')" onchange="SetMCPVerticalSpeed()" placeholder="-6000~6000" title="-6000~6000" />
+																<span id="Label_PFDMCPVerticalSpeedUnit">英尺/分钟</span>
+															</label>
+															<span class="HotkeyIndicator Faded" inert="true">K↔,</span>
+														</li>
+														<li class="Ctrl">
 															<label for="Checkbox_PFDMCPHeading">
 																<input class="Checkbox" id="Checkbox_PFDMCPHeading" type="checkbox" checked="false" onchange="SetEnableMCPHeading()" />
 																<span>朝向：</span>
@@ -3787,7 +3804,7 @@
 							<legend>关于</legend>
 							<p>GPS-PFD</p>
 							<p>by SAM TOKI STUDIO</p>
-							<p>版本 v0.40 (<time datetime="2025-07-30" pubdate="pubdate">2025/07/30</time>) Beta Test<br />
+							<p>版本 v0.41 (<time datetime="2025-08-12" pubdate="pubdate">2025/08/12</time>) Beta Test<br />
 								始于 2024/12/01</p>
 							<p class="GreenText Hidden" id="Label_HelpPWANewVersionReady" inert="true">新版本已就绪，将在下次启动时生效。</p>
 							<ul class="CtrlGroup BelowParagraph">
