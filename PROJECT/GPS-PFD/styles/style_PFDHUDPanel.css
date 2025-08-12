@@ -703,7 +703,7 @@
 					/* DME */
 					#Ctnr_PFDHUDPanelDME {
 						position: absolute; top: calc(50% - 325px); left: calc(50% - 325px);
-						width: 120px; height: 85px; padding: 5px;
+						width: 135px; height: 85px; padding: 5px;
 						display: flex; flex-direction: column;
 					}
 					#Label_PFDHUDPanelDMEDistance, #Label_PFDHUDPanelDMEETA {

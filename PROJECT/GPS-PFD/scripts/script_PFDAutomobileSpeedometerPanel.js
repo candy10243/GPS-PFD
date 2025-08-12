@@ -160,7 +160,8 @@
 				if(PFD.Nav.IsEnabled == true && PFD0.Status.GPS.IsPositionAvailable == true) {
 					Show("Ctnr_PFDAutomobileSpeedometerPanelDME");
 					if(PFD0.Stats.Nav.Distance < 10000000) { // Max 10000 kilometers.
-						ChangeText("Label_PFDAutomobileSpeedometerPanelDMEDistance", ConvertUnit(PFD0.Stats.Nav.Distance, "Meter", Subsystem.I18n.DistanceUnit).toFixed(1));
+						ChangeText("Label_PFDAutomobileSpeedometerPanelDMEDistance",
+							ConvertUnit(PFD0.Stats.Nav.Distance, "Meter", Subsystem.I18n.DistanceUnit).toFixed(1) + "<span class=\"SmallerText\">" + Translate(Subsystem.I18n.DistanceUnit + "OnPFD") + "</span>");
 						if(PFD0.Stats.Speed.GSDisplay > 0 && PFD0.Stats.Nav.ETA < 360000000) { // Max 100 hours.
 							ChangeText("Label_PFDAutomobileSpeedometerPanelDMEETA",
 								Math.trunc(PFD0.Stats.Nav.ETA / 3600000) + "<span class=\"SmallerText\">" + Translate("Hour") + "</span>" +
@@ -182,7 +183,8 @@
 				(PFD.Altitude.Mode == "DualChannel" && (PFD0.Status.GPS.IsAltitudeAvailable == true || PFD0.Status.IsAccelAvailable == true)) ||
 				PFD.Altitude.Mode == "Manual") {
 					Show("Ctnr_PFDAutomobileSpeedometerPanelAltitude");
-					ChangeText("Label_PFDAutomobileSpeedometerPanelAltitudeValue", ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit).toFixed(0));
+					ChangeText("Label_PFDAutomobileSpeedometerPanelAltitudeValue",
+						ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit).toFixed(0) + "<span class=\"SmallerText\">" + Translate(Subsystem.I18n.AltitudeUnit + "OnPFD") + "</span>");
 				} else {
 					Fade("Ctnr_PFDAutomobileSpeedometerPanelAltitude");
 				}
