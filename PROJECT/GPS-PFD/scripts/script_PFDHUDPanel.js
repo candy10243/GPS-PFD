@@ -33,9 +33,9 @@
 				ChangeText("Label_PFDHUDPanelHeadingModeValue", Translate(PFD.Heading.Mode));
 				ChangeText("Label_PFDHUDPanelFlightMode", Translate(PFD.FlightMode.FlightMode));
 				if(PFD0.Stats.ClockTime - PFD0.Stats.FlightModeTimestamp < 10000) {
-					AddClass("Ctnr_PFDHUDPanelFMA2", "ModeChanged");
+					AddClass("Ctnr_PFDHUDPanelFMA2", "Reminder");
 				} else {
-					RemoveClass("Ctnr_PFDHUDPanelFMA2", "ModeChanged");
+					RemoveClass("Ctnr_PFDHUDPanelFMA2", "Reminder");
 				}
 
 				// Attitude
@@ -354,6 +354,11 @@
 						default:
 							AlertSystemError("The value of ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, \"Meter\", Subsystem.I18n.AltitudeUnit) \"" + ConvertUnit(PFD0.Stats.Altitude.TapeDisplay, "Meter", Subsystem.I18n.AltitudeUnit) + "\" in function RefreshHUDPanel is invalid.");
 							break;
+					}
+					if(PFD0.Stats.ClockTime - PFD0.Stats.Altitude.BeepTimestamp < 10000 && PFD0.Alert.Active.AltitudeWarning == "") {
+						AddClass("Ctrl_PFDHUDPanelAltitudeBalloonBalloon", "Reminder");
+					} else {
+						RemoveClass("Ctrl_PFDHUDPanelAltitudeBalloonBalloon", "Reminder");
 					}
 					if(PFD0.Alert.Active.AltitudeWarning != "" && PFD0.Alert.Active.AltitudeWarning != "GlideSlope") {
 						AddClass("Ctrl_PFDHUDPanelAltitudeBalloonBalloon", "Warning");

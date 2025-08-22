@@ -6,7 +6,7 @@
 	// Declare variables
 	"use strict";
 		// Unsaved
-		const CurrentVersion = 0.42,
+		const CurrentVersion = 0.43,
 		GeolocationAPIOptions = {
 			enableHighAccuracy: true
 		};
@@ -99,6 +99,7 @@
 				Altitude: {
 					Altitude: 0, TapeDisplay: 0, PreviousTapeDisplay: 0, BalloonDisplay: [0, 0, 0, 0, 0],
 					Trend: 0, TrendDisplay: 0,
+					BeepTimestamp: 0,
 					RadioDisplay: 0,
 					DecisionTimestamp: 0
 				},
@@ -1184,6 +1185,11 @@
 					if(PFD0.Stats.Altitude.BalloonDisplay[2] < -9) {PFD0.Stats.Altitude.BalloonDisplay[1] += (PFD0.Stats.Altitude.BalloonDisplay[2] + 9);}
 				} else {
 					PFD0.Stats.Altitude.BalloonDisplay[4] = Math.trunc(PFD0.Stats.Altitude.BalloonDisplay[4] / 20) * 20;
+				}
+
+				// Altitude beep
+				if(IsMCPAltitudeReached() == true) {
+					PFD0.Stats.Altitude.BeepTimestamp = PFD0.Stats.ClockTime;
 				}
 
 			// Heading (Updated before speed because speed data relies on heading)
