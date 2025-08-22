@@ -838,11 +838,11 @@
 					}
 
 					/* Blink */
-					#Ctnr_PFDHUDPanel .ModeChanged {
+					#Ctnr_PFDHUDPanel .Reminder {
 						box-shadow: 0 0 0 3px #00FF00;
-						animation: Anim_PFDHUDPanelModeChanged 1000ms infinite ease-in-out;
+						animation: Anim_PFDHUDPanelReminder 1000ms infinite ease-in-out;
 					}
-						@keyframes Anim_PFDHUDPanelModeChanged {
+						@keyframes Anim_PFDHUDPanelReminder {
 							0%, 75%, 100% {
 								box-shadow: none;
 							}

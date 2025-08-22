@@ -236,11 +236,11 @@
 					}
 
 					/* Blink */
-					#Ctnr_PFDDefaultPanel .ModeChanged {
+					#Ctnr_PFDDefaultPanel .Reminder {
 						background-color: #E7DDD1; box-shadow: 0 0 0 3px #00A000;
 						color: #00B400;
 					}
-						@keyframes Anim_PFDDefaultPanelModeChanged {
+						@keyframes Anim_PFDDefaultPanelReminder {
 							0%, 75%, 100% {
 								box-shadow: none;
 							}
